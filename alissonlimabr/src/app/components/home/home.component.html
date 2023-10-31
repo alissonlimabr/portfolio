@@ -1,0 +1,55 @@
+<main>
+  <section class="about">
+    <div class="container">
+      <div class="profile">
+        <div class="intro">
+          <div class="title">
+            <p>Olá,</p>
+            <h1>Sou o Alisson Lima</h1>
+            <h2>
+              <ngx-typed-writer
+                [strings]="[
+                  'Desenvolvedor Full Stack',
+                  'Analista de Sistemas',
+                  'Apaixonado por tecnologia!'
+                ]"
+                [cursorChar]="'_'"
+                [showCursor]="true"
+                [backSpeed]="30"
+                [typeSpeed]="100"
+                [backDelay]="3000"
+              >
+              </ngx-typed-writer>
+            </h2>
+
+            <noscript>
+              <h2 id="jobs-hobbies">
+                Desenvolvedor Full Stack, Analista de Sistemas, Apaixonado por
+                tecnologia.
+              </h2>
+            </noscript>
+            <p></p>
+          </div>
+
+          <div class="actions">
+            <a
+              id="linkedin"
+              href="https://www.linkedin.com/in/alissonlimadev/"
+              target="_blank"
+              >LinkedIn</a
+            >
+            <a
+              id="github"
+              href="https://github.com/alissonlimabr"
+              target="_blank"
+              >GitHub</a
+            >
+          </div>
+        </div>
+        <div class="avatar">
+          <img src="assets/img/profile.png" alt="avatar" />
+        </div>
+      </div>
+    </div>
+  </section>
+</main>
