@@ -293,6 +293,7 @@ mat-sidenav-container {
   flex-direction: column;
   padding: 0 100px;
   gap: 30px;
+  width: 100%;
   max-width: variable.$container-width !important;
   @include responsive(mobilePlus) {
     padding: 0 10px;
@@ -491,6 +492,6 @@ mat-sidenav-container {
 }
 
 /*  Skill section */
-.skills {
+#habilidades {
   margin: 150px 0;
 }
