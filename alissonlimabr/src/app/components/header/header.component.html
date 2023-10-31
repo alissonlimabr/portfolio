@@ -1,0 +1,30 @@
+<!-- Sidenav -->
+<div class="navbar">
+  <!-- Tollbar desktop + nav links -->
+  <mat-toolbar>
+    <span class="logo">
+      <fa-icon [icon]="faCode"></fa-icon>
+      <h1>ALISSONLIMADEV</h1>
+    </span>
+    <span class="nav-links">
+      <ul>
+        <li>
+          <a href="#about">Sobre mim</a>
+        </li>
+        <li>
+          <a href="#habilidades">Habilidades</a>
+        </li>
+        <li>
+          <a href="#projetos">Projetos</a>
+        </li>
+        <li>
+          <a href="#contato">Contato</a>
+        </li>
+      </ul>
+    </span>
+    <!-- Sidenav button open -->
+    <button mat-icon-button matTooltip="Basic" (click)="openSidenav.emit()">
+      <fa-icon [icon]="faBars"></fa-icon>
+    </button>
+  </mat-toolbar>
+</div>
