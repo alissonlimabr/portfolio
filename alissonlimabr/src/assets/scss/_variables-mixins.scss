@@ -3,7 +3,7 @@
   @if $device == mobile {
       @media (max-width: 480px) { @content; }
   }
-  @else if $device == verticalphone {
+  @else if $device == mobilePlus {
       @media (max-width: 660px) { @content; }
   }
   @else if $device == tablet {
