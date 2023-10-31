@@ -1,0 +1,394 @@
+@use "variables" as variable;
+@import "variables-mixins";
+
+// Global configs
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: Roboto, sans-serif;
+}
+
+::-webkit-scrollbar {
+  width: 5px;
+  background: variable.$purple-900;
+  border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: variable.$purple-500;
+  border-radius: 20px;
+}
+
+p,
+a,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  color: variable.$white;
+  text-decoration: none;
+}
+
+fa-icon {
+  color: variable.$purple-600;
+}
+
+body {
+  display: flex;
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  height: 100%;
+  background: variable.$background-color;
+  position: relative;
+  overflow: auto;
+  overflow-x: hidden;
+}
+
+.container {
+  display: flex;
+  justify-content: center;
+}
+
+/* ***************  */
+
+//Header component style
+
+.header {
+  display: flex !important;
+  justify-content: center;
+}
+
+mat-sidenav {
+  display: none !important;
+  height: 100%;
+  width: 70%;
+  position: absolute;
+  background: variable.$background-color !important;
+  color: variable.$white !important;
+
+  @include responsive(tabletplus) {
+    display: block !important;
+  }
+}
+
+mat-sidenav-content {
+  min-width: 100vw;
+  min-height: 100vh;
+  overflow: auto;
+
+  button {
+    display: none !important;
+
+    &:hover {
+      transform: translateX(3px);
+      transition: 0.3s;
+    }
+
+    @include responsive(tabletplus) {
+      display: block !important;
+    }
+  }
+}
+
+mat-sidenav {
+  .logo {
+    display: flex;
+    justify-content: center;
+    border-bottom: 1px solid;
+    color: variable.$purple-600;
+    padding: 1.2rem 0 1.2rem 0;
+    gap: 10px;
+    font-weight: bold;
+
+    @include responsive(tablet) {
+      padding: 0.8rem 0;
+    }
+
+    h1 {
+      width: 80%;
+      font-size: 24px;
+
+      @include responsive(mobile) {
+        font-size: 18px;
+      }
+
+      @include responsive(tablet) {
+        font-size: 20px;
+      }
+    }
+
+    fa-icon {
+      font-size: 40px !important;
+      padding: 0 1rem 0 1rem;
+
+      @include responsive(tablet) {
+        font-size: 30px !important;
+      }
+    }
+
+    #close {
+      font-size: 35px !important;
+    }
+  }
+
+  @include responsive(tabletplus) {
+    width: 50%;
+  }
+
+  @include responsive(tablet) {
+    width: 70%;
+  }
+
+  @include responsive(mobile) {
+    width: 100%;
+  }
+}
+
+.navbar {
+  display: flex;
+  justify-content: center;
+  border-bottom: 2px solid;
+  border-color: variable.$purple-600;
+  padding: 1.2rem;
+  width: 100%;
+
+  @include responsive(tabletplus) {
+    padding: 10px 0;
+  }
+}
+
+mat-toolbar {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  max-width: variable.$container-width;
+
+  @include responsive(tabletplus) {
+    display: flex;
+    justify-content: space-between;
+
+    .nav-links {
+      display: none !important;
+    }
+  }
+}
+
+mat-sidenav-container {
+  position: sticky;
+  display: flex;
+  justify-content: center;
+  min-width: 100vw;
+  min-height: 100vh;
+}
+
+.logo {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 24px;
+  font-weight: 700;
+
+  @include responsive(mobile) {
+    font-size: 16px;
+  }
+
+  fa-icon {
+    font-size: 40px;
+
+    @include responsive(mobile) {
+      font-size: 25px;
+    }
+  }
+}
+
+.nav-links {
+  display: flex;
+  align-items: center;
+
+  ul {
+    display: flex;
+    flex-direction: row;
+    font-size: 20px;
+    font-weight: 500;
+    width: 100%;
+    height: 100%;
+    gap: 30px;
+
+    @include responsive(tabletplus) {
+      display: flex;
+      align-items: center;
+      flex-direction: column;
+      margin: 40px 0 40px 0;
+      justify-content: center;
+    }
+  }
+
+  li {
+    display: flex;
+    padding: 5px;
+
+    a {
+      position: relative;
+      font-size: 20px;
+      font-weight: 500;
+      width: 100%;
+      height: 100%;
+      padding: 5px 10px;
+      text-decoration: none;
+      transition: 0.2s;
+
+      &:hover {
+
+        transition: 0.2s;
+      }
+
+      &:before {
+        content: "";
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        height: 2px;
+        width: 0%;
+        background-image: linear-gradient(90deg, variable.$purple-700 60%, rgba(variable.$purple-600, 0) 100%);
+        border-radius: 12px;
+        transition: all 0.4s ease;
+      }
+
+      &:hover:before {
+        width: 100%;
+      }
+
+      @include responsive(mobile) {
+        font-size: 18px;
+      }
+    }
+  }
+}
+
+/* --------- */
+//Profile Section
+
+.profile {
+  display: flex;
+  padding: 90px;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  max-width: variable.$container-width;
+
+  @include responsive(tablet) {
+    padding: 60px;
+  }
+
+  h1 {
+    font-size: 54px;
+    font-weight: 700;
+
+    @include responsive(tabletplus) {
+      font-size: 40px;
+    }
+    @include responsive(tablet) {
+      font-size: 36px;
+    }
+  }
+  h2 {
+    font-size: 32px;
+    font-weight: 700;
+    color: variable.$purple-500;
+
+    @include responsive(tabletplus) {
+      font-size: 28px;
+    }
+    @include responsive(tablet) {
+      font-size: 24px;
+    }
+  }
+  p {
+    font-size: 54px;
+    font-weight: 700;
+
+    @include responsive(tabletplus) {
+      font-size: 40px;
+    }
+    @include responsive(tablet) {
+      font-size: 36px;
+    }
+
+  }
+
+  .actions {
+    margin: 40px 0;
+    display: flex;
+    gap: 30px;
+
+    a {
+      padding: 8px 40px;
+      border-radius: 40px;
+      font-size: 16px;
+      font-weight: 500;
+      transition: 0.4s;
+
+      &#linkedin{
+        background: variable.$purple-600;
+        border: 4px solid variable.$purple-600;
+
+        &:hover {
+          background-color: transparent;
+          transform: scale(0.95)
+        }
+      }
+
+      &#github {
+        background: transparent;
+        border: 4px solid variable.$purple-600;
+
+        &:hover {
+          background-color: variable.$purple-600;
+          transform: scale(0.95)
+        }
+      }
+
+    }
+  }
+
+  .intro {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    width: 60%;
+  }
+
+  .avatar {
+    display: flex;
+    justify-content: end;
+    width: 300px;
+    height: 300px;
+    /* Border multi color */
+    background-image: linear-gradient(
+      90deg,
+      variable.$purple-700 30%,
+      variable.$purple-500 60%,
+      variable.$purple-600 100%
+    );
+    background-origin: border-box;
+    box-shadow: inset 0 100vw variable.$background-color;
+    border: 8px solid transparent;
+    border-radius: 40% 60% 70% 30% / 40% 50% 60% 50%;
+    overflow: hidden;
+    animation: morph 10s linear infinite;
+
+    @include responsive(notebook) {
+      width: 300px;
+      height: 300px;
+    }
+
+    @include responsive(tabletplus) {
+      width: 230px;
+      height: 230px;
+    }
+  }
+}
