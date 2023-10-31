@@ -1,0 +1,35 @@
+<!-- app.component.html -->
+<mat-sidenav-container>
+  <!-- Sidenav -->
+  <mat-sidenav #sidenav mode="over" [(opened)]="opened">
+    <span class="logo">
+      <fa-icon [icon]="faCode"></fa-icon>
+      <h1>ALISSONLIMADEV</h1>
+      <fa-icon id="close" [icon]="faXmark" (click)="sidenav.toggle()"></fa-icon>
+    </span>
+    <span class="nav-links">
+      <ul>
+        <li (click)="closeSideNav()">
+          <a href="#about">Sobre mim</a>
+        </li>
+        <li (click)="closeSideNav()">
+          <a href="#habilidades">Habilidades</a>
+        </li>
+        <li>
+          <a href="#projetos">Projetos</a>
+        </li>
+        <li (click)="closeSideNav()">
+          <a href="#contato">Contato</a>
+        </li>
+      </ul>
+    </span>
+  </mat-sidenav>
+
+  <!-- Layout -->
+  <mat-sidenav-content>
+    <!-- Header -->
+    <app-header class="header" (openSidenav)="sidenav.toggle()"></app-header>
+
+    <router-outlet></router-outlet>
+  </mat-sidenav-content>
+</mat-sidenav-container>
