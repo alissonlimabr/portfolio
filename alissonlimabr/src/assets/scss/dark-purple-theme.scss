@@ -7,6 +7,7 @@
   padding: 0;
   box-sizing: border-box;
   font-family: Roboto, sans-serif;
+  scroll-behavior: smooth;
 }
 
 ::-webkit-scrollbar {
@@ -48,10 +49,7 @@ body {
   overflow-x: hidden;
 }
 
-.container {
-  display: flex;
-  justify-content: center;
-}
+
 
 /* ***************  */
 
@@ -60,53 +58,34 @@ body {
 .header {
   display: flex !important;
   justify-content: center;
+  background-color: variable.$background-color;
+  position: sticky;
+  top: 0;
+  z-index: 100;
 }
 
 mat-sidenav {
   display: none !important;
   height: 100%;
   width: 70%;
-  position: absolute;
+  position: fixed !important;
   background: variable.$background-color !important;
   color: variable.$white !important;
 
   @include responsive(tabletplus) {
     display: block !important;
   }
-}
 
-mat-sidenav-content {
-  min-width: 100vw;
-  min-height: 100vh;
-  overflow: auto;
-
-  button {
-    display: none !important;
-
-    &:hover {
-      transform: translateX(3px);
-      transition: 0.3s;
-    }
-
-    @include responsive(tabletplus) {
-      display: block !important;
-    }
-  }
-}
-
-mat-sidenav {
   .logo {
     display: flex;
     justify-content: center;
     border-bottom: 1px solid;
     color: variable.$purple-600;
-    padding: 1.2rem 0 1.2rem 0;
+    padding: 0.4rem;
     gap: 10px;
     font-weight: bold;
 
-    @include responsive(tablet) {
-      padding: 0.8rem 0;
-    }
+
 
     h1 {
       width: 80%;
@@ -140,6 +119,7 @@ mat-sidenav {
   }
 
   @include responsive(tablet) {
+    padding: 0.8rem 0;
     width: 70%;
   }
 
@@ -148,12 +128,32 @@ mat-sidenav {
   }
 }
 
+mat-sidenav-content {
+  min-width: 100vw;
+  min-height: 100vh;
+  overflow: initial !important;
+
+  button {
+    display: none !important;
+
+    &:hover {
+      transform: translateX(3px);
+      transition: 0.3s;
+    }
+
+    @include responsive(tabletplus) {
+      display: block !important;
+    }
+  }
+}
+
+
 .navbar {
   display: flex;
   justify-content: center;
   border-bottom: 2px solid;
   border-color: variable.$purple-600;
-  padding: 1.2rem;
+  padding: 1rem;
   width: 100%;
 
   @include responsive(tabletplus) {
@@ -178,11 +178,11 @@ mat-toolbar {
 }
 
 mat-sidenav-container {
-  position: sticky;
   display: flex;
   justify-content: center;
   min-width: 100vw;
   min-height: 100vh;
+  overflow: initial !important;
 }
 
 .logo {
@@ -233,7 +233,7 @@ mat-sidenav-container {
 
     a {
       position: relative;
-      font-size: 20px;
+      font-size: 18px;
       font-weight: 500;
       width: 100%;
       height: 100%;
@@ -269,8 +269,37 @@ mat-sidenav-container {
   }
 }
 
-/* --------- */
-//Profile Section
+/* ***** Home component Style ***** */
+
+.container {
+  display: flex;
+  justify-content: center;
+}
+
+.title {
+  text-align: center;
+  padding: 30px 0;
+  border-bottom: 2px solid transparent;
+  border-image: linear-gradient(90deg, variable.$purple-700 50%, rgba(variable.$purple-600, 0%) 100%);
+  border-image-slice: 1;
+  width: 90%;
+}
+
+
+.content {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  padding: 0 100px;
+  gap: 30px;
+  max-width: variable.$container-width !important;
+  @include responsive(mobilePlus) {
+    padding: 0 10px;
+  }
+}
+
+/*  About section */
 
 .profile {
   display: flex;
@@ -284,8 +313,13 @@ mat-sidenav-container {
     padding: 60px;
   }
 
+  @include responsive(mobilePlus) {
+    flex-direction: column-reverse;
+    padding: 50px 20px !important;
+  }
+
   h1 {
-    font-size: 54px;
+    font-size: 48px;
     font-weight: 700;
 
     @include responsive(tabletplus) {
@@ -294,6 +328,10 @@ mat-sidenav-container {
     @include responsive(tablet) {
       font-size: 36px;
     }
+    @include responsive(mobile) {
+      font-size: 30px;
+    }
+
   }
   h2 {
     font-size: 32px;
@@ -306,9 +344,10 @@ mat-sidenav-container {
     @include responsive(tablet) {
       font-size: 24px;
     }
+
   }
   p {
-    font-size: 54px;
+    font-size: 48px;
     font-weight: 700;
 
     @include responsive(tabletplus) {
@@ -317,13 +356,43 @@ mat-sidenav-container {
     @include responsive(tablet) {
       font-size: 36px;
     }
+    @include responsive(mobile) {
+      font-size: 30px;
+    }
 
+  }
+
+  .intro {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    width: 60%;
+
+    @include responsive(mobilePlus) {
+      width: 100%;
+      align-items: center;
+    }
+  }
+
+  .welcome {
+    @include responsive (mobilePlus) {
+      text-align: center;
+      display: flex;
+      justify-content: center;
+      flex-direction: column;
+      gap: 10px;
+      align-items: center;
+      margin-top: 30px;
+    }
   }
 
   .actions {
     margin: 40px 0;
     display: flex;
     gap: 30px;
+    @include responsive(mobilePlus) {
+      margin: 10px 0;
+    }
 
     a {
       padding: 8px 40px;
@@ -331,6 +400,10 @@ mat-sidenav-container {
       font-size: 16px;
       font-weight: 500;
       transition: 0.4s;
+
+      @include responsive(mobile) {
+        font-size: 14px
+      }
 
       &#linkedin{
         background: variable.$purple-600;
@@ -355,13 +428,6 @@ mat-sidenav-container {
     }
   }
 
-  .intro {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    width: 60%;
-  }
-
   .avatar {
     display: flex;
     justify-content: end;
@@ -380,6 +446,11 @@ mat-sidenav-container {
     border-radius: 40% 60% 70% 30% / 40% 50% 60% 50%;
     overflow: hidden;
     animation: morph 10s linear infinite;
+    transition: 0.3s;
+
+    &:hover {
+      transform: scale(0.95);
+    }
 
     @include responsive(notebook) {
       width: 300px;
@@ -390,5 +461,36 @@ mat-sidenav-container {
       width: 230px;
       height: 230px;
     }
+    @include responsive(tablet) {
+      width: 180px;
+      height: 180px;
+    }
   }
+}
+
+
+.description {
+  width: 90%;
+  h2 {
+    text-align: center;
+    font-size: 28px;
+    font-weight: 700;
+  }
+  p {
+    color: variable.$gray-100;
+    font-size: 20px;
+    font-weight: 300;
+    word-spacing: 2px;
+    line-height: 2;
+    text-align: justify;
+    @include responsive(mobilePlus) {
+      font-size: 16px;
+      word-spacing: 1px;
+    }
+  }
+}
+
+/*  Skill section */
+.skills {
+  margin: 150px 0;
 }
