@@ -1,7 +1,8 @@
 @use "variables" as variable;
 @import "variables-mixins";
 
-// Global configs
+
+/*  Global config */
 * {
   margin: 0;
   padding: 0;
@@ -50,6 +51,70 @@ body {
 }
 
 
+.container {
+  display: flex;
+  justify-content: center;
+}
+
+.header-section {
+  text-align: center;
+  padding: 30px 0;
+  border-bottom: 2px solid transparent;
+  border-image: linear-gradient(90deg, variable.$purple-700 50%, rgba(variable.$purple-600, 0%) 100%);
+  border-image-slice: 1;
+  width: 90%;
+}
+
+.title {
+  text-align: center;
+  padding: 30px 0;
+  border-bottom: 2px solid transparent;
+  border-image: linear-gradient(90deg, variable.$purple-700 50%, rgba(variable.$purple-600, 0%) 100%);
+  border-image-slice: 1;
+  width: 90%;
+}
+
+.description {
+  width: 90%;
+  h2 {
+    text-align: center;
+    font-size: 28px;
+    font-weight: 700;
+  }
+  p {
+    color: variable.$gray-100;
+    font-size: 20px;
+    font-weight: 300;
+    word-spacing: 2px;
+    line-height: 2;
+    text-align: justify;
+    @include responsive(mobilePlus) {
+      font-size: 16px;
+      word-spacing: 1px;
+    }
+  }
+
+}
+
+.content {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  padding: 0 100px;
+  gap: 30px;
+  width: 100%;
+  max-width: variable.$container-width !important;
+
+  @include responsive(tabletplus) {
+    padding: 0 40px;
+  }
+
+  @include responsive(mobilePlus) {
+    padding: 0 10px;
+  }
+}
+
 
 /* ***************  */
 
@@ -66,7 +131,7 @@ body {
 
 mat-sidenav {
   display: none !important;
-  height: 100vh;
+  min-height: 100vh;
   width: 70%;
   position: fixed !important;
   background: variable.$background-color !important;
@@ -270,54 +335,39 @@ mat-sidenav-container {
   }
 }
 
-/* ***** Home component Style ***** */
 
-.container {
-  display: flex;
-  justify-content: center;
-}
+/* ***** Profile component Style ***** */
 
-.title {
-  text-align: center;
-  padding: 30px 0;
-  border-bottom: 2px solid transparent;
-  border-image: linear-gradient(90deg, variable.$purple-700 50%, rgba(variable.$purple-600, 0%) 100%);
-  border-image-slice: 1;
-  width: 90%;
-}
-
-
-.content {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  flex-direction: column;
-  padding: 0 100px;
-  gap: 30px;
-  width: 100%;
-  max-width: variable.$container-width !important;
+#perfil {
   @include responsive(mobilePlus) {
-    padding: 0 10px;
+    height: 100vh;
+    align-items: center;
+    display: flex;
+    justify-content: center;
   }
 }
 
-/*  About section */
-
 .profile {
   display: flex;
-  padding: 90px;
+  padding: 0 90px;
+  height: 80vh;
+  padding-top: 10vh;
+  align-items: center;
+  max-height: 600px;
   justify-content: space-between;
   align-items: center;
   width: 100%;
   max-width: variable.$container-width;
 
-  @include responsive(tablet) {
+  @include responsive(tabletplus) {
     padding: 60px;
   }
 
   @include responsive(mobilePlus) {
     flex-direction: column-reverse;
     padding: 50px 20px !important;
+    justify-content: center;
+    gap: 50px;
   }
 
   h1 {
@@ -393,7 +443,7 @@ mat-sidenav-container {
     display: flex;
     gap: 30px;
     @include responsive(mobilePlus) {
-      margin: 10px 0;
+      margin: 30px 0;
     }
 
     a {
@@ -444,7 +494,7 @@ mat-sidenav-container {
     );
     background-origin: border-box;
     box-shadow: inset 0 100vw variable.$background-color;
-    border: 8px solid transparent;
+    border: 5px solid transparent;
     border-radius: 40% 60% 70% 30% / 40% 50% 60% 50%;
     overflow: hidden;
     animation: morph 10s linear infinite;
@@ -454,45 +504,94 @@ mat-sidenav-container {
       transform: scale(0.95);
     }
 
-    @include responsive(notebook) {
-      width: 300px;
-      height: 300px;
-    }
-
     @include responsive(tabletplus) {
-      width: 230px;
-      height: 230px;
+      width: 270px;
+      height: 270px;
     }
     @include responsive(tablet) {
-      width: 180px;
-      height: 180px;
+      width: 250px;
+      height: 250px;
     }
-  }
-}
 
-
-.description {
-  width: 90%;
-  h2 {
-    text-align: center;
-    font-size: 28px;
-    font-weight: 700;
-  }
-  p {
-    color: variable.$gray-100;
-    font-size: 20px;
-    font-weight: 300;
-    word-spacing: 2px;
-    line-height: 2;
-    text-align: justify;
     @include responsive(mobilePlus) {
-      font-size: 16px;
-      word-spacing: 1px;
+      width: 200px;
+      height: 200px;
     }
   }
 }
+
+
+/*  About section */
+
+#sobre {
+  padding-top: 100px;
+}
+
+
 
 /*  Skill section */
 #habilidades {
-  margin: 150px 0;
+  min-height: 500px;
+  padding-top: 150px;
+
+  .description {
+    p {
+      height: 70px;
+      text-align: center;
+      animation-name: fadeIn;
+      animation-duration: 0.5s;
+    }
+  }
+
+}
+
+.skills {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 40px;
+  width: 90%;
+
+  mat-card {
+    width: 110px;
+    height: 110px;
+  }
+}
+
+.example-card {
+  max-width: 400px;
+
+}
+
+mat-card {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #151515 !important;
+  border-width: 2px !important;
+  border-style: solid !important;
+  border-color: variable.$purple-500 !important;
+  padding: 10px 5px;
+  gap: 5px;
+  box-shadow: rgba(0, 0, 0, 0.24) 0px 5px 12px;
+  transition: 0.3s !important;
+
+  p {
+    color: variable.$purple-500;
+    font-weight: 700;
+    text-align: center;
+    font-size: 14px;
+  }
+
+  &:hover{
+    box-shadow: 0px 5px 15px 5px variable.$purple-800;
+    transform: translateY(-5px) !important;
+    border-color: variable.$purple-700 !important;
+  }
+
+}
+
+#projetos {
+  height: 500px;
+  padding-top: 150px;
 }
