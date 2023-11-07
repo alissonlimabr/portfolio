@@ -508,6 +508,12 @@ mat-sidenav-container {
       transform: scale(0.95);
     }
 
+    img {
+      width: 100%;
+      height: 100% ;
+    }
+
+
     @include responsive(tabletplus) {
       width: 270px;
       height: 270px;

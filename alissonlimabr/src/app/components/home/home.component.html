@@ -52,7 +52,12 @@
             href="https://www.linkedin.com/in/alissonlimadev/"
             target="_blank"
           >
-            <img src="assets/img/profile.png" alt="avatar" href="" />
+            <img
+              src="assets/img/profile.png"
+              alt="Avatar Alisson Lima"
+              height="300"
+              width="300"
+            />
           </a>
         </div>
       </div>
@@ -88,12 +93,18 @@
           <p>Conheça algumas das tecnologias que já trabalhei:</p>
         </div>
         <div class="skills">
-          <!--Skill 1 -->
+          <!--Skill -->
           <mat-card
             [attr.data-aos]="skill.aosAnimation"
             *ngFor="let skill of skills"
           >
-            <img mat-card-image [src]="skill.icon" height="45" height="45" />
+            <img
+              mat-card-image
+              [src]="skill.icon"
+              width="45"
+              height="45"
+              [alt]="skill.alt"
+            />
             <p>{{ skill.name }}</p>
           </mat-card>
         </div>

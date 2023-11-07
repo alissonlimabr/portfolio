@@ -26,7 +26,12 @@
       </ul>
     </span>
     <!-- Sidenav button open -->
-    <button mat-icon-button matTooltip="Basic" (click)="openSidenav.emit()">
+    <button
+      mat-icon-button
+      matTooltip="Basic"
+      aria-label="menu"
+      (click)="openSidenav.emit()"
+    >
       <fa-icon [icon]="faBars"></fa-icon>
     </button>
   </mat-toolbar>
