@@ -54,7 +54,6 @@ body {
 .container {
   display: flex;
   justify-content: center;
-  padding-top: 10vh;
 }
 
 .header-section {
@@ -339,7 +338,7 @@ mat-sidenav-container {
 
 /* ***** Profile component Style ***** */
 
-#profile {
+#perfil {
   @include responsive(mobilePlus) {
     height: 100vh;
     align-items: center;
@@ -352,6 +351,7 @@ mat-sidenav-container {
   display: flex;
   padding: 0 90px;
   height: 80vh;
+  padding-top: 10vh;
   align-items: center;
   max-height: 600px;
   justify-content: space-between;
@@ -523,8 +523,8 @@ mat-sidenav-container {
 
 /*  About section */
 
-#about {
-  min-height: 500px;
+#sobre {
+  padding-top: 100px;
 }
 
 
@@ -532,6 +532,7 @@ mat-sidenav-container {
 /*  Skill section */
 #habilidades {
   min-height: 500px;
+  padding-top: 150px;
 
   .description {
     p {
@@ -590,3 +591,7 @@ mat-card {
 
 }
 
+#projetos {
+  height: 500px;
+  padding-top: 150px;
+}
