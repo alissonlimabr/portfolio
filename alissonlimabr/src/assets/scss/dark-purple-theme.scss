@@ -654,7 +654,8 @@ mat-card {
     }
 
     @include responsive(mobilePlus) {
-      padding: 30px;
+      width: 100%;
+      padding: 20px;
     }
   }
 
@@ -667,6 +668,10 @@ mat-card {
     border-bottom: 1px solid transparent;
     border-image: linear-gradient(90deg, variable.$purple-700 30%, rgba(variable.$purple-500, 0%) 80%);
     border-image-slice: 1;
+
+    @include responsive(mobilePlus) {
+      width: 100%;
+    }
   }
 
   mat-card-title {
@@ -690,19 +695,25 @@ mat-card {
     width: 100%;
     display: flex;
     justify-content: space-between;
-    gap: 20px;
+    gap: 5px;
     align-items: center;
   }
 
   mat-card-actions {
     padding: 0;
     font-size: 14px;
+    width: 100%;
+
+    P {
+      text-align: start !important;
+    }
   }
 
   a {
     display: flex;
     gap: 10px;
     padding: 10px 0;
+    align-items: center;
   }
 
   p {
@@ -710,17 +721,26 @@ mat-card {
     color: white;
     font-weight: 300 !important;
     font-size: 16px;
+
+    @include responsive(mobile) {
+      font-size: 12px;
+    }
   }
 
   .skills {
-    gap: 5px;
-    max-width: 50%;
+    gap: 8px;
+    width: 100%;
     justify-content: end;
 
     a {
       position: relative;
       width: 20px;
       height: 20px;
+
+      @include responsive(mobile) {
+        width: 10px;
+        height: 10px;
+      }
     }
   }
 
@@ -729,7 +749,6 @@ mat-card {
     height: 5px;
     position: absolute;
     left: 10px;
-    bottom: 5px;
     border-radius: 100%;
     background: variable.$gray-200;
   }
@@ -738,7 +757,11 @@ mat-card {
     opacity: 0;
 
     img {
-      bottom: 10px;
+
+      @include responsive(mobile) {
+        width: 15px;
+        height: 15px;
+      }
     }
   }
 }
