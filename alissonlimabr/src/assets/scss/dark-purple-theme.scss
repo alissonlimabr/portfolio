@@ -632,9 +632,20 @@ mat-card {
     align-items: start;
 
     &:hover {
-      box-shadow: rgba(0, 0, 0, 0.24) 0px 5px 12px;
       transform: translateY(0) !important;
       border-color: variable.$purple-400 !important;
+
+      .placeholder {
+        opacity: 0;
+      }
+
+      .techs {
+        animation-duration: .3s;
+        animation-timing-function: cubic-bezier(.165, .84, .44, 1);
+        animation-fill-mode: forwards;
+        animation-name: fadein;
+        animation-delay: 30ms;
+      }
     }
 
     @include responsive(notebook) {
@@ -706,19 +717,6 @@ mat-card {
     max-width: 50%;
     justify-content: end;
 
-    &:hover {
-      .placeholder {
-        opacity: 0;
-      }
-
-      .techs {
-        animation-duration: .367s;
-        animation-timing-function: cubic-bezier(.165, .84, .44, 1);
-        animation-fill-mode: forwards;
-        animation-name: fadein;
-      }
-    }
-
     a {
       position: relative;
       width: 20px;
@@ -743,4 +741,8 @@ mat-card {
       bottom: 10px;
     }
   }
+}
+
+#contato {
+  min-height: 500px;
 }
