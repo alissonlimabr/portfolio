@@ -1,5 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import { faBars, faCode, faXmark } from '@fortawesome/free-solid-svg-icons';
+import {
+  faArrowUpRightFromSquare,
+  faBars,
+  faCode,
+  faXmark,
+} from '@fortawesome/free-solid-svg-icons';
 import * as AOS from 'aos';
 
 @Component({
@@ -11,6 +16,7 @@ export class HomeComponent implements OnInit {
   faBars = faBars;
   faXmark = faXmark;
   faCode = faCode;
+  faArrowUpRightFromSquare = faArrowUpRightFromSquare;
 
   skills = [
     {
@@ -114,6 +120,12 @@ export class HomeComponent implements OnInit {
       icon: 'assets/icons/junit5-icon.svg',
       alt: 'Logo do Junit',
       aosAnimation: 'zoom-out-up',
+    },
+    {
+      name: 'Scss',
+      icon: 'assets/icons/scss-icon.svg',
+      alt: 'Logo do SCSS',
+      aosAnimation: 'zoom-out-down',
     },
   ];
 

@@ -18,7 +18,7 @@
 }
 
 ::-webkit-scrollbar-thumb {
-  background: variable.$purple-500;
+  background: variable.$purple-400;
   border-radius: 20px;
 }
 
@@ -47,7 +47,7 @@ h6 {
 }
 
 fa-icon {
-  color: variable.$purple-600;
+  color: variable.$purple-500;
 }
 
 .container {
@@ -59,7 +59,7 @@ fa-icon {
   text-align: center;
   padding: 30px 0;
   border-bottom: 2px solid transparent;
-  border-image: linear-gradient(90deg, variable.$purple-700 50%, rgba(variable.$purple-600, 0%) 100%);
+  border-image: linear-gradient(90deg, variable.$purple-700 50%, rgba(variable.$purple-500, 0%) 100%);
   border-image-slice: 1;
   width: 90%;
 }
@@ -68,18 +68,20 @@ fa-icon {
   text-align: center;
   padding: 30px 0;
   border-bottom: 2px solid transparent;
-  border-image: linear-gradient(90deg, variable.$purple-700 50%, rgba(variable.$purple-600, 0%) 100%);
+  border-image: linear-gradient(90deg, variable.$purple-700 50%, rgba(variable.$purple-500, 0%) 100%);
   border-image-slice: 1;
   width: 90%;
 }
 
 .description {
   width: 90%;
+
   h2 {
     text-align: center;
     font-size: 28px;
     font-weight: 700;
   }
+
   p {
     color: variable.$gray-100;
     font-size: 20px;
@@ -87,6 +89,7 @@ fa-icon {
     word-spacing: 2px;
     line-height: 2;
     text-align: justify;
+
     @include responsive(mobilePlus) {
       font-size: 16px;
       word-spacing: 1px;
@@ -144,7 +147,7 @@ mat-sidenav {
     display: flex;
     justify-content: center;
     border-bottom: 1px solid;
-    color: variable.$purple-600;
+    color: variable.$purple-500;
     padding: 0.4rem;
     gap: 10px;
     font-weight: bold;
@@ -216,7 +219,7 @@ mat-sidenav-content {
   display: flex;
   justify-content: center;
   border-bottom: 2px solid;
-  border-color: variable.$purple-600;
+  border-color: variable.$purple-500;
   padding: 1rem;
   width: 100%;
 
@@ -295,45 +298,44 @@ mat-sidenav-container {
   li {
     display: flex;
     padding: 5px;
-
-    a {
-      position: relative;
-      font-size: 18px;
-      font-weight: 500;
-      width: 100%;
-      height: 100%;
-      padding: 5px 10px;
-      text-decoration: none;
-      transition: 0.2s;
-
-      &:hover {
-
-        transition: 0.2s;
-      }
-
-      &:before {
-        content: "";
-        position: absolute;
-        bottom: 0;
-        left: 0;
-        height: 2px;
-        width: 0%;
-        background-image: linear-gradient(90deg, variable.$purple-700 60%, rgba(variable.$purple-600, 0) 100%);
-        border-radius: 12px;
-        transition: all 0.4s ease;
-      }
-
-      &:hover:before {
-        width: 100%;
-      }
-
-      @include responsive(mobile) {
-        font-size: 18px;
-      }
-    }
   }
 }
 
+.link {
+  position: relative;
+  font-size: 18px;
+  font-weight: 500;
+  width: 100%;
+  height: 100%;
+  padding: 5px 10px;
+  text-decoration: none;
+  transition: 0.2s;
+
+  &:hover {
+
+    transition: 0.2s;
+  }
+
+  &:before {
+    content: "";
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    height: 2px;
+    width: 0%;
+    background-image: linear-gradient(90deg, variable.$purple-700 60%, rgba(variable.$purple-500, 0) 100%);
+    border-radius: 12px;
+    transition: all 0.4s ease;
+  }
+
+  &:hover:before {
+    width: 100%;
+  }
+
+  @include responsive(mobile) {
+    font-size: 18px;
+  }
+}
 
 /* ***** Profile component Style ***** */
 
@@ -346,8 +348,9 @@ mat-sidenav-container {
     padding-top: 100px;
 
   }
+
   @include responsive(tabletplus) {
-  height: 600px;
+    height: 600px;
   }
 }
 
@@ -381,27 +384,32 @@ mat-sidenav-container {
     @include responsive(tabletplus) {
       font-size: 40px;
     }
+
     @include responsive(tablet) {
       font-size: 36px;
     }
+
     @include responsive(mobile) {
       font-size: 30px;
     }
 
   }
+
   h2 {
     font-size: 32px;
     font-weight: 700;
-    color: variable.$purple-500;
+    color: variable.$purple-400;
 
     @include responsive(tabletplus) {
       font-size: 28px;
     }
+
     @include responsive(tablet) {
       font-size: 24px;
     }
 
   }
+
   p {
     font-size: 48px;
     font-weight: 700;
@@ -409,9 +417,11 @@ mat-sidenav-container {
     @include responsive(tabletplus) {
       font-size: 40px;
     }
+
     @include responsive(tablet) {
       font-size: 36px;
     }
+
     @include responsive(mobile) {
       font-size: 30px;
     }
@@ -446,6 +456,7 @@ mat-sidenav-container {
     margin: 40px 0;
     display: flex;
     gap: 30px;
+
     @include responsive(mobilePlus) {
       margin: 30px 0;
     }
@@ -461,9 +472,9 @@ mat-sidenav-container {
         font-size: 14px
       }
 
-      &#linkedin{
-        background: variable.$purple-600;
-        border: 4px solid variable.$purple-600;
+      &#linkedin {
+        background: variable.$purple-500;
+        border: 4px solid variable.$purple-500;
 
         &:hover {
           background-color: transparent;
@@ -473,10 +484,10 @@ mat-sidenav-container {
 
       &#github {
         background: transparent;
-        border: 4px solid variable.$purple-600;
+        border: 4px solid variable.$purple-500;
 
         &:hover {
-          background-color: variable.$purple-600;
+          background-color: variable.$purple-500;
           transform: scale(0.95)
         }
       }
@@ -490,12 +501,10 @@ mat-sidenav-container {
     width: 300px;
     height: 300px;
     /* Border multi color */
-    background-image: linear-gradient(
-      90deg,
-      variable.$purple-700 30%,
-      variable.$purple-500 60%,
-      variable.$purple-600 100%
-    );
+    background-image: linear-gradient(90deg,
+        variable.$purple-700 30%,
+        variable.$purple-400 60%,
+        variable.$purple-500 100%);
     background-origin: border-box;
     box-shadow: inset 0 100vw variable.$background-color;
     border: 5px solid transparent;
@@ -510,7 +519,7 @@ mat-sidenav-container {
 
     img {
       width: 100%;
-      height: 100% ;
+      height: 100%;
     }
 
 
@@ -518,6 +527,7 @@ mat-sidenav-container {
       width: 270px;
       height: 270px;
     }
+
     @include responsive(tablet) {
       width: 250px;
       height: 250px;
@@ -580,28 +590,157 @@ mat-card {
   background-color: #151515 !important;
   border-width: 2px !important;
   border-style: solid !important;
-  border-color: variable.$purple-500 !important;
+  border-color: variable.$purple-400 !important;
   padding: 10px 5px;
   gap: 5px;
   box-shadow: rgba(0, 0, 0, 0.24) 0px 5px 12px;
   transition: 0.3s !important;
 
   p {
-    color: variable.$purple-500;
+    color: variable.$purple-400;
     font-weight: 700;
     text-align: center;
     font-size: 14px;
   }
 
-  &:hover{
+  &:hover {
     box-shadow: 0px 5px 15px 5px variable.$purple-800;
     transform: translateY(-5px) !important;
-    border-color: variable.$purple-700 !important;
+    border-color: variable.$purple-600 !important;
   }
 
 }
 
+/*  Projects section */
 #projetos {
-  height: 500px;
   padding-top: 150px;
+  margin-bottom: 150px;
+}
+
+.repo {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  width: 90%;
+  gap: 40px 10px;
+  padding-top: 70px;
+  justify-content: space-evenly;
+
+  mat-card {
+    width: 430px;
+    padding: 20px;
+    align-items: start;
+
+    &:hover {
+      box-shadow: rgba(0, 0, 0, 0.24) 0px 5px 12px;
+      transform: translateY(0) !important;
+      border-color: variable.$purple-400 !important;
+    }
+
+    @include responsive(notebook) {
+      width: 600px;
+      padding: 40px;
+    }
+
+    @include responsive(mobilePlus) {
+      padding: 30px;
+    }
+  }
+
+  mat-card-header {
+    display: flex;
+    padding: 10px 0;
+    font-weight: 700;
+    font-size: 20px;
+    width: 50%;
+    border-bottom: 1px solid transparent;
+    border-image: linear-gradient(90deg, variable.$purple-700 30%, rgba(variable.$purple-500, 0%) 80%);
+    border-image-slice: 1;
+  }
+
+  mat-card-title {
+    color: white;
+    width: 100%;
+  }
+
+  mat-card-content {
+    padding: 15px 0;
+
+    @include responsive(notebook) {
+      padding: 30px 0;
+    }
+
+    @include responsive(mobilePlus) {
+      padding: 15px 0;
+    }
+  }
+
+  mat-card-footer {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    gap: 20px;
+    align-items: center;
+  }
+
+  mat-card-actions {
+    padding: 0;
+    font-size: 14px;
+  }
+
+  a {
+    display: flex;
+    gap: 10px;
+    padding: 10px 0;
+  }
+
+  p {
+    text-align: justify;
+    color: white;
+    font-weight: 300 !important;
+    font-size: 16px;
+  }
+
+  .skills {
+    gap: 5px;
+    max-width: 50%;
+    justify-content: end;
+
+    &:hover {
+      .placeholder {
+        opacity: 0;
+      }
+
+      .techs {
+        animation-duration: .367s;
+        animation-timing-function: cubic-bezier(.165, .84, .44, 1);
+        animation-fill-mode: forwards;
+        animation-name: fadein;
+      }
+    }
+
+    a {
+      position: relative;
+      width: 20px;
+      height: 20px;
+    }
+  }
+
+  .placeholder {
+    width: 5px;
+    height: 5px;
+    position: absolute;
+    left: 10px;
+    bottom: 5px;
+    border-radius: 100%;
+    background: variable.$gray-200;
+  }
+
+  .techs {
+    opacity: 0;
+
+    img {
+      bottom: 10px;
+    }
+  }
 }
