@@ -724,6 +724,7 @@ mat-card {
 
     @include responsive(mobile) {
       font-size: 12px;
+      font-weight: 500 !important;
     }
   }
 
