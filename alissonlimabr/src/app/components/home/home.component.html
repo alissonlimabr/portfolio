@@ -96,7 +96,7 @@
           <!--Skill -->
           <mat-card
             [attr.data-aos]="skill.aosAnimation"
-            *ngFor="let skill of skills"
+            *ngFor="let skill of mySkills"
           >
             <img
               mat-card-image
@@ -145,87 +145,15 @@
                 </a>
               </mat-card-actions>
               <div class="skills">
-                <a>
+                <a *ngFor="let skill of skillsMotoVoice">
                   <div class="placeholder"></div>
                   <div class="techs">
                     <img
                       mat-card-image
-                      src="assets/icons/java-icon.svg"
+                      [src]="skill.icon"
                       width="20"
                       height="20"
-                      alt="Logo Java"
-                    />
-                  </div>
-                </a>
-                <a>
-                  <div class="placeholder"></div>
-                  <div class="techs">
-                    <img
-                      mat-card-image
-                      src="assets/icons/angular-icon.svg"
-                      width="20"
-                      height="20"
-                      alt="Logo Angular"
-                    />
-                  </div>
-                </a>
-                <a>
-                  <div class="placeholder"></div>
-                  <div class="techs">
-                    <img
-                      mat-card-image
-                      src="assets/icons/springboot-icon.svg"
-                      width="20"
-                      height="20"
-                      alt="Logo Springboot"
-                    />
-                  </div>
-                </a>
-                <a>
-                  <div class="placeholder"></div>
-                  <div class="techs">
-                    <img
-                      mat-card-image
-                      src="assets/icons/aws-icon.svg"
-                      width="20"
-                      height="20"
-                      alt="Logo AWS"
-                    />
-                  </div>
-                </a>
-                <a>
-                  <div class="placeholder"></div>
-                  <div class="techs">
-                    <img
-                      mat-card-image
-                      src="assets/icons/docker-icon.svg"
-                      width="20"
-                      height="20"
-                      alt="Logo Docker"
-                    />
-                  </div>
-                </a>
-                <a>
-                  <div class="placeholder"></div>
-                  <div class="techs">
-                    <img
-                      mat-card-image
-                      src="assets/icons/bootstrap-icon.svg"
-                      width="20"
-                      height="20"
-                      alt="Logo Bootstrap"
-                    />
-                  </div>
-                </a>
-                <a>
-                  <div class="placeholder"></div>
-                  <div class="techs">
-                    <img
-                      mat-card-image
-                      src="assets/icons/git-icon.svg"
-                      width="20"
-                      height="20"
-                      alt="Logo Git"
+                      [alt]="skill.alt"
                     />
                   </div>
                 </a>
@@ -258,75 +186,15 @@
                 </a>
               </mat-card-actions>
               <div class="skills">
-                <a>
+                <a *ngFor="let skill of skillsAuthJwt">
                   <div class="placeholder"></div>
                   <div class="techs">
                     <img
                       mat-card-image
-                      src="assets/icons/java-icon.svg"
+                      [src]="skill.icon"
                       width="20"
                       height="20"
-                      alt="Logo Java"
-                    />
-                  </div>
-                </a>
-                <a>
-                  <div class="placeholder"></div>
-                  <div class="techs">
-                    <img
-                      mat-card-image
-                      src="assets/icons/angular-icon.svg"
-                      width="20"
-                      height="20"
-                      alt="Logo Angular"
-                    />
-                  </div>
-                </a>
-                <a>
-                  <div class="placeholder"></div>
-                  <div class="techs">
-                    <img
-                      mat-card-image
-                      src="assets/icons/springboot-icon.svg"
-                      width="20"
-                      height="20"
-                      alt="Logo Springboot"
-                    />
-                  </div>
-                </a>
-                <a>
-                  <div class="placeholder"></div>
-                  <div class="techs">
-                    <img
-                      mat-card-image
-                      src="assets/icons/azure-icon.svg"
-                      width="20"
-                      height="20"
-                      alt="Logo AWS"
-                    />
-                  </div>
-                </a>
-                <a>
-                  <div class="placeholder"></div>
-                  <div class="techs">
-                    <img
-                      mat-card-image
-                      src="assets/icons/mysql-icon.svg"
-                      width="20"
-                      height="20"
-                      alt="Logo Mysql"
-                    />
-                  </div>
-                </a>
-                <a>
-                  <div class="placeholder"></div>
-                  <div class="techs">
-                    <img
-                      mat-card-image
-                      src="assets/icons/git-icon.svg"
-                      width="20"
-                      height="20"
-                      alt="Logo Git"
+                      [alt]="skill.alt"
                     />
                   </div>
                 </a>
@@ -358,51 +226,15 @@
                 </a>
               </mat-card-actions>
               <div class="skills">
-                <a>
+                <a *ngFor="let skill of skillsPortfolio">
                   <div class="placeholder"></div>
                   <div class="techs">
                     <img
                       mat-card-image
-                      src="assets/icons/angular-icon.svg"
+                      [src]="skill.icon"
                       width="20"
                       height="20"
-                      alt="Logo Angular"
-                    />
-                  </div>
-                </a>
-                <a>
-                  <div class="placeholder"></div>
-                  <div class="techs">
-                    <img
-                      mat-card-image
-                      src="assets/icons/figma-icon.svg"
-                      width="20"
-                      height="20"
-                      alt="Logo Figma"
-                    />
-                  </div>
-                </a>
-                <a>
-                  <div class="placeholder"></div>
-                  <div class="techs">
-                    <img
-                      mat-card-image
-                      src="assets/icons/scss-icon.svg"
-                      width="20"
-                      height="20"
-                      alt="Logo do SCSS"
-                    />
-                  </div>
-                </a>
-                <a>
-                  <div class="placeholder"></div>
-                  <div class="techs">
-                    <img
-                      mat-card-image
-                      src="assets/icons/angular-material-icon.svg"
-                      width="20"
-                      height="20"
-                      alt="Logo do Angular Material"
+                      [alt]="skill.alt"
                     />
                   </div>
                 </a>
@@ -433,87 +265,15 @@
                 </a>
               </mat-card-actions>
               <div class="skills">
-                <a>
+                <a *ngFor="let skill of skillsResetPassword">
                   <div class="placeholder"></div>
                   <div class="techs">
                     <img
                       mat-card-image
-                      src="assets/icons/angular-icon.svg"
+                      [src]="skill.icon"
                       width="20"
                       height="20"
-                      alt="Logo Angular"
-                    />
-                  </div>
-                </a>
-                <a>
-                  <div class="placeholder"></div>
-                  <div class="techs">
-                    <img
-                      mat-card-image
-                      src="assets/icons/springboot-icon.svg"
-                      width="20"
-                      height="20"
-                      alt="Logo Springboot"
-                    />
-                  </div>
-                </a>
-                <a>
-                  <div class="placeholder"></div>
-                  <div class="techs">
-                    <img
-                      mat-card-image
-                      src="assets/icons/figma-icon.svg"
-                      width="20"
-                      height="20"
-                      alt="Logo Figma"
-                    />
-                  </div>
-                </a>
-                <a>
-                  <div class="placeholder"></div>
-                  <div class="techs">
-                    <img
-                      mat-card-image
-                      src="assets/icons/scss-icon.svg"
-                      width="20"
-                      height="20"
-                      alt="Logo do SCSS"
-                    />
-                  </div>
-                </a>
-                <a>
-                  <div class="placeholder"></div>
-                  <div class="techs">
-                    <img
-                      mat-card-image
-                      src="assets/icons/aws-icon.svg"
-                      width="20"
-                      height="20"
-                      alt="Logo da AWS"
-                    />
-                  </div>
-                </a>
-                <a>
-                  <div class="placeholder"></div>
-                  <div class="techs">
-                    <img
-                      mat-card-image
-                      src="assets/icons/aws-icon.svg"
-                      width="20"
-                      height="20"
-                      alt="Logo da AWS"
-                    />
-                  </div>
-                </a>
-                <a>
-                  <div class="placeholder"></div>
-                  <div class="techs">
-                    <img
-                      mat-card-image
-                      src="assets/icons/angular-material-icon.svg"
-                      width="20"
-                      height="20"
-                      alt="Logo do Angular Material"
+                      [alt]="skill.alt"
                     />
                   </div>
                 </a>
