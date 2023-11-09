@@ -1,297 +1,315 @@
-<main>
-  <section id="perfil">
-    <div class="container">
-      <div class="profile">
-        <div class="intro">
-          <div class="welcome">
-            <p>Olá,</p>
-            <h1>Sou o Alisson Lima</h1>
-            <h2>
-              <ngx-typed-writer
-                [strings]="[
-                  'Desenvolvedor Full Stack',
-                  'Analista de Sistemas',
-                  'Apaixonado por tecnologia'
-                ]"
-                [cursorChar]="'.'"
-                [showCursor]="true"
-                [backSpeed]="30"
-                [typeSpeed]="100"
-                [backDelay]="3000"
-              >
-              </ngx-typed-writer>
+<section id="perfil">
+  <div class="container">
+    <div class="profile">
+      <div class="intro">
+        <div class="welcome">
+          <p>Olá,</p>
+          <h1>Sou o Alisson Lima</h1>
+          <h2>
+            <ngx-typed-writer
+              [strings]="[
+                'Desenvolvedor Full Stack',
+                'Analista de Sistemas',
+                'Apaixonado por tecnologia'
+              ]"
+              [cursorChar]="'.'"
+              [showCursor]="true"
+              [backSpeed]="30"
+              [typeSpeed]="100"
+              [backDelay]="3000"
+            >
+            </ngx-typed-writer>
+          </h2>
+
+          <noscript>
+            <h2 id="jobs-hobbies">
+              Desenvolvedor Full Stack, Analista de Sistemas, Apaixonado por
+              tecnologia.
             </h2>
-
-            <noscript>
-              <h2 id="jobs-hobbies">
-                Desenvolvedor Full Stack, Analista de Sistemas, Apaixonado por
-                tecnologia.
-              </h2>
-            </noscript>
-            <p></p>
-          </div>
-
-          <div class="actions">
-            <a
-              id="linkedin"
-              href="https://www.linkedin.com/in/alissonlimadev/"
-              target="_blank"
-              >LinkedIn</a
-            >
-            <a
-              id="github"
-              href="https://github.com/alissonlimabr"
-              target="_blank"
-              >GitHub</a
-            >
-          </div>
+          </noscript>
+          <p></p>
         </div>
-        <div>
+
+        <div class="actions">
           <a
-            class="avatar"
+            id="linkedin"
             href="https://www.linkedin.com/in/alissonlimadev/"
             target="_blank"
+            >LinkedIn</a
+          >
+          <a id="github" href="https://github.com/alissonlimabr" target="_blank"
+            >GitHub</a
+          >
+        </div>
+      </div>
+      <div>
+        <a
+          class="avatar"
+          href="https://www.linkedin.com/in/alissonlimadev/"
+          target="_blank"
+        >
+          <img
+            src="assets/img/profile.png"
+            alt="Avatar Alisson Lima"
+            height="300"
+            width="300"
+          />
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+<section id="sobre" data-aos="zoom-out">
+  <div class="container">
+    <div class="content">
+      <div class="header-section">
+        <h2>Sobre mim</h2>
+      </div>
+      <div class="description">
+        <p>
+          Natural de Rio Branco/AC, me graduei em Análise e Desenvolvimento de
+          Sistemas em 2019. Atuei no desenvolvimento web como Freelancer entre
+          2020 e 2021. Em 2022 me capacitei no Desenvolvimento Web Full Stack
+          pela Universidade Federal do Acre em um projeto fomentado pela
+          Motorola e Instituto Eldorado. Sou um grande curioso quando os
+          assuntos são tecnologia, IA, obras de ficção científica e astronomia.
+        </p>
+      </div>
+    </div>
+  </div>
+</section>
+<section id="habilidades" data-aos="zoom-out-up">
+  <div class="container">
+    <div class="content">
+      <div class="title">
+        <h2>Habilidades</h2>
+      </div>
+      <div class="description">
+        <h3>Conheça algumas das tecnologias que já trabalhei</h3>
+      </div>
+      <div class="skills">
+        <!--Skill -->
+        <mat-card
+          [attr.data-aos]="skill.aosAnimation"
+          *ngFor="let skill of mySkills"
+        >
+          <img
+            mat-card-image
+            [src]="skill.icon"
+            width="45"
+            height="45"
+            [alt]="skill.alt"
+          />
+          <p>{{ skill.name }}</p>
+        </mat-card>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="projetos" data-aos="zoom-out-up">
+  <div class="container">
+    <div class="content">
+      <div class="title">
+        <h2>Projetos</h2>
+      </div>
+      <div class="repo">
+        <!--Project 1 -->
+        <mat-card data-aos="zoom-out-right">
+          <mat-card-header>
+            <mat-card-title>Motovoice</mat-card-title>
+          </mat-card-header>
+          <mat-card-content>
+            <p>
+              Sistema de coleta de ideias e feedbacks de produtos Motorola,
+              desenvolvido em Springboot e Angular e conta com um painel de
+              gerenciamento e insights da plataforma (admin). O sistema foi um
+              desafio sob demanda para a conclusão da 1⁰ turma do curso
+              WebAcademy.
+            </p>
+          </mat-card-content>
+          <mat-card-footer>
+            <mat-card-actions>
+              <a
+                class="link"
+                href="https://www.linkedin.com/in/alissonlimadev/"
+                target="_blank"
+              >
+                <fa-icon [icon]="faArrowUpRightFromSquare"></fa-icon>
+                <p>Acesse o projeto</p>
+              </a>
+            </mat-card-actions>
+            <div class="skills">
+              <a *ngFor="let skill of skillsMotoVoice">
+                <div class="placeholder"></div>
+                <div class="techs">
+                  <img
+                    mat-card-image
+                    [src]="skill.icon"
+                    width="20"
+                    height="20"
+                    [alt]="skill.alt"
+                  />
+                </div>
+              </a>
+            </div>
+          </mat-card-footer>
+        </mat-card>
+        <!--Project 2 -->
+        <mat-card data-aos="zoom-out-left">
+          <mat-card-header>
+            <mat-card-title>Autenticação JWT</mat-card-title>
+          </mat-card-header>
+          <mat-card-content>
+            <p>
+              Microsserviço de autenticação JWT desenvolvido em Java,
+              Springboot, Spring Security 6 e Java 17. O projeto foi orquestrado
+              no Azure utilizando Kubernetes e Docker. Também desenvolvi um
+              front-end em Angular para consumir esse microsserviço.
+            </p>
+          </mat-card-content>
+          <mat-card-footer>
+            <mat-card-actions>
+              <a
+                class="link"
+                href="https://www.linkedin.com/in/alissonlimadev/"
+                target="_blank"
+              >
+                <fa-icon [icon]="faArrowUpRightFromSquare"></fa-icon>
+                <p>Acesse o projeto</p>
+              </a>
+            </mat-card-actions>
+            <div class="skills">
+              <a *ngFor="let skill of skillsAuthJwt">
+                <div class="placeholder"></div>
+                <div class="techs">
+                  <img
+                    mat-card-image
+                    [src]="skill.icon"
+                    width="20"
+                    height="20"
+                    [alt]="skill.alt"
+                  />
+                </div>
+              </a>
+            </div>
+          </mat-card-footer>
+        </mat-card>
+        <!--Project 3 -->
+        <mat-card data-aos="zoom-out-right">
+          <mat-card-header>
+            <mat-card-title>Portfólio</mat-card-title>
+          </mat-card-header>
+          <mat-card-content>
+            <p>
+              Esse portfólio que você está acessando. O site foi prototipado no
+              Figma e desenvolvido utilizando Angular, Angular Material e SCSS.
+              Além disso, está totalmente responsivo para tablet, mobile e
+              desktop.
+            </p>
+          </mat-card-content>
+          <mat-card-footer>
+            <mat-card-actions>
+              <a
+                class="link"
+                href="https://www.linkedin.com/in/alissonlimadev/"
+                target="_blank"
+              >
+                <fa-icon [icon]="faArrowUpRightFromSquare"></fa-icon>
+                <p>Acesse o projeto</p>
+              </a>
+            </mat-card-actions>
+            <div class="skills">
+              <a *ngFor="let skill of skillsPortfolio">
+                <div class="placeholder"></div>
+                <div class="techs">
+                  <img
+                    mat-card-image
+                    [src]="skill.icon"
+                    width="20"
+                    height="20"
+                    [alt]="skill.alt"
+                  />
+                </div>
+              </a>
+            </div>
+          </mat-card-footer>
+        </mat-card>
+        <!--Project 4 -->
+        <mat-card data-aos="zoom-out-left">
+          <mat-card-header>
+            <mat-card-title>Reset Password</mat-card-title>
+          </mat-card-header>
+          <mat-card-content>
+            <p>
+              Módulo de recuperação de senhas via e-mail, desenvolvido em Spring
+              Boot, Angular e Angular Material. O projeto conta com um pipeline
+              de CI/CD via GitHub Actions para deploy na AWS.
+            </p>
+          </mat-card-content>
+          <mat-card-footer>
+            <mat-card-actions>
+              <a
+                class="link"
+                href="https://www.linkedin.com/in/alissonlimadev/"
+                target="_blank"
+              >
+                <fa-icon [icon]="faArrowUpRightFromSquare"></fa-icon>
+                <p>Acesse o projeto</p>
+              </a>
+            </mat-card-actions>
+            <div class="skills">
+              <a *ngFor="let skill of skillsResetPassword">
+                <div class="placeholder"></div>
+                <div class="techs">
+                  <img
+                    mat-card-image
+                    [src]="skill.icon"
+                    width="20"
+                    height="20"
+                    [alt]="skill.alt"
+                  />
+                </div>
+              </a>
+            </div>
+          </mat-card-footer>
+        </mat-card>
+      </div>
+    </div>
+  </div>
+</section>
+<section id="contato" data-aos="zoom-out-up">
+  <div class="container">
+    <div class="content">
+      <div class="title">
+        <h2>Contato</h2>
+      </div>
+      <div class="description">
+        <h3>Possui alguma dúvida? Entre em contato comigo!</h3>
+      </div>
+      <div class="social-links">
+        <div
+          class="social"
+          [attr.data-aos]="social.aosAnimation"
+          *ngFor="let social of socialMedia"
+        >
+          <a
+            class="btn"
+            aria-label="Acesse minha rede social"
+            [href]="social.url"
+            target="_blank"
+            [ariaLabel]="social.alt"
           >
             <img
-              src="assets/img/profile.png"
-              alt="Avatar Alisson Lima"
-              height="300"
-              width="300"
+              [src]="social.icon"
+              width="100"
+              height="100"
+              [alt]="social.alt"
             />
           </a>
+          <p>{{ social.name }}</p>
         </div>
       </div>
     </div>
-  </section>
-  <section id="sobre" data-aos="zoom-out">
-    <div class="container">
-      <div class="content">
-        <div class="header-section">
-          <h2>Sobre mim</h2>
-        </div>
-        <div class="description">
-          <p>
-            Natural de Rio Branco/AC, me graduei em Análise e Desenvolvimento de
-            Sistemas em 2019. Atuei no desenvolvimento web como Freelancer entre
-            2020 e 2021. Em 2022 me capacitei no Desenvolvimento Web Full Stack
-            pela Universidade Federal do Acre em um projeto fomentado pela
-            Motorola e Instituto Eldorado. Sou um grande curioso quando os
-            assuntos são tecnologia, IA, obras de ficção científica e
-            astronomia.
-          </p>
-        </div>
-      </div>
-    </div>
-  </section>
-  <section id="habilidades" data-aos="zoom-out-up">
-    <div class="container">
-      <div class="content">
-        <div class="title">
-          <h2>Habilidades</h2>
-        </div>
-        <div class="description">
-          <p>Conheça algumas das tecnologias que já trabalhei:</p>
-        </div>
-        <div class="skills">
-          <!--Skill -->
-          <mat-card
-            [attr.data-aos]="skill.aosAnimation"
-            *ngFor="let skill of mySkills"
-          >
-            <img
-              mat-card-image
-              [src]="skill.icon"
-              width="45"
-              height="45"
-              [alt]="skill.alt"
-            />
-            <p>{{ skill.name }}</p>
-          </mat-card>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <section id="projetos" data-aos="zoom-out-up">
-    <div class="container">
-      <div class="content">
-        <div class="title">
-          <h2>Projetos</h2>
-        </div>
-        <div class="repo">
-          <!--Project 1 -->
-          <mat-card data-aos="zoom-out-right">
-            <mat-card-header>
-              <mat-card-title>Motovoice</mat-card-title>
-            </mat-card-header>
-            <mat-card-content>
-              <p>
-                Sistema de coleta de ideias e feedbacks de produtos Motorola,
-                desenvolvido em Springboot e Angular e conta com um painel de
-                gerenciamento e insights da plataforma (admin). O sistema foi um
-                desafio sob demanda para a conclusão da 1⁰ turma do curso
-                WebAcademy.
-              </p>
-            </mat-card-content>
-            <mat-card-footer>
-              <mat-card-actions>
-                <a
-                  class="link"
-                  href="https://www.linkedin.com/in/alissonlimadev/"
-                  target="_blank"
-                >
-                  <fa-icon [icon]="faArrowUpRightFromSquare"></fa-icon>
-                  <p>Acesse o projeto</p>
-                </a>
-              </mat-card-actions>
-              <div class="skills">
-                <a *ngFor="let skill of skillsMotoVoice">
-                  <div class="placeholder"></div>
-                  <div class="techs">
-                    <img
-                      mat-card-image
-                      [src]="skill.icon"
-                      width="20"
-                      height="20"
-                      [alt]="skill.alt"
-                    />
-                  </div>
-                </a>
-              </div>
-            </mat-card-footer>
-          </mat-card>
-          <!--Project 2 -->
-          <mat-card data-aos="zoom-out-left">
-            <mat-card-header>
-              <mat-card-title>Autenticação JWT</mat-card-title>
-            </mat-card-header>
-            <mat-card-content>
-              <p>
-                Microsserviço de autenticação JWT desenvolvido em Java,
-                Springboot, Spring Security 6 e Java 17. O projeto foi
-                orquestrado no Azure utilizando Kubernetes e Docker. Também
-                desenvolvi um front-end em Angular para consumir esse
-                microsserviço.
-              </p>
-            </mat-card-content>
-            <mat-card-footer>
-              <mat-card-actions>
-                <a
-                  class="link"
-                  href="https://www.linkedin.com/in/alissonlimadev/"
-                  target="_blank"
-                >
-                  <fa-icon [icon]="faArrowUpRightFromSquare"></fa-icon>
-                  <p>Acesse o projeto</p>
-                </a>
-              </mat-card-actions>
-              <div class="skills">
-                <a *ngFor="let skill of skillsAuthJwt">
-                  <div class="placeholder"></div>
-                  <div class="techs">
-                    <img
-                      mat-card-image
-                      [src]="skill.icon"
-                      width="20"
-                      height="20"
-                      [alt]="skill.alt"
-                    />
-                  </div>
-                </a>
-              </div>
-            </mat-card-footer>
-          </mat-card>
-          <!--Project 3 -->
-          <mat-card data-aos="zoom-out-right">
-            <mat-card-header>
-              <mat-card-title>Portfólio</mat-card-title>
-            </mat-card-header>
-            <mat-card-content>
-              <p>
-                Esse portfólio que você está acessando. O site foi prototipado
-                no Figma e desenvolvido utilizando Angular, Angular Material e
-                SCSS. Além disso, está totalmente responsivo para tablet, mobile
-                e desktop.
-              </p>
-            </mat-card-content>
-            <mat-card-footer>
-              <mat-card-actions>
-                <a
-                  class="link"
-                  href="https://www.linkedin.com/in/alissonlimadev/"
-                  target="_blank"
-                >
-                  <fa-icon [icon]="faArrowUpRightFromSquare"></fa-icon>
-                  <p>Acesse o projeto</p>
-                </a>
-              </mat-card-actions>
-              <div class="skills">
-                <a *ngFor="let skill of skillsPortfolio">
-                  <div class="placeholder"></div>
-                  <div class="techs">
-                    <img
-                      mat-card-image
-                      [src]="skill.icon"
-                      width="20"
-                      height="20"
-                      [alt]="skill.alt"
-                    />
-                  </div>
-                </a>
-              </div>
-            </mat-card-footer>
-          </mat-card>
-          <!--Project 4 -->
-          <mat-card data-aos="zoom-out-left">
-            <mat-card-header>
-              <mat-card-title>Reset Password</mat-card-title>
-            </mat-card-header>
-            <mat-card-content>
-              <p>
-                Módulo de recuperação de senhas via e-mail, desenvolvido em
-                Spring Boot, Angular e Angular Material. O projeto conta com um
-                pipeline de CI/CD via GitHub Actions para deploy na AWS.
-              </p>
-            </mat-card-content>
-            <mat-card-footer>
-              <mat-card-actions>
-                <a
-                  class="link"
-                  href="https://www.linkedin.com/in/alissonlimadev/"
-                  target="_blank"
-                >
-                  <fa-icon [icon]="faArrowUpRightFromSquare"></fa-icon>
-                  <p>Acesse o projeto</p>
-                </a>
-              </mat-card-actions>
-              <div class="skills">
-                <a *ngFor="let skill of skillsResetPassword">
-                  <div class="placeholder"></div>
-                  <div class="techs">
-                    <img
-                      mat-card-image
-                      [src]="skill.icon"
-                      width="20"
-                      height="20"
-                      [alt]="skill.alt"
-                    />
-                  </div>
-                </a>
-              </div>
-            </mat-card-footer>
-          </mat-card>
-        </div>
-      </div>
-    </div>
-  </section>
-  <section id="contato" data-aos="zoom-out-up">
-    <div class="container">
-      <div class="content">
-        <div class="title">
-          <h2>Contato</h2>
-        </div>
-        <p>Codando...</p>
-      </div>
-    </div>
-  </section>
-</main>
+  </div>
+</section>

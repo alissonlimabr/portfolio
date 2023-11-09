@@ -19,7 +19,7 @@
           <a class="link" href="#habilidades">Habilidades</a>
         </li>
         <li>
-          <a class="link" href="#projetos">Projetos</a>
+          <a (click)="closeSideNav()" class="link" href="#projetos">Projetos</a>
         </li>
         <li (click)="closeSideNav()">
           <a class="link" href="#contato">Contato</a>
@@ -31,8 +31,16 @@
   <!-- Layout -->
   <mat-sidenav-content>
     <!-- Header -->
-    <app-header class="header" (openSidenav)="sidenav.toggle()"></app-header>
-
-    <router-outlet></router-outlet>
+    <header>
+      <app-header class="header" (openSidenav)="sidenav.toggle()"></app-header>
+    </header>
+    <!-- main -->
+    <main>
+      <router-outlet></router-outlet>
+    </main>
+    <!-- footer -->
+    <footer>
+      <app-footer></app-footer>
+    </footer>
   </mat-sidenav-content>
 </mat-sidenav-container>
