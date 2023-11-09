@@ -34,6 +34,14 @@ body {
   overflow-x: hidden;
 }
 
+header {
+  position: sticky;
+  background-color: variable.$background-color;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+
 main {
   overflow: clip;
 }
@@ -54,6 +62,20 @@ h6 {
 fa-icon {
   color: variable.$purple-500;
 }
+
+footer {
+  width: 100%;
+  padding: 1rem;
+  background-color: variable.$background-color;
+  border-top: 2px solid;
+  border-color: variable.$purple-500;
+
+  @include responsive(mobile) {
+    padding: 1rem 0.5rem
+  }
+
+}
+
 
 .container {
   display: flex;
@@ -88,7 +110,7 @@ fa-icon {
     font-weight: 700;
   }
 
-  p {
+  p, h3 {
     color: variable.$gray-100;
     font-size: 20px;
     font-weight: 300;
@@ -127,16 +149,6 @@ fa-icon {
 /* ***************  */
 
 //Header component style
-
-.header {
-  display: flex !important;
-  justify-content: center;
-  background-color: variable.$background-color;
-  position: sticky;
-  top: 0;
-  z-index: 100;
-}
-
 mat-sidenav {
   display: none !important;
   min-height: 100vh;
@@ -556,7 +568,7 @@ mat-sidenav-container {
 #habilidades {
   padding: 50px 0;
   .description {
-    p {
+    h3 {
       height: 70px;
       text-align: center;
       animation-name: fadeIn;
@@ -769,4 +781,117 @@ mat-card {
 
 #contato {
   padding: 50px 0;
+  h3 {
+    text-align: center;
+  }
+
+  p {
+    text-align: center;
+    color: variable.$gray-200;
+    font-size: 16px;
+    font-weight: 700;
+  }
+  .social-links {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10%;
+    width: 90%;
+    min-height: 300px;
+    height: 100%;
+    justify-content: center;
+    align-items: center;
+
+  }
+
+  .social {
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+  }
+
+  a {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 10px;
+    width: 70px;
+    height: 70px;
+    background-color: variable.$gray-900;
+    border-radius: 10px;
+    border: 1px solid variable.$purple-800;
+    transition: 0.3s;
+
+    &:hover {
+      box-shadow: 0px 5px 15px 5px variable.$purple-800;
+      transform: scale(0.95);
+      border-color: variable.$purple-500 !important;
+    }
+  }
+
+  img {
+    width: 100%;
+    height: 100%;
+  }
+}
+
+
+/* footer */
+.footer {
+  display: flex;
+  justify-content: center;
+  height: 100%;
+  padding: 0 20px;
+
+  @include responsive(mobilePlus) {
+    padding: 0;
+  }
+}
+
+.footer-copyright {
+  display: flex;
+  flex-wrap: wrap-reverse;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  max-width: variable.$container-width;
+
+  @include responsive(mobilePlus) {
+    justify-content: center;
+    gap: 10px;
+  }
+
+  small {
+    display: flex;
+    flex-wrap: wrap;
+    font-size: 16px;
+    color: white;
+    gap: 10px;
+
+    a {
+      color: variable.$purple-500;
+      text-decoration: none;
+      font-weight: 700;
+      transition: 0.3s;
+
+      &:hover {
+        color: variable.$purple-400;
+      }
+    }
+    @include responsive(mobile) {
+      font-size: 12px;
+    }
+  }
+  .logo {
+    p {
+      font-size: 16px;
+      @include responsive(mobile) {
+        font-size: 12px;
+      }
+    }
+    fa-icon {
+      font-size: 25px;
+    }
+}
 }
