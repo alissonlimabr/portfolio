@@ -31,7 +31,8 @@
             ],
             "styles": [
               "src/styles.scss",
-              "./node_modules/aos/dist/aos.css"
+              "./node_modules/aos/dist/aos.css",
+              "src/robots.txt"
             ],
             "scripts": []
           },
@@ -91,8 +92,7 @@
             "inlineStyleLanguage": "scss",
             "assets": [
               "src/favicon.ico",
-              "src/assets",
-              "src/robots.txt"
+              "src/assets"
             ],
             "styles": [
               "src/styles.scss",
