@@ -27,12 +27,12 @@
             "inlineStyleLanguage": "scss",
             "assets": [
               "src/favicon.ico",
-              "src/assets"
+              "src/assets",
+              "src/robots.txt"
             ],
             "styles": [
               "src/styles.scss",
-              "./node_modules/aos/dist/aos.css",
-              "src/robots.txt"
+              "./node_modules/aos/dist/aos.css"
             ],
             "scripts": []
           },
@@ -92,7 +92,8 @@
             "inlineStyleLanguage": "scss",
             "assets": [
               "src/favicon.ico",
-              "src/assets"
+              "src/assets",
+              "src/robots.txt"
             ],
             "styles": [
               "src/styles.scss",
