@@ -7,8 +7,7 @@
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-  font-family: Roboto, sans-serif;
-  scroll-behavior: smooth;
+
 }
 
 ::-webkit-scrollbar {
@@ -21,8 +20,14 @@
   background: variable.$purple-400;
   border-radius: 20px;
 }
+html {
+  font-family: Roboto, sans-serif;  scroll-behavior: smooth;
+  scroll-padding-top: 50px;
+
+}
 
 body {
+  position: sticky;
   width: 100%;
   height: 100%;
   background: variable.$background-color;
@@ -30,7 +35,7 @@ body {
 }
 
 main {
-  overflow: hidden;
+  overflow: clip;
 }
 
 
@@ -53,6 +58,7 @@ fa-icon {
 .container {
   display: flex;
   justify-content: center;
+
 }
 
 .header-section {
@@ -342,23 +348,19 @@ mat-sidenav-container {
 #perfil {
   @include responsive(mobilePlus) {
     height: 100vh;
+    max-height: 600px;
+    padding: 50px 0;
     align-items: center;
     display: flex;
     justify-content: center;
-    padding-top: 100px;
-
   }
 
-  @include responsive(tabletplus) {
-    height: 600px;
-  }
 }
 
 .profile {
   display: flex;
   padding: 0 90px;
-  height: 80vh;
-  padding-top: 10vh;
+  height: 100vh;
   align-items: center;
   max-height: 600px;
   justify-content: space-between;
@@ -544,16 +546,15 @@ mat-sidenav-container {
 /*  About section */
 
 #sobre {
-  padding-top: 100px;
+  padding: 50px 0;
+
 }
 
 
 
 /*  Skill section */
 #habilidades {
-  min-height: 500px;
-  padding-top: 150px;
-
+  padding: 50px 0;
   .description {
     p {
       height: 70px;
@@ -613,8 +614,7 @@ mat-card {
 
 /*  Projects section */
 #projetos {
-  padding-top: 150px;
-  margin-bottom: 150px;
+  padding: 50px 0;
 }
 
 .repo {
@@ -768,5 +768,5 @@ mat-card {
 }
 
 #contato {
-  min-height: 500px;
+  padding: 50px 0;
 }
