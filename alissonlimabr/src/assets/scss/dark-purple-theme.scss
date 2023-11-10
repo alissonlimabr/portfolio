@@ -7,6 +7,7 @@
   margin: 0;
   padding: 0;
   box-sizing: border-box;
+  text-decoration: none;
 
 }
 
@@ -20,6 +21,11 @@
   background: variable.$purple-400;
   border-radius: 20px;
 }
+
+::selection {
+  background-color: variable.$purple-600;
+  color: variable.$white;
+}
 html {
   font-family: Roboto, sans-serif;  scroll-behavior: smooth;
   scroll-padding-top: 50px;
@@ -32,12 +38,14 @@ body {
   height: 100%;
   background: variable.$background-color;
   overflow-x: hidden;
+  color: white;
 }
 
 header {
   position: sticky;
   background-color: variable.$background-color;
   position: sticky;
+  color: variable.$white;
   top: 0;
   z-index: 100;
 }
@@ -46,18 +54,6 @@ main {
   overflow: clip;
 }
 
-
-p,
-a,
-h1,
-h2,
-h3,
-h4,
-h5,
-h6 {
-  color: variable.$white;
-  text-decoration: none;
-}
 
 fa-icon {
   color: variable.$purple-500;
@@ -172,9 +168,11 @@ mat-sidenav {
 
 
 
-    h1 {
+    a {
       width: 80%;
       font-size: 24px;
+      text-decoration: none;
+      color: variable.$white;
 
       @include responsive(mobile) {
         font-size: 18px;
@@ -251,6 +249,9 @@ mat-toolbar {
   justify-content: space-between;
   width: 100%;
   max-width: variable.$container-width;
+  a {
+    color: variable.$white;
+  }
 
   @include responsive(tabletplus) {
     display: flex;
@@ -316,6 +317,12 @@ mat-sidenav-container {
   li {
     display: flex;
     padding: 5px;
+
+    @include responsive(tabletplus) {
+      padding: 20px;
+      min-width: 40%;
+      text-align: center;
+    }
   }
 }
 
@@ -328,6 +335,7 @@ mat-sidenav-container {
   padding: 5px 10px;
   text-decoration: none;
   transition: 0.2s;
+  color: variable.$white;
 
   &:hover {
 
@@ -479,6 +487,7 @@ mat-sidenav-container {
       padding: 8px 40px;
       border-radius: 40px;
       font-size: 16px;
+      color: variable.$white;
       font-weight: 500;
       transition: 0.4s;
 
@@ -492,7 +501,7 @@ mat-sidenav-container {
 
         &:hover {
           background-color: transparent;
-          transform: scale(0.95)
+          transform: scale(0.95);
         }
       }
 
@@ -502,7 +511,7 @@ mat-sidenav-container {
 
         &:hover {
           background-color: variable.$purple-500;
-          transform: scale(0.95)
+          transform: scale(0.95);
         }
       }
 
@@ -520,12 +529,12 @@ mat-sidenav-container {
         variable.$purple-400 60%,
         variable.$purple-500 100%);
     background-origin: border-box;
-    box-shadow: inset 0 100vw variable.$background-color;
     border: 5px solid transparent;
     border-radius: 40% 60% 70% 30% / 40% 50% 60% 50%;
     overflow: hidden;
     animation: morph 10s linear infinite;
     transition: 0.3s;
+
 
     &:hover {
       transform: scale(0.95);
@@ -534,6 +543,7 @@ mat-sidenav-container {
     img {
       width: 100%;
       height: 100%;
+      background: variable.$background-color;
     }
 
 
@@ -603,7 +613,7 @@ mat-card {
   background-color: #151515 !important;
   border-width: 2px !important;
   border-style: solid !important;
-  border-color: variable.$purple-400 !important;
+  border-color: variable.$purple-500 !important;
   padding: 10px 5px;
   gap: 5px;
   box-shadow: rgba(0, 0, 0, 0.24) 0px 5px 12px;
@@ -619,7 +629,7 @@ mat-card {
   &:hover {
     box-shadow: 0px 5px 15px 5px variable.$purple-800;
     transform: translateY(-5px) !important;
-    border-color: variable.$purple-600 !important;
+    border-color: variable.$purple-400 !important;
   }
 
 }
@@ -676,7 +686,7 @@ mat-card {
     padding: 10px 0;
     font-weight: 700;
     font-size: 20px;
-    width: 50%;
+    width: 70%;
     border-bottom: 1px solid transparent;
     border-image: linear-gradient(90deg, variable.$purple-700 30%, rgba(variable.$purple-500, 0%) 80%);
     border-image-slice: 1;
@@ -716,6 +726,12 @@ mat-card {
     font-size: 14px;
     width: 100%;
 
+    .link {
+      &:before {
+        height: 1px;
+      }
+    }
+
     P {
       text-align: start !important;
     }
@@ -724,15 +740,29 @@ mat-card {
   a {
     display: flex;
     gap: 10px;
-    padding: 10px 0;
+    padding: 15px 0;
     align-items: center;
   }
 
-  p {
+  h3, p {
     text-align: justify;
     color: white;
     font-weight: 300 !important;
     font-size: 16px;
+
+    @include responsive(mobile) {
+      font-size: 12px;
+      font-weight: 500 !important;
+    }
+  }
+  h4 {
+    padding: 35px 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    font-size: 16px;
+    font-weight: 300 !important;
 
     @include responsive(mobile) {
       font-size: 12px;
@@ -781,6 +811,7 @@ mat-card {
 
 #contato {
   padding: 50px 0;
+
   h3 {
     text-align: center;
   }
@@ -801,6 +832,13 @@ mat-card {
     justify-content: center;
     align-items: center;
 
+    @include responsive(mobile){
+      gap: 15%;
+    }
+
+    @include responsive(mobilePlus){
+      gap: 20%;
+    }
   }
 
   .social {
@@ -809,6 +847,7 @@ mat-card {
     flex-direction: column;
     align-items: center;
     gap: 20px;
+
   }
 
   a {
@@ -827,6 +866,11 @@ mat-card {
       box-shadow: 0px 5px 15px 5px variable.$purple-800;
       transform: scale(0.95);
       border-color: variable.$purple-500 !important;
+    }
+
+    @include responsive(mobilePlus){
+      width: 50px;
+      height: 50px;
     }
   }
 
