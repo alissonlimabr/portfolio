@@ -6,13 +6,13 @@ import {
   faXmark,
 } from '@fortawesome/free-solid-svg-icons';
 import * as AOS from 'aos';
-import { MY_SKILLS } from '../constants/my-skills.constant';
-import { MOTOVOICE_SKILLS } from '../constants/motovoice-skills.constant';
-import { AUTH_JWT_SKILLS } from '../constants/auth-jwt-skills.constant';
-import { RESET_PASSWORD_SKILLS } from '../constants/reset-password-skills.constant';
-import { PORTFOLIO_SKILLS } from '../constants/portfolio-skills.constant';
-import { SOCIAL_MEDIA } from '../constants/social-media.constant';
-import { EVENT_PLATAFORM_SKILLS } from '../constants/event-plataform-skills.constant';
+import { AUTH_JWT_SKILLS } from 'src/app/constants/auth-jwt-skills.constant';
+import { EVENT_PLATAFORM_SKILLS } from 'src/app/constants/event-plataform-skills.constant';
+import { MOTOVOICE_SKILLS } from 'src/app/constants/motovoice-skills.constant';
+import { MY_SKILLS } from 'src/app/constants/my-skills.constant';
+import { PORTFOLIO_SKILLS } from 'src/app/constants/portfolio-skills.constant';
+import { RESET_PASSWORD_SKILLS } from 'src/app/constants/reset-password-skills.constant';
+import { SOCIAL_MEDIA } from 'src/app/constants/social-media.constant';
 
 @Component({
   selector: 'app-home',
