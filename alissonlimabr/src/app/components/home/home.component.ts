@@ -12,6 +12,7 @@ import { AUTH_JWT_SKILLS } from '../constants/auth-jwt-skills.constant';
 import { RESET_PASSWORD_SKILLS } from '../constants/reset-password-skills.constant';
 import { PORTFOLIO_SKILLS } from '../constants/portfolio-skills.constant';
 import { SOCIAL_MEDIA } from '../constants/social-media.constant';
+import { EVENT_PLATAFORM_SKILLS } from '../constants/event-plataform-skills.constant';
 
 @Component({
   selector: 'app-home',
@@ -28,6 +29,7 @@ export class HomeComponent implements OnInit {
   skillsAuthJwt = AUTH_JWT_SKILLS;
   skillsPortfolio = PORTFOLIO_SKILLS;
   skillsResetPassword = RESET_PASSWORD_SKILLS;
+  skillsEventPlataform = EVENT_PLATAFORM_SKILLS;
   socialMedia = SOCIAL_MEDIA;
 
   ngOnInit(): void {

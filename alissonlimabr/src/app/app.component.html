@@ -4,7 +4,7 @@
   <mat-sidenav #sidenav mode="over" [(opened)]="opened">
     <span class="logo">
       <fa-icon [icon]="faCode"></fa-icon>
-      <h1>ALISSONLIMADEV</h1>
+      <a>ALISSONLIMADEV</a>
       <fa-icon id="close" [icon]="faXmark" (click)="sidenav.toggle()"></fa-icon>
     </span>
     <span class="nav-links">
@@ -13,7 +13,7 @@
           <a class="link" href="#perfil">Perfil</a>
         </li>
         <li (click)="closeSideNav()">
-          <a href="#sobre">Sobre mim</a>
+          <a class="link" href="#sobre">Sobre mim</a>
         </li>
         <li (click)="closeSideNav()">
           <a class="link" href="#habilidades">Habilidades</a>

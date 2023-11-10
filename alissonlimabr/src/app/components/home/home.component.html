@@ -20,13 +20,6 @@
             >
             </ngx-typed-writer>
           </h2>
-
-          <noscript>
-            <h2 id="jobs-hobbies">
-              Desenvolvedor Full Stack, Analista de Sistemas, Apaixonado por
-              tecnologia.
-            </h2>
-          </noscript>
           <p></p>
         </div>
 
@@ -49,7 +42,7 @@
           target="_blank"
         >
           <img
-            src="assets/img/profile.png"
+            src="assets/img/profile.webp"
             alt="Avatar Alisson Lima"
             height="300"
             width="300"
@@ -66,14 +59,16 @@
         <h2>Sobre mim</h2>
       </div>
       <div class="description">
-        <p>
-          Natural de Rio Branco/AC, me graduei em Análise e Desenvolvimento de
-          Sistemas em 2019. Atuei no desenvolvimento web como Freelancer entre
-          2020 e 2021. Em 2022 me capacitei no Desenvolvimento Web Full Stack
-          pela Universidade Federal do Acre em um projeto fomentado pela
-          Motorola e Instituto Eldorado. Sou um grande curioso quando os
-          assuntos são tecnologia, IA, obras de ficção científica e astronomia.
-        </p>
+        <h3>
+          Olá, sou Alisson Lima, um Desenvolvedor Full Stack apaixonado por
+          tecnologia e sempre em busca de novos desafios. Nasci em Rio Branco,
+          Acre, e me formei em Análise e Desenvolvimento de Sistemas em 2019.
+          Estou sempre participando de bootcamps, principalmente em Java,
+          Springboot, Angular e Cloud como AWS e Azure. Tenho um grande
+          interesse em Inteligência Artificial, obras de ficção científica e
+          astronomia, e estou sempre procurando aprender mais sobre esses
+          campos.
+        </h3>
       </div>
     </div>
   </div>
@@ -85,7 +80,10 @@
         <h2>Habilidades</h2>
       </div>
       <div class="description">
-        <h3>Conheça algumas das tecnologias que já trabalhei</h3>
+        <h3>
+          Algumas das tecnologias que tenho conhecimentos e/ou já desenvolvi
+          projetos com elas:
+        </h3>
       </div>
       <div class="skills">
         <!--Skill -->
@@ -120,20 +118,21 @@
             <mat-card-title>Motovoice</mat-card-title>
           </mat-card-header>
           <mat-card-content>
-            <p>
+            <h3>
               Sistema de coleta de ideias e feedbacks de produtos Motorola,
               desenvolvido em Springboot e Angular e conta com um painel de
               gerenciamento e insights da plataforma (admin). O sistema foi um
               desafio sob demanda para a conclusão da 1⁰ turma do curso
               WebAcademy.
-            </p>
+            </h3>
           </mat-card-content>
           <mat-card-footer>
             <mat-card-actions>
               <a
                 class="link"
-                href="https://www.linkedin.com/in/alissonlimadev/"
+                href="https://motovoice.alissonlimadev.com/"
                 target="_blank"
+                aria-label="Clique para acessar o projeto: Motovoice."
               >
                 <fa-icon [icon]="faArrowUpRightFromSquare"></fa-icon>
                 <p>Acesse o projeto</p>
@@ -161,19 +160,20 @@
             <mat-card-title>Autenticação JWT</mat-card-title>
           </mat-card-header>
           <mat-card-content>
-            <p>
+            <h3>
               Microsserviço de autenticação JWT desenvolvido em Java,
               Springboot, Spring Security 6 e Java 17. O projeto foi orquestrado
               no Azure utilizando Kubernetes e Docker. Também desenvolvi um
               front-end em Angular para consumir esse microsserviço.
-            </p>
+            </h3>
           </mat-card-content>
           <mat-card-footer>
             <mat-card-actions>
               <a
                 class="link"
-                href="https://www.linkedin.com/in/alissonlimadev/"
+                href="https://github.com/alissonlimabr/microservice-login-jwt"
                 target="_blank"
+                aria-label="Clique para acessar o projeto: Microservice Login JWT."
               >
                 <fa-icon [icon]="faArrowUpRightFromSquare"></fa-icon>
                 <p>Acesse o projeto</p>
@@ -201,19 +201,20 @@
             <mat-card-title>Portfólio</mat-card-title>
           </mat-card-header>
           <mat-card-content>
-            <p>
-              Esse portfólio que você está acessando. O site foi prototipado no
-              Figma e desenvolvido utilizando Angular, Angular Material e SCSS.
-              Além disso, está totalmente responsivo para tablet, mobile e
-              desktop.
-            </p>
+            <h3>
+              Portfólio pessoal de desenvolvedor full stack. O site foi
+              prototipado no Figma e desenvolvido utilizando Angular, Angular
+              Material e SCSS. Além disso, está totalmente responsivo para
+              tablet, mobile e desktop.
+            </h3>
           </mat-card-content>
           <mat-card-footer>
             <mat-card-actions>
               <a
                 class="link"
-                href="https://www.linkedin.com/in/alissonlimadev/"
+                href="https://github.com/alissonlimabr/portfolio"
                 target="_blank"
+                aria-label="Clique para acessar o projeto: Portfolio."
               >
                 <fa-icon [icon]="faArrowUpRightFromSquare"></fa-icon>
                 <p>Acesse o projeto</p>
@@ -241,17 +242,18 @@
             <mat-card-title>Reset Password</mat-card-title>
           </mat-card-header>
           <mat-card-content>
-            <p>
+            <h3>
               Módulo de recuperação de senhas via e-mail, desenvolvido em Spring
               Boot, Angular e Angular Material. O projeto conta com um pipeline
               de CI/CD via GitHub Actions para deploy na AWS.
-            </p>
+            </h3>
           </mat-card-content>
           <mat-card-footer>
             <mat-card-actions>
               <a
                 class="link"
-                href="https://www.linkedin.com/in/alissonlimadev/"
+                href="https://github.com/alissonlimabr/forgotPassword"
+                aria-label="Clique para acessar o projeto: ResetPassword."
                 target="_blank"
               >
                 <fa-icon [icon]="faArrowUpRightFromSquare"></fa-icon>
@@ -274,6 +276,58 @@
             </div>
           </mat-card-footer>
         </mat-card>
+        <!--Project 5 -->
+        <mat-card data-aos="zoom-out-left">
+          <mat-card-header>
+            <mat-card-title>Plataforma de eventos</mat-card-title>
+          </mat-card-header>
+          <mat-card-content>
+            <h3>
+              Plataforma de hospedagem de vídeos e aulas desenvolvida utilizando
+              ReactJs, Vite, GraphQL e Tailwind. O projeto foi fomentado pela
+              Rocketseat através do curso Ignite Lab.
+            </h3>
+          </mat-card-content>
+          <mat-card-footer>
+            <mat-card-actions>
+              <a
+                class="link"
+                href="https://github.com/alissonlimabr/event-plataform-reactjs"
+                aria-label="Clique para acessar o projeto: Plataforma de eventos."
+                target="_blank"
+              >
+                <fa-icon [icon]="faArrowUpRightFromSquare"></fa-icon>
+                <p>Acesse o projeto</p>
+              </a>
+            </mat-card-actions>
+            <div class="skills">
+              <a *ngFor="let skill of skillsEventPlataform">
+                <div class="placeholder"></div>
+                <div class="techs">
+                  <img
+                    mat-card-image
+                    [src]="skill.icon"
+                    width="20"
+                    height="20"
+                    [alt]="skill.alt"
+                  />
+                </div>
+              </a>
+            </div>
+          </mat-card-footer>
+        </mat-card>
+        <!--Project 6 -->
+        <mat-card data-aos="zoom-out-left">
+          <mat-card-header>
+            <mat-card-title>Em Desenvolvimento</mat-card-title>
+          </mat-card-header>
+          <mat-card-content>
+            <h4>
+              Ainda estou desenvolvendo esse projeto, mas lugar dele já está
+              reservado aqui no portfólio!
+            </h4>
+          </mat-card-content>
+        </mat-card>
       </div>
     </div>
   </div>
@@ -285,7 +339,10 @@
         <h2>Contato</h2>
       </div>
       <div class="description">
-        <h3>Possui alguma dúvida? Entre em contato comigo!</h3>
+        <h3>
+          Possui alguma dúvida? Entre em contato comigo através dos canais
+          abaixo!
+        </h3>
       </div>
       <div class="social-links">
         <div
@@ -297,7 +354,7 @@
             class="btn"
             aria-label="Acesse minha rede social"
             [href]="social.url"
-            target="_blank"
+            [target]="social.name === 'Gmail' ? '_self' : '_blank'"
             [ariaLabel]="social.alt"
           >
             <img
