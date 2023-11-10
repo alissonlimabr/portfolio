@@ -3,7 +3,7 @@
 
 ###
  
-<img src="https://github.com/alissonlimabr/portfolio/assets/101370736/1b954f1f-afa5-4578-a3d6-af014a3fc09e">
+<img src="https://github.com/alissonlimabr/portfolio/assets/101370736/7ef9db6a-eedf-4b7d-94a6-3f2e97e2b8b4">
 </div>
 
 <h1 align="center">Portfólio - Alisson Lima </h1>
