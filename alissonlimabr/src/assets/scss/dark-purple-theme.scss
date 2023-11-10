@@ -106,17 +106,15 @@ footer {
     font-weight: 700;
   }
 
-  p, h3 {
+  h3 {
     color: variable.$gray-100;
     font-size: 20px;
     font-weight: 300;
-    word-spacing: 2px;
     line-height: 2;
     text-align: justify;
 
     @include responsive(mobilePlus) {
       font-size: 16px;
-      word-spacing: 1px;
     }
   }
 
@@ -128,7 +126,7 @@ footer {
   align-items: center;
   flex-direction: column;
   padding: 0 100px;
-  gap: 30px;
+  gap: 40px;
   width: 100%;
   max-width: variable.$container-width !important;
 
@@ -579,10 +577,7 @@ mat-sidenav-container {
   padding: 50px 0;
   .description {
     h3 {
-      height: 70px;
       text-align: center;
-      animation-name: fadeIn;
-      animation-duration: 0.5s;
     }
   }
 
