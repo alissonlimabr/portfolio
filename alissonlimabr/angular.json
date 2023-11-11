@@ -17,7 +17,7 @@
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
-            "outputPath": "dist/alissonlimabr",
+            "outputPath": "dist/alissonlimabr/browser",
             "index": "src/index.html",
             "main": "src/main.ts",
             "polyfills": [
@@ -101,6 +101,61 @@
             ],
             "scripts": []
           }
+        },
+        "server": {
+          "builder": "@angular-devkit/build-angular:server",
+          "options": {
+            "outputPath": "dist/alissonlimabr/server",
+            "main": "server.ts",
+            "tsConfig": "tsconfig.server.json",
+            "inlineStyleLanguage": "scss"
+          },
+          "configurations": {
+            "production": {
+              "outputHashing": "media"
+            },
+            "development": {
+              "buildOptimizer": false,
+              "optimization": false,
+              "sourceMap": true,
+              "extractLicenses": false,
+              "vendorChunk": true
+            }
+          },
+          "defaultConfiguration": "production"
+        },
+        "serve-ssr": {
+          "builder": "@nguniversal/builders:ssr-dev-server",
+          "configurations": {
+            "development": {
+              "browserTarget": "alissonlimabr:build:development",
+              "serverTarget": "alissonlimabr:server:development"
+            },
+            "production": {
+              "browserTarget": "alissonlimabr:build:production",
+              "serverTarget": "alissonlimabr:server:production"
+            }
+          },
+          "defaultConfiguration": "development"
+        },
+        "prerender": {
+          "builder": "@nguniversal/builders:prerender",
+          "options": {
+            "routes": [
+              "/"
+            ]
+          },
+          "configurations": {
+            "production": {
+              "browserTarget": "alissonlimabr:build:production",
+              "serverTarget": "alissonlimabr:server:production"
+            },
+            "development": {
+              "browserTarget": "alissonlimabr:build:development",
+              "serverTarget": "alissonlimabr:server:development"
+            }
+          },
+          "defaultConfiguration": "production"
         }
       }
     }
