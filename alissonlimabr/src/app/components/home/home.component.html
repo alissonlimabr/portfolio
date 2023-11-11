@@ -3,9 +3,9 @@
     <div class="profile">
       <div class="intro">
         <div class="welcome">
-          <p>Olá,</p>
-          <h1>Sou o Alisson Lima</h1>
-          <h2>
+          <h1>Portfólio</h1>
+          <h2>Alisson Lima</h2>
+          <p>
             <ngx-typed-writer
               [strings]="[
                 'Desenvolvedor Full Stack',
@@ -19,7 +19,7 @@
               [backDelay]="3000"
             >
             </ngx-typed-writer>
-          </h2>
+          </p>
           <p></p>
         </div>
 
@@ -55,11 +55,11 @@
 <section id="sobre" data-aos="zoom-out">
   <div class="container">
     <div class="content">
-      <div class="header-section">
+      <div class="title">
         <h2>Sobre mim</h2>
       </div>
       <div class="description">
-        <h3>
+        <p>
           Olá, sou Alisson Lima, um Desenvolvedor Full Stack apaixonado por
           tecnologia e sempre em busca de novos desafios. Nasci em Rio Branco,
           Acre, e me formei em Análise e Desenvolvimento de Sistemas em 2019.
@@ -68,7 +68,7 @@
           interesse em Inteligência Artificial, obras de ficção científica e
           astronomia, e estou sempre procurando aprender mais sobre esses
           campos.
-        </h3>
+        </p>
       </div>
     </div>
   </div>
@@ -97,7 +97,7 @@
             height="45"
             [alt]="skill.alt"
           />
-          <p>{{ skill.name }}</p>
+          <h4>{{ skill.name }}</h4>
         </mat-card>
       </div>
     </div>
@@ -114,16 +114,18 @@
         <!--Project 1 -->
         <mat-card data-aos="zoom-out-right">
           <mat-card-header>
-            <mat-card-title>Motovoice</mat-card-title>
+            <mat-card-title>
+              <h3>Motovoice</h3>
+            </mat-card-title>
           </mat-card-header>
           <mat-card-content>
-            <h3>
+            <p>
               Sistema de coleta de ideias e feedbacks de produtos Motorola,
               desenvolvido em Springboot e Angular e conta com um painel de
               gerenciamento e insights da plataforma (admin). O sistema foi um
               desafio sob demanda para a conclusão da 1⁰ turma do curso
               WebAcademy.
-            </h3>
+            </p>
           </mat-card-content>
           <mat-card-footer>
             <mat-card-actions>
@@ -156,15 +158,17 @@
         <!--Project 2 -->
         <mat-card data-aos="zoom-out-left">
           <mat-card-header>
-            <mat-card-title>Autenticação JWT</mat-card-title>
+            <mat-card-title>
+              <h3>Autenticação JWT</h3>
+            </mat-card-title>
           </mat-card-header>
           <mat-card-content>
-            <h3>
+            <p>
               Microsserviço de autenticação JWT desenvolvido em Java,
               Springboot, Spring Security 6 e Java 17. O projeto foi orquestrado
               no Azure utilizando Kubernetes e Docker. Também desenvolvi um
               front-end em Angular para consumir esse microsserviço.
-            </h3>
+            </p>
           </mat-card-content>
           <mat-card-footer>
             <mat-card-actions>
@@ -197,15 +201,17 @@
         <!--Project 3 -->
         <mat-card data-aos="zoom-out-right">
           <mat-card-header>
-            <mat-card-title>Portfólio</mat-card-title>
+            <mat-card-title>
+              <h3>Portfólio</h3>
+            </mat-card-title>
           </mat-card-header>
           <mat-card-content>
-            <h3>
+            <p>
               Portfólio pessoal de desenvolvedor full stack. O site foi
               prototipado no Figma e desenvolvido utilizando Angular, Angular
               Material e SCSS. Além disso, está totalmente responsivo para
               tablet, mobile e desktop.
-            </h3>
+            </p>
           </mat-card-content>
           <mat-card-footer>
             <mat-card-actions>
@@ -238,14 +244,16 @@
         <!--Project 4 -->
         <mat-card data-aos="zoom-out-left">
           <mat-card-header>
-            <mat-card-title>Reset Password</mat-card-title>
+            <mat-card-title>
+              <h3>Reset Password</h3>
+            </mat-card-title>
           </mat-card-header>
           <mat-card-content>
-            <h3>
+            <p>
               Módulo de recuperação de senhas via e-mail, desenvolvido em Spring
               Boot, Angular e Angular Material. O projeto conta com um pipeline
               de CI/CD via GitHub Actions para deploy na AWS.
-            </h3>
+            </p>
           </mat-card-content>
           <mat-card-footer>
             <mat-card-actions>
@@ -278,14 +286,16 @@
         <!--Project 5 -->
         <mat-card data-aos="zoom-out-right">
           <mat-card-header>
-            <mat-card-title>Plataforma de eventos</mat-card-title>
+            <mat-card-title>
+              <h3>Plataforma de eventos</h3>
+            </mat-card-title>
           </mat-card-header>
           <mat-card-content>
-            <h3>
+            <p>
               Plataforma de hospedagem de vídeos e aulas desenvolvida utilizando
               ReactJs, Vite, GraphQL e Tailwind. O projeto foi fomentado pela
               Rocketseat através do curso Ignite Lab.
-            </h3>
+            </p>
           </mat-card-content>
           <mat-card-footer>
             <mat-card-actions>
@@ -318,13 +328,15 @@
         <!--Project 6 -->
         <mat-card data-aos="zoom-out-left">
           <mat-card-header>
-            <mat-card-title>Em Desenvolvimento</mat-card-title>
+            <mat-card-title>
+              <h3>Em Desenvolvimento</h3>
+            </mat-card-title>
           </mat-card-header>
-          <mat-card-content>
-            <h4>
+          <mat-card-content class="upcoming">
+            <p>
               Ainda estou desenvolvendo esse projeto, mas ele já tem lugar
               reservado aqui no portfólio!
-            </h4>
+            </p>
           </mat-card-content>
         </mat-card>
       </div>
@@ -363,7 +375,7 @@
               [alt]="social.alt"
             />
           </a>
-          <p>{{ social.name }}</p>
+          <h4>{{ social.name }}</h4>
         </div>
       </div>
     </div>
