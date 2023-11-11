@@ -1,0 +1,11 @@
+{
+  "version": 2,
+  "public": false,
+  "name": "alissonlimabr",
+  "rewrites": [{ "source": "/(.*)", "destination": "/api" }],
+  "functions": {
+    "api/index.js": {
+      "includeFiles": "dist/alissonlimabr/**"
+    }
+  }
+}
