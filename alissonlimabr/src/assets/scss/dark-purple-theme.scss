@@ -23,7 +23,7 @@
 }
 
 ::selection {
-  background-color: variable.$purple-600;
+  background-color: variable.$purple-400;
   color: variable.$white;
 }
 html {
@@ -56,7 +56,7 @@ main {
 
 
 fa-icon {
-  color: variable.$purple-500;
+  color: variable.$purple-400;
 }
 
 footer {
@@ -106,7 +106,7 @@ footer {
     font-weight: 700;
   }
 
-  h3 {
+  h3,p {
     color: variable.$gray-100;
     font-size: 20px;
     font-weight: 300;
@@ -416,21 +416,6 @@ mat-sidenav-container {
   }
 
   h2 {
-    font-size: 32px;
-    font-weight: 700;
-    color: variable.$purple-400;
-
-    @include responsive(tabletplus) {
-      font-size: 28px;
-    }
-
-    @include responsive(tablet) {
-      font-size: 24px;
-    }
-
-  }
-
-  p {
     font-size: 48px;
     font-weight: 700;
 
@@ -444,6 +429,21 @@ mat-sidenav-container {
 
     @include responsive(mobile) {
       font-size: 30px;
+    }
+
+  }
+
+  p {
+    font-size: 32px;
+    font-weight: 700;
+    color: variable.$purple-400;
+
+    @include responsive(tabletplus) {
+      font-size: 28px;
+    }
+
+    @include responsive(tablet) {
+      font-size: 24px;
     }
 
   }
@@ -594,6 +594,7 @@ mat-sidenav-container {
     width: 110px;
     height: 110px;
   }
+
 }
 
 .example-card {
@@ -614,7 +615,7 @@ mat-card {
   box-shadow: rgba(0, 0, 0, 0.24) 0px 5px 12px;
   transition: 0.3s !important;
 
-  p {
+  h4 {
     color: variable.$purple-400;
     font-weight: 700;
     text-align: center;
@@ -642,6 +643,31 @@ mat-card {
   gap: 40px 10px;
   padding-top: 70px;
   justify-content: space-evenly;
+
+  h3 {
+    font-size: 20px;
+    color: white;
+
+  }
+
+  a {
+    display: flex;
+    gap: 10px;
+    padding: 15px 0;
+    align-items: center;
+  }
+
+  p {
+    text-align: justify;
+    color: white;
+    font-weight: 300 !important;
+    font-size: 16px;
+
+    @include responsive(mobile) {
+      font-size: 12px;
+      font-weight: 500 !important;
+    }
+  }
 
   mat-card {
     width: 430px;
@@ -680,7 +706,6 @@ mat-card {
     display: flex;
     padding: 10px 0;
     font-weight: 700;
-    font-size: 20px;
     width: 70%;
     border-bottom: 1px solid transparent;
     border-image: linear-gradient(90deg, variable.$purple-700 30%, rgba(variable.$purple-500, 0%) 80%);
@@ -692,7 +717,6 @@ mat-card {
   }
 
   mat-card-title {
-    color: white;
     width: 100%;
   }
 
@@ -727,43 +751,12 @@ mat-card {
       }
     }
 
-    P {
+    h3 {
       text-align: start !important;
     }
   }
 
-  a {
-    display: flex;
-    gap: 10px;
-    padding: 15px 0;
-    align-items: center;
-  }
 
-  h3, p {
-    text-align: justify;
-    color: white;
-    font-weight: 300 !important;
-    font-size: 16px;
-
-    @include responsive(mobile) {
-      font-size: 12px;
-      font-weight: 500 !important;
-    }
-  }
-  h4 {
-    padding: 35px 0;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    text-align: center;
-    font-size: 16px;
-    font-weight: 300 !important;
-
-    @include responsive(mobile) {
-      font-size: 12px;
-      font-weight: 500 !important;
-    }
-  }
 
   .skills {
     gap: 8px;
@@ -802,6 +795,23 @@ mat-card {
       }
     }
   }
+
+  .upcoming {
+    p {
+      padding: 35px 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      font-size: 16px;
+      font-weight: 300 !important;
+
+      @include responsive(mobile) {
+        font-size: 12px;
+        font-weight: 500 !important;
+      }
+    }
+  }
 }
 
 #contato {
@@ -811,12 +821,13 @@ mat-card {
     text-align: center;
   }
 
-  p {
+  h4 {
     text-align: center;
     color: variable.$gray-200;
     font-size: 16px;
     font-weight: 700;
   }
+
   .social-links {
     display: flex;
     flex-wrap: wrap;
@@ -901,7 +912,7 @@ mat-card {
     gap: 10px;
   }
 
-  small {
+  p {
     display: flex;
     flex-wrap: wrap;
     font-size: 16px;
@@ -920,6 +931,7 @@ mat-card {
     }
     @include responsive(mobile) {
       font-size: 12px;
+      gap: 5px;
     }
   }
   .logo {
