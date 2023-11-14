@@ -1,5 +1,5 @@
 <div align="center">
-<img src="https://github.com/alissonlimabr/portfolio/assets/101370736/44fa36ed-83e7-4469-a51a-4ae93c248f99">
+<img src="https://github.com/alissonlimabr/portfolio/assets/101370736/8eb0af67-e05f-46ff-95eb-ecce083e169f">
 
 ###
  
@@ -15,7 +15,7 @@
  <a href="#-licença">Licença</a>
 </p>
 
-<p align="center"> Portfólio de Desenvolvedor feito utilizando framework Angular e Angular Material. Desenvolvido como uma landing page, o site possui uma paleta de cores Dark/Purple, além de transições suaves e agradáveis entre as seções.</p>
+<p align="center"> Portfólio de Desenvolvedor construído utilizando o framework Angular, juntamente com Angular Material e SCSS. O projeto é aprimorado com SSR para melhor desempenho e otimização de SEO. Além disso, o site possui uma paleta de cores Dark/Purple, bem como transições suaves e agradáveis entre as seções.</p>
 
 
 
@@ -25,10 +25,10 @@
 
 ### ✅ Features
 
+- [x] Server-Side Rendering (SSR)
 - [x] Responsividade mobile
 - [x] Trasições fluidas
 - [x] Paleta de cores Dark/Purple
-- [x] Otimizações SEO
 - [x] Seção com skills adquiridas
 - [x] Seção com projetos desenvolvidos
 - [x] Seção para contato
@@ -40,6 +40,7 @@ As seguintes ferramentas foram usadas na construção do projeto:
 
 - [Angular 16](https://angular.io/)
 - [Angular Material](https://material.angular.io/)
+- [Angular Universal (SSR)](https://angulardoc.com.br/guide/universal)
 - [SCSS](https://sass-lang.com/)
 - [AOS](https://michalsnik.github.io/aos/)
 

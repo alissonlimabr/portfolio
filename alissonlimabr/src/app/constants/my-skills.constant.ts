@@ -6,9 +6,9 @@ export const MY_SKILLS = [
     aosAnimation: 'zoom-out-up',
   },
   {
-    name: 'Springboot',
+    name: 'Spring Boot',
     icon: 'assets/icons/springboot-icon.svg',
-    alt: 'Logo do Springboot',
+    alt: 'Logo do Spring Boot',
     aosAnimation: 'zoom-out-down',
   },
   {

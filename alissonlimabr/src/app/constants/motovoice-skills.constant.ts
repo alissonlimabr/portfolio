@@ -9,7 +9,7 @@ export const MOTOVOICE_SKILLS = [
   },
   {
     icon: 'assets/icons/springboot-icon.svg',
-    alt: 'Logo do Springboot',
+    alt: 'Logo do Spring Boot',
   },
   {
     icon: 'assets/icons/aws-icon.svg',
@@ -22,9 +22,5 @@ export const MOTOVOICE_SKILLS = [
   {
     icon: 'assets/icons/bootstrap-icon.svg',
     alt: 'Logo do Bootstrap',
-  },
-  {
-    icon: 'assets/icons/git-icon.svg',
-    alt: 'Logo do Git',
   },
 ];

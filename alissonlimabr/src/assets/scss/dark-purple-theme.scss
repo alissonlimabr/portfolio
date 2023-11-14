@@ -1,14 +1,12 @@
 @use "variables" as variable;
 @import "variables-mixins";
 
-
 /*  Global config */
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
   text-decoration: none;
-
 }
 
 ::-webkit-scrollbar {
@@ -26,10 +24,11 @@
   background-color: variable.$purple-400;
   color: variable.$white;
 }
-html {
-  font-family: Roboto, sans-serif;  scroll-behavior: smooth;
-  scroll-padding-top: 50px;
 
+html {
+  font-family: Roboto, sans-serif;
+  scroll-behavior: smooth;
+  scroll-padding-top: 50px;
 }
 
 body {
@@ -54,7 +53,6 @@ main {
   overflow: clip;
 }
 
-
 fa-icon {
   color: variable.$purple-400;
 }
@@ -67,16 +65,17 @@ footer {
   border-color: variable.$purple-500;
 
   @include responsive(mobile) {
-    padding: 1rem 0.5rem
+    padding: 1rem 0.5rem;
   }
-
 }
-
 
 .container {
   display: flex;
   justify-content: center;
 
+  @include responsive(mobilePlus) {
+    min-height: 500px;
+  }
 }
 
 .header-section {
@@ -106,7 +105,8 @@ footer {
     font-weight: 700;
   }
 
-  h3,p {
+  h3,
+  p {
     color: variable.$gray-100;
     font-size: 20px;
     font-weight: 300;
@@ -117,7 +117,6 @@ footer {
       font-size: 16px;
     }
   }
-
 }
 
 .content {
@@ -138,7 +137,6 @@ footer {
     padding: 0 10px;
   }
 }
-
 
 /* ***************  */
 
@@ -163,8 +161,6 @@ mat-sidenav {
     padding: 0.4rem;
     gap: 10px;
     font-weight: bold;
-
-
 
     a {
       width: 80%;
@@ -228,7 +224,6 @@ mat-sidenav-content {
   }
 }
 
-
 .navbar {
   display: flex;
   justify-content: center;
@@ -247,6 +242,7 @@ mat-toolbar {
   justify-content: space-between;
   width: 100%;
   max-width: variable.$container-width;
+
   a {
     color: variable.$white;
   }
@@ -336,7 +332,6 @@ mat-sidenav-container {
   color: variable.$white;
 
   &:hover {
-
     transition: 0.2s;
   }
 
@@ -365,14 +360,13 @@ mat-sidenav-container {
 
 #perfil {
   @include responsive(mobilePlus) {
-    height: 100vh;
+    min-height: 100%;
     max-height: 600px;
     padding: 50px 0;
     align-items: center;
     display: flex;
     justify-content: center;
   }
-
 }
 
 .profile {
@@ -390,11 +384,15 @@ mat-sidenav-container {
     padding: 60px;
   }
 
+  @include responsive(tablet) {
+    padding: 40px;
+  }
+
   @include responsive(mobilePlus) {
     flex-direction: column-reverse;
-    padding: 50px 20px !important;
-    justify-content: center;
-    gap: 50px;
+    padding: 50px 10px !important;
+    gap: 30px;
+    place-content: baseline;
   }
 
   h1 {
@@ -412,7 +410,6 @@ mat-sidenav-container {
     @include responsive(mobile) {
       font-size: 30px;
     }
-
   }
 
   h2 {
@@ -430,7 +427,6 @@ mat-sidenav-container {
     @include responsive(mobile) {
       font-size: 30px;
     }
-
   }
 
   p {
@@ -445,7 +441,6 @@ mat-sidenav-container {
     @include responsive(tablet) {
       font-size: 24px;
     }
-
   }
 
   .intro {
@@ -461,14 +456,13 @@ mat-sidenav-container {
   }
 
   .welcome {
-    @include responsive (mobilePlus) {
+    @include responsive(mobilePlus) {
       text-align: center;
       display: flex;
       justify-content: center;
       flex-direction: column;
       gap: 10px;
       align-items: center;
-      margin-top: 30px;
     }
   }
 
@@ -477,8 +471,8 @@ mat-sidenav-container {
     display: flex;
     gap: 30px;
 
-    @include responsive(mobilePlus) {
-      margin: 30px 0;
+    @include responsive(tablet) {
+      gap: 20px;
     }
 
     a {
@@ -490,7 +484,7 @@ mat-sidenav-container {
       transition: 0.4s;
 
       @include responsive(mobile) {
-        font-size: 14px
+        font-size: 14px;
       }
 
       &#linkedin {
@@ -512,15 +506,15 @@ mat-sidenav-container {
           transform: scale(0.95);
         }
       }
-
     }
   }
 
   .avatar {
     display: flex;
-    justify-content: end;
+    justify-content: flex-end;
     width: 300px;
     height: 300px;
+    margin-bottom: 30px;
     /* Border multi color */
     background-image: linear-gradient(90deg,
         variable.$purple-700 30%,
@@ -533,7 +527,6 @@ mat-sidenav-container {
     animation: morph 10s linear infinite;
     transition: 0.3s;
 
-
     &:hover {
       transform: scale(0.95);
     }
@@ -543,7 +536,6 @@ mat-sidenav-container {
       height: 100%;
       background: variable.$background-color;
     }
-
 
     @include responsive(tabletplus) {
       width: 270px;
@@ -562,25 +554,21 @@ mat-sidenav-container {
   }
 }
 
-
 /*  About section */
 
 #sobre {
   padding: 50px 0;
-
 }
-
-
 
 /*  Skill section */
 #habilidades {
   padding: 50px 0;
+
   .description {
     h3 {
       text-align: center;
     }
   }
-
 }
 
 .skills {
@@ -594,12 +582,10 @@ mat-sidenav-container {
     width: 110px;
     height: 110px;
   }
-
 }
 
 .example-card {
   max-width: 400px;
-
 }
 
 mat-card {
@@ -627,7 +613,6 @@ mat-card {
     transform: translateY(-5px) !important;
     border-color: variable.$purple-400 !important;
   }
-
 }
 
 /*  Projects section */
@@ -647,7 +632,6 @@ mat-card {
   h3 {
     font-size: 20px;
     color: white;
-
   }
 
   a {
@@ -655,6 +639,7 @@ mat-card {
     gap: 10px;
     padding: 15px 0;
     align-items: center;
+    width: fit-content;
   }
 
   p {
@@ -683,8 +668,8 @@ mat-card {
       }
 
       .techs {
-        animation-duration: .3s;
-        animation-timing-function: cubic-bezier(.165, .84, .44, 1);
+        animation-duration: 0.3s;
+        animation-timing-function: cubic-bezier(0.165, 0.84, 0.44, 1);
         animation-fill-mode: forwards;
         animation-name: fadein;
         animation-delay: 30ms;
@@ -743,6 +728,7 @@ mat-card {
   mat-card-actions {
     padding: 0;
     font-size: 14px;
+    min-width: 120px;
     width: 100%;
 
     .link {
@@ -756,12 +742,10 @@ mat-card {
     }
   }
 
-
-
   .skills {
     gap: 8px;
     width: 100%;
-    justify-content: end;
+    justify-content: flex-end;
 
     a {
       position: relative;
@@ -788,7 +772,6 @@ mat-card {
     opacity: 0;
 
     img {
-
       @include responsive(mobile) {
         width: 15px;
         height: 15px;
@@ -838,12 +821,12 @@ mat-card {
     justify-content: center;
     align-items: center;
 
-    @include responsive(mobile){
-      gap: 15%;
+    @include responsive(mobilePlus) {
+      gap: 20%;
     }
 
-    @include responsive(mobilePlus){
-      gap: 20%;
+    @include responsive(mobile) {
+      gap: 15%;
     }
   }
 
@@ -853,7 +836,6 @@ mat-card {
     flex-direction: column;
     align-items: center;
     gap: 20px;
-
   }
 
   a {
@@ -874,7 +856,7 @@ mat-card {
       border-color: variable.$purple-500 !important;
     }
 
-    @include responsive(mobilePlus){
+    @include responsive(mobilePlus) {
       width: 50px;
       height: 50px;
     }
@@ -885,7 +867,6 @@ mat-card {
     height: 100%;
   }
 }
-
 
 /* footer */
 .footer {
@@ -929,20 +910,25 @@ mat-card {
         color: variable.$purple-400;
       }
     }
+
     @include responsive(mobile) {
       font-size: 12px;
       gap: 5px;
+      justify-content: center;
     }
   }
+
   .logo {
     p {
       font-size: 16px;
+
       @include responsive(mobile) {
         font-size: 12px;
       }
     }
+
     fa-icon {
       font-size: 25px;
     }
-}
+  }
 }
