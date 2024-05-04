@@ -10,9 +10,18 @@ import { HeaderComponent } from './components/header/header.component';
 import { NgxTypedWriterModule } from 'ngx-typed-writer';
 import { FooterComponent } from './components/footer/footer.component';
 import { JsonLdComponent } from './components/json-ld/json-ld.component';
+import { NgxParticlesModule } from '@tsparticles/angular';
+import { ParticlesAnimationComponent } from './components/particles-animation/ParticlesAnimationComponent';
 
 @NgModule({
-  declarations: [AppComponent, HomeComponent, HeaderComponent, FooterComponent, JsonLdComponent],
+  declarations: [
+    AppComponent,
+    HomeComponent,
+    HeaderComponent,
+    FooterComponent,
+    JsonLdComponent,
+    ParticlesAnimationComponent,
+  ],
   imports: [
     BrowserModule,
     AppRoutingModule,
@@ -20,6 +29,7 @@ import { JsonLdComponent } from './components/json-ld/json-ld.component';
     MaterialModule,
     FontAwesomeModule,
     NgxTypedWriterModule,
+    NgxParticlesModule,
   ],
   providers: [],
   bootstrap: [AppComponent],
