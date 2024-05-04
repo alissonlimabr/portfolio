@@ -355,6 +355,11 @@ mat-sidenav-container {
     font-size: 18px;
   }
 }
+/* ***** Particle component style***** */
+#particles {
+  z-index: -10;
+  position: fixed !important;
+}
 
 /* ***** Profile component Style ***** */
 
@@ -581,6 +586,7 @@ mat-sidenav-container {
   mat-card {
     width: 110px;
     height: 110px;
+    border-radius: 5px;
   }
 }
 
@@ -658,6 +664,8 @@ mat-card {
     width: 430px;
     padding: 20px;
     align-items: start;
+    border-top-left-radius: 15px;
+    border-bottom-right-radius: 15px;
 
     &:hover {
       transform: translateY(0) !important;
