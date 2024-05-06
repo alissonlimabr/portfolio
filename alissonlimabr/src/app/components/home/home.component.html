@@ -105,6 +105,62 @@
   </div>
 </section>
 
+<section id="trabalhos" data-aos="zoom-out">
+  <div class="container">
+    <div class="content">
+      <div class="title">
+        <h2>Experiência</h2>
+      </div>
+      <div class="jobs">
+        <!-- -->
+        <mat-list class="job-list">
+          <div class="title">
+            <mat-button-toggle-group
+              class="button-group"
+              appearance="legacy"
+              name="fontStyle"
+              aria-label="Font Style"
+              #group="matButtonToggleGroup"
+              *ngFor="let job of jobs"
+            >
+              <mat-button-toggle
+                class="button-jobs"
+                (click)="selectJob(job)"
+                [checked]="selectedJob === job"
+              >
+                <img [src]="job.icon" alt="empresa" width="30" height="30" />
+                {{ job.company }}
+              </mat-button-toggle>
+            </mat-button-toggle-group>
+          </div>
+        </mat-list>
+
+        <ng-container *ngFor="let job of selectedJob ? [selectedJob] : []">
+          <mat-card class="job-details" [@fadeIn]>
+            <mat-card-header>
+              <mat-card-title class="title">
+                <h3>
+                  {{ job.position }}
+                  <strong>| {{ job.company }}</strong>
+                </h3>
+                <p>{{ job.duration }}</p>
+              </mat-card-title>
+            </mat-card-header>
+            <mat-card-content>
+              <div *ngFor="let description of job.description" class="activity">
+                <fa-icon [icon]="faCodeCommit"></fa-icon>
+                <p>
+                  {{ description }}
+                </p>
+              </div>
+            </mat-card-content>
+          </mat-card>
+        </ng-container>
+      </div>
+    </div>
+  </div>
+</section>
+
 <section id="projetos" data-aos="zoom-out-up">
   <div class="container">
     <div class="content">
