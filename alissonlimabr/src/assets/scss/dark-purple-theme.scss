@@ -210,7 +210,7 @@ mat-sidenav-content {
   min-height: 100vh;
   overflow: initial !important;
 
-  button {
+  .menu {
     display: none !important;
 
     &:hover {
@@ -297,7 +297,7 @@ mat-sidenav-container {
     font-weight: 500;
     width: 100%;
     height: 100%;
-    gap: 30px;
+    gap: 20px;
 
     @include responsive(tabletplus) {
       display: flex;
@@ -313,7 +313,7 @@ mat-sidenav-container {
     padding: 5px;
 
     @include responsive(tabletplus) {
-      padding: 20px;
+      padding: 10px;
       min-width: 40%;
       text-align: center;
     }
@@ -521,10 +521,12 @@ mat-sidenav-container {
     height: 300px;
     margin-bottom: 30px;
     /* Border multi color */
-    background-image: linear-gradient(90deg,
-        variable.$purple-700 30%,
-        variable.$purple-400 60%,
-        variable.$purple-500 100%);
+    background-image: linear-gradient(
+      90deg,
+      variable.$purple-700 30%,
+      variable.$purple-400 60%,
+      variable.$purple-500 100%
+    );
     background-origin: border-box;
     border: 5px solid transparent;
     border-radius: 40% 60% 70% 30% / 40% 50% 60% 50%;
@@ -618,6 +620,120 @@ mat-card {
     box-shadow: 0px 5px 15px 5px variable.$purple-800;
     transform: translateY(-5px) !important;
     border-color: variable.$purple-400 !important;
+  }
+  &:active {
+    box-shadow: 0px 5px 15px 5px variable.$purple-800;
+    transform: translateY(-5px) !important;
+    border-color: variable.$purple-400 !important;
+  }
+}
+
+/*  jobs section */
+
+.jobs {
+  display: flex;
+  width: 85%;
+  gap: 40px;
+
+  @include responsive(mobilePlus) {
+    flex-direction: column;
+    font-size: 12px;
+    font-weight: 500 !important;
+  }
+
+  .job-list {
+    width: 35%;
+    max-width: fit-content;
+    border-left: 5px solid rgba(variable.$purple-500, 100%);
+    padding: 0 0 20px 20px;
+    height: max-content;
+
+    @include responsive(mobilePlus) {
+      width: 90%;
+      font-size: 14px;
+      font-weight: 500 !important;
+    }
+  }
+
+  .title {
+    padding: 10px 0;
+    text-align: start;
+    width: 100%;
+
+  }
+
+  .button-group {
+    margin-bottom: 20px;
+    width: 100%;
+    border: none;
+
+    &:hover {
+      box-shadow: 0px 5px 15px 5px variable.$purple-800;
+    }
+
+    .button-jobs {
+      background-color: rgba(variable.$gray-900, 50%);
+      width: 100%;
+      padding: 10px 0;
+      border: 2px solid rgba(variable.$purple-500, 100%);
+      border-radius: 5px;
+      transition: 0.3s;
+      button{
+        text-align: start;
+      }
+    }
+
+    .mat-button-toggle-checked {
+      background-color: rgba(variable.$purple-500, 100%);
+      transition: 0.3s;
+    }
+  }
+
+  .job-details {
+    width: 100%;
+    padding-left: 10px;
+    box-shadow: 0px 5px 15px 5px variable.$purple-800;
+  }
+
+  mat-card-header {
+    width: 100%;
+    padding: 10px 20px;
+
+    h3{
+      width: max-content;
+      display: contents;
+
+      @include responsive(tablet) {
+
+        font-size: 16px;
+      }
+    }
+    strong {
+      color: variable.$purple-400;
+    }
+    p {
+      font-weight: 500;
+      margin-bottom: 15px;
+      font-size: 14px;
+      padding: 5px 0;
+    }
+  }
+
+
+  mat-card-content {
+    .activity {
+      display: flex;
+      align-items: baseline;
+
+      p {
+        padding: 10px;
+        font-weight: 300;
+      }
+      @include responsive(tablet) {
+        font-size: 14px;
+      }
+    }
+
   }
 }
 
