@@ -31,7 +31,7 @@ export const JOBS = [
 
       'Desenvolvi o front-end dos sistemas demandados pelos parceiros do projeto.',
 
-      'Atuei na correções de bugs/refatoração nas API’s e integrações com o Front-End',
+      'Atuei na correções de bugs/refatoração nas API’s e integrações com o Front-End.',
 
       'Principais tecnologias utilizadas: Java, Angular, Spring Boot, Typescript, Nodejs, CI/CD, Cypress, Jest, AWS Cloud, Junit5.',
 
