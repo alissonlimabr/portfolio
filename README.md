@@ -1,9 +1,9 @@
 <div align="center">
-<img src="https://github.com/alissonlimabr/portfolio/assets/101370736/8eb0af67-e05f-46ff-95eb-ecce083e169f">
+<img src="https://github.com/alissonlimabr/portfolio/assets/101370736/0adf873b-f8fc-4d43-99ff-7e7f54da3202">
 
 ###
  
-<img src="https://github.com/alissonlimabr/portfolio/assets/101370736/7ef9db6a-eedf-4b7d-94a6-3f2e97e2b8b4">
+<img src="https://github.com/alissonlimabr/portfolio/assets/101370736/0d8f69e4-81d6-4b51-9344-e069d80c3227">
 </div>
 
 <h1 align="center">Portfólio - Alisson Lima </h1>
@@ -15,7 +15,7 @@
  <a href="#-licença">Licença</a>
 </p>
 
-<p align="center"> Portfólio de Desenvolvedor construído utilizando o framework Angular, juntamente com Angular Material e SCSS. O projeto é aprimorado com SSR para melhor desempenho e otimização de SEO. Além disso, o site possui uma paleta de cores Dark/Purple, bem como transições suaves e agradáveis entre as seções.</p>
+<p align="center"> Portfólio de Desenvolvedor construído utilizando o framework Angular, juntamente com Angular Material e SCSS. O projeto é aprimorado com SSR para melhor desempenho e otimização de SEO. Além disso, o site possui uma paleta de cores Dark & Purple, bem como transições suaves e agradáveis entre as seções.</p>
 
 
 
@@ -28,8 +28,9 @@
 - [x] Server-Side Rendering (SSR)
 - [x] Responsividade mobile
 - [x] Trasições fluidas
-- [x] Paleta de cores Dark/Purple
+- [x] Paleta de cores Dark & Purple
 - [x] Seção com skills adquiridas
+- [x] Seção de trabalhos realizados
 - [x] Seção com projetos desenvolvidos
 - [x] Seção para contato
 
@@ -41,6 +42,7 @@ As seguintes ferramentas foram usadas na construção do projeto:
 - [Angular 16](https://angular.io/)
 - [Angular Material](https://material.angular.io/)
 - [Angular Universal (SSR)](https://angulardoc.com.br/guide/universal)
+- [TsParticles](https://particles.js.org/)
 - [SCSS](https://sass-lang.com/)
 - [AOS](https://michalsnik.github.io/aos/)
 
