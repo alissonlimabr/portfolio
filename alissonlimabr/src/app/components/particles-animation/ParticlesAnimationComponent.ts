@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { NgParticlesService } from '@tsparticles/angular';
+import { animate, style, transition, trigger } from '@angular/animations';
 import {
   IOptions,
   InteractivityDetect,
@@ -11,11 +12,19 @@ import { loadSlim } from '@tsparticles/slim';
   selector: 'app-particles-animation',
   templateUrl: './particles-animation.component.html',
   styleUrls: ['./particles-animation.component.scss'],
+  animations: [
+    trigger('fadeIn', [
+      transition(':enter', [
+        style({ opacity: 0 }),
+        animate('15s', style({ opacity: 1 })),
+      ]),
+    ]),
+  ],
 })
 export class ParticlesAnimationComponent implements OnInit {
   id = 'tsparticles';
   particlesOptions = {
-    fpsLimit: 30,
+    fpsLimit: 24,
     interactivity: {
       detectsOn: 'window' as InteractivityDetect,
       events: {
