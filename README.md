@@ -30,7 +30,7 @@
 - [x] Trasições fluidas
 - [x] Paleta de cores Dark & Purple
 - [x] Seção com skills adquiridas
-- [x] Seção de Trabalhos realizados
+- [x] Seção de trabalhos realizados
 - [x] Seção com projetos desenvolvidos
 - [x] Seção para contato
 
