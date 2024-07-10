@@ -8,4 +8,5 @@ import { faCode } from '@fortawesome/free-solid-svg-icons';
 })
 export class FooterComponent {
   faCode = faCode;
+  anoAtual: number = new Date().getFullYear();
 }
