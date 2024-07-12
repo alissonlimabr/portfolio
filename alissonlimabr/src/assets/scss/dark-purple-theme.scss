@@ -730,6 +730,7 @@ mat-card {
       p {
         padding: 10px;
         font-weight: 300;
+        color: #E1E1E1
       }
       @include responsive(tablet) {
         font-size: 14px;
@@ -767,7 +768,7 @@ mat-card {
   }
 
   p {
-    color: white;
+    color: #E1E1E1;
     font-weight: 300 !important;
     font-size: 16px;
 
@@ -781,6 +782,7 @@ mat-card {
     width: 430px;
     padding: 20px;
     align-items: start;
+    justify-content: space-between;
     border-top-left-radius: 15px;
     border-bottom-right-radius: 15px;
 

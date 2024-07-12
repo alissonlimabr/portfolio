@@ -18,7 +18,7 @@ export class JsonLdComponent implements OnInit {
       '@id': 'https://www.alissonlimadev.com/#sobre',
       name: 'Alisson Lima',
       about:
-        'Nasci em Rio Branco, Acre, e me formei em Análise e Desenvolvimento de Sistemas em 2019. Estou sempre participando de bootcamps, principalmente em Java, Spring Boot, Angular e Cloud como AWS e Azure. Tenho um grande interesse em pelo desenvolvimento de software e estou sempre procurando aprender mais nessa área.',
+        'Nasci em Rio Branco, Acre, sou Graduado em Análise e Desenvolvimento de Sistemas e Pós-graduado em Engenharia de Software pela Faculdade Cruzeiro do Sul - FASUL. Tenho experiência com desenvolvimento em Java, Spring Boot, Angular, AWS e outras tecnologias, além de metodologias ágeis como Scrum e Kanban. Desse modo, estou sempre procurando refinar meus conhecimentos e habilidades, seja participando de bootcamps ou realizando um projeto novo.',
       nationality: 'Brasileiro',
       birthPlace: {
         '@type': 'Place',
@@ -32,6 +32,11 @@ export class JsonLdComponent implements OnInit {
       alumniOf: [
         {
           '@type': 'CollegeOrUniversity',
+          name: 'Engenharia de Software',
+          sameAs: 'https://fasuleducacional.edu.br',
+        },
+        {
+          '@type': 'CollegeOrUniversity',
           name: 'Capacitação em Desenvolvimento Full Stack',
           sameAs: 'https://www.ufac.br/',
         },
@@ -43,7 +48,7 @@ export class JsonLdComponent implements OnInit {
       ],
       gender: 'Masculino',
       description:
-        'Desenvolvedor Full Stack formado em Análise e Desenvolvimento de Sistemas com experiência em Java, Spring Boot, Angular, AWS, Azure e Git.',
+        'Desenvolvedor Full Stack pós-graduado em Engenharia de Software com experiência em JavaScript, Java, Spring Boot, Angular, AWS, Azure e Git.',
       jobTitle: 'Desenvolvedor Full Stack',
       url: 'https://www.alissonlimadev.com',
       image: 'https://i.imgur.com/JLom84P.png',
@@ -60,13 +65,13 @@ export class JsonLdComponent implements OnInit {
         'https://www.facebook.com/alisson.mendoncalima/',
         'https://www.youtube.com/@alisson_ml',
         'https://www.instagram.com/alisson_ml/',
-        'https://www.instagram.com/alisson_ml/',
       ],
       skills: [
         'HTML5',
         'CSS3',
         'Java',
         'JavaScript',
+        'Typescript',
         'Angular',
         'Spring',
         'AWS',
@@ -82,7 +87,7 @@ export class JsonLdComponent implements OnInit {
           '@type': 'CreativeWork',
           name: 'Motovoice',
           description:
-            'Sistema de coleta de ideias e feedbacks de produtos Motorola, desenvolvido em Spring Boot e Angular. Conta com um painel de gerenciamento e insights da plataforma (admin). Este foi um produto sob demanda para a conclusão da 1ª turma do curso WebAcademy.',
+            'Sistema de coleta de ideias e feedbacks de produtos Motorola, desenvolvido em Spring Boot e Angular. Conta com um painel de gerenciamento e insights da plataforma para o admin. Este foi um produto sob demanda para a conclusão da 1ª turma do curso WebAcademy.',
         },
         {
           '@type': 'CreativeWork',
@@ -92,15 +97,15 @@ export class JsonLdComponent implements OnInit {
         },
         {
           '@type': 'CreativeWork',
-          name: 'Portfólio',
+          name: 'Portfólio Desenvolvedor',
           description:
-            'Portfólio pessoal de desenvolvedor full stack. Prototipado no Figma e desenvolvido utilizando Angular, Angular Material e SCSS. Totalmente responsivo para tablet, mobile e desktop.',
+            'O site foi prototipado no Figma e teve seu front-end desenvolvido utilizando o framework Angular, juntamente com Angular Material e SCSS. O projeto visa demonstrar meu projetos front-end e back-end, habilidades, trabalhos desenvolvidos e muito mais.',
         },
         {
           '@type': 'CreativeWork',
           name: 'Reset Password',
           description:
-            'Módulo de recuperação de senhas via e-mail, desenvolvido em Spring Boot, Angular e Angular Material. Conta com um pipeline de CI/CD via GitHub Actions para deploy na AWS.',
+            'Módulo de recuperação de senhas via e-mail com back-end desenvolvido em Spring Boot e front-end desenvolvido com framework Angular. Conta com um pipeline de CI/CD via GitHub Actions para deploy na AWS.',
         },
         {
           '@type': 'CreativeWork',
