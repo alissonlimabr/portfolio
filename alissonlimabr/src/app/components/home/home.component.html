@@ -1,4 +1,10 @@
-<section id="perfil">
+<section
+  id="perfil"
+  id="perfil"
+  data-aos="fade-zoom-in"
+  data-aos-easing="ease-in-sine"
+  data-aos-offset="0"
+>
   <div class="container">
     <div class="profile">
       <div class="intro">
@@ -46,6 +52,7 @@
             alt="Avatar Alisson Lima"
             height="300"
             width="300"
+            loading="lazy"
           />
         </a>
       </div>
@@ -66,8 +73,9 @@
           graduado em Análise e Desenvolvimento de Sistemas e Pós-Graduado em
           Engenharia de Software. Como Desenvolvedor web, estou sempre em busca
           da excelência nos campos em que atuo. Desse modo, sempre participo de
-          bootcamps ou desenvolvo uma nova ideia para refinar meus conhecimentos
-          e aprimorar minhas habilidades.
+          bootcamps ou desenvolvo uma nova ideia, seja um projeto front-end,
+          back-end ou full stack, a fim de refinar meus conhecimentos e
+          aprimorar minhas habilidades.
         </p>
       </div>
     </div>
@@ -200,7 +208,7 @@
               </a>
             </mat-card-actions>
             <div class="skills">
-              <a *ngFor="let skill of skillsMotoVoice">
+              <span *ngFor="let skill of skillsMotoVoice">
                 <div class="placeholder"></div>
                 <div class="techs">
                   <img
@@ -211,7 +219,7 @@
                     [alt]="skill.alt"
                   />
                 </div>
-              </a>
+              </span>
             </div>
           </mat-card-footer>
         </mat-card>
@@ -247,7 +255,7 @@
               </a>
             </mat-card-actions>
             <div class="skills">
-              <a *ngFor="let skill of skillsAuthJwt">
+              <span *ngFor="let skill of skillsAuthJwt">
                 <div class="placeholder"></div>
                 <div class="techs">
                   <img
@@ -258,7 +266,7 @@
                     [alt]="skill.alt"
                   />
                 </div>
-              </a>
+              </span>
             </div>
           </mat-card-footer>
         </mat-card>
@@ -295,7 +303,7 @@
               </a>
             </mat-card-actions>
             <div class="skills">
-              <a *ngFor="let skill of skillsPortfolio">
+              <span *ngFor="let skill of skillsPortfolio">
                 <div class="placeholder"></div>
                 <div class="techs">
                   <img
@@ -306,7 +314,7 @@
                     [alt]="skill.alt"
                   />
                 </div>
-              </a>
+              </span>
             </div>
           </mat-card-footer>
         </mat-card>
@@ -342,7 +350,7 @@
               </a>
             </mat-card-actions>
             <div class="skills">
-              <a *ngFor="let skill of skillsResetPassword">
+              <span *ngFor="let skill of skillsResetPassword">
                 <div class="placeholder"></div>
                 <div class="techs">
                   <img
@@ -353,7 +361,7 @@
                     [alt]="skill.alt"
                   />
                 </div>
-              </a>
+              </span>
             </div>
           </mat-card-footer>
         </mat-card>
@@ -388,7 +396,7 @@
               </a>
             </mat-card-actions>
             <div class="skills">
-              <a *ngFor="let skill of skillsEventPlataform">
+              <span *ngFor="let skill of skillsEventPlataform">
                 <div class="placeholder"></div>
                 <div class="techs">
                   <img
@@ -399,7 +407,7 @@
                     [alt]="skill.alt"
                   />
                 </div>
-              </a>
+              </span>
             </div>
           </mat-card-footer>
         </mat-card>
