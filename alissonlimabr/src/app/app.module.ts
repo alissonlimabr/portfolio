@@ -12,6 +12,7 @@ import { HomeComponent } from './components/home/home.component';
 import { JsonLdComponent } from './components/json-ld/json-ld.component';
 import { ParticlesAnimationComponent } from './components/particles-animation/ParticlesAnimationComponent';
 import { MaterialModule } from './material/material.module';
+import { GoogleTagManagerModule } from 'angular-google-tag-manager';
 
 @NgModule({
   declarations: [
@@ -30,6 +31,9 @@ import { MaterialModule } from './material/material.module';
     FontAwesomeModule,
     NgxTypedWriterModule,
     NgxParticlesModule,
+    GoogleTagManagerModule.forRoot({
+      id: 'GTM-NMP4ZJHK',
+    }),
   ],
   providers: [],
   bootstrap: [AppComponent],
