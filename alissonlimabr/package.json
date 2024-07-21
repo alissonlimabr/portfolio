@@ -33,6 +33,7 @@
     "@tsparticles/angular": "^3.0.0",
     "@tsparticles/engine": "^3.3.0",
     "@tsparticles/slim": "^3.3.0",
+    "angular-google-tag-manager": "^1.8.0",
     "aos": "^2.3.4",
     "express": "^4.15.2",
     "ngx-typed-writer": "^1.1.2",
