@@ -13,6 +13,7 @@ import { JsonLdComponent } from './components/json-ld/json-ld.component';
 import { ParticlesAnimationComponent } from './components/particles-animation/ParticlesAnimationComponent';
 import { MaterialModule } from './material/material.module';
 import { GoogleTagManagerModule } from 'angular-google-tag-manager';
+import Clarity from '@microsoft/clarity';
 
 @NgModule({
   declarations: [
@@ -38,4 +39,9 @@ import { GoogleTagManagerModule } from 'angular-google-tag-manager';
   providers: [],
   bootstrap: [AppComponent],
 })
-export class AppModule {}
+export class AppModule {
+  constructor() {
+    //microfost clarity
+    Clarity.init('pexxkhasj2')
+  }
+}
