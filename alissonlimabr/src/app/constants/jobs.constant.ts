@@ -1,16 +1,16 @@
 export const JOBS = [
   {
-    company: 'Lampp-IT',
+    company: 'VINT Global',
     position: 'Desenvolvedor Full Stack',
     description: [
       'Desenvolvimento de APIs REST e integração com o Front-End;',
-      'Desenvolvimento de testes unitários e integração com Junit 5;',
+      'Desenvolvimento e integração de sistemas utilizando XML, XSLT e Web Services, em conformidade com as normas e padrões de Documentos Fiscais Eletrônicos;',
       'Conteinerização de serviços com Docker;',
       'Implementações com NGinx para redirecionamento de rotas e integrações com aplicações em Angular;',
-      'Principais Tecnologias utilizadas: Java, Spring Boot e Angular 16+, Docker, Junit5, Nginx, Strapi, Banco de Dados Oracle, Figma, dentre outras.',
+      'Principais Tecnologias utilizadas: Java, Spring Boot e Angular 16+, Strapi, Xml, Xslt, Web Services, Docker, Junit5, Nginx, Strapi, Banco de Dados Oracle, Figma, dentre outras.',
     ],
     duration: 'Agosto 2024 - Atualmente',
-    icon: '../../../assets/icons/lamppit-icon.svg',
+    icon: '../../../assets/icons/vintglobal-icon.svg',
   },
   {
     company: 'Freelancer',
