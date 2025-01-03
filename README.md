@@ -2,7 +2,7 @@
 <img src="https://github.com/alissonlimabr/portfolio/assets/101370736/0adf873b-f8fc-4d43-99ff-7e7f54da3202">
 
 ###
- 
+
 <img src="https://github.com/alissonlimabr/portfolio/assets/101370736/0d8f69e4-81d6-4b51-9344-e069d80c3227">
 </div>
 
@@ -54,8 +54,8 @@ As seguintes ferramentas foram usadas na construção do projeto:
  <sub><b>Alisson Lima</b></sub></a> <a href="https://github.com/alissonlimabr" title="GitHub">🚀</a>
  <br />
 
-[![Linkedin Badge](https://img.shields.io/badge/-Alisson-blue?style=flat-square&logo=Linkedin&logoColor=white&link=https://www.linkedin.com/in/alissonlimadev/)](https://www.linkedin.com/in/alissonlimadev/)
-[![Gmail Badge](https://img.shields.io/badge/-amlxd5@gmail.com-c14438?style=flat-square&logo=Gmail&logoColor=white&link=mailto:amlxd5@gmail.com)](mailto:amlxd5@gmail.com)
+[![Linkedin Badge](https://img.shields.io/badge/-alissonlimadev-blue?style=flat-square&logo=Linkedin&logoColor=white&link=https://www.linkedin.com/in/alissonlimadev/)](https://www.linkedin.com/in/alissonlimadev/)
+[![Gmail Badge](https://img.shields.io/badge/-alissonlimabr.dev@gmail.com-c14438?style=flat-square&logo=Gmail&logoColor=white&link=mailto:alissonlimabr.dev@gmail.com)](mailto:alissonlimabr.dev@gmail.com)
 
 ## 📝 Licença
 
