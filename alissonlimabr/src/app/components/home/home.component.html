@@ -123,12 +123,13 @@
         <mat-list class="job-list">
           <div class="title">
             <mat-button-toggle-group
+              [@fadeInUp]
               class="button-group"
               appearance="legacy"
               name="fontStyle"
               aria-label="Font Style"
               #group="matButtonToggleGroup"
-              *ngFor="let job of jobs"
+              *ngFor="let job of paginatedJobs"
             >
               <mat-button-toggle
                 class="button-jobs"
@@ -140,10 +141,19 @@
               </mat-button-toggle>
             </mat-button-toggle-group>
           </div>
+          <div class="jobs-pagination">
+            <mat-icon
+              *ngFor="let page of pagesArray"
+              [class.active]="currentPage === page"
+              (click)="changePage(page)"
+            >
+              <fa-icon [icon]="faCircle"></fa-icon>
+            </mat-icon>
+          </div>
         </mat-list>
 
         <ng-container *ngFor="let job of selectedJob ? [selectedJob] : []">
-          <mat-card class="job-details" [@fadeIn]>
+          <mat-card class="job-details" [@fadeInDown]>
             <mat-card-header>
               <mat-card-title class="title">
                 <h3>
