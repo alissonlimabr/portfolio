@@ -13,12 +13,16 @@ export class JsonLdComponent implements OnInit {
 
   ngOnInit() {
     const json = {
-      '@context': 'http://www.schema.org',
+      '@context': 'https://schema.org',
       '@type': 'Person',
       '@id': 'https://www.alissonlimadev.com/#sobre',
+      'mainEntityOfPage': {
+      '@type': 'WebPage',
+      '@id': 'https://www.alissonlimadev.com/'
+    },
       name: 'Alisson Lima',
       about:
-        'Nasci em Rio Branco, Acre, sou Graduado em Análise e Desenvolvimento de Sistemas e Pós-graduado em Engenharia de Software pela Faculdade Cruzeiro do Sul - FASUL. Tenho experiência com desenvolvimento em Java, Spring Boot, Angular, AWS e outras tecnologias, além de metodologias ágeis como Scrum e Kanban. Desse modo, estou sempre procurando refinar meus conhecimentos e habilidades, seja participando de bootcamps ou realizando um projeto novo.',
+        'Graduado em Análise e Desenvolvimento de Sistemas, pós-graduado em Engenharia de Software e com MBA em Gestão de Projetos PMI-PMBok. Possuo experiência como desenvolvedor na Contax S.A e na VINT Global, atuando para a Secretaria da Fazenda do Estado do Acre. Atualmente sou Analista e Desenvolvedor no IFAC. Especialista em Angular, Java, Spring Boot, AWS e mais.',
       nationality: 'Brasileiro',
       birthPlace: {
         '@type': 'Place',
@@ -31,12 +35,18 @@ export class JsonLdComponent implements OnInit {
       },
       alumniOf: [
         {
-          '@type': 'CollegeOrUniversity',
+          "@type": "EducationalOrganization",
+          "name": "MBA em Gestão de Projetos PMI-PMBok",
+          "sameAs": "https://fasuleducacional.edu.br"
+        },
+
+        {
+          '@type': 'EducationalOrganization',
           name: 'Engenharia de Software',
           sameAs: 'https://fasuleducacional.edu.br',
         },
         {
-          '@type': 'CollegeOrUniversity',
+          '@type': 'EducationalOrganization',
           name: 'Capacitação em Desenvolvimento Full Stack',
           sameAs: 'https://www.ufac.br/',
         },
@@ -52,7 +62,7 @@ export class JsonLdComponent implements OnInit {
       jobTitle: 'Desenvolvedor Full Stack',
       url: 'https://www.alissonlimadev.com',
       image: 'https://i.imgur.com/JLom84P.png',
-      email: 'mailto:alissonlimabr.dev@gmail.com',
+      email: 'alissonlimabr.dev@gmail.com',
       address: {
         '@type': 'PostalAddress',
         addressLocality: 'Rio Branco',
@@ -62,7 +72,6 @@ export class JsonLdComponent implements OnInit {
       sameAs: [
         'https://www.linkedin.com/in/alissonlimadev/',
         'https://github.com/alissonlimabr',
-        'https://www.facebook.com/alisson.mendoncalima/',
         'https://www.youtube.com/@alisson_ml',
         'https://www.instagram.com/alisson_ml/',
       ],
@@ -70,6 +79,8 @@ export class JsonLdComponent implements OnInit {
         'HTML5',
         'CSS3',
         'Java',
+        'Django',
+        'Python',
         'JavaScript',
         'Typescript',
         'Angular',
@@ -120,7 +131,7 @@ export class JsonLdComponent implements OnInit {
   }
 
   getSafeHTML(value: {}) {
-    const json = JSON.stringify(value, null, 2).replace(/\//g, '\\/');
+    const json = JSON.stringify(value, null, 2);
     const html = `<script type="application/ld+json">${json}</script>`;
     return this.sanitizer.bypassSecurityTrustHtml(html);
   }
