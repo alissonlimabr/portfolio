@@ -28,7 +28,6 @@
 - [x] Server-Side Rendering (SSR)
 - [x] Responsividade mobile
 - [x] Trasições fluidas
-- [x] Paleta de cores Dark & Purple
 - [x] Seção com skills adquiridas
 - [x] Seção de trabalhos realizados
 - [x] Seção com projetos desenvolvidos
