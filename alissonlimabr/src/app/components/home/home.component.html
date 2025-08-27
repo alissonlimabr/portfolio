@@ -1,10 +1,4 @@
-<section
-  id="perfil"
-  id="perfil"
-  data-aos="fade-zoom-in"
-  data-aos-easing="ease-in-sine"
-  data-aos-offset="0"
->
+<section id="perfil" id="perfil" data-aos="fade-zoom-in" data-aos-easing="ease-in-sine" data-aos-offset="0">
   <div class="container">
     <div class="profile">
       <div class="intro">
@@ -12,48 +6,24 @@
           <h1>Portfólio</h1>
           <h2>Alisson Lima</h2>
           <p>
-            <ngx-typed-writer
-              [strings]="[
+            <ngx-typed-writer [strings]="[
                 'Desenvolvedor Full Stack',
                 'Analista de Sistemas',
                 'Contate-me'
-              ]"
-              [cursorChar]="'.'"
-              [showCursor]="true"
-              [backSpeed]="30"
-              [typeSpeed]="100"
-              [backDelay]="3000"
-            >
+              ]" [cursorChar]="'.'" [showCursor]="true" [backSpeed]="30" [typeSpeed]="100" [backDelay]="3000">
             </ngx-typed-writer>
           </p>
           <p></p>
         </div>
 
         <div class="actions">
-          <a
-            id="linkedin"
-            href="https://www.linkedin.com/in/alissonlimadev"
-            target="_blank"
-            >LinkedIn</a
-          >
-          <a id="github" href="https://github.com/alissonlimabr" target="_blank"
-            >GitHub</a
-          >
+          <a id="linkedin" href="https://www.linkedin.com/in/alissonlimadev" target="_blank">LinkedIn</a>
+          <a id="github" href="https://github.com/alissonlimabr" target="_blank">GitHub</a>
         </div>
       </div>
       <div>
-        <a
-          class="avatar"
-          href="https://www.linkedin.com/in/alissonlimadev/"
-          target="_blank"
-        >
-          <img
-            src="assets/img/profile.webp"
-            alt="Avatar Alisson Lima"
-            height="300"
-            width="300"
-            loading="lazy"
-          />
+        <a class="avatar" href="https://www.linkedin.com/in/alissonlimadev/" target="_blank">
+          <img src="assets/img/profile.webp" alt="Avatar Alisson Lima" height="300" width="300" loading="lazy" />
         </a>
       </div>
     </div>
@@ -67,15 +37,17 @@
       </div>
       <div class="description">
         <p>
-          Olá, sou Alisson Lima, Desenvolvedor Full Stack com experiência em
-          Java, Spring Boot, Angular, AWS e outras tecnologias, além de
-          metodologias ágeis como Scrum e Kanban. Nasci em Rio Branco, Acre, sou
-          graduado em Análise e Desenvolvimento de Sistemas e Pós-Graduado em
-          Engenharia de Software. Como Desenvolvedor web, estou sempre em busca
-          da excelência nos campos em que atuo. Desse modo, sempre participo de
-          bootcamps ou desenvolvo uma nova ideia, seja um projeto front-end,
-          back-end ou full stack, a fim de refinar meus conhecimentos e
-          aprimorar minhas habilidades.
+          Sou Alisson Lima, Desenvolvedor Full Stack com sólida experiência em Angular, Java, Spring Boot, AWS e
+          metodologias ágeis como Scrum e Kanban. Natural de Rio Branco, Acre, sou graduado em Análise e Desenvolvimento
+          de Sistemas, com especializações em Engenharia de Software e Gestão de Projetos (PMI-PMBOK).
+
+          Atualmente, atuo como Desenvolvedor Web no Instituto Federal do Acre (IFAC), contribuindo para a evolução de
+          sistemas institucionais
+          voltados à gestão pública. Já participei de projetos relevantes pela VINT Global e Contax S.A, atendendo
+          clientes como
+          SEFAZ/AC e Caixa Econômica Federal, respectivamente. Também integrei o projeto Web Academy, iniciativa da
+          Motorola na
+          Universidade Federal do Acre voltada à inovação e capacitação em desenvolvimento web full stack.
         </p>
       </div>
     </div>
@@ -94,17 +66,8 @@
       </div>
       <div class="skills">
         <!--Skill -->
-        <mat-card
-          [attr.data-aos]="skill.aosAnimation"
-          *ngFor="let skill of mySkills"
-        >
-          <img
-            mat-card-image
-            [src]="skill.icon"
-            width="45"
-            height="45"
-            [alt]="skill.alt"
-          />
+        <mat-card [attr.data-aos]="skill.aosAnimation" *ngFor="let skill of mySkills">
+          <img mat-card-image [src]="skill.icon" width="45" height="45" [alt]="skill.alt" />
           <h4>{{ skill.name }}</h4>
         </mat-card>
       </div>
@@ -122,31 +85,16 @@
         <!-- -->
         <mat-list class="job-list">
           <div class="title">
-            <mat-button-toggle-group
-              [@fadeInUp]
-              class="button-group"
-              appearance="legacy"
-              name="fontStyle"
-              aria-label="Font Style"
-              #group="matButtonToggleGroup"
-              *ngFor="let job of paginatedJobs"
-            >
-              <mat-button-toggle
-                class="button-jobs"
-                (click)="selectJob(job)"
-                [checked]="selectedJob === job"
-              >
+            <mat-button-toggle-group [@fadeInUp] class="button-group" appearance="legacy" name="fontStyle"
+              aria-label="Font Style" #group="matButtonToggleGroup" *ngFor="let job of paginatedJobs">
+              <mat-button-toggle class="button-jobs" (click)="selectJob(job)" [checked]="selectedJob === job">
                 <img [src]="job.icon" alt="empresa" width="30" height="30" />
                 {{ job.company }}
               </mat-button-toggle>
             </mat-button-toggle-group>
           </div>
           <div class="jobs-pagination">
-            <mat-icon
-              *ngFor="let page of pagesArray"
-              [class.active]="currentPage === page"
-              (click)="changePage(page)"
-            >
+            <mat-icon *ngFor="let page of pagesArray" [class.active]="currentPage === page" (click)="changePage(page)">
               <fa-icon [icon]="faCircle"></fa-icon>
             </mat-icon>
           </div>
@@ -186,11 +134,7 @@
       </div>
       <div class="repo">
         <!--Project 1 -->
-        <mat-card
-          data-aos="fade-right"
-          data-aos-offset="150"
-          data-aos-easing="ease-in-sine"
-        >
+        <mat-card data-aos="fade-right" data-aos-offset="150" data-aos-easing="ease-in-sine">
           <mat-card-header>
             <mat-card-title>
               <h3>Motovoice</h3>
@@ -207,12 +151,8 @@
           </mat-card-content>
           <mat-card-footer>
             <mat-card-actions>
-              <a
-                class="link"
-                href="https://motovoice.alissonlimadev.com/"
-                target="_blank"
-                aria-label="Clique para acessar o projeto: Motovoice."
-              >
+              <a class="link" href="https://motovoice.alissonlimadev.com/" target="_blank"
+                aria-label="Clique para acessar o projeto: Motovoice.">
                 <fa-icon [icon]="faArrowUpRightFromSquare"></fa-icon>
                 <p>Acesse o projeto</p>
               </a>
@@ -221,24 +161,14 @@
               <span *ngFor="let skill of skillsMotoVoice">
                 <div class="placeholder"></div>
                 <div class="techs">
-                  <img
-                    mat-card-image
-                    [src]="skill.icon"
-                    width="20"
-                    height="20"
-                    [alt]="skill.alt"
-                  />
+                  <img mat-card-image [src]="skill.icon" width="20" height="20" [alt]="skill.alt" />
                 </div>
               </span>
             </div>
           </mat-card-footer>
         </mat-card>
         <!--Project 2 -->
-        <mat-card
-          data-aos="fade-left"
-          data-aos-offset="150"
-          data-aos-easing="ease-in-sine"
-        >
+        <mat-card data-aos="fade-left" data-aos-offset="150" data-aos-easing="ease-in-sine">
           <mat-card-header>
             <mat-card-title>
               <h3>Autenticação JWT</h3>
@@ -254,12 +184,8 @@
           </mat-card-content>
           <mat-card-footer>
             <mat-card-actions>
-              <a
-                class="link"
-                href="https://github.com/alissonlimabr/microservice-login-jwt"
-                target="_blank"
-                aria-label="Clique para acessar o projeto: Microservice Login JWT."
-              >
+              <a class="link" href="https://github.com/alissonlimabr/microservice-login-jwt" target="_blank"
+                aria-label="Clique para acessar o projeto: Microservice Login JWT.">
                 <fa-icon [icon]="faArrowUpRightFromSquare"></fa-icon>
                 <p>Acesse o projeto</p>
               </a>
@@ -268,24 +194,14 @@
               <span *ngFor="let skill of skillsAuthJwt">
                 <div class="placeholder"></div>
                 <div class="techs">
-                  <img
-                    mat-card-image
-                    [src]="skill.icon"
-                    width="20"
-                    height="20"
-                    [alt]="skill.alt"
-                  />
+                  <img mat-card-image [src]="skill.icon" width="20" height="20" [alt]="skill.alt" />
                 </div>
               </span>
             </div>
           </mat-card-footer>
         </mat-card>
         <!--Project 3 -->
-        <mat-card
-          data-aos="fade-right"
-          data-aos-offset="150"
-          data-aos-easing="ease-in-sine"
-        >
+        <mat-card data-aos="fade-right" data-aos-offset="150" data-aos-easing="ease-in-sine">
           <mat-card-header>
             <mat-card-title>
               <h3>Portfólio Desenvolvedor</h3>
@@ -302,12 +218,8 @@
           </mat-card-content>
           <mat-card-footer>
             <mat-card-actions>
-              <a
-                class="link"
-                href="https://github.com/alissonlimabr/portfolio"
-                target="_blank"
-                aria-label="Clique para acessar o projeto: Portfolio."
-              >
+              <a class="link" href="https://github.com/alissonlimabr/portfolio" target="_blank"
+                aria-label="Clique para acessar o projeto: Portfolio.">
                 <fa-icon [icon]="faArrowUpRightFromSquare"></fa-icon>
                 <p>Acesse o projeto</p>
               </a>
@@ -316,24 +228,14 @@
               <span *ngFor="let skill of skillsPortfolio">
                 <div class="placeholder"></div>
                 <div class="techs">
-                  <img
-                    mat-card-image
-                    [src]="skill.icon"
-                    width="20"
-                    height="20"
-                    [alt]="skill.alt"
-                  />
+                  <img mat-card-image [src]="skill.icon" width="20" height="20" [alt]="skill.alt" />
                 </div>
               </span>
             </div>
           </mat-card-footer>
         </mat-card>
         <!--Project 4 -->
-        <mat-card
-          data-aos="fade-left"
-          data-aos-offset="150"
-          data-aos-easing="ease-in-sine"
-        >
+        <mat-card data-aos="fade-left" data-aos-offset="150" data-aos-easing="ease-in-sine">
           <mat-card-header>
             <mat-card-title>
               <h3>Reset Password</h3>
@@ -349,12 +251,8 @@
           </mat-card-content>
           <mat-card-footer>
             <mat-card-actions>
-              <a
-                class="link"
-                href="https://github.com/alissonlimabr/forgotPassword"
-                aria-label="Clique para acessar o projeto: ResetPassword."
-                target="_blank"
-              >
+              <a class="link" href="https://github.com/alissonlimabr/forgotPassword"
+                aria-label="Clique para acessar o projeto: ResetPassword." target="_blank">
                 <fa-icon [icon]="faArrowUpRightFromSquare"></fa-icon>
                 <p>Acesse o projeto</p>
               </a>
@@ -363,24 +261,14 @@
               <span *ngFor="let skill of skillsResetPassword">
                 <div class="placeholder"></div>
                 <div class="techs">
-                  <img
-                    mat-card-image
-                    [src]="skill.icon"
-                    width="20"
-                    height="20"
-                    [alt]="skill.alt"
-                  />
+                  <img mat-card-image [src]="skill.icon" width="20" height="20" [alt]="skill.alt" />
                 </div>
               </span>
             </div>
           </mat-card-footer>
         </mat-card>
         <!--Project 5 -->
-        <mat-card
-          data-aos="fade-right"
-          data-aos-offset="150"
-          data-aos-easing="ease-in-sine"
-        >
+        <mat-card data-aos="fade-right" data-aos-offset="150" data-aos-easing="ease-in-sine">
           <mat-card-header>
             <mat-card-title>
               <h3>Plataforma de eventos</h3>
@@ -395,12 +283,8 @@
           </mat-card-content>
           <mat-card-footer>
             <mat-card-actions>
-              <a
-                class="link"
-                href="https://github.com/alissonlimabr/event-plataform-reactjs"
-                aria-label="Clique para acessar o projeto: Plataforma de eventos."
-                target="_blank"
-              >
+              <a class="link" href="https://github.com/alissonlimabr/event-plataform-reactjs"
+                aria-label="Clique para acessar o projeto: Plataforma de eventos." target="_blank">
                 <fa-icon [icon]="faArrowUpRightFromSquare"></fa-icon>
                 <p>Acesse o projeto</p>
               </a>
@@ -409,24 +293,14 @@
               <span *ngFor="let skill of skillsEventPlataform">
                 <div class="placeholder"></div>
                 <div class="techs">
-                  <img
-                    mat-card-image
-                    [src]="skill.icon"
-                    width="20"
-                    height="20"
-                    [alt]="skill.alt"
-                  />
+                  <img mat-card-image [src]="skill.icon" width="20" height="20" [alt]="skill.alt" />
                 </div>
               </span>
             </div>
           </mat-card-footer>
         </mat-card>
         <!--Project 6 -->
-        <mat-card
-          data-aos="fade-left"
-          data-aos-offset="150"
-          data-aos-easing="ease-in-sine"
-        >
+        <mat-card data-aos="fade-left" data-aos-offset="150" data-aos-easing="ease-in-sine">
           <mat-card-header>
             <mat-card-title>
               <h3>Em Desenvolvimento</h3>
@@ -456,24 +330,10 @@
         </h3>
       </div>
       <div class="social-links">
-        <div
-          class="social"
-          [attr.data-aos]="social.aosAnimation"
-          *ngFor="let social of socialMedia"
-        >
-          <a
-            class="btn"
-            aria-label="Acesse minha rede social"
-            [href]="social.url"
-            [target]="social.name === 'Gmail' ? '_self' : '_blank'"
-            [ariaLabel]="social.alt"
-          >
-            <img
-              [src]="social.icon"
-              width="100"
-              height="100"
-              [alt]="social.alt"
-            />
+        <div class="social" [attr.data-aos]="social.aosAnimation" *ngFor="let social of socialMedia">
+          <a class="btn" aria-label="Acesse minha rede social" [href]="social.url"
+            [target]="social.name === 'Gmail' ? '_self' : '_blank'" [ariaLabel]="social.alt">
+            <img [src]="social.icon" width="100" height="100" [alt]="social.alt" />
           </a>
           <h4>{{ social.name }}</h4>
         </div>

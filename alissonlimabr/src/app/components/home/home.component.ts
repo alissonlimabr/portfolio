@@ -76,7 +76,7 @@ export class HomeComponent implements OnInit {
   }
 
   currentPage = 0;
-  pageSize = 4;
+  pageSize = 3;
 
   get totalPages(): number {
     return Math.ceil(this.jobs.length / this.pageSize);

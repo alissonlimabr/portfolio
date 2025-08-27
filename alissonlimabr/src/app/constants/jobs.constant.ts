@@ -1,4 +1,17 @@
 export const JOBS = [
+    {
+    company: 'IFAC',
+    position: 'Software Developer',
+    description: [
+      'Desenvolvimento e integração de sistemas utilizando Python, Django, PostgreSQL, dentre outros;',
+      'Conteinerização de serviços com Docker;',
+      'Manutenção e evolução do sistema SUAP (Sistema Unificado de Administração Pública) no Instituto Federal do Acre;',
+      "Controle de versionamento com Git, seguindo boas práticas de branching (main, staging, feature branches) e integração contínua com pipelines automatizados;",
+      'Principais Tecnologias utilizadas: Python, Django, PostgreSQL, Docker, Wordpress, Elementor, Figma, Git dentre outras.',
+    ],
+    duration: 'Abril 2025 - Atualmente',
+    icon: '../../../assets/icons/ifac-icon.svg',
+  },
   {
     company: 'VINT Global',
     position: 'Desenvolvedor Full Stack',
@@ -9,7 +22,7 @@ export const JOBS = [
       'Implementações com NGinx para redirecionamento de rotas e integrações com aplicações em Angular;',
       'Principais Tecnologias utilizadas: Java, Spring Boot e Angular 16+, Strapi, Xml, Xslt, Web Services, Docker, Junit5, Nginx, Strapi, Banco de Dados Oracle, Figma, dentre outras.',
     ],
-    duration: 'Agosto 2024 - Atualmente',
+    duration: 'Agosto 2024 - Abril 2025',
     icon: '../../../assets/icons/vintglobal-icon.svg',
   },
   {
@@ -38,16 +51,12 @@ export const JOBS = [
   },
   {
     company: 'UFAC',
-    position: 'Desenvolvedor Full Stack Trainee',
+    position: 'Bolsista em curso de Desenvolvimento Web Full Stack',
     description: [
       'Desenvolvimento de sistemas para as empresas Motorola e Instituto Eldorado por meio do projeto WebAcademy.',
-
       'Desenvolvi o front-end dos sistemas demandados pelos parceiros do projeto.',
-
       'Atuei na correções de bugs/refatoração nas API’s e integrações com o Front-End.',
-
       'Principais tecnologias utilizadas: Java, Angular, Spring Boot, Typescript, Nodejs, CI/CD, Cypress, Jest, AWS Cloud, Junit5.',
-
       'Time 100% ágil: Scrum/Kanban e XP.',
     ],
     duration: 'Março 2022 - Outubro 2022',
