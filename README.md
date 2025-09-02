@@ -15,7 +15,10 @@
  <a href="#-licença">Licença</a>
 </p>
 
-<p align="center"> Portfólio de Desenvolvedor construído utilizando o framework Angular, juntamente com Angular Material e SCSS. O projeto é aprimorado com SSR para melhor desempenho e otimização de SEO. Além disso, o site possui uma paleta de cores Dark & Purple, bem como transições suaves e agradáveis entre as seções.</p>
+<p align="center">
+  Portfólio de Desenvolvedor construído utilizando o framework Angular, juntamente com Angular Material e SCSS. O projeto é aprimorado com SSR para melhor desempenho e otimização de SEO, além de contar com transições suaves e agradáveis entre as seções.
+</p>
+
 
 
 
