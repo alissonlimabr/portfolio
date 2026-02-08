@@ -1,5 +1,7 @@
 import { animate, style, transition, trigger } from '@angular/animations';
-import { Component, OnInit } from '@angular/core';
+import { Component, Inject, OnInit, PLATFORM_ID } from '@angular/core';
+import { isPlatformBrowser } from '@angular/common';
+
 import {
   faArrowUpRightFromSquare,
   faBars,
@@ -8,7 +10,7 @@ import {
   faCodeCommit,
   faXmark,
 } from '@fortawesome/free-solid-svg-icons';
-import * as AOS from 'aos';
+
 import { AUTH_JWT_SKILLS } from 'src/app/constants/auth-jwt-skills.constant';
 import { EVENT_PLATAFORM_SKILLS } from 'src/app/constants/event-plataform-skills.constant';
 import { JOBS } from 'src/app/constants/jobs.constant';
@@ -33,18 +35,20 @@ interface Job {
   animations: [
     trigger('fadeInUp', [
       transition(':enter', [
-        // Estado inicial: um pouco abaixo e transparente
         style({ opacity: 0, transform: 'translateY(20px)' }),
-        // Animação para o estado final: posição original e opaco
-        animate('0.5s ease-out', style({ opacity: 1, transform: 'translateY(0)' })),
+        animate(
+          '0.5s ease-out',
+          style({ opacity: 1, transform: 'translateY(0)' })
+        ),
       ]),
     ]),
     trigger('fadeInDown', [
       transition(':enter', [
-        // Estado inicial: um pouco acima e transparente
         style({ opacity: 0, transform: 'translateY(-20px)' }),
-        // Animação para o estado final: posição original e opaco
-        animate('0.5s ease-out', style({ opacity: 1, transform: 'translateY(0)' })),
+        animate(
+          '0.5s ease-out',
+          style({ opacity: 1, transform: 'translateY(0)' })
+        ),
       ]),
     ]),
   ],
@@ -56,6 +60,7 @@ export class HomeComponent implements OnInit {
   faCircle = faCircle;
   faArrowUpRightFromSquare = faArrowUpRightFromSquare;
   faCodeCommit = faCodeCommit;
+
   mySkills = MY_SKILLS;
   skillsMotoVoice = MOTOVOICE_SKILLS;
   skillsAuthJwt = AUTH_JWT_SKILLS;
@@ -63,27 +68,35 @@ export class HomeComponent implements OnInit {
   skillsResetPassword = RESET_PASSWORD_SKILLS;
   skillsEventPlataform = EVENT_PLATAFORM_SKILLS;
   socialMedia = SOCIAL_MEDIA;
+
   jobs = JOBS;
-
-  selectedJob: Job = this.jobs[0];
-
-  ngOnInit(): void {
-    AOS.init({});
-    // Set the first job as selected by default if jobs exist
-    if (this.jobs && this.jobs.length > 0) {
-      this.selectedJob = this.jobs[0];
-    }
-  }
+  selectedJob!: Job;
 
   currentPage = 0;
   pageSize = 3;
+
+  constructor(
+    @Inject(PLATFORM_ID) private platformId: Object
+  ) {}
+
+  async ngOnInit(): Promise<void> {
+    if (this.jobs?.length) {
+      this.selectedJob = this.jobs[0];
+    }
+
+    // ✅ AOS 100% SSR-safe
+    if (isPlatformBrowser(this.platformId)) {
+      const AOS = await import('aos');
+      AOS.init({ once: true });
+    }
+  }
 
   get totalPages(): number {
     return Math.ceil(this.jobs.length / this.pageSize);
   }
 
   get pagesArray(): number[] {
-    return Array(this.totalPages).fill(0).map((x, i) => i);
+    return Array.from({ length: this.totalPages }, (_, i) => i);
   }
 
   get paginatedJobs(): Job[] {
@@ -91,16 +104,12 @@ export class HomeComponent implements OnInit {
     return this.jobs.slice(startIndex, startIndex + this.pageSize);
   }
 
-  changePage(page: number) {
+  changePage(page: number): void {
     this.currentPage = page;
-    // Update selectedJob to the first job of the new page
-    const currentPaginatedJobs = this.paginatedJobs;
-    if (currentPaginatedJobs.length > 0) {
-      this.selectedJob = currentPaginatedJobs[0];
-    }
+    this.selectedJob = this.paginatedJobs[0];
   }
 
-  selectJob(job: Job) {
+  selectJob(job: Job): void {
     this.selectedJob = job;
   }
 }

@@ -12,7 +12,6 @@ import { HomeComponent } from './components/home/home.component';
 import { JsonLdComponent } from './components/json-ld/json-ld.component';
 import { ParticlesAnimationComponent } from './components/particles-animation/ParticlesAnimationComponent';
 import { MaterialModule } from './material/material.module';
-import { GoogleTagManagerModule } from 'angular-google-tag-manager';
 import Clarity from '@microsoft/clarity';
 
 @NgModule({
@@ -32,9 +31,6 @@ import Clarity from '@microsoft/clarity';
     FontAwesomeModule,
     NgxTypedWriterModule,
     NgxParticlesModule,
-    GoogleTagManagerModule.forRoot({
-      id: 'GTM-NMP4ZJHK',
-    }),
   ],
   providers: [],
   bootstrap: [AppComponent],
