@@ -1,11 +1,4 @@
 {
-  "version": 2,
-  "public": false,
-  "name": "alissonlimabr",
-  "rewrites": [{ "source": "/(.*)", "destination": "/api" }],
-  "functions": {
-    "api/index.js": {
-      "includeFiles": "dist/alissonlimabr/browser/**"
-    }
-  }
+  "buildCommand": "npm run build",
+  "outputDirectory": "dist/alissonlimabr/browser"
 }
