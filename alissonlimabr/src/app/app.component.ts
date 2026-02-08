@@ -1,7 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Inject, OnInit, PLATFORM_ID } from '@angular/core';
 import { NavigationEnd, Router } from '@angular/router';
+import { isPlatformBrowser } from '@angular/common';
+import { filter } from 'rxjs/operators';
+
 import { faBars, faCode, faXmark } from '@fortawesome/free-solid-svg-icons';
-import { GoogleTagManagerService } from 'angular-google-tag-manager';
 
 @Component({
   selector: 'app-root',
@@ -10,32 +12,45 @@ import { GoogleTagManagerService } from 'angular-google-tag-manager';
 })
 export class AppComponent implements OnInit {
   title = 'alissonlimabr';
+
   faBars = faBars;
   faXmark = faXmark;
   faCode = faCode;
+
   opened?: boolean;
 
   constructor(
-    private gtmService: GoogleTagManagerService,
-    private router: Router
-  ) {
-    gtmService.addGtmToDom();
-  }
+    private router: Router,
+    @Inject(PLATFORM_ID) private platformId: Object
+  ) {}
 
   ngOnInit(): void {
-    this.router.events.forEach((item) => {
-      if (item instanceof NavigationEnd) {
-        const gtmTag = {
-          event: 'page',
-          pageName: item.url,
-        };
+    // 🔒 SSR guard absoluto
+    if (!isPlatformBrowser(this.platformId)) {
+      return;
+    }
 
-        this.gtmService.pushTag(gtmTag);
-      }
-    });
+    // Garante dataLayer no browser
+    const win = window as any;
+    win.dataLayer = win.dataLayer || [];
+
+    // Pageview a cada navegação
+    this.router.events
+      .pipe(
+        filter(
+          (event): event is NavigationEnd =>
+            event instanceof NavigationEnd
+        )
+      )
+      .subscribe((event) => {
+        win.dataLayer.push({
+          event: 'page',
+          pageName: event.urlAfterRedirects,
+        });
+      });
   }
 
-  closeSideNav() {
+  closeSideNav(): void {
     this.opened = false;
   }
 }
