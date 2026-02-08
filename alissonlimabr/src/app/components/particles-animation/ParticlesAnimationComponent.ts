@@ -1,17 +1,15 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Inject, PLATFORM_ID, ChangeDetectionStrategy } from '@angular/core';
 import { NgParticlesService } from '@tsparticles/angular';
+import { isPlatformBrowser } from '@angular/common';
 import { animate, style, transition, trigger } from '@angular/animations';
-import {
-  IOptions,
-  InteractivityDetect,
-  MoveDirection,
-} from '@tsparticles/engine';
+import { InteractivityDetect, MoveDirection } from '@tsparticles/engine';
 import { loadSlim } from '@tsparticles/slim';
 
 @Component({
   selector: 'app-particles-animation',
   templateUrl: './particles-animation.component.html',
   styleUrls: ['./particles-animation.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush, // 🔹 adicionado
   animations: [
     trigger('fadeIn', [
       transition(':enter', [
@@ -28,67 +26,33 @@ export class ParticlesAnimationComponent implements OnInit {
     interactivity: {
       detectsOn: 'window' as InteractivityDetect,
       events: {
-        onClick: {
-          enable: true,
-          mode: 'push',
-        },
-        onHover: {
-          enable: true,
-          mode: 'grab',
-        },
+        onClick: { enable: true, mode: 'push' },
+        onHover: { enable: true, mode: 'grab' },
       },
-      modes: {
-        push: {
-          quantity: 1,
-        },
-      },
+      modes: { push: { quantity: 1 } },
     },
     particles: {
-      color: {
-        value: '#982FCB',
-        opacity: 0.3,
-      },
-      links: {
-        color: '#ffffff',
-        distance: 150,
-        enable: true,
-        opacity: 0.3,
-        width: 1,
-      },
-      collisions: {
-        enable: true,
-      },
-      move: {
-        direction: 'none' as MoveDirection,
-        enable: true,
-        outMode: 'bounce',
-        speed: 0.5,
-      },
-      number: {
-        density: {
-          enable: true,
-          value_area: 800,
-        },
-        value: 60,
-      },
-      opacity: {
-        value: 0.4,
-      },
-      shape: {
-        type: 'circle',
-      },
-      size: {
-        random: true,
-        value: 3,
-      },
+      color: { value: '#982FCB', opacity: 0.3 },
+      links: { color: '#ffffff', distance: 150, enable: true, opacity: 0.3, width: 1 },
+      collisions: { enable: true },
+      move: { direction: 'none' as MoveDirection, enable: true, outMode: 'bounce', speed: 0.5 },
+      number: { density: { enable: true, value_area: 800 }, value: 60 },
+      opacity: { value: 0.4 },
+      shape: { type: 'circle' },
+      size: { random: true, value: 3 },
     },
     detectRetina: true,
   };
 
-  constructor(private readonly ngParticlesService: NgParticlesService) {}
+  constructor(
+    private readonly ngParticlesService: NgParticlesService,
+    @Inject(PLATFORM_ID) private platformId: Object
+  ) {}
 
   async ngOnInit(): Promise<void> {
-    await this.loadParticles();
+    if (isPlatformBrowser(this.platformId)) {
+      await this.loadParticles();
+    }
   }
 
   private async loadParticles(): Promise<void> {
