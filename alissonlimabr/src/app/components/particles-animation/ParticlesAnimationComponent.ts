@@ -1,5 +1,5 @@
 import { Component, OnInit, Inject, PLATFORM_ID, ChangeDetectionStrategy } from '@angular/core';
-import { NgParticlesService } from '@tsparticles/angular';
+import { NgParticlesService, NgxParticlesComponent, NgxParticlesModule } from '@tsparticles/angular';
 import { isPlatformBrowser } from '@angular/common';
 import { animate, style, transition, trigger } from '@angular/animations';
 import { InteractivityDetect, MoveDirection } from '@tsparticles/engine';
@@ -10,6 +10,10 @@ import { loadSlim } from '@tsparticles/slim';
   templateUrl: './particles-animation.component.html',
   styleUrls: ['./particles-animation.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush, // 🔹 adicionado
+  standalone: true,
+  imports: [
+    NgxParticlesModule,
+  ],
   animations: [
     trigger('fadeIn', [
       transition(':enter', [
