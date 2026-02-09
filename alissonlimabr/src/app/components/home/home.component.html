@@ -85,10 +85,11 @@
       </div>
       <div class="jobs">
         <!-- -->
-        <mat-list class="job-list">
+        <mat-list class="job-list" appSwipe (swipeLeft)="nextPage()" (swipeRight)="previousPage()">
           <div class="title">
             <mat-button-toggle-group [@fadeInUp] class="button-group" appearance="legacy" name="fontStyle"
-              aria-label="Font Style" #group="matButtonToggleGroup" *ngFor="let job of paginatedJobs">
+              [hideSingleSelectionIndicator]="true" aria-label="Font Style" #group="matButtonToggleGroup"
+              *ngFor="let job of paginatedJobs">
               <mat-button-toggle class="button-jobs" (click)="selectJob(job)" [checked]="selectedJob === job">
                 <img [src]="job.icon" alt="empresa" width="30" height="30" />
                 {{ job.company }}
@@ -100,10 +101,15 @@
               <fa-icon [icon]="faCircle"></fa-icon>
             </mat-icon>
           </div>
+          <div class="jobs-hint">
+            <fa-icon [icon]="faArrowsLeftRight"></fa-icon>
+            <span>Arraste ou use os pontos</span>
+          </div>
         </mat-list>
 
-        <ng-container *ngFor="let job of selectedJob ? [selectedJob] : []">
-          <mat-card class="job-details" [@fadeInDown]>
+        <ng-container *ngIf="selectedJob as job">
+          <mat-card class="job-details" [@fadeInDown] appSwipe (swipeLeft)="goToNextJob()"
+            (swipeRight)="goToPreviousJob()">
             <mat-card-header>
               <mat-card-title class="title">
                 <h3>

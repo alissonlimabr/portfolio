@@ -1,10 +1,19 @@
-import { platformBrowserDynamic } from '@angular/platform-browser-dynamic';
-
-import { AppModule } from './app/app.module';
+import { bootstrapApplication } from '@angular/platform-browser';
+import { importProvidersFrom } from '@angular/core';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { AppRoutingModule } from './app/app-routing.module';
 import Clarity from '@microsoft/clarity';
+import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
+import { AppComponent } from './app/app.component';
 
-//id do projeto do Microsoft Clarity
+// Inicializa Clarity
 Clarity.init('pexxkhasj2');
 
-platformBrowserDynamic().bootstrapModule(AppModule)
-  .catch(err => console.error(err));
+// Bootstrap standalone
+bootstrapApplication(AppComponent, {
+  providers: [
+    importProvidersFrom(BrowserAnimationsModule),
+    importProvidersFrom(AppRoutingModule),
+    provideHttpClient(withInterceptorsFromDi())   // 🔹 Alternativa ao HttpClient
+  ]
+}).catch(err => console.error(err));

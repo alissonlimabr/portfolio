@@ -4,6 +4,7 @@ import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 @Component({
   selector: 'app-json-ld',
   templateUrl: './json-ld.component.html',
+  standalone: true,
   styleUrls: ['./json-ld.component.scss'],
 })
 export class JsonLdComponent implements OnInit {
