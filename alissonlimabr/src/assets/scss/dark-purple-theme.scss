@@ -220,6 +220,9 @@ mat-sidenav-content {
 
   .menu {
     display: none !important;
+    background: transparent;
+    border: 0;
+    font-size: 24px;
 
     &:hover {
       transform: translateX(3px);
@@ -241,7 +244,7 @@ mat-sidenav-content {
   width: 100%;
 
   @include responsive(tabletplus) {
-    padding: 10px 0;
+    padding: 5px 0;
   }
 }
 
@@ -282,7 +285,7 @@ mat-sidenav-container {
   font-weight: 700;
 
   @include responsive(mobile) {
-    font-size: 16px;
+    font-size: 20px;
   }
 
   fa-icon {
@@ -683,12 +686,12 @@ mat-card {
     justify-content: center;
     align-items: center;
     gap: 5px;
+    color: variable.$gray-100;
 
     @include responsive(tablet) {
       font-size: 14px;
       font-weight: 500 !important;
     }
-
     fa-icon {
       font-size: 12px;
       color: variable.$purple-800;
@@ -702,37 +705,62 @@ mat-card {
     mat-icon.active fa-icon {
       color: variable.$purple-400;
     }
+
+    button {
+      background: transparent;
+      font-size: 20px;
+      padding: 0 5px;
+      border: 0;
+
+      fa-icon {
+        font-size: 20px;
+        color: variable.$purple-500;
+        transition: 0.3s;
+
+        &:hover {
+          transform: scale(1.2);
+          color: variable.$purple-500;
+        }
+      }
+    }
   }
 
   .jobs-hint {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 0.4rem;
-  margin-top: 0.5rem;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    gap: 0.4rem;
+    margin-top: 0.5rem;
+    font-size: 0.8rem;
+    color: variable.$gray-500;
 
-  font-size: 0.75rem;
-  color: rgba(255, 255, 255, 0.55);
+    animation: hintExplore 3s ease-in-out infinite;
 
-  animation: hintPulse 3.5s ease-in-out infinite;
-}
+    @include responsive(tablet) {
+      display: flex !important;
+    }
 
-@keyframes hintPulse {
-  0% {
-    opacity: 0.5;
-    transform: translateY(0);
+    & fa-icon {
+      font-size: 1rem;
+      color: variable.$purple-500;
+    }
+
+    & span {
+      letter-spacing: 0.5px;
+    }
   }
-  50% {
-    opacity: 0.85;
-    transform: translateY(-2px);
-  }
-  100% {
-    opacity: 0.5;
-    transform: translateY(0);
-  }
-}
 
-
+  @keyframes hintExplore {
+    0%,
+    100% {
+      opacity: 0.4;
+      transform: translateX(0);
+    }
+    50% {
+      opacity: 1;
+      transform: translateX(6px);
+    }
+  }
 
   // Animação nos dots
   .jobs-pagination mat-icon.active {

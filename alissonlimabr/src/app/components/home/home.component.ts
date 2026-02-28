@@ -1,19 +1,27 @@
 import { animate, style, transition, trigger } from '@angular/animations';
-import { Component, Inject, OnInit, PLATFORM_ID } from '@angular/core';
 import { CommonModule, isPlatformBrowser } from '@angular/common';
+import { Component, Inject, OnInit, PLATFORM_ID } from '@angular/core';
 import { SwipeDirective } from '../../directives/swipe.directive';
 
 import {
+  faArrowsLeftRight,
   faArrowUpRightFromSquare,
   faBars,
+  faChevronLeft,
+  faChevronRight,
   faCircle,
   faCode,
   faCodeCommit,
+  faHandPointer,
   faXmark,
-  faChevronRight,
-  faArrowsLeftRight,
 } from '@fortawesome/free-solid-svg-icons';
 
+import { MatButtonToggleModule } from '@angular/material/button-toggle';
+import { MatCardModule } from '@angular/material/card';
+import { MatIconModule } from '@angular/material/icon';
+import { MatListModule } from '@angular/material/list';
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
+import { NgxTypedWriterModule } from 'ngx-typed-writer';
 import { AUTH_JWT_SKILLS } from 'src/app/constants/auth-jwt-skills.constant';
 import { EVENT_PLATAFORM_SKILLS } from 'src/app/constants/event-plataform-skills.constant';
 import { JOBS } from 'src/app/constants/jobs.constant';
@@ -22,15 +30,7 @@ import { MY_SKILLS } from 'src/app/constants/my-skills.constant';
 import { PORTFOLIO_SKILLS } from 'src/app/constants/portfolio-skills.constant';
 import { RESET_PASSWORD_SKILLS } from 'src/app/constants/reset-password-skills.constant';
 import { SOCIAL_MEDIA } from 'src/app/constants/social-media.constant';
-import { MatCardModule } from '@angular/material/card';
-import { MatListModule } from '@angular/material/list';
-import { MatButtonToggleModule } from '@angular/material/button-toggle';
-import { MatIconModule } from '@angular/material/icon';
-import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
-import { NgxTypedWriterModule } from 'ngx-typed-writer';
-import { Particle } from '@tsparticles/engine';
 import { ParticlesAnimationComponent } from '../particles-animation/ParticlesAnimationComponent';
-import { NgxParticlesModule } from '@tsparticles/angular';
 
 interface Job {
   company: string;
@@ -93,6 +93,9 @@ export class HomeComponent implements OnInit {
   faArrowUpRightFromSquare = faArrowUpRightFromSquare;
   faCodeCommit = faCodeCommit;
   faArrowsLeftRight = faArrowsLeftRight;
+  faChevronRight = faChevronRight;
+  faChevronLeft = faChevronLeft;
+  faHandPointer = faHandPointer;
 
   mySkills = MY_SKILLS;
   skillsMotoVoice = MOTOVOICE_SKILLS;
@@ -104,6 +107,7 @@ export class HomeComponent implements OnInit {
 
   jobs = JOBS;
   selectedJob!: Job;
+  hasInteractedCard = false;
 
   currentPage = 0;
   pageSize = 3;
@@ -170,6 +174,7 @@ export class HomeComponent implements OnInit {
     if (index < this.jobs.length - 1) {
       this.selectedJob = this.jobs[index + 1];
       this.syncPageWithJob();
+      this.hasInteractedCard = true;
     }
   }
   goToPreviousJob(): void {
@@ -178,6 +183,7 @@ export class HomeComponent implements OnInit {
     if (index > 0) {
       this.selectedJob = this.jobs[index - 1];
       this.syncPageWithJob();
+      this.hasInteractedCard = true;
     }
   }
 }
