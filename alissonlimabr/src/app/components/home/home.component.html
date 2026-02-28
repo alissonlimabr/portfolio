@@ -97,13 +97,17 @@
             </mat-button-toggle-group>
           </div>
           <div class="jobs-pagination">
-            <mat-icon *ngFor="let page of pagesArray" [class.active]="currentPage === page" (click)="changePage(page)">
-              <fa-icon [icon]="faCircle"></fa-icon>
-            </mat-icon>
-          </div>
-          <div class="jobs-hint">
-            <fa-icon [icon]="faArrowsLeftRight"></fa-icon>
-            <span>Arraste ou use os pontos</span>
+            <button (click)="previousPage()" [disabled]="currentPage === 0">
+              <fa-icon [icon]="faChevronLeft"></fa-icon>
+            </button>
+
+            <div class="status-group">
+              <span class="counter">{{ currentPage + 1 }} de {{ pagesArray.length }}</span>
+            </div>
+
+            <button (click)="nextPage()" [disabled]="currentPage === totalPages">
+              <fa-icon [icon]="faChevronRight"></fa-icon>
+            </button>
           </div>
         </mat-list>
 
@@ -127,6 +131,14 @@
                 </p>
               </div>
             </mat-card-content>
+            <mat-card-footer>
+              @if (!hasInteractedCard) {
+              <div class="jobs-hint">
+                <fa-icon [icon]="faArrowsLeftRight"></fa-icon>
+                <span>Arraste para o lado</span>
+              </div>
+              }
+            </mat-card-footer>
           </mat-card>
         </ng-container>
       </div>
