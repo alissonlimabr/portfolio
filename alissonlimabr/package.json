@@ -23,7 +23,7 @@
     "@angular/platform-server": "^19.2.19",
     "@angular/router": "^19.2.19",
     "@angular/ssr": "^19.2.22",
-    "@fortawesome/angular-fontawesome": "^0.15.0",
+    "@fortawesome/angular-fontawesome": "^1.0",
     "@fortawesome/fontawesome-svg-core": "^6.4.2",
     "@fortawesome/free-solid-svg-icons": "^6.4.2",
     "@microsoft/clarity": "^1.0.0",
