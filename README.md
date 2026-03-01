@@ -41,7 +41,7 @@
 
 As seguintes ferramentas foram usadas na construção do projeto:
 
-- [Angular 18](https://angular.io/)
+- [Angular 21](https://angular.io/)
 - [Angular Material](https://material.angular.io/)
 - [Angular SSR](https://angular.dev/guide/ssr)
 - [TsParticles](https://particles.js.org/)
