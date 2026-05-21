@@ -1,6 +1,4 @@
-<!-- app.component.html -->
 <mat-sidenav-container>
-  <!-- Sidenav -->
   <mat-sidenav #sidenav mode="over" [(opened)]="opened">
     <span class="logo">
       <fa-icon [icon]="faCode"></fa-icon>
@@ -8,43 +6,66 @@
       <fa-icon id="close" [icon]="faXmark" (click)="sidenav.toggle()"></fa-icon>
     </span>
     <span class="nav-links">
-      <ul>
-        <li (click)="closeSideNav()">
-          <a class="link" href="/#perfil">Perfil</a>
-        </li>
-        <li (click)="closeSideNav()">
-          <a class="link" href="/#sobre">Sobre mim</a>
-        </li>
-        <li (click)="closeSideNav()">
-          <a class="link" href="/#habilidades">Habilidades</a>
-        </li>
-        <li (click)="closeSideNav()">
-          <a class="link" href="/#trabalhos">Trabalhos</a>
-        </li>
-        <li (click)="closeSideNav()">
-          <a class="link" href="/#projetos">Projetos</a>
-        </li>
-        <li (click)="closeSideNav()">
-          <a class="link" href="/#contato">Contato</a>
-        </li>
-        <li (click)="closeSideNav()">
-          <a class="link" routerLink="/blog">Blog</a>
-        </li>
-      </ul>
+      @if (isBlogRoute) {
+        <ul>
+          <li (click)="closeSideNav()">
+            <a class="link" routerLink="/blog">Posts</a>
+          </li>
+          <li (click)="closeSideNav()">
+            <a class="link" routerLink="/blog/categorias">Categorias</a>
+          </li>
+          <li (click)="closeSideNav()">
+            <a class="link" href="/#sobre">Sobre</a>
+          </li>
+          <li (click)="closeSideNav()">
+            <a class="link" href="/#contato">Contato</a>
+          </li>
+          <li (click)="closeSideNav()">
+            <a class="link" href="/rss.xml" target="_blank" rel="noopener noreferrer">RSS</a>
+          </li>
+          <li (click)="closeSideNav()">
+            <a class="link link--back" routerLink="/">← Portfólio</a>
+          </li>
+        </ul>
+      } @else {
+        <ul>
+          <li (click)="closeSideNav()">
+            <a class="link" href="/#perfil">Perfil</a>
+          </li>
+          <li (click)="closeSideNav()">
+            <a class="link" href="/#sobre">Sobre mim</a>
+          </li>
+          <li (click)="closeSideNav()">
+            <a class="link" href="/#habilidades">Habilidades</a>
+          </li>
+          <li (click)="closeSideNav()">
+            <a class="link" href="/#trabalhos">Trabalhos</a>
+          </li>
+          <li (click)="closeSideNav()">
+            <a class="link" href="/#projetos">Projetos</a>
+          </li>
+          <li (click)="closeSideNav()">
+            <a class="link" href="/#contato">Contato</a>
+          </li>
+          <li (click)="closeSideNav()">
+            <a class="link" routerLink="/blog">Blog</a>
+          </li>
+        </ul>
+      }
     </span>
   </mat-sidenav>
 
-  <!-- Layout -->
   <mat-sidenav-content>
-    <!-- Header -->
     <header>
-      <app-header class="header" (openSidenav)="sidenav.toggle()"></app-header>
+      <app-header
+        class="header"
+        [isBlogRoute]="isBlogRoute"
+        (openSidenav)="sidenav.toggle()"
+      ></app-header>
     </header>
-    <!-- main -->
     <main>
       <router-outlet></router-outlet>
     </main>
-    <!-- footer -->
     <footer>
       <app-footer></app-footer>
     </footer>

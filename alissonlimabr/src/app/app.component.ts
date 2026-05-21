@@ -1,4 +1,5 @@
-import { Component, Inject, OnInit, PLATFORM_ID } from '@angular/core';
+import { Component, DestroyRef, Inject, OnInit, PLATFORM_ID, inject } from '@angular/core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { NavigationEnd, Router, RouterLink, RouterOutlet } from '@angular/router';
 import { isPlatformBrowser } from '@angular/common';
 import { filter } from 'rxjs/operators';
@@ -15,7 +16,6 @@ import { HeaderComponent } from './components/header/header.component';
   templateUrl: './app.component.html',
   standalone: true,
   imports: [
-    //mat-sidenav-container
     MatSidenavContainer,
     MatSidenav,
     MatSidenavContent,
@@ -29,6 +29,8 @@ import { HeaderComponent } from './components/header/header.component';
   styleUrls: ['./app.component.scss'],
 })
 export class AppComponent implements OnInit {
+  private readonly destroyRef = inject(DestroyRef);
+
   title = 'alissonlimabr';
 
   faBars = faBars;
@@ -36,6 +38,7 @@ export class AppComponent implements OnInit {
   faCode = faCode;
 
   opened?: boolean;
+  isBlogRoute = false;
 
   constructor(
     private router: Router,
@@ -43,24 +46,25 @@ export class AppComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    // 🔒 SSR guard absoluto
+    this.isBlogRoute = this.router.url.startsWith('/blog');
+
     if (!isPlatformBrowser(this.platformId)) {
       return;
     }
 
-    // Garante dataLayer no browser
     const win = window as any;
     win.dataLayer = win.dataLayer || [];
 
-    // Pageview a cada navegação
     this.router.events
       .pipe(
         filter(
           (event): event is NavigationEnd =>
             event instanceof NavigationEnd
-        )
+        ),
+        takeUntilDestroyed(this.destroyRef)
       )
       .subscribe((event) => {
+        this.isBlogRoute = event.urlAfterRedirects.startsWith('/blog');
         win.dataLayer.push({
           event: 'page',
           pageName: event.urlAfterRedirects,
