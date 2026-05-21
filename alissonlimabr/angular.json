@@ -25,6 +25,10 @@
             ],
             "tsConfig": "tsconfig.app.json",
             "inlineStyleLanguage": "scss",
+            "allowedCommonJsDependencies": [
+              "prismjs",
+              "aos"
+            ],
             "assets": [
               "src/favicon.ico",
               "src/assets",
