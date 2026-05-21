@@ -1,5 +1,13 @@
-import { ChangeDetectorRef, Component, NgZone, OnInit } from '@angular/core';
-
+import {
+  ChangeDetectionStrategy,
+  ChangeDetectorRef,
+  Component,
+  DestroyRef,
+  NgZone,
+  OnInit,
+  inject,
+} from '@angular/core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { ActivatedRoute, RouterLink } from '@angular/router';
 import { MatCardModule } from '@angular/material/card';
 import { Observable } from 'rxjs';
@@ -11,8 +19,11 @@ import { Category, PostSummary } from '../models/post.model';
   standalone: true,
   imports: [RouterLink, MatCardModule],
   templateUrl: './blog-list.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class BlogListComponent implements OnInit {
+  private readonly destroyRef = inject(DestroyRef);
+
   posts: PostSummary[] = [];
   categories: Category[] = [];
   currentCategory?: Category;
@@ -30,7 +41,10 @@ export class BlogListComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.sanity.getCategories().subscribe({
+    this.sanity
+      .getCategories()
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe({
       // Clarity faz monkey-patch no XHR e quebra o Zone do Angular —
       // por isso forçamos a callback a rodar dentro da zone.
       next: cats => {
@@ -42,12 +56,14 @@ export class BlogListComponent implements OnInit {
       error: () => {},
     });
 
-    this.route.paramMap.subscribe(params => {
-      const slug = params.get('slug');
-      this.searchTerm = '';
-      this.currentPage = 1;
-      this.loadForRoute(slug);
-    });
+    this.route.paramMap
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe(params => {
+        const slug = params.get('slug');
+        this.searchTerm = '';
+        this.currentPage = 1;
+        this.loadForRoute(slug);
+      });
   }
 
   private loadForRoute(categorySlug: string | null): void {
@@ -58,15 +74,18 @@ export class BlogListComponent implements OnInit {
     this.cdr.markForCheck();
 
     if (categorySlug) {
-      this.sanity.getCategoryBySlug(categorySlug).subscribe({
-        next: cat => {
-          this.zone.run(() => {
-            this.currentCategory = cat ?? undefined;
-            this.cdr.markForCheck();
-          });
-        },
-        error: () => {},
-      });
+      this.sanity
+        .getCategoryBySlug(categorySlug)
+        .pipe(takeUntilDestroyed(this.destroyRef))
+        .subscribe({
+          next: cat => {
+            this.zone.run(() => {
+              this.currentCategory = cat ?? undefined;
+              this.cdr.markForCheck();
+            });
+          },
+          error: () => {},
+        });
       this.fetchPosts(this.sanity.getPostsByCategory(categorySlug));
     } else {
       this.fetchPosts(this.sanity.getPosts());
@@ -74,7 +93,7 @@ export class BlogListComponent implements OnInit {
   }
 
   private fetchPosts(source$: Observable<PostSummary[]>): void {
-    source$.subscribe({
+    source$.pipe(takeUntilDestroyed(this.destroyRef)).subscribe({
       next: posts => {
         this.zone.run(() => {
           this.posts = (posts ?? []).map(p => ({

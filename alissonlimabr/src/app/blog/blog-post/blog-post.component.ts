@@ -1,13 +1,17 @@
 import {
+  ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
+  DestroyRef,
   ElementRef,
   Inject,
   NgZone,
   OnDestroy,
   OnInit,
   ViewChild,
+  inject,
 } from '@angular/core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { DOCUMENT } from '@angular/common';
 import { ActivatedRoute, RouterLink } from '@angular/router';
 import { DomSanitizer, Meta, SafeHtml, Title } from '@angular/platform-browser';
@@ -33,8 +37,11 @@ import { Post, PostSummary } from '../models/post.model';
   standalone: true,
   imports: [RouterLink],
   templateUrl: './blog-post.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class BlogPostComponent implements OnInit, OnDestroy {
+  private readonly destroyRef = inject(DestroyRef);
+
   post?: Post;
   bodyHtml?: SafeHtml;
   loading = true;
@@ -60,7 +67,10 @@ export class BlogPostComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.route.paramMap
-      .pipe(switchMap(params => this.sanity.getPost(params.get('slug')!)))
+      .pipe(
+        switchMap(params => this.sanity.getPost(params.get('slug')!)),
+        takeUntilDestroyed(this.destroyRef)
+      )
       .subscribe({
         // Clarity faz monkey-patch no XHR e quebra o Zone do Angular —
         // por isso forçamos a callback a rodar dentro da zone.
@@ -112,7 +122,10 @@ export class BlogPostComponent implements OnInit, OnDestroy {
   }
 
   private loadRelatedPosts(slug: string, tags: string[]): void {
-    this.sanity.getRelatedPosts(slug, tags, 3).subscribe({
+    this.sanity
+      .getRelatedPosts(slug, tags, 3)
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe({
       next: related => {
         this.zone.run(() => {
           this.relatedPosts = (related ?? []).map(p => ({
@@ -187,7 +200,8 @@ export class BlogPostComponent implements OnInit, OnDestroy {
 
     this.jsonLdScript = this.document.createElement('script');
     this.jsonLdScript.type = 'application/ld+json';
-    this.jsonLdScript.textContent = JSON.stringify(ld);
+    // Escapa </ para evitar quebra do <script> caso o conteúdo contenha "</script>".
+    this.jsonLdScript.textContent = JSON.stringify(ld).replace(/<\//g, '<\\/');
     this.document.head.appendChild(this.jsonLdScript);
   }
 
