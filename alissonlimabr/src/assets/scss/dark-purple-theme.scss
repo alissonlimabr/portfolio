@@ -1596,11 +1596,10 @@ mat-card {
 }
 .post-head {
   display: flex;
-  padding: 64px 24px 40px;
+  padding: 40px 24px 12px;
 
-
-  @include responsive(tablet)     { padding: 48px 20px 32px; }
-  @include responsive(mobilePlus) { padding: 32px 16px 24px; }
+  @include responsive(tablet)     { padding: 32px 20px 10px; }
+  @include responsive(mobilePlus) { padding: 24px 16px 8px; }
 
   .container {
     min-height: 100%;
@@ -1612,7 +1611,9 @@ mat-card {
   max-width: 720px;
   display: flex;
   flex-direction: column;
-  gap: 16px;
+  gap: 10px;
+
+  .back-link { margin-bottom: 2px; }
 
   h1 {
     font-size: 44px;
@@ -1620,7 +1621,7 @@ mat-card {
     color: variable.$white;
     line-height: 1.15;
     letter-spacing: -1px;
-    margin: 4px 0 0;
+    margin: 0;
 
     @include responsive(tablet) { font-size: 34px; letter-spacing: -0.6px; }
     @include responsive(mobile) { font-size: 26px; letter-spacing: -0.4px; }
@@ -1633,7 +1634,7 @@ mat-card {
   gap: 8px;
   font-size: 13px;
   color: #8b8895;
-  margin-top: 4px;
+  margin: 0;
 }
 
 .post-excerpt {
@@ -1641,7 +1642,7 @@ mat-card {
   color: variable.$gray-200;
   font-weight: 300;
   line-height: 1.55;
-  margin: 8px 0 0;
+  margin: 0;
 
   @include responsive(tablet) { font-size: 17px; }
   @include responsive(mobile) { font-size: 16px; }
@@ -1650,9 +1651,9 @@ mat-card {
 .post-cover {
   display: flex;
   justify-content: center;
-  padding: 24px 24px 16px;
+  padding: 20px 24px 8px;
 
-  @include responsive(mobilePlus) { padding: 16px 16px 8px; }
+  @include responsive(mobilePlus) { padding: 14px 16px 4px; }
 
   img {
     width: 100%;
@@ -1668,41 +1669,42 @@ mat-card {
 .post-body {
   display: flex;
   justify-content: center;
-  padding: 24px 24px 64px;
+  padding: 20px 24px 56px;
 
-  @include responsive(mobilePlus) { padding: 16px 16px 48px; }
+  @include responsive(mobilePlus) { padding: 14px 16px 40px; }
 }
 
 .post-content {
   width: 100%;
   max-width: 720px;
   font-size: 18px;
-  line-height: 1.75;
+  line-height: 1.7;
   color: #d4d2dc;
   word-wrap: break-word;
   text-align: left;
 
   @include responsive(tablet) { font-size: 17px; }
-  @include responsive(mobile) { font-size: 16px; line-height: 1.7; }
+  @include responsive(mobile) { font-size: 16px; line-height: 1.65; }
 
   > *:first-child { margin-top: 0; }
+  > *:last-child { margin-bottom: 0; }
 
-  p { margin: 0; }
+  p { margin: 0 0 1.4em; }
 
   h1, h2, h3, h4 {
     color: variable.$white;
     font-weight: 700;
     line-height: 1.25;
     letter-spacing: -0.3px;
-    margin: 0.6em 0 0.6em;
+    margin: 1.8em 0 0.5em;
     padding: 0;
     border: 0;
     text-align: left;
   }
 
   h1 { font-size: 30px; }
-  h2 { font-size: 25px; }
-  h3 { font-size: 21px; }
+  h2 { font-size: 26px; }
+  h3 { font-size: 22px; }
   h4 { font-size: 18px; }
 
   @include responsive(mobile) {
@@ -1712,7 +1714,7 @@ mat-card {
     h4 { font-size: 17px; }
   }
 
-  a:not(.blog-category-badge):not(.related-card):not(.back-link):not(.code-copy-btn) {
+  a:not(.blog-category-badge):not(.related-card):not(.back-link):not(.code-copy-btn):not(.post-share-btn) {
     color: variable.$purple-400;
     text-decoration: underline;
     text-underline-offset: 3px;
@@ -1733,7 +1735,7 @@ mat-card {
   }
 
   .code-block {
-    margin: 1.8em 0;
+    margin: 1.6em 0;
     border-radius: 8px;
     overflow: hidden;
     border: 1px solid rgba(variable.$purple-500, 0.2);
@@ -1771,7 +1773,7 @@ mat-card {
     border: 1px solid rgba(variable.$purple-500, 0.15);
     border-radius: 8px;
     padding: 18px 22px;
-    margin: 1.8em 0;
+    margin: 1.6em 0;
     overflow-x: auto;
 
     @include responsive(mobile) { padding: 14px 16px; }
@@ -1799,7 +1801,7 @@ mat-card {
       letter-spacing: 0.4px;
       font-family: inherit;
       cursor: pointer;
-      opacity: 0;
+      opacity: 0.55;
       transition: opacity 0.2s, background 0.2s, color 0.2s, border-color 0.2s;
 
       &:hover {
@@ -1809,15 +1811,15 @@ mat-card {
       }
 
       &.copied {
-        background: #16a34a;
+        background: variable.$success;
         color: variable.$white;
-        border-color: #16a34a;
+        border-color: variable.$success;
       }
 
       &.failed {
-        background: #b91c1c;
+        background: variable.$error;
         color: variable.$white;
-        border-color: #b91c1c;
+        border-color: variable.$error;
       }
     }
 
@@ -1873,16 +1875,16 @@ mat-card {
   .token.italic { font-style: italic; }
 
   blockquote {
-    border-left: 2px solid variable.$purple-500;
-    padding: 4px 0 4px 22px;
-    margin: 1.8em 0;
+    border-left: 3px solid variable.$purple-500;
+    padding: 2px 0 2px 20px;
+    margin: 1.4em 0;
     color: variable.$gray-100;
     font-style: italic;
     font-size: 1.05em;
   }
 
   figure {
-    margin: 2em 0;
+    margin: 1.6em 0;
     text-align: center;
 
     img {
@@ -1893,10 +1895,10 @@ mat-card {
   }
 
   ul, ol {
-    margin: 1em 0 1.4em 1.3em;
+    margin: 0 0 1.4em 1.3em;
 
     li {
-      margin-bottom: 0.5em;
+      margin-bottom: 0.35em;
 
       &::marker { color: variable.$purple-500; }
     }
@@ -1922,6 +1924,67 @@ mat-card {
   &:hover {
     color: variable.$purple-400;
     transform: translateX(-2px);
+  }
+}
+
+.post-share {
+  display: flex;
+  justify-content: center;
+  padding: 8px 24px 0;
+
+  @include responsive(mobilePlus) { padding: 4px 16px 0; }
+}
+
+.post-share-inner {
+  width: 100%;
+  max-width: 720px;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 10px;
+}
+
+.post-share-label {
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 1.2px;
+  text-transform: uppercase;
+  color: variable.$gray-300;
+}
+
+.post-share-buttons {
+  display: flex;
+  gap: 6px;
+}
+
+.post-share-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  border: 1px solid variable.$purple-800;
+  cursor: pointer;
+  color: variable.$purple-200;
+  background: transparent;
+  font-family: inherit;
+  transition: 0.2s;
+  text-decoration: none;
+
+  &:hover {
+    background: variable.$purple-500;
+    border-color: variable.$purple-500;
+    color: variable.$white;
+    transform: translateY(-1px);
+  }
+
+  &.copy.copied {
+    background: variable.$success;
+    border-color: variable.$success;
+    color: variable.$white;
+
+    &:hover { background: variable.$success; border-color: variable.$success; }
   }
 }
 

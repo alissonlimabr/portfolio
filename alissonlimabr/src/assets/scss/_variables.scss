@@ -14,9 +14,18 @@ $gray-600: #424242 !default;
 
 $gray-900: #151515 !default;
 
+// Escala de roxos do mais claro (50) ao mais escuro (900).
+$purple-50:  #F7EBFB;
+$purple-100: #EBD1F3;
+$purple-200: #D8A6E5;
+$purple-300: #B870D2;
 $purple-400: #982FCB;
 $purple-500: #7C2FA1;
 $purple-600: #b400b7;
 $purple-700: #CB2FC5;
 $purple-800: #330649;
 $purple-900: #230532;
+
+// Cores semânticas auxiliares (estados, feedback)
+$success: #16a34a;
+$error:   #b91c1c;

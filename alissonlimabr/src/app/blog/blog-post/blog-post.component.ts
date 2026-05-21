@@ -40,11 +40,12 @@ export class BlogPostComponent implements OnInit, OnDestroy {
   loading = true;
   notFound = false;
   relatedPosts: PostSummary[] = [];
+  linkCopied = false;
 
   @ViewChild('postContent') postContentRef?: ElementRef<HTMLDivElement>;
 
   private jsonLdScript?: HTMLScriptElement;
-  private readonly siteOrigin = 'https://www.alissonlimadev.com';
+  private readonly siteOrigin = 'https://alissonlimadev.com';
 
   constructor(
     private route: ActivatedRoute,
@@ -250,6 +251,34 @@ export class BlogPostComponent implements OnInit, OnDestroy {
       btn.classList.remove('copied', 'failed');
       btn.textContent = 'Copiar';
     }, 1800);
+  }
+
+  get shareUrls(): { twitter: string; linkedin: string; whatsapp: string } | null {
+    if (!this.post) return null;
+    const url = `${this.siteOrigin}/blog/${this.post.slug.current}`;
+    const encodedUrl = encodeURIComponent(url);
+    const encodedTitle = encodeURIComponent(this.post.title);
+    return {
+      twitter: `https://twitter.com/intent/tweet?text=${encodedTitle}&url=${encodedUrl}`,
+      linkedin: `https://www.linkedin.com/sharing/share-offsite/?url=${encodedUrl}`,
+      whatsapp: `https://wa.me/?text=${encodedTitle}%20${encodedUrl}`,
+    };
+  }
+
+  copyPostLink(): void {
+    if (!this.post) return;
+    const url = `${this.siteOrigin}/blog/${this.post.slug.current}`;
+    navigator.clipboard
+      .writeText(url)
+      .then(() => {
+        this.linkCopied = true;
+        this.cdr.markForCheck();
+        setTimeout(() => {
+          this.linkCopied = false;
+          this.cdr.markForCheck();
+        }, 1800);
+      })
+      .catch(() => {});
   }
 
   formatDate(dateStr: string): string {
