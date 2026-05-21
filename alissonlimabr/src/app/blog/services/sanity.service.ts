@@ -117,6 +117,16 @@ export class SanityService {
     return this.query<Category[]>(groq);
   }
 
+  getCategoriesWithCount(): Observable<Category[]> {
+    const groq = `
+      *[_type == "category"] | order(title asc) {
+        _id, title, slug, description, color,
+        "postCount": count(*[_type == "post" && references(^._id)])
+      }
+    `;
+    return this.query<Category[]>(groq);
+  }
+
   getCategoryBySlug(slug: string): Observable<Category | null> {
     const groq = `
       *[_type == "category" && slug.current == $slug][0] {

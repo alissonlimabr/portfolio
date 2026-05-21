@@ -1,0 +1,55 @@
+<section class="blog-hero">
+  <div class="blog-hero-inner">
+    <span class="blog-hero-label">Índice</span>
+    <h1>Categorias</h1>
+    <p>Explore os artigos organizados por tópicos de interesse.</p>
+  </div>
+</section>
+
+<section class="blog-section">
+  @if (loading) {
+    <div class="categories-grid">
+      @for (_ of [1, 2, 3, 4]; track $index) {
+        <div class="category-card-skeleton">
+          <div class="blog-skeleton-line blog-skeleton-line-title"></div>
+          <div class="blog-skeleton-line"></div>
+        </div>
+      }
+    </div>
+  }
+
+  @if (error) {
+    <div class="blog-state-msg">
+      <p>Não foi possível carregar as categorias.</p>
+    </div>
+  }
+
+  @if (!loading && !error && categories.length === 0) {
+    <div class="blog-state-msg">
+      <p>Nenhuma categoria cadastrada ainda.</p>
+    </div>
+  }
+
+  @if (!loading && !error && categories.length > 0) {
+    <div class="categories-grid">
+      @for (cat of categories; track cat._id) {
+        <a
+          class="category-card category--{{ cat.slug.current }}"
+          [routerLink]="['/blog/categoria', cat.slug.current]"
+          [style.--cat-color]="cat.color || null"
+        >
+          <div class="category-card-header">
+            <h2>{{ cat.title }}</h2>
+            <span class="category-card-count">
+              {{ cat.postCount ?? 0 }} {{ (cat.postCount ?? 0) === 1 ? 'artigo' : 'artigos' }}
+            </span>
+          </div>
+          @if (cat.description) {
+            <p class="category-card-description">{{ cat.description }}</p>
+          }
+          <span class="category-card-link">Ver artigos →</span>
+        </a>
+      }
+    </div>
+  }
+</section>

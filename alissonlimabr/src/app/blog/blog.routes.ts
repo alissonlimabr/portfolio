@@ -7,6 +7,11 @@ export const BLOG_ROUTES: Routes = [
       import('./blog-list/blog-list.component').then(m => m.BlogListComponent),
   },
   {
+    path: 'categorias',
+    loadComponent: () =>
+      import('./blog-categories/blog-categories.component').then(m => m.BlogCategoriesComponent),
+  },
+  {
     path: 'categoria/:slug',
     loadComponent: () =>
       import('./blog-list/blog-list.component').then(m => m.BlogListComponent),

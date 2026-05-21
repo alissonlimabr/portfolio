@@ -27,6 +27,7 @@ export interface Category {
   slug: { current: string };
   description?: string;
   color?: string;
+  postCount?: number;
 }
 
 export interface PostSummary {
