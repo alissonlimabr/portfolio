@@ -1,18 +1,44 @@
 <section class="blog-hero">
   <div class="blog-hero-inner">
-    <h1>Blog</h1>
-    <p>Artigos sobre desenvolvimento, tecnologia e carreira</p>
+    @if (currentCategory) {
+      <span class="blog-hero-label">Categoria</span>
+      <h1>{{ currentCategory.title }}</h1>
+      @if (currentCategory.description) {
+        <p>{{ currentCategory.description }}</p>
+      }
+    } @else {
+      <h1>Blog</h1>
+      <p>Artigos sobre desenvolvimento, tecnologia e carreira</p>
+    }
   </div>
 </section>
 
 <section class="blog-section">
+  @if (categories.length > 0) {
+    <nav class="blog-categories" aria-label="Filtrar por categoria">
+      <a class="blog-category-filter" routerLink="/blog" [class.active]="!currentCategory">
+        Todas
+      </a>
+      @for (cat of categories; track cat._id) {
+        <a
+          class="blog-category-filter"
+          [routerLink]="['/blog/categoria', cat.slug.current]"
+          [class.active]="currentCategory?._id === cat._id"
+          [style.--cat-color]="cat.color || null"
+        >
+          {{ cat.title }}
+        </a>
+      }
+    </nav>
+  }
+
   @if (!loading && !error && posts.length > 0) {
     <div class="blog-toolbar">
       <input
         #searchInput
         class="blog-search"
         type="search"
-        placeholder="Buscar artigos por título, resumo ou tag..."
+        placeholder="Buscar artigos por título, resumo, tag ou categoria..."
         [value]="searchTerm"
         (search)="onSearch(searchInput.value)"
         aria-label="Buscar artigos"
@@ -53,7 +79,13 @@
 
   @if (!loading && !error && posts.length === 0) {
     <div class="blog-state-msg">
-      <p>Nenhum artigo publicado ainda. Em breve!</p>
+      <p>
+        @if (currentCategory) {
+          Nenhum artigo publicado nesta categoria ainda.
+        } @else {
+          Nenhum artigo publicado ainda. Em breve!
+        }
+      </p>
     </div>
   }
 
@@ -74,6 +106,17 @@
               </div>
             }
             <mat-card-content>
+              @if (post.categories?.length) {
+                <div class="blog-categories-row">
+                  @for (cat of post.categories!; track cat._id) {
+                    <span class="blog-category-badge" [style.--cat-color]="cat.color || null">
+                      {{ cat.title }}
+                    </span>
+                  }
+                </div>
+              }
+              <h3>{{ post.title }}</h3>
+              <p class="blog-card-excerpt">{{ post.excerpt }}</p>
               @if (post.tags?.length) {
                 <div class="blog-tags">
                   @for (tag of post.tags!; track tag) {
@@ -81,8 +124,6 @@
                   }
                 </div>
               }
-              <h3>{{ post.title }}</h3>
-              <p class="blog-card-excerpt">{{ post.excerpt }}</p>
               <div class="blog-card-meta">
                 <span>{{ formatDate(post.publishedAt) }}</span>
                 @if (post.estimatedReadingTime) {

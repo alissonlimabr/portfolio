@@ -1208,6 +1208,16 @@ mat-card {
   text-align: center;
   max-width: 720px;
 
+  .blog-hero-label {
+    display: inline-block;
+    font-size: 11px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    color: variable.$purple-400;
+    margin-bottom: 8px;
+  }
+
   h1 {
     font-size: 48px;
     font-weight: 700;
@@ -1460,6 +1470,65 @@ mat-card {
   border: 1px solid rgba(variable.$purple-500, 0.4);
 }
 
+.blog-categories {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 8px;
+  width: 100%;
+  max-width: 1200px;
+}
+
+.blog-category-filter {
+  display: inline-flex;
+  align-items: center;
+  font-size: 13px;
+  font-weight: 600;
+  padding: 7px 16px;
+  border-radius: 20px;
+  color: variable.$gray-200;
+  background: rgba(variable.$purple-900, 0.5);
+  border: 1px solid variable.$purple-800;
+  text-decoration: none;
+  transition: 0.2s;
+  cursor: pointer;
+
+  &:hover {
+    border-color: variable.$purple-500;
+    color: variable.$white;
+  }
+
+  &.active {
+    background: var(--cat-color, variable.$purple-500);
+    border-color: var(--cat-color, variable.$purple-500);
+    color: variable.$white;
+  }
+}
+
+.blog-categories-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.blog-category-badge {
+  display: inline-block;
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  padding: 4px 10px;
+  border-radius: 6px;
+  background: var(--cat-color, variable.$purple-500);
+  color: variable.$white;
+  text-decoration: none;
+  transition: 0.2s;
+
+  &[routerLink], &:is(a) {
+    &:hover { opacity: 0.85; transform: translateY(-1px); }
+  }
+}
+
 .blog-state-msg {
   display: flex;
   justify-content: center;
@@ -1643,7 +1712,7 @@ mat-card {
     h4 { font-size: 17px; }
   }
 
-  a {
+  a:not(.blog-category-badge):not(.related-card):not(.back-link):not(.code-copy-btn) {
     color: variable.$purple-400;
     text-decoration: underline;
     text-underline-offset: 3px;
@@ -1663,7 +1732,41 @@ mat-card {
     border-radius: 4px;
   }
 
+  .code-block {
+    margin: 1.8em 0;
+    border-radius: 8px;
+    overflow: hidden;
+    border: 1px solid rgba(variable.$purple-500, 0.2);
+
+    pre { margin: 0; border: 0; border-radius: 0; }
+  }
+
+  .code-block-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 8px 14px;
+    background: rgba(variable.$purple-900, 0.7);
+    border-bottom: 1px solid rgba(variable.$purple-500, 0.15);
+    font-family: 'Fira Code', 'Courier New', monospace;
+    font-size: 12px;
+
+    .code-block-filename {
+      color: variable.$gray-100;
+      font-weight: 600;
+    }
+
+    .code-block-lang {
+      color: variable.$purple-400;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      font-size: 10px;
+      font-weight: 700;
+    }
+  }
+
   pre {
+    position: relative;
     background: #1a1424;
     border: 1px solid rgba(variable.$purple-500, 0.15);
     border-radius: 8px;
@@ -1674,13 +1777,100 @@ mat-card {
     @include responsive(mobile) { padding: 14px 16px; }
 
     code {
+      font-family: 'Fira Code', 'Courier New', monospace;
       background: transparent;
       color: #d8d0e8;
       font-size: 14.5px;
       padding: 0;
       line-height: 1.6;
     }
+
+    .code-copy-btn {
+      position: absolute;
+      top: 8px;
+      right: 8px;
+      padding: 4px 10px;
+      background: rgba(variable.$purple-900, 0.85);
+      border: 1px solid rgba(variable.$purple-500, 0.3);
+      border-radius: 5px;
+      color: variable.$gray-200;
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.4px;
+      font-family: inherit;
+      cursor: pointer;
+      opacity: 0;
+      transition: opacity 0.2s, background 0.2s, color 0.2s, border-color 0.2s;
+
+      &:hover {
+        background: variable.$purple-500;
+        color: variable.$white;
+        border-color: variable.$purple-500;
+      }
+
+      &.copied {
+        background: #16a34a;
+        color: variable.$white;
+        border-color: #16a34a;
+      }
+
+      &.failed {
+        background: #b91c1c;
+        color: variable.$white;
+        border-color: #b91c1c;
+      }
+    }
+
+    &:hover .code-copy-btn,
+    &:focus-within .code-copy-btn { opacity: 1; }
+
+    @include responsive(mobile) {
+      .code-copy-btn { opacity: 1; }
+    }
   }
+
+  /* Prism syntax highlighting (custom token colors) */
+  pre[class*="language-"] code,
+  code[class*="language-"] {
+    color: #d8d0e8;
+    text-shadow: none;
+  }
+
+  .token.comment,
+  .token.prolog,
+  .token.doctype,
+  .token.cdata { color: #7a6e8c; font-style: italic; }
+  .token.punctuation { color: #b4a8c6; }
+  .token.namespace { opacity: 0.7; }
+  .token.property,
+  .token.tag,
+  .token.boolean,
+  .token.number,
+  .token.constant,
+  .token.symbol,
+  .token.deleted { color: #f0a868; }
+  .token.selector,
+  .token.attr-name,
+  .token.string,
+  .token.char,
+  .token.builtin,
+  .token.inserted { color: #a5d6a7; }
+  .token.operator,
+  .token.entity,
+  .token.url { color: #e8dcff; }
+  .token.atrule,
+  .token.attr-value,
+  .token.keyword,
+  .token.control,
+  .token.directive,
+  .token.unit { color: variable.$purple-400; font-weight: 600; }
+  .token.function,
+  .token.class-name { color: #ffd380; }
+  .token.regex,
+  .token.important,
+  .token.variable { color: #ee9ec0; }
+  .token.bold { font-weight: 700; }
+  .token.italic { font-style: italic; }
 
   blockquote {
     border-left: 2px solid variable.$purple-500;

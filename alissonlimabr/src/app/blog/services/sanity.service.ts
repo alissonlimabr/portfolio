@@ -2,7 +2,20 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable, map, of, switchMap } from 'rxjs';
 import { environment } from '../../../environments/environment';
-import { Post, PostSummary, PortableTextBlock, PortableTextChild } from '../models/post.model';
+import {
+  Category,
+  Post,
+  PostSummary,
+  PortableTextBlock,
+  PortableTextChild,
+} from '../models/post.model';
+
+export interface ImageOptions {
+  w?: number;
+  h?: number;
+  fit?: 'crop' | 'fill' | 'max' | 'min' | 'scale';
+  q?: number;
+}
 
 @Injectable({ providedIn: 'root' })
 export class SanityService {
@@ -26,12 +39,28 @@ export class SanityService {
       .pipe(map(r => r.result));
   }
 
+  optimizeImageUrl(url: string | undefined, opts: ImageOptions = {}): string | undefined {
+    if (!url || !/^https?:\/\/cdn\.sanity\.io\//i.test(url)) return url;
+    const { w, h, fit = 'crop', q = 75 } = opts;
+    const params: string[] = ['auto=format', `q=${q}`];
+    if (w) params.push(`w=${w}`);
+    if (h) params.push(`h=${h}`);
+    if (w || h) params.push(`fit=${fit}`);
+    const sep = url.includes('?') ? '&' : '?';
+    return `${url}${sep}${params.join('&')}`;
+  }
+
+  private readonly postSummaryProjection = `
+    _id, title, slug, excerpt, publishedAt, tags, featured,
+    "estimatedReadingTime": round(length(pt::text(body)) / 5 / 180),
+    "imageUrl": mainImage.asset->url,
+    "categories": categories[]->{ _id, title, slug, description, color }
+  `;
+
   getPosts(): Observable<PostSummary[]> {
     const groq = `
       *[_type == "post"] | order(publishedAt desc) {
-        _id, title, slug, excerpt, publishedAt, tags,
-        "estimatedReadingTime": round(length(pt::text(body)) / 5 / 180),
-        "imageUrl": mainImage.asset->url
+        ${this.postSummaryProjection}
       }
     `;
     return this.query<PostSummary[]>(groq);
@@ -40,9 +69,13 @@ export class SanityService {
   getPost(slug: string): Observable<Post> {
     const groq = `
       *[_type == "post" && slug.current == $slug][0] {
-        _id, title, slug, excerpt, publishedAt, tags,
-        body[] { ..., _type == "image" => { ..., "url": asset->url } },
-        "imageUrl": mainImage.asset->url
+        _id, title, slug, excerpt, publishedAt, tags, featured,
+        seoDescription,
+        "estimatedReadingTime": round(length(pt::text(body)) / 5 / 180),
+        "imageUrl": mainImage.asset->url,
+        "ogImageUrl": ogImage.asset->url,
+        "categories": categories[]->{ _id, title, slug, description, color },
+        body[] { ..., _type == "image" => { ..., "url": asset->url } }
       }
     `;
     return this.query<Post>(groq, { slug });
@@ -55,9 +88,7 @@ export class SanityService {
     const groq = `
       *[_type == "post" && slug.current != $slug && count(tags[@ in $tags]) > 0]
       | order(count(tags[@ in $tags]) desc, publishedAt desc) [0...$limit] {
-        _id, title, slug, excerpt, publishedAt, tags,
-        "estimatedReadingTime": round(length(pt::text(body)) / 5 / 180),
-        "imageUrl": mainImage.asset->url
+        ${this.postSummaryProjection}
       }
     `;
     return this.query<PostSummary[]>(groq, { slug, tags, limit }).pipe(
@@ -71,12 +102,38 @@ export class SanityService {
     const groq = `
       *[_type == "post" && slug.current != $slug]
       | order(publishedAt desc) [0...$limit] {
-        _id, title, slug, excerpt, publishedAt, tags,
-        "estimatedReadingTime": round(length(pt::text(body)) / 5 / 180),
-        "imageUrl": mainImage.asset->url
+        ${this.postSummaryProjection}
       }
     `;
     return this.query<PostSummary[]>(groq, { slug, limit });
+  }
+
+  getCategories(): Observable<Category[]> {
+    const groq = `
+      *[_type == "category"] | order(title asc) {
+        _id, title, slug, description, color
+      }
+    `;
+    return this.query<Category[]>(groq);
+  }
+
+  getCategoryBySlug(slug: string): Observable<Category | null> {
+    const groq = `
+      *[_type == "category" && slug.current == $slug][0] {
+        _id, title, slug, description, color
+      }
+    `;
+    return this.query<Category | null>(groq, { slug });
+  }
+
+  getPostsByCategory(slug: string): Observable<PostSummary[]> {
+    const groq = `
+      *[_type == "post" && $slug in categories[]->slug.current]
+      | order(publishedAt desc) {
+        ${this.postSummaryProjection}
+      }
+    `;
+    return this.query<PostSummary[]>(groq, { slug });
   }
 
   portableTextToHtml(blocks: PortableTextBlock[]): string {
@@ -88,6 +145,16 @@ export class SanityService {
           if (!url) return '';
           const alt = this.escapeAttr(block.alt || '');
           return `<figure><img src="${url}" alt="${alt}" loading="lazy" /></figure>`;
+        }
+        if (block._type === 'codeBlock') {
+          const raw = (block as unknown as { code?: string; language?: string; filename?: string });
+          const lang = (raw.language || 'text').replace(/[^a-z0-9_+-]/gi, '').toLowerCase() || 'text';
+          const code = this.escapeHtml(raw.code || '');
+          const filename = raw.filename ? this.escapeHtml(raw.filename) : '';
+          const header = filename
+            ? `<div class="code-block-header"><span class="code-block-filename">${filename}</span><span class="code-block-lang">${this.escapeHtml(lang)}</span></div>`
+            : '';
+          return `<div class="code-block">${header}<pre class="language-${lang}"><code class="language-${lang}">${code}</code></pre></div>`;
         }
         if (block._type !== 'block') return '';
 
@@ -120,7 +187,7 @@ export class SanityService {
           case 'h3': return `<h3>${children}</h3>`;
           case 'h4': return `<h4>${children}</h4>`;
           case 'blockquote': return `<blockquote>${children}</blockquote>`;
-          case 'code': return `<pre><code>${children}</code></pre>`;
+          case 'code': return `<pre class="language-typescript"><code class="language-typescript">${children}</code></pre>`;
           default: return children ? `<p>${children}</p>` : '';
         }
       })

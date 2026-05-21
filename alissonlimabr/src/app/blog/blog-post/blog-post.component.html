@@ -34,10 +34,16 @@
           <div class="post-head-inner">
             <a class="back-link" routerLink="/blog">← Blog</a>
 
-            @if (post.tags?.length) {
-              <div class="blog-tags">
-                @for (tag of post.tags!; track tag) {
-                  <span class="blog-tag">{{ tag }}</span>
+            @if (post.categories?.length) {
+              <div class="blog-categories-row">
+                @for (cat of post.categories!; track cat._id) {
+                  <a
+                    class="blog-category-badge"
+                    [routerLink]="['/blog/categoria', cat.slug.current]"
+                    [style.--cat-color]="cat.color || null"
+                  >
+                    {{ cat.title }}
+                  </a>
                 }
               </div>
             }
@@ -54,6 +60,14 @@
             @if (post.excerpt) {
               <p class="post-excerpt">{{ post.excerpt }}</p>
             }
+
+            @if (post.tags?.length) {
+              <div class="blog-tags">
+                @for (tag of post.tags!; track tag) {
+                  <span class="blog-tag">{{ tag }}</span>
+                }
+              </div>
+            }
           </div>
         </div>
       </section>
@@ -65,7 +79,7 @@
       }
 
       <section class="post-body">
-        <div class="post-content" [innerHTML]="bodyHtml"></div>
+        <div #postContent class="post-content" [innerHTML]="bodyHtml"></div>
       </section>
 
       @if (relatedPosts.length > 0) {
@@ -81,10 +95,12 @@
                     </div>
                   }
                   <div class="related-card-body">
-                    @if (related.tags?.length) {
-                      <div class="blog-tags">
-                        @for (tag of related.tags!; track tag) {
-                          <span class="blog-tag">{{ tag }}</span>
+                    @if (related.categories?.length) {
+                      <div class="blog-categories-row">
+                        @for (cat of related.categories!; track cat._id) {
+                          <span class="blog-category-badge" [style.--cat-color]="cat.color || null">
+                            {{ cat.title }}
+                          </span>
                         }
                       </div>
                     }

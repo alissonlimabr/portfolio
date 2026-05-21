@@ -21,6 +21,14 @@ export interface PortableTextBlock {
   alt?: string;
 }
 
+export interface Category {
+  _id: string;
+  title: string;
+  slug: { current: string };
+  description?: string;
+  color?: string;
+}
+
 export interface PostSummary {
   _id: string;
   title: string;
@@ -30,8 +38,12 @@ export interface PostSummary {
   imageUrl?: string;
   estimatedReadingTime?: number;
   tags?: string[];
+  categories?: Category[];
+  featured?: boolean;
 }
 
 export interface Post extends PostSummary {
   body: PortableTextBlock[];
+  seoDescription?: string;
+  ogImageUrl?: string;
 }
