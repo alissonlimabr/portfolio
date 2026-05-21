@@ -32,7 +32,8 @@
             "assets": [
               "src/favicon.ico",
               "src/assets",
-              "src/robots.txt"
+              "src/robots.txt",
+              { "glob": "rss.xml", "input": "src", "output": "/" }
             ],
             "styles": [
               "src/styles.scss",
@@ -110,7 +111,8 @@
             "assets": [
               "src/favicon.ico",
               "src/assets",
-              "src/robots.txt"
+              "src/robots.txt",
+              { "glob": "rss.xml", "input": "src", "output": "/" }
             ],
             "styles": [
               "src/styles.scss",

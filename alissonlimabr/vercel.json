@@ -1,7 +1,7 @@
 {
-  "buildCommand": "node scripts/generate-env.mjs && npm run build",
+  "buildCommand": "node scripts/generate-env.mjs && node scripts/generate-rss.mjs && npm run build",
   "outputDirectory": "dist/alissonlimabr/browser",
-  "rewrites": [{ "source": "/((?!assets/).*)", "destination": "/index.html" }],
+  "rewrites": [{ "source": "/((?!assets/|rss\\.xml).*)", "destination": "/index.html" }],
   "headers": [
     {
       "source": "/(.*)",

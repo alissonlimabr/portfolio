@@ -44,3 +44,6 @@ Thumbs.db
 # Environment — nunca comitar valores reais
 src/environments/environment.ts
 src/environments/environment.prod.ts
+
+# RSS — gerado em build pelo scripts/generate-rss.mjs
+src/rss.xml
