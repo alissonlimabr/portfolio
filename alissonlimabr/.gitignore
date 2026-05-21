@@ -40,3 +40,7 @@ testem.log
 # System files
 .DS_Store
 Thumbs.db
+
+# Environment — nunca comitar valores reais
+src/environments/environment.ts
+src/environments/environment.prod.ts
