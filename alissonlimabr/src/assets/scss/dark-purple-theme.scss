@@ -362,9 +362,50 @@ mat-sidenav-container {
     width: 100%;
   }
 
+  &.link--active {
+    color: variable.$purple-300;
+
+    &:before { width: 100%; }
+  }
+
+  &.link--section-active {
+    &:before { width: 100%; }
+  }
+
+  &.link--back {
+    color: variable.$gray-300;
+    font-size: 16px;
+
+    &:hover { color: variable.$white; }
+
+    &:before { display: none; }
+  }
+
+  &.link--rss {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    color: variable.$purple-300;
+    padding: 5px 8px;
+
+    &:hover { color: variable.$purple-400; }
+
+    &:before { display: none; }
+  }
+
   @include responsive(mobile) {
     font-size: 18px;
   }
+}
+
+.logo-context {
+  font-size: 18px;
+  font-weight: 400;
+  color: variable.$purple-300;
+  letter-spacing: 0.5px;
+  margin-left: 4px;
+
+  @include responsive(mobile) { font-size: 14px; }
 }
 /* ***** Particle component style***** */
 #particles {
@@ -1198,7 +1239,7 @@ mat-card {
   padding: 56px 24px 40px;
   background: linear-gradient(135deg, variable.$purple-900 0%, variable.$background-color 65%);
   border-bottom: 2px solid variable.$purple-500;
-  max-width: variable.$container-width;
+
 
   @include responsive(tablet)     { padding: 44px 20px 32px; }
   @include responsive(mobilePlus) { padding: 36px 16px 28px; }
@@ -1504,6 +1545,16 @@ mat-card {
     color: variable.$white;
   }
 }
+
+// Paleta padrão por slug de categoria. O inline style [style.--cat-color]
+// vindo da Sanity sobrescreve esta cor quando definido.
+.category--desenvolvimento { --cat-color: #{variable.$category-desenvolvimento}; }
+.category--backend         { --cat-color: #{variable.$category-backend}; }
+.category--frontend        { --cat-color: #{variable.$category-frontend}; }
+.category--devops,
+.category--devops-cloud    { --cat-color: #{variable.$category-devops}; }
+.category--carreira        { --cat-color: #{variable.$category-carreira}; }
+.category--tutoriais       { --cat-color: #{variable.$category-tutoriais}; }
 
 .blog-categories-row {
   display: flex;
@@ -2000,7 +2051,7 @@ mat-card {
 
 .post-related-inner {
   width: 100%;
-  max-width: 1200px;
+  max-width: 1100px;
 }
 
 .post-related-title {
@@ -2016,15 +2067,16 @@ mat-card {
 .post-related-grid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  gap: 20px;
+  gap: 16px;
 
-  @include responsive(notebook) {
+  @include responsive(tablet) {
     grid-template-columns: repeat(2, 1fr);
+    gap: 14px;
   }
 
-  @include responsive(mobilePlus) {
+  @include responsive(mobile) {
     grid-template-columns: 1fr;
-    gap: 16px;
+    gap: 12px;
   }
 }
 
@@ -2032,19 +2084,18 @@ mat-card {
   display: flex;
   flex-direction: column;
   background-color: #151515;
-  border: 2px solid variable.$purple-800;
-  border-radius: 12px;
+  border: 1px solid variable.$purple-800;
+  border-radius: 8px;
   overflow: hidden;
   text-decoration: none;
   color: variable.$white;
-  transition: 0.3s;
+  transition: 0.2s;
 
   &:hover {
-    transform: translateY(-4px);
     border-color: variable.$purple-400;
-    box-shadow: 0 5px 15px 2px rgba(variable.$purple-800, 0.6);
 
     .related-card-img img { transform: scale(1.04); }
+    h3 { color: variable.$purple-300; }
   }
 
   .related-card-img {
@@ -2052,36 +2103,29 @@ mat-card {
     aspect-ratio: 16 / 9;
     overflow: hidden;
     background: variable.$background-color;
-    border-bottom: 1px solid rgba(variable.$purple-800, 0.6);
 
     img {
       width: 100%;
       height: 100%;
       object-fit: cover;
-      transition: 0.4s;
+      transition: 0.3s;
     }
   }
 
   .related-card-body {
-    padding: 14px 16px 16px;
+    padding: 12px 14px 14px;
     display: flex;
     flex-direction: column;
-    gap: 8px;
+    gap: 6px;
     flex: 1;
   }
 
   h3 {
-    font-size: 16px;
-    font-weight: 700;
+    font-size: 15px;
+    font-weight: 600;
     line-height: 1.35;
     color: variable.$white;
-  }
-
-  .related-card-excerpt {
-    font-size: 13px;
-    color: variable.$gray-200;
-    line-height: 1.5;
-    font-weight: 300;
+    transition: color 0.2s;
     display: -webkit-box;
     -webkit-line-clamp: 2;
     line-clamp: 2;
@@ -2096,8 +2140,6 @@ mat-card {
     font-size: 11px;
     color: variable.$gray-400;
     margin-top: auto;
-    padding-top: 8px;
-    border-top: 1px solid variable.$purple-900;
   }
 }
 
@@ -2165,6 +2207,102 @@ mat-card {
 
     &:nth-child(3) { width: 85%; }
     &:nth-child(5) { width: 70%; }
+  }
+}
+
+.categories-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 18px;
+  width: 100%;
+  max-width: 960px;
+
+  @include responsive(mobilePlus) {
+    grid-template-columns: 1fr;
+    gap: 14px;
+  }
+}
+
+.category-card {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding: 22px 24px;
+  background-color: #151515;
+  border: 1px solid variable.$purple-800;
+  border-left: 4px solid var(--cat-color, variable.$purple-500);
+  border-radius: 10px;
+  text-decoration: none;
+  color: variable.$white;
+  transition: 0.25s;
+
+  &:hover {
+    transform: translateY(-3px);
+    border-color: variable.$purple-400;
+    border-left-color: var(--cat-color, variable.$purple-400);
+    box-shadow: 0 6px 18px 0 rgba(variable.$purple-800, 0.5);
+
+    .category-card-link { color: variable.$purple-300; }
+  }
+
+  .category-card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    gap: 12px;
+
+    h2 {
+      font-size: 22px;
+      font-weight: 700;
+      color: variable.$white;
+      letter-spacing: -0.3px;
+
+      @include responsive(mobile) { font-size: 19px; }
+    }
+  }
+
+  .category-card-count {
+    font-size: 12px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    color: variable.$gray-300;
+    flex-shrink: 0;
+  }
+
+  .category-card-description {
+    font-size: 14px;
+    color: variable.$gray-200;
+    line-height: 1.5;
+    font-weight: 300;
+  }
+
+  .category-card-link {
+    font-size: 13px;
+    font-weight: 600;
+    color: variable.$gray-300;
+    transition: color 0.2s;
+    margin-top: auto;
+  }
+}
+
+.category-card-skeleton {
+  padding: 22px 24px;
+  background-color: #151515;
+  border: 1px solid variable.$purple-800;
+  border-radius: 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+
+  .blog-skeleton-line {
+    background: linear-gradient(90deg, #1e1e2e 25%, #2a2a3e 50%, #1e1e2e 75%);
+    background-size: 600px 100%;
+    animation: blogShimmer 1.6s infinite linear;
+    border-radius: 4px;
+    height: 14px;
+
+    &.blog-skeleton-line-title { height: 22px; width: 60%; }
   }
 }
 
