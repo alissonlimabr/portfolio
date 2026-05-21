@@ -4,6 +4,11 @@ import { HomeComponent } from './components/home/home.component';
 
 const routes: Routes = [
   { path: '', component: HomeComponent },
+  {
+    path: 'blog',
+    loadChildren: () =>
+      import('./blog/blog.routes').then(m => m.BLOG_ROUTES),
+  },
   { path: '**', redirectTo: '' },
 ];
 

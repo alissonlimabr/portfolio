@@ -1,5 +1,5 @@
 import { Component, Inject, OnInit, PLATFORM_ID } from '@angular/core';
-import { NavigationEnd, Router, RouterOutlet } from '@angular/router';
+import { NavigationEnd, Router, RouterLink, RouterOutlet } from '@angular/router';
 import { isPlatformBrowser } from '@angular/common';
 import { filter } from 'rxjs/operators';
 
@@ -24,6 +24,7 @@ import { HeaderComponent } from './components/header/header.component';
     HeaderComponent,
     FooterComponent,
     RouterOutlet,
+    RouterLink,
   ],
   styleUrls: ['./app.component.scss'],
 })

@@ -1,0 +1,68 @@
+<section class="blog-hero">
+  <div class="blog-hero-inner">
+    <h1>Blog</h1>
+    <p>Artigos sobre desenvolvimento, tecnologia e carreira</p>
+  </div>
+</section>
+
+<section class="blog-section">
+  @if (loading) {
+    <div class="blog-list">
+      @for (_ of [1, 2, 3, 4, 5, 6]; track $index) {
+        <div class="blog-skeleton">
+          <div class="blog-skeleton-img"></div>
+          <div class="blog-skeleton-body">
+            <div class="blog-skeleton-line blog-skeleton-line-title"></div>
+            <div class="blog-skeleton-line"></div>
+            <div class="blog-skeleton-line blog-skeleton-line-short"></div>
+          </div>
+        </div>
+      }
+    </div>
+  }
+
+  @if (error) {
+    <div class="blog-state-msg">
+      <p>Não foi possível carregar os artigos. Tente novamente mais tarde.</p>
+    </div>
+  }
+
+  @if (!loading && !error && posts.length === 0) {
+    <div class="blog-state-msg">
+      <p>Nenhum artigo publicado ainda. Em breve!</p>
+    </div>
+  }
+
+  @if (!loading && !error && posts.length > 0) {
+    <div class="blog-list">
+      @for (post of posts; track post._id) {
+        <a class="blog-card" [routerLink]="['/blog', post.slug.current]">
+          <mat-card>
+            @if (post.imageUrl) {
+              <div class="blog-card-img">
+                <img [src]="post.imageUrl" [alt]="post.title" loading="lazy" />
+              </div>
+            }
+            <mat-card-content>
+              @if (post.tags?.length) {
+                <div class="blog-tags">
+                  @for (tag of post.tags!; track tag) {
+                    <span class="blog-tag">{{ tag }}</span>
+                  }
+                </div>
+              }
+              <h3>{{ post.title }}</h3>
+              <p class="blog-card-excerpt">{{ post.excerpt }}</p>
+              <div class="blog-card-meta">
+                <span>{{ formatDate(post.publishedAt) }}</span>
+                @if (post.estimatedReadingTime) {
+                  <span>· {{ post.estimatedReadingTime }} min de leitura</span>
+                }
+              </div>
+            </mat-card-content>
+          </mat-card>
+        </a>
+      }
+    </div>
+  }
+</section>

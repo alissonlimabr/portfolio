@@ -1,4 +1,5 @@
 import { Component, EventEmitter, Output } from '@angular/core';
+import { RouterLink, RouterLinkActive } from '@angular/router';
 import { MatToolbar } from '@angular/material/toolbar';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { faBars, faCode, faXmark } from '@fortawesome/free-solid-svg-icons';
@@ -10,6 +11,8 @@ import { faBars, faCode, faXmark } from '@fortawesome/free-solid-svg-icons';
   imports: [
     FontAwesomeModule,
     MatToolbar,
+    RouterLink,
+    RouterLinkActive,
   ],
   styleUrls: ['./header.component.scss'],
 })

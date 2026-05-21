@@ -6,14 +6,13 @@ import Clarity from '@microsoft/clarity';
 import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
 import { AppComponent } from './app/app.component';
 
-// Inicializa Clarity
-Clarity.init('pexxkhasj2');
-
 // Bootstrap standalone
 bootstrapApplication(AppComponent, {
   providers: [
     importProvidersFrom(BrowserAnimationsModule),
     importProvidersFrom(AppRoutingModule),
-    provideHttpClient(withInterceptorsFromDi())   // 🔹 Alternativa ao HttpClient
+    provideHttpClient(withInterceptorsFromDi())
   ]
-}).catch(err => console.error(err));
+})
+  .then(() => Clarity.init('pexxkhasj2'))
+  .catch(err => console.error(err));
