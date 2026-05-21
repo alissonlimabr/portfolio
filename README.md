@@ -35,6 +35,7 @@
 - [x] Seção de trabalhos realizados
 - [x] Seção com projetos desenvolvidos
 - [x] Seção para contato
+- [x] Blog integrado ao Sanity CMS (busca, paginação, categorias, posts relacionados, RSS feed, SEO/JSON-LD e syntax highlighting)
 
 
 ### 🛠 Tecnologias
@@ -44,6 +45,8 @@ As seguintes ferramentas foram usadas na construção do projeto:
 - [Angular 21](https://angular.io/)
 - [Angular Material](https://material.angular.io/)
 - [Angular SSR](https://angular.dev/guide/ssr)
+- [Sanity CMS](https://www.sanity.io/)
+- [Prism.js](https://prismjs.com/)
 - [TsParticles](https://particles.js.org/)
 - [SCSS](https://sass-lang.com/)
 - [AOS](https://michalsnik.github.io/aos/)
