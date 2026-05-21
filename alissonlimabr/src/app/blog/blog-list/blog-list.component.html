@@ -1,4 +1,7 @@
-<section class="blog-hero">
+<section
+  class="blog-hero {{ currentCategory ? 'blog-hero--category category--' + currentCategory.slug.current : '' }}"
+  [style.--cat-color]="currentCategory?.color || null"
+>
   <div class="blog-hero-inner">
     @if (currentCategory) {
       <span class="blog-hero-label">Categoria</span>

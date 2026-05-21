@@ -1239,9 +1239,18 @@ mat-card {
   padding: 56px 24px 40px;
   background: linear-gradient(180deg, variable.$purple-900 0%, variable.$background-color 65%);
 
-
   @include responsive(tablet)     { padding: 44px 20px 32px; }
   @include responsive(mobilePlus) { padding: 36px 16px 28px; }
+
+  &.blog-hero--category {
+    background: linear-gradient(
+      180deg,
+      color-mix(in srgb, variable.$purple-900 55%, var(--cat-color, variable.$purple-500)) 0%,
+      variable.$background-color 75%
+    );
+
+    .blog-hero-label { color: var(--cat-color, variable.$purple-300); }
+  }
 }
 
 .blog-hero-inner {
@@ -1542,6 +1551,11 @@ mat-card {
     background: var(--cat-color, variable.$purple-500);
     border-color: var(--cat-color, variable.$purple-500);
     color: variable.$white;
+
+    &:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 4px 14px -2px color-mix(in srgb, var(--cat-color, variable.$purple-500) 50%, transparent);
+    }
   }
 }
 
@@ -2237,11 +2251,10 @@ mat-card {
 
   &:hover {
     transform: translateY(-3px);
-    border-color: variable.$purple-400;
-    border-left-color: var(--cat-color, variable.$purple-400);
-    box-shadow: 0 6px 18px 0 rgba(variable.$purple-800, 0.5);
+    border-color: var(--cat-color, variable.$purple-400);
+    box-shadow: 0 8px 22px -4px color-mix(in srgb, var(--cat-color, variable.$purple-500) 45%, transparent);
 
-    .category-card-link { color: variable.$purple-300; }
+    .category-card-link { color: var(--cat-color, variable.$purple-300); }
   }
 
   .category-card-header {
