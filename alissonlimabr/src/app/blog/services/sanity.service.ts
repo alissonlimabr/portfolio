@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
-import { Observable, map } from 'rxjs';
+import { Observable, map, of, switchMap } from 'rxjs';
 import { environment } from '../../../environments/environment';
 import { Post, PostSummary, PortableTextBlock, PortableTextChild } from '../models/post.model';
 
@@ -14,7 +14,7 @@ export class SanityService {
     return `https://${projectId}.${host}.sanity.io/v${apiVersion}/data/query/${dataset}`;
   }
 
-  private query<T>(groq: string, params?: Record<string, string>): Observable<T> {
+  private query<T>(groq: string, params?: Record<string, unknown>): Observable<T> {
     let httpParams = new HttpParams().set('query', groq);
     if (params) {
       Object.entries(params).forEach(([k, v]) => {
@@ -46,6 +46,37 @@ export class SanityService {
       }
     `;
     return this.query<Post>(groq, { slug });
+  }
+
+  getRelatedPosts(slug: string, tags: string[], limit: number): Observable<PostSummary[]> {
+    if (!tags?.length) {
+      return this.getRecentPostsExcluding(slug, limit);
+    }
+    const groq = `
+      *[_type == "post" && slug.current != $slug && count(tags[@ in $tags]) > 0]
+      | order(count(tags[@ in $tags]) desc, publishedAt desc) [0...$limit] {
+        _id, title, slug, excerpt, publishedAt, tags,
+        "estimatedReadingTime": round(length(pt::text(body)) / 5 / 180),
+        "imageUrl": mainImage.asset->url
+      }
+    `;
+    return this.query<PostSummary[]>(groq, { slug, tags, limit }).pipe(
+      switchMap(results =>
+        results.length > 0 ? of(results) : this.getRecentPostsExcluding(slug, limit)
+      )
+    );
+  }
+
+  private getRecentPostsExcluding(slug: string, limit: number): Observable<PostSummary[]> {
+    const groq = `
+      *[_type == "post" && slug.current != $slug]
+      | order(publishedAt desc) [0...$limit] {
+        _id, title, slug, excerpt, publishedAt, tags,
+        "estimatedReadingTime": round(length(pt::text(body)) / 5 / 180),
+        "imageUrl": mainImage.asset->url
+      }
+    `;
+    return this.query<PostSummary[]>(groq, { slug, limit });
   }
 
   portableTextToHtml(blocks: PortableTextBlock[]): string {
