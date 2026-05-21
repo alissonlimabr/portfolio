@@ -38,7 +38,7 @@
               <div class="blog-categories-row">
                 @for (cat of post.categories!; track cat._id) {
                   <a
-                    class="blog-category-badge"
+                    class="blog-category-badge category--{{ cat.slug.current }}"
                     [routerLink]="['/blog/categoria', cat.slug.current]"
                     [style.--cat-color]="cat.color || null"
                   >
@@ -155,19 +155,7 @@
                     </div>
                   }
                   <div class="related-card-body">
-                    @if (related.categories?.length) {
-                      <div class="blog-categories-row">
-                        @for (cat of related.categories!; track cat._id) {
-                          <span class="blog-category-badge" [style.--cat-color]="cat.color || null">
-                            {{ cat.title }}
-                          </span>
-                        }
-                      </div>
-                    }
                     <h3>{{ related.title }}</h3>
-                    @if (related.excerpt) {
-                      <p class="related-card-excerpt">{{ related.excerpt }}</p>
-                    }
                     <div class="related-card-meta">
                       <span>{{ formatDate(related.publishedAt) }}</span>
                       @if (related.estimatedReadingTime) {

@@ -1237,8 +1237,7 @@ mat-card {
   display: flex;
   justify-content: center;
   padding: 56px 24px 40px;
-  background: linear-gradient(135deg, variable.$purple-900 0%, variable.$background-color 65%);
-  border-bottom: 2px solid variable.$purple-500;
+  background: linear-gradient(180deg, variable.$purple-900 0%, variable.$background-color 65%);
 
 
   @include responsive(tablet)     { padding: 44px 20px 32px; }

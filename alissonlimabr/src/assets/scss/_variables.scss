@@ -29,3 +29,13 @@ $purple-900: #230532;
 // Cores semânticas auxiliares (estados, feedback)
 $success: #16a34a;
 $error:   #b91c1c;
+
+// Cores das categorias do blog.
+// Mantenha em sincronia com o campo "color" cadastrado no Sanity.
+// Quando o color está vazio na Sanity, esta paleta entra em vigor via classe .category--{slug}.
+$category-desenvolvimento: #7C2FA1;
+$category-backend:         #E67E22;
+$category-frontend:        #14B8A6;
+$category-devops:          #3B82F6;
+$category-carreira:        #10B981;
+$category-tutoriais:       #EC4899;
