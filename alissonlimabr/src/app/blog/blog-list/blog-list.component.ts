@@ -14,6 +14,9 @@ export class BlogListComponent implements OnInit {
   posts: PostSummary[] = [];
   loading = true;
   error = false;
+  searchTerm = '';
+  currentPage = 1;
+  readonly pageSize = 6;
 
   constructor(
     private sanity: SanityService,
@@ -43,6 +46,50 @@ export class BlogListComponent implements OnInit {
         });
       },
     });
+  }
+
+  get filteredPosts(): PostSummary[] {
+    const term = this.searchTerm.trim().toLowerCase();
+    if (!term) return this.posts;
+    return this.posts.filter(
+      p =>
+        p.title.toLowerCase().includes(term) ||
+        (p.excerpt?.toLowerCase().includes(term) ?? false) ||
+        (p.tags?.some(t => t.toLowerCase().includes(term)) ?? false)
+    );
+  }
+
+  get totalPages(): number {
+    return Math.max(1, Math.ceil(this.filteredPosts.length / this.pageSize));
+  }
+
+  get pagedPosts(): PostSummary[] {
+    const start = (this.currentPage - 1) * this.pageSize;
+    return this.filteredPosts.slice(start, start + this.pageSize);
+  }
+
+  get pageNumbers(): (number | null)[] {
+    const total = this.totalPages;
+    if (total <= 7) return Array.from({ length: total }, (_, i) => i + 1);
+    const pages: (number | null)[] = [1];
+    if (this.currentPage > 3) pages.push(null);
+    const start = Math.max(2, this.currentPage - 1);
+    const end = Math.min(total - 1, this.currentPage + 1);
+    for (let i = start; i <= end; i++) pages.push(i);
+    if (this.currentPage < total - 2) pages.push(null);
+    pages.push(total);
+    return pages;
+  }
+
+  onSearch(term: string): void {
+    this.searchTerm = term;
+    this.currentPage = 1;
+  }
+
+  goToPage(page: number): void {
+    if (page < 1 || page > this.totalPages) return;
+    this.currentPage = page;
+    window.scrollTo({ top: 0, behavior: 'smooth' });
   }
 
   formatDate(dateStr: string): string {

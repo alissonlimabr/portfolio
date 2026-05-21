@@ -1231,11 +1231,121 @@ mat-card {
 
 .blog-section {
   display: flex;
-  justify-content: center;
+  flex-direction: column;
+  align-items: center;
+  gap: 28px;
   padding: 48px 24px 80px;
   min-height: 50vh;
 
-  @include responsive(mobilePlus) { padding: 32px 16px 56px; }
+  @include responsive(mobilePlus) { padding: 32px 16px 56px; gap: 20px; }
+}
+
+.blog-toolbar {
+  display: flex;
+  align-items: stretch;
+  gap: 8px;
+  width: 100%;
+  max-width: 600px;
+}
+
+.blog-search-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 46px;
+  flex-shrink: 0;
+  background: variable.$purple-500;
+  border: 1px solid variable.$purple-500;
+  border-radius: 8px;
+  color: variable.$white;
+  cursor: pointer;
+  transition: 0.2s;
+
+  &:hover {
+    background: variable.$purple-700;
+    border-color: variable.$purple-700;
+    transform: scale(0.96);
+  }
+
+  &:active { transform: scale(0.92); }
+}
+
+.blog-search {
+  flex: 1;
+  min-width: 0;
+  padding: 12px 18px;
+  background: rgba(variable.$purple-900, 0.5);
+  border: 1px solid variable.$purple-800;
+  border-radius: 8px;
+  color: variable.$white;
+  font-size: 15px;
+  font-family: inherit;
+  transition: 0.2s;
+
+  &::placeholder { color: variable.$gray-400; }
+
+  &:focus {
+    outline: none;
+    border-color: variable.$purple-500;
+    background: rgba(variable.$purple-900, 0.8);
+    box-shadow: 0 0 0 3px rgba(variable.$purple-500, 0.15);
+  }
+
+  &::-webkit-search-cancel-button {
+    -webkit-appearance: none;
+    appearance: none;
+    height: 16px;
+    width: 16px;
+    background: variable.$gray-400;
+    mask: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'><path d='M18.3 5.71 12 12.01l-6.29-6.3-1.42 1.42 6.3 6.29-6.3 6.29 1.42 1.42 6.29-6.3 6.29 6.3 1.42-1.42-6.3-6.29 6.3-6.29z'/></svg>") no-repeat center / contain;
+    cursor: pointer;
+  }
+}
+
+.blog-pagination {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 6px;
+  flex-wrap: wrap;
+  margin-top: 8px;
+}
+
+.blog-page-btn {
+  min-width: 36px;
+  height: 36px;
+  padding: 0 10px;
+  background: transparent;
+  border: 1px solid variable.$purple-800;
+  border-radius: 6px;
+  color: variable.$gray-200;
+  font-size: 14px;
+  font-weight: 500;
+  font-family: inherit;
+  cursor: pointer;
+  transition: 0.2s;
+
+  &:hover:not(:disabled) {
+    border-color: variable.$purple-500;
+    color: variable.$white;
+  }
+
+  &.active {
+    background: variable.$purple-500;
+    border-color: variable.$purple-500;
+    color: variable.$white;
+  }
+
+  &:disabled {
+    opacity: 0.35;
+    cursor: not-allowed;
+  }
+}
+
+.blog-page-ellipsis {
+  color: variable.$gray-400;
+  padding: 0 4px;
+  user-select: none;
 }
 
 .blog-list {
