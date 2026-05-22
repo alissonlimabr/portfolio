@@ -1,0 +1,85 @@
+@use "palette" as p;
+@import "variables-mixins";
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  text-decoration: none;
+}
+
+::-webkit-scrollbar {
+  width: 5px;
+  background: p.$gray-900;
+  border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: linear-gradient(180deg, p.$purple-400 0%, p.$accent-pink 100%);
+  border-radius: 20px;
+}
+
+::selection {
+  background-color: p.$accent-pink;
+  color: p.$white;
+}
+
+html {
+  font-family: Roboto, sans-serif;
+  scroll-behavior: smooth;
+  scroll-padding-top: 50px;
+}
+
+body {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  background-color: p.$background-color;
+  background-image:
+    radial-gradient(ellipse at top right, rgba(p.$purple-400, 0.05) 0%, transparent 60%),
+    radial-gradient(ellipse at bottom left, rgba(p.$accent-pink, 0.04) 0%, transparent 60%);
+  background-attachment: fixed;
+  overflow-x: hidden;
+  color: white;
+}
+
+main {
+  overflow: clip;
+}
+
+header {
+  position: sticky;
+  background: rgba(p.$background-color, 0.85);
+  backdrop-filter: blur(14px) saturate(180%);
+  -webkit-backdrop-filter: blur(14px) saturate(180%);
+  color: p.$white;
+  top: 0;
+  z-index: 1001;
+  border-bottom: 1px solid rgba(p.$purple-400, 0.15);
+  overflow: hidden;
+
+  &::after {
+    content: '';
+    position: absolute;
+    bottom: -1px;
+    left: 0;
+    height: 1px;
+    width: 30%;
+    background: linear-gradient(90deg, transparent 0%, p.$purple-400 50%, transparent 100%);
+    box-shadow: 0 0 12px p.$purple-400;
+    animation: header-scan 8s linear infinite;
+    will-change: transform;
+  }
+}
+
+footer {
+  width: 100%;
+  padding: 1rem;
+  background-color: p.$background-color;
+  border-top: 2px solid;
+  border-color: p.$purple-500;
+
+  @include responsive(mobile) {
+    padding: 1rem 0.5rem;
+  }
+}

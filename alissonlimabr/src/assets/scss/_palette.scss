@@ -1,0 +1,61 @@
+// Variáveis de cor e dimensão. Tokens CSS runtime: _tokens.scss.
+
+// Layout
+$container-width:      1600px;
+$container-blog-width: 1200px;
+
+// Fundo e superfícies
+$background-color: #0A0814;
+$bg:               $background-color;
+
+$surface:          #14101F;
+$surface-elevated: #1E1830;
+$surface-bright:   #2A2240;
+
+// Base
+$white:      #FFFFFF;
+$text:       $white;
+$text-muted: #8B859B;
+
+// Escala de cinza
+$gray-100: #E8E5F0;
+$gray-200: #B8B3C9;
+$gray-300: #8B859B;
+$gray-400: #5C5670;
+$gray-500: #3F3A52;
+$gray-600: #2A2638;
+$gray-700: #1E1A2A;
+$gray-800: #15121F;
+$gray-900: #0E0B17;
+
+// Escala de roxo
+$purple-50:  #F4EAFC;
+$purple-100: #E5CFF8;
+$purple-200: #C9A1F0;
+$purple-300: #AD73E8;
+$purple-400: #A855F7;
+$purple-500: #7C3AED;
+$purple-600: #6D28D9;
+$purple-700: #5B21B6;
+$purple-800: #3B0F7E;
+$purple-900: #1F0942;
+
+// Acentos
+$accent-pink: #E879F9;
+$accent-cyan: #67E8F9;
+$pink:        $accent-pink;
+$cyan:        $accent-cyan;
+
+// Semântica
+$success:   #16a34a;
+$error:     #b91c1c;
+$green-400: #4ADE80;
+
+// Cores das categorias do blog
+// Manter em sincronia com o campo "color" cadastrado no Sanity.
+$category-desenvolvimento: #A855F7;
+$category-backend:         #F59E0B;
+$category-frontend:        #06B6D4;
+$category-devops:          #3B82F6;
+$category-carreira:        #10B981;
+$category-tutoriais:       #EC4899;
