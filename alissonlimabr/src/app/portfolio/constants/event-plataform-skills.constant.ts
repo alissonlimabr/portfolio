@@ -1,22 +1,22 @@
 export const EVENT_PLATAFORM_SKILLS = [
   {
-    icon: 'assets/icons/reactjs-icon.svg',
+    icon: 'reactjs',
     alt: 'Logo do Reacjs',
   },
   {
-    icon: 'assets/icons/graphql-icon.svg',
+    icon: 'graphql',
     alt: 'Logo do GraphQL',
   },
   {
-    icon: 'assets/icons/typescript-icon.svg',
+    icon: 'typescript',
     alt: 'Logo do Typescript',
   },
   {
-    icon: 'assets/icons/tailwind-icon.svg',
+    icon: 'tailwind',
     alt: 'Logo do Tailwind',
   },
   {
-    icon: 'assets/icons/git-icon.svg',
+    icon: 'git',
     alt: 'Logo do Git',
   },
 ];

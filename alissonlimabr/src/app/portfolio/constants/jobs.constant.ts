@@ -9,7 +9,7 @@ export const JOBS = [
       'Principais tecnologias utilizadas: Python, Django, PostgreSQL, Docker/Swarm, Wordpress, Elementor, Figma, Git dentre outras.',
     ],
     duration: 'Abril 2025 - Atualmente',
-    icon: '../../../assets/icons/ifac-icon.svg',
+    icon: '../../../assets/logos/ifac.svg',
   },
   {
     company: 'VINT Global',
@@ -22,7 +22,7 @@ export const JOBS = [
       'Principais tecnologias utilizadas: Java, Spring Boot e Angular 16+, Strapi, Xml, Xslt, Web Services, Docker, Junit5, Nginx, Strapi, Banco de Dados Oracle, Figma, dentre outras.',
     ],
     duration: 'Agosto 2024 - Abril 2025',
-    icon: '../../../assets/icons/vintglobal-icon.svg',
+    icon: '../../../assets/logos/vintglobal.svg',
   },
   {
     company: 'Freelancer',
@@ -34,7 +34,7 @@ export const JOBS = [
       'Portfólio Dev desenvolvido em Angular e Material com SSR.',
     ],
     duration: 'Janeiro 2024 - Julho 2024',
-    icon: '../../../assets/icons/freelancer-icon.svg',
+    icon: '../../../assets/logos/freelancer.svg',
   },
   {
     company: 'Contax S.A',
@@ -46,7 +46,7 @@ export const JOBS = [
       'Time 100% ágil: Scrum/Kanban e XP.',
     ],
     duration: 'Setembro 2023 - Novembro 2023',
-    icon: '../../../assets/icons/contax-icon.svg',
+    icon: '../../../assets/logos/contax.svg',
   },
   {
     company: 'UFAC',
@@ -59,6 +59,6 @@ export const JOBS = [
       'Time 100% ágil: Scrum/Kanban e XP.',
     ],
     duration: 'Março 2022 - Outubro 2022',
-    icon: '../../../assets/icons/ufac-icon.svg',
+    icon: '../../../assets/logos/ufac.svg',
   },
 ];

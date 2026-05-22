@@ -1,0 +1,339 @@
+import { animate, style, transition, trigger } from '@angular/animations';
+import { CommonModule, isPlatformBrowser } from '@angular/common';
+import { Component, DestroyRef, Inject, OnInit, PLATFORM_ID, ViewEncapsulation, inject } from '@angular/core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { RouterLink } from '@angular/router';
+import { MagneticDirective } from '../../shared/directives/magnetic.directive';
+import { SpotlightDirective } from '../../shared/directives/spotlight.directive';
+import { SanityService } from '../../blog/services/sanity.service';
+import { PostSummary } from '../../blog/models/post.model';
+
+import {
+  faArrowsLeftRight,
+  faArrowUpRightFromSquare,
+  faBars,
+  faChevronLeft,
+  faChevronRight,
+  faCircle,
+  faCode,
+  faCodeCommit,
+  faHandPointer,
+  faXmark,
+} from '@fortawesome/free-solid-svg-icons';
+
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
+import { NgxTypedWriterModule } from 'ngx-typed-writer';
+import { AUTH_JWT_SKILLS } from 'src/app/portfolio/constants/auth-jwt-skills.constant';
+import { EVENT_PLATAFORM_SKILLS } from 'src/app/portfolio/constants/event-plataform-skills.constant';
+import { JOBS } from 'src/app/portfolio/constants/jobs.constant';
+import { MOTOVOICE_SKILLS } from 'src/app/portfolio/constants/motovoice-skills.constant';
+import { MY_SKILLS } from 'src/app/portfolio/constants/my-skills.constant';
+import { PORTFOLIO_SKILLS } from 'src/app/portfolio/constants/portfolio-skills.constant';
+import { RESET_PASSWORD_SKILLS } from 'src/app/portfolio/constants/reset-password-skills.constant';
+import { SOCIAL_MEDIA } from 'src/app/portfolio/constants/social-media.constant';
+import { ParticlesAnimationComponent } from '../../components/particles-animation/ParticlesAnimationComponent';
+import { IconComponent } from '../../shared/icon.component';
+
+interface Job {
+  company: string;
+  position: string;
+  description: string[];
+  duration: string;
+  icon: string;
+}
+
+interface Project {
+  title: string;
+  subtitle: string;
+  description: string;
+  url?: string;
+  skills: { icon: string; alt: string; name?: string }[];
+  size: 'featured' | 'standard' | 'placeholder';
+}
+
+const MONTH_INDEX: Record<string, number> = {
+  janeiro: 0,
+  fevereiro: 1,
+  marco: 2,
+  abril: 3,
+  maio: 4,
+  junho: 5,
+  julho: 6,
+  agosto: 7,
+  setembro: 8,
+  outubro: 9,
+  novembro: 10,
+  dezembro: 11,
+};
+
+@Component({
+  selector: 'app-home',
+  templateUrl: './home.component.html',
+  styleUrl: './home.component.scss',
+  encapsulation: ViewEncapsulation.None,
+  standalone: true,
+  imports: [
+    CommonModule,
+
+    // FontAwesome
+    FontAwesomeModule,
+
+    // Typed Writer
+    NgxTypedWriterModule,
+
+    ParticlesAnimationComponent,
+    // Directives
+    MagneticDirective,
+    SpotlightDirective,
+    // Router
+    RouterLink,
+    // Icons
+    IconComponent,
+  ],
+  animations: [
+    trigger('fadeInUp', [
+      transition(':enter', [
+        style({ opacity: 0, transform: 'translateY(20px)' }),
+        animate(
+          '0.5s ease-out',
+          style({ opacity: 1, transform: 'translateY(0)' }),
+        ),
+      ]),
+    ]),
+    trigger('fadeInDown', [
+      transition(':enter', [
+        style({ opacity: 0, transform: 'translateY(-20px)' }),
+        animate(
+          '0.5s ease-out',
+          style({ opacity: 1, transform: 'translateY(0)' }),
+        ),
+      ]),
+    ]),
+  ],
+})
+export class HomeComponent implements OnInit {
+  faBars = faBars;
+  faXmark = faXmark;
+  faCode = faCode;
+  faCircle = faCircle;
+  faArrowUpRightFromSquare = faArrowUpRightFromSquare;
+  faCodeCommit = faCodeCommit;
+  faArrowsLeftRight = faArrowsLeftRight;
+  faChevronRight = faChevronRight;
+  faChevronLeft = faChevronLeft;
+  faHandPointer = faHandPointer;
+
+  mySkills = MY_SKILLS;
+  skillsMotoVoice = MOTOVOICE_SKILLS;
+  skillsAuthJwt = AUTH_JWT_SKILLS;
+  skillsPortfolio = PORTFOLIO_SKILLS;
+  skillsResetPassword = RESET_PASSWORD_SKILLS;
+  skillsEventPlataform = EVENT_PLATAFORM_SKILLS;
+  socialMedia = SOCIAL_MEDIA;
+
+  jobs = JOBS;
+  experienceYears = this.calculateExperienceYears();
+  selectedJob!: Job;
+  hasInteractedCard = false;
+
+  sanityService = inject(SanityService);
+  recentPosts: PostSummary[] = [];
+  postsLoading = true;
+  private readonly destroyRef = inject(DestroyRef);
+
+  projects: Project[] = [
+    {
+      title: 'Portfólio Desenvolvedor',
+      subtitle: 'Angular · Material · SSR',
+      description:
+        'Este site que você está vendo. Prototipado no Figma e implementado em Angular com Material e SCSS, focado em performance e SEO.',
+      url: 'https://github.com/alissonlimabr/portfolio',
+      skills: PORTFOLIO_SKILLS,
+      size: 'featured',
+    },
+    {
+      title: 'Motovoice',
+      subtitle: 'Spring Boot · Angular · Admin Panel',
+      description:
+        'Sistema de coleta de ideias e feedbacks de produtos Motorola, com painel de gerenciamento e insights da plataforma. Produto sob demanda para a conclusão da 1ª turma do WebAcademy.',
+      url: 'https://motovoice.alissonlimadev.com/',
+      skills: MOTOVOICE_SKILLS,
+      size: 'standard',
+    },
+    {
+      title: 'Autenticação JWT',
+      subtitle: 'Java · Spring Security 6 · Kubernetes',
+      description:
+        'Microsserviço de autenticação JWT orquestrado no Azure com Kubernetes e Docker. Frontend Angular consumindo a API.',
+      url: 'https://github.com/alissonlimabr/microservice-login-jwt',
+      skills: AUTH_JWT_SKILLS,
+      size: 'standard',
+    },
+    {
+      title: 'Reset Password',
+      subtitle: 'Java 17 · GitHub Actions · AWS',
+      description:
+        'Módulo de recuperação de senhas via email com pipeline CI/CD GitHub Actions para deploy AWS. Frontend Angular consumindo a API.',
+      url: 'https://github.com/alissonlimabr/forgotPassword',
+      skills: RESET_PASSWORD_SKILLS,
+      size: 'standard',
+    },
+    {
+      title: 'Plataforma de eventos',
+      subtitle: 'React · Vite · GraphQL · Tailwind',
+      description:
+        'Plataforma de hospedagem de vídeos e aulas desenvolvida no Ignite Lab da Rocketseat.',
+      url: 'https://github.com/alissonlimabr/event-plataform-reactjs',
+      skills: EVENT_PLATAFORM_SKILLS,
+      size: 'standard',
+    },
+  ];
+
+  currentPage = 0;
+  pageSize = 3;
+
+  constructor(@Inject(PLATFORM_ID) private platformId: Object) {}
+
+  async ngOnInit(): Promise<void> {
+    if (this.jobs?.length) {
+      this.selectedJob = this.jobs[0];
+    }
+
+    // if (isPlatformBrowser(this.platformId)) {
+    //   const AOS = await import('aos');
+    //   AOS.init({ once: true });
+    // }
+
+    this.sanityService.getPosts().pipe(takeUntilDestroyed(this.destroyRef)).subscribe({
+      next: posts => {
+        this.recentPosts = posts.slice(0, 3);
+        this.postsLoading = false;
+      },
+      error: () => {
+        this.postsLoading = false;
+      },
+    });
+
+  }
+
+  private get currentJobIndex(): number {
+    return this.jobs.findIndex((j) => j === this.selectedJob);
+  }
+  private syncPageWithJob(): void {
+    const index = this.currentJobIndex;
+    this.currentPage = Math.floor(index / this.pageSize);
+  }
+
+  get totalPages(): number {
+    return Math.ceil(this.jobs.length / this.pageSize);
+  }
+
+  get pagesArray(): number[] {
+    return Array.from({ length: this.totalPages }, (_, i) => i);
+  }
+
+  get paginatedJobs(): Job[] {
+    const startIndex = this.currentPage * this.pageSize;
+    return this.jobs.slice(startIndex, startIndex + this.pageSize);
+  }
+
+  changePage(page: number): void {
+    this.currentPage = page;
+    this.selectedJob = this.paginatedJobs[0];
+  }
+
+  selectJob(job: Job): void {
+    this.selectedJob = job;
+  }
+
+  nextPage(): void {
+    if (this.currentPage < this.totalPages - 1) {
+      this.changePage(this.currentPage + 1);
+    }
+  }
+
+  previousPage(): void {
+    if (this.currentPage > 0) {
+      this.changePage(this.currentPage - 1);
+    }
+  }
+
+  private calculateExperienceYears(): number {
+    const workedMonths = new Set<string>();
+
+    for (const job of this.jobs) {
+      const range = this.parseDurationRange(job.duration);
+
+      if (!range) {
+        continue;
+      }
+
+      const cursor = new Date(range.start.getFullYear(), range.start.getMonth(), 1);
+      const end = new Date(range.end.getFullYear(), range.end.getMonth(), 1);
+
+      while (cursor <= end) {
+        workedMonths.add(`${cursor.getFullYear()}-${cursor.getMonth()}`);
+        cursor.setMonth(cursor.getMonth() + 1);
+      }
+    }
+
+    return Math.floor(workedMonths.size / 12);
+  }
+
+  private parseDurationRange(duration: string): { start: Date; end: Date } | null {
+    const [rawStart, rawEnd] = duration.split(' - ').map(part => part.trim());
+
+    if (!rawStart || !rawEnd) {
+      return null;
+    }
+
+    const start = this.parseMonthYear(rawStart);
+    const end = rawEnd.toLowerCase() === 'atualmente'
+      ? new Date()
+      : this.parseMonthYear(rawEnd);
+
+    if (!start || !end) {
+      return null;
+    }
+
+    return {
+      start: new Date(start.getFullYear(), start.getMonth(), 1),
+      end: new Date(end.getFullYear(), end.getMonth(), 1),
+    };
+  }
+
+  private parseMonthYear(value: string): Date | null {
+    const normalizedValue = value
+      .toLowerCase()
+      .normalize('NFD')
+      .replace(/[\u0300-\u036f]/g, '');
+    const [monthName, yearText] = normalizedValue.split(/\s+/);
+    const month = MONTH_INDEX[monthName];
+    const year = Number.parseInt(yearText, 10);
+
+    if (month === undefined || Number.isNaN(year)) {
+      return null;
+    }
+
+    return new Date(year, month, 1);
+  }
+
+  goToNextJob(): void {
+    const index = this.currentJobIndex;
+
+    if (index < this.jobs.length - 1) {
+      this.selectedJob = this.jobs[index + 1];
+      this.syncPageWithJob();
+      this.hasInteractedCard = true;
+    }
+  }
+  goToPreviousJob(): void {
+    const index = this.currentJobIndex;
+
+    if (index > 0) {
+      this.selectedJob = this.jobs[index - 1];
+      this.syncPageWithJob();
+      this.hasInteractedCard = true;
+    }
+  }
+}

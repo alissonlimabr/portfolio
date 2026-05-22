@@ -3,6 +3,7 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { NavigationEnd, Router, RouterLink, RouterOutlet } from '@angular/router';
 import { isPlatformBrowser } from '@angular/common';
 import { filter } from 'rxjs/operators';
+import { ReadingPreferencesService } from './blog/services/reading-preferences.service';
 
 import { faBars, faCode, faXmark } from '@fortawesome/free-solid-svg-icons';
 import { MatSidenav, MatSidenavContainer, MatSidenavContent } from '@angular/material/sidenav';
@@ -40,6 +41,8 @@ export class AppComponent implements OnInit {
   opened?: boolean;
   isBlogRoute = false;
 
+  private readonly readingPrefs = inject(ReadingPreferencesService);
+
   constructor(
     private router: Router,
     @Inject(PLATFORM_ID) private platformId: Object
@@ -64,7 +67,15 @@ export class AppComponent implements OnInit {
         takeUntilDestroyed(this.destroyRef)
       )
       .subscribe((event) => {
-        this.isBlogRoute = event.urlAfterRedirects.startsWith('/blog');
+        const onBlog = event.urlAfterRedirects.startsWith('/blog');
+        this.isBlogRoute = onBlog;
+
+        if (onBlog) {
+          this.readingPrefs.applyBodyClasses();
+        } else {
+          this.readingPrefs.removeBlogClasses();
+        }
+
         win.dataLayer.push({
           event: 'page',
           pageName: event.urlAfterRedirects,

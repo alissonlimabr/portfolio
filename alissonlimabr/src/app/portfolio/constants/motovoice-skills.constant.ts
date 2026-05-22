@@ -1,26 +1,26 @@
 export const MOTOVOICE_SKILLS = [
   {
-    icon: 'assets/icons/java-icon.svg',
+    icon: 'java',
     alt: 'Logo do Java',
   },
   {
-    icon: 'assets/icons/angular-icon.svg',
+    icon: 'angular',
     alt: 'Logo do Angular',
   },
   {
-    icon: 'assets/icons/springboot-icon.svg',
+    icon: 'springboot',
     alt: 'Logo do Spring Boot',
   },
   {
-    icon: 'assets/icons/aws-icon.svg',
+    icon: 'aws',
     alt: 'Logo da AWS Cloud',
   },
   {
-    icon: 'assets/icons/docker-icon.svg',
+    icon: 'docker',
     alt: 'Logo do Docker',
   },
   {
-    icon: 'assets/icons/bootstrap-icon.svg',
+    icon: 'bootstrap',
     alt: 'Logo do Bootstrap',
   },
 ];
