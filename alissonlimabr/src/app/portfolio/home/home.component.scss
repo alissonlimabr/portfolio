@@ -1,0 +1,1660 @@
+@use "src/assets/scss/palette" as variable;
+@import "src/assets/scss/variables-mixins";
+
+/* ***** Profile (Hero) component Style — redesign ***** */
+
+#perfil {
+  position: relative;
+  min-height: 100vh;
+  padding: 120px 0;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+
+  // Grid SVG sutil sobre o hero
+  &::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='56' height='56' viewBox='0 0 56 56'%3E%3Cpath d='M 56 0 L 0 0 0 56' fill='none' stroke='rgba(168,85,247,0.06)' stroke-width='1'/%3E%3C/svg%3E");
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  > .container {
+    position: relative;
+    z-index: 2;
+    width: 100%;
+  }
+
+  @include responsive(tablet)     { padding: 80px 0; min-height: auto; }
+  @include responsive(mobilePlus) { padding: 60px 0; }
+}
+
+// Orbs animados de gradient mesh (decorativos do hero)
+.hero-orb {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(70px);
+  pointer-events: none;
+  z-index: 1;
+  opacity: 0.6;
+
+  &--top {
+    top: -100px;
+    left: -80px;
+    width: 480px;
+    height: 480px;
+    background: radial-gradient(circle, variable.$purple-500 0%, transparent 70%);
+    animation: orb-drift-a 18s ease-in-out infinite;
+  }
+
+  &--bottom {
+    bottom: -120px;
+    right: -80px;
+    width: 520px;
+    height: 520px;
+    background: radial-gradient(circle, variable.$accent-pink 0%, transparent 70%);
+    animation: orb-drift-b 22s ease-in-out infinite;
+    opacity: 0.4;
+  }
+
+  @include responsive(mobilePlus) {
+    &--top    { width: 320px; height: 320px; top: -80px; left: -60px; }
+    &--bottom { width: 320px; height: 320px; bottom: -80px; right: -60px; }
+  }
+}
+
+.profile {
+  display: grid;
+  grid-template-columns: 1.4fr 1fr;
+  align-items: center;
+  gap: 80px;
+  width: 100%;
+  max-width: 1280px;
+  padding: 0 90px;
+
+  @include responsive(tabletplus) { padding: 0 60px; gap: 60px; }
+  @include responsive(tablet)     { padding: 0 40px; gap: 40px; grid-template-columns: 1.2fr 1fr; }
+  @include responsive(mobilePlus) {
+    grid-template-columns: 1fr;
+    padding: 0 20px !important;
+    gap: 40px;
+    text-align: center;
+  }
+
+  .intro {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 24px;
+
+    @include responsive(mobilePlus) { align-items: center; gap: 18px; }
+  }
+
+  .welcome {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+
+    @include responsive(mobilePlus) { align-items: center; }
+  }
+}
+
+// Terminal-style eyebrow ("> dev@alissonlimadev:~$")
+.hero-eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-family: 'Fira Code', 'Courier New', monospace;
+  font-size: 13px;
+  font-weight: 500;
+  color: variable.$gray-300;
+  padding: 6px 14px;
+  background: rgba(variable.$purple-400, 0.08);
+  border: 1px solid rgba(variable.$purple-400, 0.25);
+  border-radius: 4px;
+  width: fit-content;
+  letter-spacing: 0.3px;
+
+  .hero-eyebrow-dot {
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: variable.$purple-400;
+    box-shadow: 0 0 10px rgba(variable.$purple-400, 0.8);
+    animation: status-pulse 2s ease-in-out infinite;
+  }
+
+  .hero-eyebrow-text { color: variable.$gray-200; }
+
+  .hero-eyebrow-cursor {
+    color: variable.$purple-400;
+    font-weight: 700;
+    animation: blink 1.1s steps(2, end) infinite;
+  }
+
+  @include responsive(mobile) { font-size: 11px; padding: 5px 10px; }
+}
+
+// Tipografia gigante do nome
+.hero-name {
+  font-family: 'Inter', 'Roboto', sans-serif;
+  font-size: clamp(40px, 8vw, 96px);
+  font-weight: 800;
+  line-height: 0.95;
+  letter-spacing: -0.04em;
+  color: variable.$white;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+
+  @include responsive(mobilePlus) { align-items: center; }
+
+  .hero-name-line {
+    display: block;
+
+    &--accent {
+      background: linear-gradient(135deg, variable.$purple-400 0%, variable.$accent-pink 100%);
+      -webkit-background-clip: text;
+      background-clip: text;
+      -webkit-text-fill-color: transparent;
+      color: transparent;
+    }
+  }
+
+  .hero-name-dot {
+    color: variable.$purple-400;
+    -webkit-text-fill-color: variable.$purple-400;
+  }
+}
+
+// Role tipo Full Stack Developer (typed writer)
+.hero-role {
+  font-family: 'Fira Code', 'Courier New', monospace;
+  font-size: clamp(18px, 2vw, 22px);
+  font-weight: 500;
+  color: variable.$purple-300;
+  text-shadow: 0 0 20px rgba(variable.$purple-400, 0.25);
+  letter-spacing: 0.5px;
+  min-height: 1.5em;
+
+  @include responsive(tabletplus) { font-size: 18px; }
+  @include responsive(mobile)     { font-size: 16px; }
+}
+
+// Tagline descritivo
+.hero-tagline {
+  font-size: clamp(15px, 1.6vw, 17px);
+  line-height: 1.6;
+  color: variable.$gray-200;
+  max-width: 540px;
+  font-weight: 400;
+
+  strong {
+    color: variable.$white;
+    font-weight: 600;
+  }
+
+  @include responsive(mobilePlus) { max-width: 100%; }
+}
+
+// Badge "Disponível para projetos"
+.hero-status {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 8px 16px;
+  background: rgba(variable.$success, 0.08);
+  border: 1px solid rgba(variable.$success, 0.3);
+  border-radius: 100px;
+  font-size: 13px;
+  font-weight: 500;
+  color: variable.$green-400;
+  width: fit-content;
+
+  .hero-status-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: variable.$green-400;
+    box-shadow: 0 0 10px variable.$green-400;
+    animation: status-pulse 2s ease-in-out infinite;
+  }
+
+  @include responsive(mobile) { font-size: 12px; padding: 6px 12px; }
+}
+
+// Botões de ação (LinkedIn / GitHub) — magnetic + glow
+.actions {
+  margin: 12px 0 0;
+  display: flex;
+  gap: 16px;
+
+  @include responsive(mobile) { gap: 12px; flex-wrap: wrap; justify-content: center; }
+
+  a {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    padding: 13px 28px;
+    border-radius: 6px;
+    font-size: 15px;
+    font-weight: 600;
+    letter-spacing: 0.3px;
+    transition: 0.3s cubic-bezier(0.2, 0.8, 0.2, 1);
+    cursor: pointer;
+    position: relative;
+    overflow: hidden;
+
+    .action-arrow {
+      transition: transform 0.3s ease;
+      font-weight: 400;
+    }
+
+    &:hover .action-arrow { transform: translateX(4px); }
+
+    &#linkedin {
+      background: linear-gradient(135deg, variable.$purple-500 0%, variable.$purple-400 100%);
+      color: variable.$white;
+      border: 1px solid variable.$purple-400;
+      box-shadow:
+        0 4px 14px rgba(variable.$purple-400, 0.35),
+        inset 0 1px 0 rgba(variable.$white, 0.15);
+
+      &:hover {
+        box-shadow:
+          0 8px 24px rgba(variable.$purple-400, 0.55),
+          inset 0 1px 0 rgba(variable.$white, 0.25);
+      }
+    }
+
+    &#github {
+      background: rgba(variable.$white, 0.04);
+      color: variable.$white;
+      border: 1px solid variable.$gray-600;
+      backdrop-filter: blur(8px);
+
+      &:hover {
+        background: rgba(variable.$white, 0.08);
+        border-color: variable.$purple-400;
+        box-shadow: 0 4px 14px rgba(variable.$purple-400, 0.2);
+      }
+    }
+
+    @include responsive(mobile) { padding: 11px 22px; font-size: 14px; }
+  }
+}
+
+// Avatar — wrap com decorações
+.hero-avatar-wrap {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+
+  @include responsive(mobilePlus) { order: -1; }
+}
+
+.hero-avatar-deco {
+  position: absolute;
+  pointer-events: none;
+
+  &--ring {
+    width: 380px;
+    height: 380px;
+    border: 1px solid rgba(variable.$purple-400, 0.25);
+    border-radius: 50%;
+    animation: spin-slow 24s linear infinite;
+
+    &::before {
+      content: '';
+      position: absolute;
+      top: -4px;
+      left: 50%;
+      width: 8px;
+      height: 8px;
+      background: variable.$purple-400;
+      border-radius: 50%;
+      transform: translateX(-50%);
+      box-shadow: 0 0 12px variable.$purple-400;
+    }
+  }
+
+  &--grid {
+    width: 440px;
+    height: 440px;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='32' height='32' viewBox='0 0 32 32'%3E%3Cpath d='M 32 0 L 0 0 0 32' fill='none' stroke='rgba(168,85,247,0.10)' stroke-width='1'/%3E%3C/svg%3E");
+    mask-image: radial-gradient(circle, black 30%, transparent 65%);
+    opacity: 0.7;
+  }
+
+  @include responsive(tablet) {
+    &--ring { width: 320px; height: 320px; }
+    &--grid { width: 380px; height: 380px; }
+  }
+
+  @include responsive(mobilePlus) {
+    &--ring { width: 260px; height: 260px; }
+    &--grid { width: 300px; height: 300px; }
+  }
+}
+
+.avatar {
+  position: relative;
+  display: block;
+  width: 280px;
+  height: 280px;
+  border-radius: 50%;
+  overflow: hidden;
+  background: linear-gradient(135deg, variable.$purple-500 0%, variable.$accent-pink 100%);
+  padding: 3px;
+  transition: 0.4s cubic-bezier(0.2, 0.8, 0.2, 1);
+  box-shadow:
+    0 0 40px rgba(variable.$purple-400, 0.35),
+    0 0 80px rgba(variable.$accent-pink, 0.15);
+  z-index: 1;
+
+  &:hover { transform: scale(1.04); }
+
+  img {
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    background: variable.$background-color;
+    display: block;
+    object-fit: cover;
+  }
+
+  @include responsive(tablet)     { width: 240px; height: 240px; }
+  @include responsive(mobilePlus) { width: 200px; height: 200px; }
+}
+
+.hero-avatar-badge {
+  position: absolute;
+  bottom: 8%;
+  right: 4%;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 5px 12px;
+  background: rgba(variable.$background-color, 0.85);
+  border: 1px solid variable.$green-400;
+  border-radius: 100px;
+  font-family: 'Fira Code', 'Courier New', monospace;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 1.5px;
+  color: variable.$green-400;
+  z-index: 2;
+  backdrop-filter: blur(6px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
+
+  .hero-avatar-badge-dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: variable.$green-400;
+    box-shadow: 0 0 8px variable.$green-400;
+    animation: status-pulse 2s ease-in-out infinite;
+  }
+
+  @include responsive(mobilePlus) { font-size: 9px; padding: 4px 10px; }
+}
+
+// Scroll hint no canto inferior
+.hero-scroll-hint {
+  position: absolute;
+  bottom: 30px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  font-family: 'Fira Code', 'Courier New', monospace;
+  font-size: 11px;
+  letter-spacing: 3px;
+  color: variable.$gray-400;
+  text-decoration: none;
+  z-index: 2;
+  transition: color 0.3s;
+
+  &:hover { color: variable.$purple-400; }
+
+  .hero-scroll-line {
+    width: 1px;
+    height: 40px;
+    background: linear-gradient(180deg, variable.$purple-400 0%, transparent 100%);
+    position: relative;
+    overflow: hidden;
+
+    &::after {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 12px;
+      background: variable.$white;
+      animation: scroll-line 2.2s ease-in-out infinite;
+    }
+   }
+
+  @include responsive(mobilePlus) { display: none; }
+}
+
+/*  About section */
+
+#sobre {
+  padding: 120px 0;
+  position: relative;
+  overflow: hidden;
+
+  @include responsive(tablet)     { padding: 80px 0; }
+  @include responsive(mobilePlus) { padding: 60px 0; }
+}
+
+// Wrapper genérico das seções do portfolio (Sobre, Habilidades, Trabalhos, Projetos, Blog, Contato)
+.about-wrap,
+.skills-wrap,
+.jobs-wrap,
+.projects-wrap,
+.blog-wrap,
+.contact-wrap {
+  display: block;
+  position: relative;
+  width: 100%;
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 0 80px;
+  z-index: 1;
+
+  @include responsive(tabletplus) { padding: 0 60px; }
+  @include responsive(tablet)     { padding: 0 40px; }
+  @include responsive(mobilePlus) { padding: 0 20px; }
+}
+
+// Blog com largura própria
+.blog-wrap {
+  max-width: variable.$container-blog-width;
+}
+
+// Cabeçalhos uniformes das seções
+.section-tag {
+  display: inline-block;
+  font-family: 'Fira Code', 'Courier New', monospace;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 3px;
+  color: variable.$purple-300;
+  margin-bottom: 18px;
+  padding: 5px 12px;
+  border: 1px solid rgba(variable.$purple-400, 0.25);
+  border-radius: 2px;
+  background: rgba(variable.$purple-400, 0.06);
+}
+
+.section-headline {
+  font-family: 'Inter', 'Roboto', sans-serif;
+  font-size: clamp(28px, 4vw, 52px);
+  font-weight: 800;
+  line-height: 1.05;
+  letter-spacing: -0.03em;
+  color: variable.$white;
+  margin: 0;
+
+  &--accent {
+    background: linear-gradient(135deg, variable.$purple-400 0%, variable.$accent-pink 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    color: transparent;
+  }
+}
+
+.about-header {
+  margin-bottom: 56px;
+
+  @include responsive(mobilePlus) { margin-bottom: 36px; }
+}
+
+.about-grid {
+  display: grid;
+  grid-template-columns: 1.4fr 1fr;
+  gap: 80px;
+  align-items: start;
+
+  @include responsive(tablet)     { gap: 48px; }
+  @include responsive(mobilePlus) { grid-template-columns: 1fr; gap: 40px; }
+}
+
+.about-text {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  font-size: 17px;
+  line-height: 1.75;
+  color: variable.$gray-200;
+
+  .about-lead {
+    font-size: 21px;
+    color: variable.$white;
+    font-weight: 400;
+    line-height: 1.5;
+    letter-spacing: -0.01em;
+  }
+
+  strong {
+    color: variable.$white;
+    font-weight: 600;
+  }
+
+  @include responsive(mobilePlus) {
+    font-size: 16px;
+    .about-lead { font-size: 18px; }
+  }
+}
+
+.about-stats {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+
+  @include responsive(tablet)     { gap: 12px; }
+  @include responsive(mobilePlus) { grid-template-columns: 1fr 1fr; gap: 10px; }
+}
+
+.stat-card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  padding: 12px 14px;
+  background: variable.$surface;
+  border: 1px solid variable.$gray-700;
+  border-radius: 8px;
+  overflow: hidden;
+  transition: transform 0.3s, border-color 0.3s;
+
+  // Spotlight follow-cursor (variáveis setadas pela SpotlightDirective)
+  &::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(
+      450px circle at var(--spotlight-x, 50%) var(--spotlight-y, 50%),
+      rgba(variable.$purple-400, 0.15),
+      transparent 40%
+    );
+    opacity: 0;
+    transition: opacity 0.4s;
+    pointer-events: none;
+  }
+
+  &.is-spotlight-active {
+    border-color: rgba(variable.$purple-400, 0.35);
+    transform: translateY(-2px);
+
+    &::before { opacity: 1; }
+  }
+
+  .stat-card-value {
+    font-family: 'Inter', 'Roboto', sans-serif;
+    font-size: clamp(36px, 4.5vw, 52px);
+    font-weight: 800;
+    line-height: 1;
+    letter-spacing: -0.04em;
+    background: linear-gradient(135deg, variable.$purple-300 0%, variable.$accent-pink 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    color: transparent;
+    position: relative;
+    z-index: 1;
+
+    &--text {
+      font-size: clamp(20px, 2.1vw, 28px);
+      line-height: 1.1;
+      letter-spacing: -0.02em;
+    }
+  }
+
+  .stat-card-label {
+    font-size: 13px;
+    color: variable.$gray-300;
+    font-weight: 500;
+    letter-spacing: 0.3px;
+    position: relative;
+    z-index: 1;
+  }
+
+  @include responsive(mobilePlus) {
+    padding: 10px 12px;
+    .stat-card-label { font-size: 12px; }
+  }
+}
+
+/*  Skill section */
+#habilidades {
+  padding: 120px 0;
+  position: relative;
+  overflow: hidden;
+
+  @include responsive(tablet)     { padding: 80px 0; }
+  @include responsive(mobilePlus) { padding: 60px 0; }
+}
+
+.skills-header {
+  margin-bottom: 56px;
+
+  @include responsive(mobilePlus) { margin-bottom: 36px; }
+}
+
+// Marquee infinito (ticker tape de tecnologias)
+.skills-marquee {
+  position: relative;
+  width: 100vw;
+  margin-left: calc(50% - 50vw);
+  overflow: hidden;
+  padding: 32px 0;
+  margin-bottom: 56px;
+  border-top: 1px solid rgba(variable.$purple-400, 0.15);
+  border-bottom: 1px solid rgba(variable.$purple-400, 0.15);
+  background: rgba(variable.$purple-400, 0.03);
+
+  @include responsive(mobilePlus) {
+    padding: 24px 0;
+    margin-bottom: 36px;
+  }
+}
+
+.skills-marquee-track {
+  display: flex;
+  width: max-content;
+  gap: 0;
+  animation: marquee-slide 55s linear infinite;
+  will-change: transform;
+}
+
+.skills-marquee-group {
+  display: flex;
+  gap: 48px;
+  padding-right: 48px;
+
+  @include responsive(mobilePlus) { gap: 32px; padding-right: 32px; }
+}
+
+.skills-marquee-item {
+  display: inline-flex;
+  align-items: center;
+  gap: 14px;
+  white-space: nowrap;
+  font-family: 'Fira Code', 'Courier New', monospace;
+  font-size: 18px;
+  font-weight: 500;
+  color: variable.$gray-200;
+  letter-spacing: 0.5px;
+  transition: color 0.3s;
+
+  app-icon {
+    opacity: 0.9;
+    color: variable.$gray-200;
+    flex-shrink: 0;
+  }
+
+  &::after {
+    content: '◆';
+    color: variable.$purple-500;
+    margin-left: 18px;
+    font-size: 8px;
+    opacity: 0.4;
+
+    @include responsive(mobilePlus) { margin-left: 0; display: none; }
+  }
+
+  @include responsive(mobilePlus) { font-size: 15px; img { width: 22px; height: 22px; } }
+}
+
+// Grid de skill cards com spotlight
+.skills-grid {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 14px;
+
+  @include responsive(mobilePlus) {
+    gap: 10px;
+  }
+}
+
+.skill-card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  padding: 16px 14px;
+  min-width: 110px;
+  background: variable.$surface;
+  border: 1px solid variable.$gray-700;
+  border-radius: 10px;
+  overflow: hidden;
+  transition: transform 0.3s, border-color 0.3s;
+
+  // Spotlight
+  &::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(
+      350px circle at var(--spotlight-x, 50%) var(--spotlight-y, 50%),
+      rgba(variable.$purple-400, 0.18),
+      transparent 40%
+    );
+    opacity: 0;
+    transition: opacity 0.4s;
+    pointer-events: none;
+  }
+
+  &.is-spotlight-active {
+    border-color: rgba(variable.$purple-400, 0.4);
+    transform: translateY(-2px);
+
+    &::before { opacity: 1; }
+
+    .skill-card-icon app-icon { filter: drop-shadow(0 0 8px rgba(variable.$purple-400, 0.4)); color: white; }
+  }
+
+  .skill-card-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 56px;
+    height: 56px;
+    position: relative;
+    z-index: 1;
+
+    app-icon {
+      width: 100%;
+      height: 100%;
+      color: variable.$purple-400;
+      transition: filter 0.3s, color 0.3s;
+    }
+  }
+
+  .skill-card-name {
+    font-size: 12px;
+    font-weight: 600;
+    color: variable.$gray-200;
+    text-align: center;
+    letter-spacing: 0.3px;
+    position: relative;
+    z-index: 1;
+  }
+
+  @include responsive(mobilePlus) {
+    padding: 18px 12px;
+    .skill-card-icon { width: 44px; height: 44px; }
+    .skill-card-name { font-size: 11px; }
+  }
+}
+
+/*  jobs section */
+#trabalhos {
+  padding: 120px 0;
+  position: relative;
+  overflow: hidden;
+
+  @include responsive(tablet)     { padding: 80px 0; }
+  @include responsive(mobilePlus) { padding: 60px 0; }
+}
+
+.jobs-header {
+  margin-bottom: 72px;
+
+  @include responsive(mobilePlus) { margin-bottom: 40px; }
+}
+
+// Timeline vertical
+.timeline {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 28px;
+  padding-left: 32px;
+
+  // Linha vertical animada à esquerda
+  &::before {
+    content: '';
+    position: absolute;
+    top: 14px;
+    bottom: 14px;
+    left: 11px;
+    width: 2px;
+    background: linear-gradient(
+      180deg,
+      variable.$purple-400 0%,
+      variable.$accent-pink 50%,
+      transparent 100%
+    );
+    opacity: 0.4;
+  }
+
+  @include responsive(mobilePlus) { gap: 20px; padding-left: 24px; }
+}
+
+.timeline-item {
+  position: relative;
+  display: grid;
+  grid-template-columns: 60px 1fr;
+  gap: 24px;
+  padding: 28px 32px 28px 16px;
+  background: variable.$surface;
+  border: 1px solid variable.$gray-700;
+  border-radius: 10px;
+  transition: border-color 0.3s, transform 0.3s;
+  overflow: hidden;
+
+  // Spotlight
+  &::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(
+      500px circle at var(--spotlight-x, 50%) var(--spotlight-y, 50%),
+      rgba(variable.$purple-400, 0.10),
+      transparent 40%
+    );
+    opacity: 0;
+    transition: opacity 0.4s;
+    pointer-events: none;
+  }
+
+  &.is-spotlight-active {
+    border-color: rgba(variable.$purple-400, 0.35);
+    transform: translateX(4px);
+
+    &::before { opacity: 1; }
+  }
+
+  @include responsive(tablet)     { gap: 16px; padding: 24px 24px 24px 12px; }
+  @include responsive(mobilePlus) {
+    grid-template-columns: 44px 1fr;
+    gap: 12px;
+    padding: 20px 16px 20px 10px;
+  }
+}
+
+.timeline-marker {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding-top: 8px;
+  padding-right: 12px;
+
+  @include responsive(tablet)     { padding-right: 8px; }
+  @include responsive(mobilePlus) { padding-top: 4px; padding-right: 6px; }
+}
+
+.timeline-dot {
+  position: absolute;
+  top: 22px;
+  left: -33px;
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: variable.$purple-400;
+  border: 2px solid variable.$background-color;
+  box-shadow: 0 0 0 2px variable.$purple-400, 0 0 14px rgba(variable.$purple-400, 0.6);
+  z-index: 2;
+
+  @include responsive(tablet)     { left: -27px; width: 11px; height: 11px; }
+  @include responsive(mobilePlus) { left: -23px; top: 18px; width: 10px; height: 10px; }
+}
+
+.timeline-icon {
+  width: 56px;
+  height: 56px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(variable.$purple-400, 0.08);
+  border: 1px solid rgba(variable.$purple-400, 0.2);
+  border-radius: 10px;
+  position: relative;
+  z-index: 1;
+
+  img {
+    width: 32px;
+    height: 32px;
+    object-fit: contain;
+  }
+
+  @include responsive(tablet)     { width: 48px; height: 48px; img { width: 28px; height: 28px; } }
+  @include responsive(mobilePlus) { width: 40px; height: 40px; img { width: 22px; height: 22px; } }
+}
+
+.timeline-content {
+  position: relative;
+  z-index: 1;
+}
+
+.timeline-meta {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin-bottom: 16px;
+}
+
+.timeline-duration {
+  font-family: 'Fira Code', 'Courier New', monospace;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 1px;
+  color: variable.$purple-300;
+  text-transform: uppercase;
+}
+
+.timeline-position {
+  font-size: 20px;
+  font-weight: 700;
+  color: variable.$white;
+  letter-spacing: -0.02em;
+  line-height: 1.3;
+  margin: 0;
+
+  @include responsive(mobile) { font-size: 17px; }
+}
+
+.timeline-company {
+  font-size: 14px;
+  color: variable.$accent-pink;
+  font-weight: 500;
+  font-family: 'Fira Code', 'Courier New', monospace;
+
+  @include responsive(mobilePlus) { font-size: 12px; }
+}
+
+.timeline-tasks {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin: 0;
+  padding: 0;
+
+  li {
+    display: flex;
+    gap: 12px;
+    align-items: flex-start;
+    font-size: 15px;
+    line-height: 1.65;
+    color: variable.$gray-200;
+
+    fa-icon {
+      font-size: 12px;
+      color: variable.$purple-400;
+      margin-top: 5px;
+      flex-shrink: 0;
+    }
+
+    @include responsive(mobile) { font-size: 13px; line-height: 1.6; }
+  }
+}
+
+/*  Projects section */
+#projetos {
+  padding: 120px 0;
+  position: relative;
+  overflow: hidden;
+
+  @include responsive(tablet)     { padding: 80px 0; }
+  @include responsive(mobilePlus) { padding: 60px 0; }
+}
+
+.projects-header {
+  margin-bottom: 56px;
+
+  @include responsive(mobilePlus) { margin-bottom: 36px; }
+}
+
+// Bento grid assimétrico — 3 colunas, com card featured ocupando 2 colunas
+.projects-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 18px;
+  grid-auto-rows: minmax(280px, auto);
+
+  @include responsive(notebook) {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  @include responsive(mobilePlus) {
+    grid-template-columns: 1fr;
+    grid-auto-rows: auto;
+    gap: 14px;
+  }
+}
+
+.project-card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 14px 16px;
+  background: variable.$surface;
+  border: 1px solid variable.$gray-700;
+  border-radius: 8px;
+  text-decoration: none;
+  color: variable.$white;
+  transition: border-color 0.3s, transform 0.3s;
+  overflow: hidden;
+
+  // Spotlight follow-cursor
+  &::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(
+      500px circle at var(--spotlight-x, 50%) var(--spotlight-y, 50%),
+      rgba(variable.$purple-400, 0.13),
+      transparent 40%
+    );
+    opacity: 0;
+    transition: opacity 0.4s;
+    pointer-events: none;
+  }
+
+  // Glow no canto direito superior (corner cyber)
+  &::after {
+    content: '';
+    position: absolute;
+    top: -40px;
+    right: -40px;
+    width: 140px;
+    height: 140px;
+    background: radial-gradient(circle, rgba(variable.$accent-pink, 0.18) 0%, transparent 65%);
+    filter: blur(20px);
+    opacity: 0.5;
+    transition: opacity 0.4s;
+    pointer-events: none;
+  }
+
+  &.is-spotlight-active {
+    border-color: rgba(variable.$purple-400, 0.4);
+    transform: translateY(-3px);
+
+    &::before { opacity: 1; }
+    &::after  { opacity: 1; }
+
+    .project-card-link {
+      color: variable.$accent-pink;
+      .fa-icon, fa-icon { transform: translate(2px, -2px); }
+    }
+  }
+
+  // Featured: ocupa 2 colunas (1 linha)
+  &--featured {
+    grid-column: 1 / span 2;
+    grid-row: span 1;
+    padding: 18px 20px;
+
+    .project-card-title { font-size: clamp(26px, 3vw, 36px); }
+    .project-card-description { font-size: 15px; max-width: 100%; }
+
+    @include responsive(notebook)   { grid-column: 1 / span 2; grid-row: auto; }
+    @include responsive(tablet)     { grid-column: 1 / span 2; grid-row: auto; padding: 14px 16px; }
+    @include responsive(mobilePlus) { grid-column: 1 / span 1; padding: 12px 14px; }
+  }
+
+  // Placeholder (em desenvolvimento)
+  &--placeholder {
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    border-style: dashed;
+    border-color: variable.$gray-600;
+    color: variable.$gray-300;
+
+    .project-card-head { display: none; }
+    .project-card-title { font-size: 20px; color: variable.$gray-200; }
+    .project-card-description { color: variable.$gray-400; font-size: 14px; }
+  }
+
+  @include responsive(mobilePlus) { padding: 22px 20px; gap: 12px; }
+}
+
+// ==========================================
+// BLOG SECTION (preview cards no home)
+// ==========================================
+#blog {
+  padding: 120px 0;
+  position: relative;
+  overflow: hidden;
+
+  @include responsive(tablet)     { padding: 80px 0; }
+  @include responsive(mobilePlus) { padding: 60px 0; }
+}
+
+.blog-header {
+  margin-bottom: 40px;
+
+  @include responsive(mobilePlus) { margin-bottom: 28px; }
+}
+
+.blog-header-desc {
+  margin-top: 14px;
+  font-size: 17px;
+  color: variable.$gray-200;
+  max-width: 540px;
+  line-height: 1.6;
+
+  @include responsive(tabletplus) { font-size: 16px; }
+  @include responsive(mobilePlus) { font-size: 14px; max-width: 100%; }
+}
+
+.blog-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 12px;
+
+  @include responsive(tablet) {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 10px;
+  }
+
+  @include responsive(mobilePlus) {
+    grid-template-columns: 1fr;
+    gap: 8px;
+  }
+}
+
+.blog-card {
+  display: flex;
+  flex-direction: column;
+  background: variable.$surface;
+  border: 1px solid variable.$gray-700;
+  border-radius: 8px;
+  text-decoration: none;
+  color: variable.$white;
+  overflow: hidden;
+  transition: border-color 0.2s;
+
+  &:hover {
+    border-color: rgba(variable.$purple-400, 0.5);
+
+    .blog-card-image img { transform: scale(1.04); }
+    .blog-card-title     { color: variable.$purple-300; }
+  }
+
+  .blog-card-image {
+    width: 100%;
+    aspect-ratio: 16 / 9;
+    overflow: hidden;
+    background: variable.$gray-800;
+    flex-shrink: 0;
+
+    img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.35s;
+    }
+  }
+
+  .blog-card-content {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    gap: 5px;
+    padding: 10px 12px 12px;
+  }
+
+  .blog-card-meta {
+    display: flex;
+    gap: 8px;
+    font-size: 11px;
+    color: variable.$gray-500;
+  }
+
+  .blog-card-date,
+  .blog-card-read-time { color: variable.$gray-500; }
+
+  .blog-card-title {
+    font-size: 13px;
+    font-weight: 600;
+    color: variable.$gray-100;
+    line-height: 1.35;
+    transition: color 0.2s;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+
+  .blog-card-excerpt {
+    font-size: 12px;
+    color: variable.$gray-400;
+    line-height: 1.5;
+    font-weight: 300;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+
+  @include responsive(mobilePlus) {
+    flex-direction: row;
+
+    .blog-card-image {
+      width: 96px;
+      aspect-ratio: 1 / 1;
+      flex-shrink: 0;
+    }
+
+    .blog-card-content {
+      padding: 8px 10px 10px;
+      gap: 4px;
+      justify-content: center;
+    }
+
+    .blog-card-excerpt { display: none; }
+
+    .blog-card-title { -webkit-line-clamp: 3; line-clamp: 3; }
+  }
+
+  .blog-card-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    margin-top: 6px;
+    font-size: 11px;
+    font-weight: 500;
+    color: variable.$gray-400;
+    transition: color 0.2s;
+
+    fa-icon, .fa-icon { transition: transform 0.2s; }
+
+    &:hover {
+      color: variable.$accent-pink;
+      fa-icon, .fa-icon { transform: translate(2px, -2px); }
+    }
+  }
+}
+
+.blog-cta {
+  display: flex;
+  justify-content: center;
+  margin-top: 40px;
+}
+
+.blog-cta-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 12px 28px;
+  background: variable.$surface;
+  border: 1px solid variable.$gray-600;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 500;
+  color: variable.$gray-200;
+  text-decoration: none;
+  transition: border-color 0.3s, color 0.3s;
+
+  &:hover {
+    border-color: variable.$purple-400;
+    color: variable.$purple-400;
+  }
+
+  fa-icon, .fa-icon {
+    transition: transform 0.3s;
+  }
+
+  &:hover .fa-icon {
+    transform: translateX(4px);
+  }
+}
+
+.project-card-head {
+  display: flex;
+  align-items: baseline;
+  gap: 14px;
+  margin-bottom: 4px;
+}
+
+.project-card-index {
+  font-family: 'Fira Code', 'Courier New', monospace;
+  font-size: 13px;
+  font-weight: 700;
+  color: variable.$purple-300;
+  letter-spacing: 0.5px;
+}
+
+.project-card-subtitle {
+  font-family: 'Fira Code', 'Courier New', monospace;
+  font-size: 11px;
+  font-weight: 500;
+  color: variable.$gray-400;
+  letter-spacing: 0.8px;
+  text-transform: uppercase;
+}
+
+.project-card-title {
+  font-family: 'Inter', 'Roboto', sans-serif;
+  font-size: 24px;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  line-height: 1.15;
+  color: variable.$white;
+  margin: 0;
+  position: relative;
+  z-index: 1;
+
+  @include responsive(mobile) { font-size: 20px; }
+}
+
+.project-card-description {
+  font-size: 14px;
+  line-height: 1.6;
+  color: variable.$gray-200;
+  font-weight: 300;
+  position: relative;
+  z-index: 1;
+  flex: 1;
+}
+
+.project-card-stack {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: auto;
+  padding-top: 8px;
+  position: relative;
+  z-index: 1;
+}
+
+.project-card-tech {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  background: rgba(variable.$purple-400, 0.06);
+  border: 1px solid rgba(variable.$purple-400, 0.2);
+  border-radius: 6px;
+  transition: 0.3s;
+
+  app-icon {
+    color: variable.$purple-400;
+    transition: color 0.3s;
+  }
+
+  &:hover {
+    background: rgba(variable.$purple-400, 0.14);
+    border-color: variable.$purple-400;
+    transform: translateY(-2px);
+
+    app-icon { color: variable.$purple-300; }
+  }
+}
+
+.project-card-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-family: 'Fira Code', 'Courier New', monospace;
+  font-size: 13px;
+  font-weight: 600;
+  color: variable.$purple-300;
+  text-decoration: none;
+  letter-spacing: 0.3px;
+  padding-top: 4px;
+  margin-top: 8px;
+  border-top: 1px solid rgba(variable.$purple-400, 0.12);
+  width: fit-content;
+  transition: color 0.3s;
+  position: relative;
+  z-index: 1;
+
+  fa-icon { transition: transform 0.3s; }
+}
+
+#contato {
+  padding: 140px 0 120px;
+  position: relative;
+  overflow: hidden;
+
+  // Glow orbs decorativos no fundo do contato
+  &::before,
+  &::after {
+    content: '';
+    position: absolute;
+    width: 500px;
+    height: 500px;
+    border-radius: 50%;
+    filter: blur(80px);
+    pointer-events: none;
+    z-index: 0;
+  }
+  &::before {
+    top: 10%;
+    left: -150px;
+    background: radial-gradient(circle, rgba(variable.$purple-400, 0.18) 0%, transparent 70%);
+  }
+  &::after {
+    bottom: 0;
+    right: -150px;
+    background: radial-gradient(circle, rgba(variable.$accent-pink, 0.14) 0%, transparent 70%);
+  }
+
+  > * { position: relative; z-index: 1; }
+
+  @include responsive(tablet)     { padding: 100px 0 80px; }
+  @include responsive(mobilePlus) { padding: 70px 0 60px; }
+}
+
+.contact-header { text-align: center; margin-bottom: 48px; }
+
+.contact-headline {
+  font-family: 'Inter', 'Roboto', sans-serif;
+  font-size: clamp(32px, 5vw, 64px);
+  font-weight: 800;
+  line-height: 1.0;
+  letter-spacing: -0.04em;
+  color: variable.$white;
+  margin: 18px 0 28px;
+
+  &--accent {
+    background: linear-gradient(135deg, variable.$purple-400 0%, variable.$accent-pink 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    color: transparent;
+  }
+}
+
+.contact-subtitle {
+  font-size: 17px;
+  color: variable.$gray-200;
+  max-width: 540px;
+  margin: 0 auto;
+  line-height: 1.6;
+
+  @include responsive(tabletplus) { font-size: 16px; }
+  @include responsive(mobilePlus) { font-size: 14px; max-width: 100%; }
+}
+
+.contact-cta {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 60px;
+
+  @include responsive(mobile) { margin-bottom: 40px; }
+}
+
+.contact-cta-primary {
+  display: inline-flex;
+  align-items: center;
+  gap: 14px;
+  padding: 18px 32px;
+  background: linear-gradient(135deg, variable.$purple-500 0%, variable.$purple-400 100%);
+  color: variable.$white;
+  border-radius: 100px;
+  font-family: 'Fira Code', 'Courier New', monospace;
+  font-size: 16px;
+  font-weight: 600;
+  letter-spacing: 0.3px;
+  text-decoration: none;
+  transition: 0.3s cubic-bezier(0.2, 0.8, 0.2, 1);
+  box-shadow:
+    0 8px 24px rgba(variable.$purple-400, 0.4),
+    inset 0 1px 0 rgba(variable.$white, 0.2);
+
+  fa-icon { transition: transform 0.3s; }
+
+  &:hover {
+    box-shadow:
+      0 12px 36px rgba(variable.$purple-400, 0.55),
+      inset 0 1px 0 rgba(variable.$white, 0.25);
+    fa-icon { transform: translate(3px, -3px); }
+  }
+
+  @include responsive(mobile) { padding: 14px 22px; font-size: 14px; gap: 10px; }
+}
+
+.contact-socials {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 20px;
+  max-width: 720px;
+  margin: 0 auto;
+
+  @include responsive(mobilePlus) {
+    gap: 14px;
+  }
+}
+
+.contact-social-card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  padding: 14px 12px;
+  min-width: 100px;
+  background: variable.$surface;
+  border: 1px solid variable.$gray-700;
+  border-radius: 8px;
+  text-decoration: none;
+  color: variable.$gray-200;
+  transition: border-color 0.3s, transform 0.3s, color 0.3s;
+  overflow: hidden;
+
+  // Spotlight
+  &::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(
+      300px circle at var(--spotlight-x, 50%) var(--spotlight-y, 50%),
+      rgba(variable.$purple-400, 0.20),
+      transparent 40%
+    );
+    opacity: 0;
+    transition: opacity 0.4s;
+    pointer-events: none;
+  }
+
+  &.is-spotlight-active {
+    border-color: rgba(variable.$purple-400, 0.4);
+    transform: translateY(-4px);
+    color: variable.$white;
+
+    &::before { opacity: 1; }
+    app-icon { filter: drop-shadow(0 0 12px rgba(variable.$purple-400, 0.5)); color: white; }
+  }
+
+  app-icon {
+    color: variable.$purple-400;
+    transition: filter 0.3s, color 0.3s;
+    position: relative;
+    z-index: 1;
+  }
+
+  span {
+    font-family: 'Fira Code', 'Courier New', monospace;
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+    position: relative;
+    z-index: 1;
+  }
+
+  @include responsive(mobile) {
+    padding: 20px 12px;
+    img { width: 36px; height: 36px; }
+    span { font-size: 11px; }
+  }
+}
+
+// ── Blog preview skeleton ────────────────────────────────────────────────────
+.blog-card-skeleton {
+  background: variable.$surface;
+  border: 1px solid variable.$gray-700;
+  border-radius: 8px;
+  overflow: hidden;
+  pointer-events: none;
+
+  @include responsive(mobilePlus) {
+    display: flex;
+    flex-direction: row;
+  }
+}
+
+.blog-card-skeleton-img {
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  background: linear-gradient(90deg, variable.$surface-elevated 25%, variable.$surface-bright 50%, variable.$surface-elevated 75%);
+  background-size: 600px 100%;
+  animation: blogShimmer 1.6s infinite linear;
+
+  @include responsive(mobilePlus) {
+    width: 96px;
+    aspect-ratio: 1 / 1;
+    flex-shrink: 0;
+  }
+}
+
+.blog-card-skeleton-body {
+  padding: 10px 12px 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+
+  @include responsive(mobilePlus) {
+    padding: 8px 10px;
+    justify-content: center;
+  }
+}
+
+.blog-card-skeleton-meta,
+.blog-card-skeleton-title,
+.blog-card-skeleton-line {
+  border-radius: 4px;
+  background: linear-gradient(90deg, variable.$surface-elevated 25%, variable.$surface-bright 50%, variable.$surface-elevated 75%);
+  background-size: 600px 100%;
+  animation: blogShimmer 1.6s infinite linear;
+}
+
+.blog-card-skeleton-meta  { height: 10px; width: 55%; }
+.blog-card-skeleton-title { height: 14px; width: 85%; }
+.blog-card-skeleton-line  { height: 11px; width: 100%;
+  &--short { width: 60%; }
+}

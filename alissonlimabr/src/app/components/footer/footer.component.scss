@@ -1,0 +1,70 @@
+@use "src/assets/scss/palette" as p;
+@import "src/assets/scss/variables-mixins";
+
+.footer {
+  display: flex;
+  justify-content: center;
+  height: 100%;
+  padding: 0 20px;
+
+  @include responsive(mobilePlus) {
+    padding: 0;
+  }
+}
+
+.footer-copyright {
+  display: flex;
+  flex-wrap: wrap-reverse;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  max-width: p.$container-width;
+
+  @include responsive(mobilePlus) {
+    justify-content: center;
+    gap: 10px;
+  }
+
+  p {
+    display: flex;
+    flex-wrap: wrap;
+    font-size: 16px;
+    color: white;
+    gap: 10px;
+
+    a {
+      color: p.$purple-400;
+      text-decoration: none;
+      font-weight: 700;
+      transition: 0.3s;
+
+      &:hover {
+        color: p.$purple-500;
+      }
+    }
+
+    @include responsive(mobile) {
+      font-size: 12px;
+      gap: 5px;
+      justify-content: center;
+    }
+  }
+
+  .logo {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+
+    p {
+      font-size: 16px;
+
+      @include responsive(mobile) {
+        font-size: 12px;
+      }
+    }
+
+    fa-icon {
+      font-size: 25px;
+    }
+  }
+}

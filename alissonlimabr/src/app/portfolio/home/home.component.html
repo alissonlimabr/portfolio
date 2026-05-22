@@ -1,0 +1,358 @@
+<section id="perfil">
+  <div class="hero-orb hero-orb--top"></div>
+  <div class="hero-orb hero-orb--bottom"></div>
+
+  <div class="container">
+    <div class="profile">
+      <div class="intro">
+        <span class="hero-eyebrow">
+          <span class="hero-eyebrow-dot"></span>
+          <span class="hero-eyebrow-text">root&#64;alissonlimadev:~#</span>
+          <span class="hero-eyebrow-cursor">_</span>
+        </span>
+
+        <div class="welcome">
+          <h1 class="hero-name">
+            <span class="hero-name-line">Alisson</span>
+            <span class="hero-name-line hero-name-line--accent">Lima<span class="hero-name-dot">.</span></span>
+          </h1>
+          <p class="hero-role">
+            <ngx-typed-writer [strings]="[
+                'Full Stack Developer',
+                'Angular · Spring Boot · Oracle DB',
+                'Django · Python · PostgreSQL',
+                'Scrum · Kanban · XP',
+              ]" [cursorChar]="'|'" [showCursor]="true" [backSpeed]="30" [typeSpeed]="80" [backDelay]="2500">
+            </ngx-typed-writer>
+          </p>
+          <p class="hero-tagline">
+            Desenvolvedor web full stack focado em soluções escaláveis. Sistemas web, APIs REST e infraestrutura em nuvem.
+          </p>
+        </div>
+
+        <div class="hero-status">
+          <span class="hero-status-dot"></span>
+          <span class="hero-status-text">Disponível para novos projetos</span>
+        </div>
+
+        <div class="actions">
+          <a id="linkedin" appMagnetic [magneticStrength]="0.35" href="https://www.linkedin.com/in/alissonlimadev" target="_blank" rel="noopener noreferrer">
+            <span>LinkedIn</span>
+            <span class="action-arrow">→</span>
+          </a>
+          <a id="github" appMagnetic [magneticStrength]="0.35" href="https://github.com/alissonlimabr" target="_blank" rel="noopener noreferrer">
+            <span>GitHub</span>
+            <span class="action-arrow">→</span>
+          </a>
+        </div>
+      </div>
+      <div class="hero-avatar-wrap">
+        <div class="hero-avatar-deco hero-avatar-deco--ring"></div>
+        <div class="hero-avatar-deco hero-avatar-deco--grid"></div>
+        <a class="avatar" href="https://www.linkedin.com/in/alissonlimadev/" target="_blank" rel="noopener noreferrer">
+          <img src="assets/img/profile.webp" alt="Avatar Alisson Lima" height="300" width="300" loading="lazy" />
+        </a>
+        <span class="hero-avatar-badge">
+          <span class="hero-avatar-badge-dot"></span>
+          ONLINE
+        </span>
+      </div>
+    </div>
+  </div>
+
+  <a class="hero-scroll-hint" href="#sobre" aria-label="Rolar para próxima seção">
+    <span class="hero-scroll-text">SCROLL</span>
+    <span class="hero-scroll-line"></span>
+  </a>
+</section>
+<section id="sobre">
+  <div class="about-wrap">
+    <div class="about-header">
+      <span class="section-tag">[ 01 ] SOBRE</span>
+      <h2 class="section-headline">
+        Um pouco <span class="section-headline--accent">sobre mim</span>
+      </h2>
+    </div>
+
+    <div class="about-grid">
+      <div class="about-text">
+        <p class="about-lead">
+          Sou <strong>Alisson Lima</strong>, Desenvolvedor Full Stack com experiência em Angular,
+          Django e APIs REST, focado em sistemas web e soluções escaláveis.
+        </p>
+        <p>
+          Atualmente atuo no <strong>Instituto Federal do Acre (IFAC)</strong>, evoluindo sistemas
+          institucionais voltados à gestão pública com Python, Django, PostgreSQL, Docker e
+          orquestração em Swarm.
+        </p>
+        <p>
+          Ao longo da minha trajetória, também trabalhei com Java, Spring Boot, AWS e projetos
+          estratégicos para clientes como SEFAZ/AC e Caixa Econômica Federal. Sou graduado em
+          Análise e Desenvolvimento de Sistemas, com especializações em Engenharia de Software
+          e Gestão de Projetos.
+        </p>
+      </div>
+
+      <aside class="about-stats">
+        <div class="stat-card" appSpotlight>
+          <span class="stat-card-value">{{ experienceYears }}+</span>
+          <span class="stat-card-label">anos de experiência</span>
+        </div>
+        <div class="stat-card" appSpotlight>
+          <span class="stat-card-value stat-card-value--text">100% remoto</span>
+          <span class="stat-card-label">disponibilidade de atuação</span>
+        </div>
+        <div class="stat-card" appSpotlight>
+          <span class="stat-card-value stat-card-value--text">Scrum, Kanban e XP</span>
+          <span class="stat-card-label">metodologias ágeis</span>
+        </div>
+        <div class="stat-card" appSpotlight>
+          <span class="stat-card-value stat-card-value--text">Projetos reais</span>
+          <span class="stat-card-label">IFAC, SEFAZ/AC, Caixa e produtos institucionais</span>
+        </div>
+      </aside>
+    </div>
+  </div>
+</section>
+<section id="habilidades">
+  <div class="skills-wrap">
+    <div class="skills-header">
+      <span class="section-tag">[ 02 ] STACK</span>
+      <h2 class="section-headline">
+        Tecnologias que uso<br />
+        <span class="section-headline--accent">no dia a dia.</span>
+      </h2>
+    </div>
+
+    <!-- Marquee infinito de tecnologias (full bleed, sem container) -->
+    <div class="skills-marquee" aria-hidden="true">
+      <div class="skills-marquee-inner">
+        <div class="skills-marquee-track">
+          @for (_ of [0, 1]; track $index) {
+            <div class="skills-marquee-group">
+              @for (skill of mySkills; track skill.name) {
+                <div class="skills-marquee-item">
+                  <app-icon [name]="skill.icon" folder="logos" [size]="28" />
+                  <span>{{ skill.name }}</span>
+                </div>
+              }
+            </div>
+          }
+        </div>
+      </div>
+    </div>
+
+    <div class="skills-grid">
+      @for (skill of mySkills; track skill.name) {
+        <div class="skill-card" appSpotlight>
+          <div class="skill-card-icon">
+            <app-icon [name]="skill.icon" folder="logos" />
+          </div>
+          <span class="skill-card-name">{{ skill.name }}</span>
+        </div>
+      }
+    </div>
+  </div>
+</section>
+
+<section id="trabalhos">
+  <div class="jobs-wrap">
+    <div class="jobs-header">
+      <span class="section-tag">[ 03 ] EXPERIÊNCIA</span>
+      <h2 class="section-headline">
+        Minha trajetória<br />
+        <span class="section-headline--accent">profissional.</span>
+      </h2>
+    </div>
+
+    <div class="timeline">
+      @for (job of jobs; track job.company + job.duration) {
+        <article class="timeline-item" appSpotlight>
+          <div class="timeline-marker">
+            <div class="timeline-dot"></div>
+            <div class="timeline-icon">
+              <img [src]="job.icon" [alt]="job.company" loading="lazy" />
+            </div>
+          </div>
+
+          <div class="timeline-content">
+            <div class="timeline-meta">
+              <span class="timeline-duration">{{ job.duration }}</span>
+              <h3 class="timeline-position">{{ job.position }}</h3>
+              <span class="timeline-company">@{{ job.company }}</span>
+            </div>
+
+            <ul class="timeline-tasks">
+              @for (description of job.description; track $index) {
+                <li>
+                  <fa-icon [icon]="faCodeCommit"></fa-icon>
+                  <span>{{ description }}</span>
+                </li>
+              }
+            </ul>
+          </div>
+        </article>
+      }
+    </div>
+  </div>
+</section>
+
+<section id="projetos">
+  <div class="projects-wrap">
+    <div class="projects-header">
+      <span class="section-tag">[ 04 ] PROJETOS</span>
+      <h2 class="section-headline">
+        <span class="section-headline--accent">Hobbies</span> que<br />
+        viraram código.
+      </h2>
+    </div>
+
+    <div class="projects-grid">
+      @for (project of projects; track project.title) {
+        <article
+          class="project-card"
+          [class.project-card--featured]="project.size === 'featured'"
+          [class.project-card--placeholder]="project.size === 'placeholder'"
+          appSpotlight
+        >
+          <div class="project-card-head">
+            <span class="project-card-index">{{ '0' + ($index + 1) }}</span>
+            <span class="project-card-subtitle">{{ project.subtitle }}</span>
+          </div>
+
+          <h3 class="project-card-title">{{ project.title }}</h3>
+          <p class="project-card-description">{{ project.description }}</p>
+
+          @if (project.skills.length > 0) {
+            <div class="project-card-stack">
+              @for (skill of project.skills; track skill.alt) {
+                <span class="project-card-tech" [title]="skill.alt">
+                  <app-icon [name]="skill.icon" folder="logos" [size]="20" />
+                </span>
+              }
+            </div>
+          }
+
+          @if (project.url) {
+            <a
+              class="project-card-link"
+              [href]="project.url"
+              target="_blank"
+              rel="noopener noreferrer"
+              [attr.aria-label]="'Acesse o projeto: ' + project.title"
+            >
+              <span>Ver projeto</span>
+              <fa-icon [icon]="faArrowUpRightFromSquare"></fa-icon>
+            </a>
+          }
+        </article>
+      }
+    </div>
+  </div>
+</section>
+<section id="contato">
+  <div class="contact-wrap">
+    <div class="contact-header">
+      <span class="section-tag">[ 05 ] CONTATO</span>
+      <h2 class="contact-headline">
+        Bora <span class="contact-headline--accent">construir</span><br />
+        algo incrível juntos?
+      </h2>
+      <p class="contact-subtitle">
+        Disponível para projetos full stack, consultoria técnica ou um café virtual.
+        Resposta em até 24h.
+      </p>
+    </div>
+
+    <div class="contact-cta">
+      <a
+        class="contact-cta-primary"
+        appMagnetic
+        [magneticStrength]="0.25"
+        href="mailto:alissonlimabr.dev@gmail.com"
+        aria-label="Enviar email"
+      >
+        <span>alissonlimabr.dev&#64;gmail.com</span>
+        <fa-icon [icon]="faArrowUpRightFromSquare"></fa-icon>
+      </a>
+    </div>
+
+    <div class="contact-socials">
+      @for (social of socialMedia; track social.name) {
+        <a
+          class="contact-social-card"
+          appSpotlight
+          [href]="social.url"
+          [target]="social.name === 'Gmail' ? '_self' : '_blank'"
+          rel="noopener noreferrer"
+          [attr.aria-label]="social.alt"
+        >
+          <app-icon [name]="social.icon" folder="logos" [size]="44" />
+          <span>{{ social.name }}</span>
+        </a>
+      }
+    </div>
+  </div>
+</section>
+<section id="blog">
+  <div class="blog-wrap">
+    <div class="blog-header">
+      <span class="section-tag">[ 06 ] BLOG</span>
+      <h2 class="section-headline">
+        Últimos<br />
+        <span class="section-headline--accent">posts.</span>
+      </h2>
+      <p class="blog-header-desc">
+        Desenvolvimento, arquitetura de software, carreira em tech e novidades do mercado.
+      </p>
+    </div>
+
+    @if (postsLoading) {
+      <div class="blog-grid">
+        @for (_ of [1, 2, 3]; track $index) {
+          <div class="blog-card-skeleton">
+            <div class="blog-card-skeleton-img"></div>
+            <div class="blog-card-skeleton-body">
+              <div class="blog-card-skeleton-meta"></div>
+              <div class="blog-card-skeleton-title"></div>
+              <div class="blog-card-skeleton-line"></div>
+              <div class="blog-card-skeleton-line blog-card-skeleton-line--short"></div>
+            </div>
+          </div>
+        }
+      </div>
+    } @else {
+      <div class="blog-grid">
+        @for (post of recentPosts; track post._id) {
+          <article class="blog-card" appSpotlight>
+            @if (post.imageUrl) {
+              <div class="blog-card-image">
+                <img [src]="sanityService.optimizeImageUrl(post.imageUrl, { w: 400, h: 225, fit: 'crop' })" [alt]="post.title" loading="lazy" />
+              </div>
+            }
+            <div class="blog-card-content">
+              <div class="blog-card-meta">
+                <span class="blog-card-date">{{ post.publishedAt | date: 'dd MMM yyyy' }}</span>
+                <span class="blog-card-read-time">{{ post.estimatedReadingTime }} min de leitura</span>
+              </div>
+              <h3 class="blog-card-title">{{ post.title }}</h3>
+              <p class="blog-card-excerpt">{{ post.excerpt }}</p>
+              <a class="blog-card-link" [routerLink]="['/blog', post.slug.current]">
+                <span>Ler mais</span>
+                <fa-icon [icon]="faArrowUpRightFromSquare"></fa-icon>
+              </a>
+            </div>
+          </article>
+        }
+      </div>
+    }
+
+    <div class="blog-cta">
+      <a class="blog-cta-link" routerLink="/blog" appMagnetic [magneticStrength]="0.2">
+        <span>Ver todos os posts</span>
+        <fa-icon [icon]="faChevronRight"></fa-icon>
+      </a>
+    </div>
+  </div>
+</section>
+<app-particles-animation id="particles"></app-particles-animation>
