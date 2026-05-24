@@ -1,6 +1,6 @@
 import { animate, style, transition, trigger } from '@angular/animations';
-import { CommonModule, isPlatformBrowser } from '@angular/common';
-import { Component, DestroyRef, Inject, OnInit, PLATFORM_ID, ViewEncapsulation, inject } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { Component, DestroyRef, OnInit, ViewEncapsulation, inject } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { RouterLink } from '@angular/router';
 import { MagneticDirective } from '../../shared/directives/magnetic.directive';
@@ -192,17 +192,11 @@ export class HomeComponent implements OnInit {
   currentPage = 0;
   pageSize = 3;
 
-  constructor(@Inject(PLATFORM_ID) private platformId: Object) {}
 
   async ngOnInit(): Promise<void> {
     if (this.jobs?.length) {
       this.selectedJob = this.jobs[0];
     }
-
-    // if (isPlatformBrowser(this.platformId)) {
-    //   const AOS = await import('aos');
-    //   AOS.init({ once: true });
-    // }
 
     this.sanityService.getPosts().pipe(takeUntilDestroyed(this.destroyRef)).subscribe({
       next: posts => {
