@@ -12,7 +12,9 @@ import { dirname, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
-const target = resolve(__dirname, '..', 'src', 'environments', 'environment.prod.ts');
+const envDir = resolve(__dirname, '..', 'src', 'environments');
+const targetProd = resolve(envDir, 'environment.prod.ts');
+const targetDev = resolve(envDir, 'environment.ts');
 
 const required = ['SANITY_PROJECT_ID'];
 const missing = required.filter(k => !process.env[k]);
@@ -47,6 +49,7 @@ export const environment = {
 };
 `;
 
-mkdirSync(dirname(target), { recursive: true });
-writeFileSync(target, content, 'utf8');
-console.log(`[generate-env] environment.prod.ts gerado (projectId: ${projectId}, dataset: ${dataset}).`);
+mkdirSync(envDir, { recursive: true });
+writeFileSync(targetDev, content, 'utf8');
+writeFileSync(targetProd, content, 'utf8');
+console.log(`[generate-env] environment.ts e environment.prod.ts gerados (projectId: ${projectId}, dataset: ${dataset}).`);
