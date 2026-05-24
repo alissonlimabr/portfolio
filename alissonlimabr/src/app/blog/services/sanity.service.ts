@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable, map, of, switchMap } from 'rxjs';
+import { marked } from 'marked';
 import { environment } from '../../../environments/environment';
 import {
   Category,
@@ -154,10 +155,13 @@ export class SanityService {
           const url = this.safeUrl(block['url']);
           if (!url) return '';
           const alt = this.escapeAttr(block.alt || '');
-          return `<figure><img src="${url}" alt="${alt}" loading="lazy" /></figure>`;
+          const caption = block['caption'] ? `<figcaption>${this.escapeHtml(block['caption'])}</figcaption>` : '';
+          return `<figure><img src="${url}" alt="${alt}" loading="lazy" />${caption}</figure>`;
         }
-        if (block._type === 'codeBlock') {
-          const raw = (block as unknown as { code?: string; language?: string; filename?: string });
+
+        // codeBlock = legacy schema; code = @sanity/code-input (new)
+        if (block._type === 'codeBlock' || block._type === 'code') {
+          const raw = block as unknown as { code?: string; language?: string; filename?: string };
           const lang = (raw.language || 'text').replace(/[^a-z0-9_+-]/gi, '').toLowerCase() || 'text';
           const code = this.escapeHtml(raw.code || '');
           const filename = raw.filename ? this.escapeHtml(raw.filename) : '';
@@ -166,6 +170,39 @@ export class SanityService {
             : '';
           return `<div class="code-block">${header}<pre class="language-${lang}"><code class="language-${lang}">${code}</code></pre></div>`;
         }
+
+        if (block._type === 'callout') {
+          const raw = block as unknown as { type?: string; text?: string };
+          const icons: Record<string, string> = { tip: '💡', info: 'ℹ️', warning: '⚠️', danger: '🚫' };
+          const type = raw.type || 'info';
+          const text = this.escapeHtml(raw.text || '');
+          const icon = icons[type] ?? 'ℹ️';
+          return `<div class="callout callout--${type}"><span class="callout-icon">${icon}</span><div class="callout-body">${text}</div></div>`;
+        }
+
+        if (block._type === 'divider') {
+          const style = (block as unknown as { style?: string }).style || 'line';
+          return style === 'space'
+            ? '<div class="divider divider--space"></div>'
+            : '<hr class="divider" />';
+        }
+
+        if (block._type === 'markdownBlock') {
+          const md = (block as unknown as { markdown?: string }).markdown || '';
+          if (!md.trim()) return '';
+          // marked.parse com gfm + breaks; sync mode (string)
+          const html = marked.parse(md, { async: false, gfm: true, breaks: false }) as string;
+          return `<div class="markdown-block">${html}</div>`;
+        }
+
+        if (block._type === 'youtube') {
+          const raw = block as unknown as { url?: string; caption?: string };
+          const videoId = this.extractYouTubeId(raw.url || '');
+          if (!videoId) return '';
+          const caption = raw.caption ? `<figcaption>${this.escapeHtml(raw.caption)}</figcaption>` : '';
+          return `<figure class="video-embed"><div class="video-wrapper"><iframe src="https://www.youtube-nocookie.com/embed/${videoId}" loading="lazy" allowfullscreen title="${caption ? this.escapeAttr(raw.caption!) : 'YouTube video'}"></iframe></div>${caption}</figure>`;
+        }
+
         if (block._type !== 'block') return '';
 
         const defs = block.markDefs || [];
@@ -177,12 +214,16 @@ export class SanityService {
               else if (mark === 'em') text = `<em>${text}</em>`;
               else if (mark === 'code') text = `<code>${text}</code>`;
               else if (mark === 'underline') text = `<u>${text}</u>`;
+              else if (mark === 'strike-through') text = `<del>${text}</del>`;
+              else if (mark === 'highlight') text = `<mark>${text}</mark>`;
               else {
                 const def = defs.find(d => d._key === mark);
                 if (def?._type === 'link' && def.href) {
                   const safeHref = this.safeUrl(def.href);
                   if (safeHref) {
-                    text = `<a href="${safeHref}" target="_blank" rel="noopener noreferrer">${text}</a>`;
+                    const external = def['blank'] !== false;
+                    const attrs = external ? ' target="_blank" rel="noopener noreferrer"' : '';
+                    text = `<a href="${safeHref}"${attrs}>${text}</a>`;
                   }
                 }
               }
@@ -202,6 +243,13 @@ export class SanityService {
         }
       })
       .join('\n');
+  }
+
+  private extractYouTubeId(url: string): string | null {
+    const match = url.match(
+      /(?:youtube\.com\/watch\?v=|youtu\.be\/|youtube\.com\/embed\/)([a-zA-Z0-9_-]{11})/
+    );
+    return match ? match[1] : null;
   }
 
   private safeUrl(url: string | undefined): string | null {

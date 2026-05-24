@@ -25,20 +25,27 @@
   --color-error:          #{p.$error};
 
   // ── Blog tokens — defaults dark ──────────────────────────────────────────
-  --blog-bg:               #{p.$bg};
-  --blog-surface:          #{p.$surface};
-  --blog-surface-elevated: #{p.$surface-elevated};
-  --blog-text:             #{p.$gray-100};
-  --blog-heading:          #{p.$white};
-  --blog-text-muted:       #{p.$text-muted};
-  --blog-border:           #{p.$gray-700};
+  // Paleta dedicada do blog. Não reaproveita tokens "Cyber Purple" do site
+  // pq leitura longa pede menos contraste (texto off-white, não puro #FFF)
+  // e fundos um pouco menos escuros que o tema principal.
+  --blog-bg:               #15121F;
+  --blog-surface:          #1F1B2D;
+  --blog-surface-elevated: #2A2540;
+  --blog-text:             #D8D2E5;
+  --blog-heading:          #F0EBF7;
+  --blog-text-muted:       #9A93AD;
+  --blog-border:           #2D293D;
   --blog-accent:           #{p.$purple-400};
   --blog-accent-warm:      #{p.$accent-pink};
-  --blog-link:             #{p.$purple-300};
-  --blog-code-bg:          #050510;
-  --blog-code-text:        #d8d0e8;
-  --blog-shimmer-a:        #14141E;
-  --blog-shimmer-b:        #1F1F30;
+  --blog-link:             #{p.$purple-200};
+  --blog-code-bg:          #14111E;
+  --blog-code-text:        #D8D2E5;
+  --blog-shimmer-a:        #1F1B2D;
+  --blog-shimmer-b:        #2A2540;
+
+  --blog-inline-code-color:  #{p.$cyan};
+  --blog-inline-code-bg:     #{rgba(p.$cyan, 0.08)};
+  --blog-inline-code-border: #{rgba(p.$cyan, 0.18)};
 
   // ── Raios ────────────────────────────────────────────────────────────────
   --radius-sm:  6px;

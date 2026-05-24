@@ -154,11 +154,11 @@
   code {
     font-family: 'Fira Code', 'Courier New', monospace;
     font-size: 0.88em;
-    background: rgba(variable.$purple-400, 0.10);
-    color: variable.$purple-400;
+    background: var(--blog-inline-code-bg);
+    color: var(--blog-inline-code-color);
     padding: 2px 6px;
     border-radius: 3px;
-    border: 1px solid rgba(variable.$purple-400, 0.15);
+    border: 1px solid var(--blog-inline-code-border);
   }
 
   .code-block {
@@ -353,6 +353,152 @@
     background: rgba(variable.$purple-500, 0.25);
     margin: 2.5em auto;
     width: 60%;
+  }
+
+  // ── Rich paste — elementos comuns de outros sites ─────────────────────────
+
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 1.6em 0;
+    font-size: 0.9em;
+    display: block;
+    overflow-x: auto;
+
+    th {
+      background: var(--blog-surface);
+      color: var(--blog-heading);
+      font-weight: 600;
+      text-align: left;
+      padding: 10px 14px;
+      border-bottom: 2px solid var(--blog-border);
+      white-space: nowrap;
+    }
+
+    td {
+      padding: 8px 14px;
+      border-bottom: 1px solid var(--blog-border);
+      color: var(--blog-text);
+      vertical-align: top;
+    }
+
+    tr:last-child td { border-bottom: none; }
+    tbody tr:hover td { background: rgba(variable.$purple-400, 0.04); }
+  }
+
+  figcaption {
+    text-align: center;
+    font-size: 13px;
+    color: var(--blog-text-muted);
+    margin-top: 6px;
+    font-style: italic;
+  }
+
+  mark {
+    background: rgba(variable.$accent-pink, 0.22);
+    color: inherit;
+    padding: 1px 3px;
+    border-radius: 2px;
+  }
+
+  kbd {
+    font-family: 'Fira Code', 'Courier New', monospace;
+    font-size: 0.82em;
+    background: var(--blog-surface);
+    border: 1px solid var(--blog-border);
+    border-bottom: 2px solid var(--blog-border);
+    border-radius: 3px;
+    padding: 1px 6px;
+    color: var(--blog-text);
+    white-space: nowrap;
+  }
+
+  del, s { color: var(--blog-text-muted); text-decoration: line-through; }
+
+  sup, sub {
+    font-size: 0.75em;
+    line-height: 0;
+    position: relative;
+    vertical-align: baseline;
+  }
+  sup { top: -0.5em; }
+  sub { bottom: -0.25em; }
+
+  dl {
+    margin: 0 0 1.4em;
+
+    dt {
+      font-weight: 700;
+      color: var(--blog-heading);
+      margin-bottom: 4px;
+    }
+
+    dd {
+      margin-left: 20px;
+      margin-bottom: 8px;
+    }
+  }
+
+  // ── Markdown block (renderizado via marked) — sem wrapper visual,
+  //    delega para os estilos já existentes de p/h2/h3/code/pre/etc. ──────────
+  .markdown-block {
+    > *:first-child { margin-top: 0; }
+    > *:last-child  { margin-bottom: 0; }
+  }
+
+  // ── Callout ───────────────────────────────────────────────────────────────
+  .callout {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    padding: 14px 18px;
+    margin: 1.6em 0;
+    border-radius: 8px;
+    border-left: 3px solid;
+    font-size: 0.95em;
+    line-height: 1.6;
+
+    .callout-icon {
+      font-size: 1.1em;
+      flex-shrink: 0;
+      margin-top: 1px;
+    }
+
+    .callout-body { flex: 1; color: var(--blog-text); }
+
+    &.callout--tip     { background: rgba(variable.$purple-400, 0.08); border-color: variable.$purple-400; }
+    &.callout--info    { background: rgba(variable.$cyan, 0.08); border-color: variable.$cyan; }
+    &.callout--warning { background: rgba(variable.$accent-pink, 0.08); border-color: variable.$accent-pink; }
+    &.callout--danger  { background: rgba(#ef4444, 0.08); border-color: #ef4444; }
+  }
+
+  // ── YouTube embed ─────────────────────────────────────────────────────────
+  .video-embed {
+    margin: 1.8em 0;
+    text-align: center;
+
+    .video-wrapper {
+      position: relative;
+      padding-bottom: 56.25%;
+      height: 0;
+      overflow: hidden;
+      border-radius: 8px;
+      background: var(--blog-code-bg);
+
+      iframe {
+        position: absolute;
+        top: 0; left: 0;
+        width: 100%; height: 100%;
+        border: 0;
+      }
+    }
+
+    figcaption {
+      margin-top: 8px;
+      font-size: 13px;
+      color: var(--blog-text-muted);
+      font-style: italic;
+    }
   }
 }
 

@@ -1,4 +1,13 @@
 // ============================================================
+// Blog Dark Reading Theme — fundo levemente levantado para conforto
+// ============================================================
+
+body.blog-theme-dark {
+  background-color: var(--blog-bg) !important;
+  background-image: none !important;
+}
+
+// ============================================================
 // Blog Light Reading Theme — warm cream mode
 // Applied to <body class="blog-theme-light"> by ReadingPreferencesService.
 // Only overrides CSS tokens + elements not yet tokenized.
@@ -14,6 +23,10 @@ body.blog-theme-light {
   --blog-text:             #2D2417;
   --blog-heading:          #1A1208;
   --blog-text-muted:       #6B5D45;
+
+  --blog-inline-code-color:  #0e7490;
+  --blog-inline-code-bg:     rgba(6, 182, 212, 0.08);
+  --blog-inline-code-border: rgba(6, 182, 212, 0.22);
   --blog-border:           #DDD5B8;
   --blog-accent:           #374151;
   --blog-accent-warm:      #B45309;
@@ -190,6 +203,16 @@ body.blog-theme-light {
 
     ul, ol li::marker { color: var(--blog-accent); }
     hr { background: var(--blog-border); }
+
+    .callout {
+      &.callout--tip     { background: rgba(124, 58, 237, 0.06); border-color: #7C3AED; }
+      &.callout--info    { background: rgba(6, 182, 212, 0.06); border-color: #0891B2; }
+      &.callout--warning { background: rgba(180, 83, 9, 0.08); border-color: #B45309; }
+      &.callout--danger  { background: rgba(220, 38, 38, 0.06); border-color: #DC2626; }
+      .callout-body { color: var(--blog-text); }
+    }
+
+    .video-embed .video-wrapper { background: var(--blog-surface); }
   }
 
 }
