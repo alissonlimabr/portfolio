@@ -1,0 +1,194 @@
+// ============================================================
+// Blog Light Reading Theme — warm cream mode
+// Applied to <body class="blog-theme-light"> by ReadingPreferencesService.
+// Only overrides CSS tokens + elements not yet tokenized.
+// Dark defaults: :root block in dark-purple-theme.scss
+// ============================================================
+
+body.blog-theme-light {
+
+  // ── Token overrides ───────────────────────────────────────────────────
+  --blog-bg:               #FAF7EE;
+  --blog-surface:          #F2EDD8;
+  --blog-surface-elevated: #FDF9EF;
+  --blog-text:             #2D2417;
+  --blog-text-muted:       #6B5D45;
+  --blog-border:           #DDD5B8;
+  --blog-accent:           #374151;
+  --blog-accent-warm:      #B45309;
+  --blog-link:             #1F2937;
+  --blog-code-bg:          #EDE8D5;
+  --blog-code-text:        #2D2417;
+  --blog-shimmer-a:        #EDE8D5;
+  --blog-shimmer-b:        #DDD5B8;
+
+  // ── Body ──────────────────────────────────────────────────────────────
+  background-color: var(--blog-bg) !important;
+  background-image: none !important;
+
+  // ── Scrollbar & selection ─────────────────────────────────────────────
+  scrollbar-color: #9CA3AF var(--blog-border);
+  ::-webkit-scrollbar         { background: var(--blog-border) !important; }
+  ::-webkit-scrollbar-thumb   { background: #9CA3AF !important; border-radius: 10px; }
+  ::-webkit-scrollbar-track   { background: var(--blog-border) !important; }
+  ::selection { background-color: var(--blog-accent); color: #fff; }
+
+  // ── Header ────────────────────────────────────────────────────────────
+  header {
+    background: rgba(250, 247, 238, 0.95) !important;
+    backdrop-filter: blur(14px) saturate(180%);
+    border-bottom-color: var(--blog-border) !important;
+    color: var(--blog-text) !important;
+
+    .logo {
+      fa-icon, .fa-icon { color: #7C3AED !important; }
+      a { color: var(--blog-text-muted) !important; &:hover { color: var(--blog-text-muted) !important; } }
+    }
+    .logo-context { color: #7C3AED !important; }
+
+    // Nav links — texto e underline
+    .link {
+      color: var(--blog-text-muted) !important;
+
+      &::before {
+        background-image: linear-gradient(90deg, var(--blog-accent) 0%, var(--blog-link) 100%) !important;
+        box-shadow: none !important;
+      }
+
+      &:hover { color: var(--blog-accent) !important; }
+
+      &.link--active,
+      &.link--section-active { color: var(--blog-accent) !important; }
+
+      &.link--back { color: var(--blog-text-muted) !important; &:hover { color: var(--blog-text) !important; } }
+
+      &.link--rss { color: var(--blog-accent) !important; &:hover { color: var(--blog-link) !important; } }
+    }
+
+    .nav-links li.theme-toggle .theme-toggle-btn {
+      background: none;
+      border: none;
+      color: var(--blog-text-muted);
+
+      &:hover { color: var(--blog-accent-warm); filter: drop-shadow(0 0 5px rgba(180, 83, 9, 0.5)); }
+      &.active { color: var(--blog-accent-warm); filter: drop-shadow(0 0 5px rgba(180, 83, 9, 0.4)); }
+    }
+  }
+
+  // ── Footer ────────────────────────────────────────────────────────────
+  footer {
+    background-color: var(--blog-bg) !important;
+    border-top-color: var(--blog-border) !important;
+    color: var(--blog-text-muted) !important;
+
+    a { color: var(--blog-text-muted) !important; &:hover { color: var(--blog-accent-warm) !important; } }
+    p { color: var(--blog-text-muted) !important; }
+  }
+
+  // ── Blog hero (radial-gradient → solid bg in light mode) ─────────────
+  .blog-hero {
+    background: var(--blog-bg);
+    border-bottom: 1px solid var(--blog-border);
+
+    &::before {
+      background-image: repeating-linear-gradient(
+        90deg,
+        transparent 0,
+        transparent 120px,
+        rgba(180, 83, 9, 0.04) 120px,
+        rgba(180, 83, 9, 0.04) 121px
+      );
+    }
+
+    &::after {
+      background: linear-gradient(90deg, transparent 0%, var(--blog-accent-warm) 50%, transparent 100%);
+      box-shadow: none;
+      opacity: 0.5;
+      animation: none;
+    }
+
+    &.blog-hero--category {
+      border-bottom-color: var(--blog-border);
+      &::after { background: linear-gradient(90deg, transparent 0%, var(--cat-color, var(--blog-accent-warm)) 50%, transparent 100%); }
+    }
+  }
+
+  // ── blog cards ────────────────────────────────────────────────────────
+  .blog-card {
+    background: var(--blog-surface-elevated);
+    border-color: var(--blog-border);
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.06);
+
+    &:hover {
+      border-color: var(--blog-accent);
+      box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
+
+      h3 { text-shadow: none; }
+    }
+  }
+
+  .blog-list mat-card {
+    background: transparent !important;
+    border: none !important;
+    box-shadow: none !important;
+  }
+
+  // ── Category filter active: different visual treatment in light ────────
+  .blog-category-filter.active {
+    background: rgba(124, 58, 237, 0.1);
+    border-color: var(--blog-accent);
+    color: var(--blog-accent);
+    font-weight: 700;
+    &:hover { transform: translateY(-1px); box-shadow: none; }
+  }
+
+  // ── Prism syntax highlighting — light token set ───────────────────────
+  .post-content {
+    pre[class*="language-"] code,
+    code[class*="language-"] { color: var(--blog-text); text-shadow: none; }
+
+    .token.comment,
+    .token.prolog,
+    .token.doctype,
+    .token.cdata   { color: #8b7a5e; font-style: italic; }
+    .token.punctuation { color: #5a4a3a; }
+    .token.namespace   { opacity: 0.75; }
+    .token.property,
+    .token.tag,
+    .token.boolean,
+    .token.number,
+    .token.constant,
+    .token.symbol,
+    .token.deleted { color: var(--blog-accent); }
+    .token.selector,
+    .token.attr-name,
+    .token.string,
+    .token.char,
+    .token.builtin,
+    .token.inserted { color: #15803d; }
+    .token.operator,
+    .token.entity,
+    .token.url { color: var(--blog-accent); }
+    .token.atrule,
+    .token.attr-value,
+    .token.keyword,
+    .token.control,
+    .token.directive,
+    .token.unit { color: var(--blog-accent-warm); font-weight: 600; }
+    .token.function,
+    .token.class-name { color: var(--blog-accent); }
+    .token.regex,
+    .token.important,
+    .token.variable { color: var(--blog-accent-warm); }
+
+    blockquote {
+      border-left-color: var(--blog-accent-warm);
+      color: var(--blog-text-muted);
+      background: var(--blog-surface);
+    }
+
+    ul, ol li::marker { color: var(--blog-accent); }
+    hr { background: var(--blog-border); }
+  }
+
+}
