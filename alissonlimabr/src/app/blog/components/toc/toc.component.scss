@@ -1,0 +1,97 @@
+@use "src/assets/scss/palette" as variable;
+@import "src/assets/scss/variables-mixins";
+
+.post-toc-section {
+  display: flex;
+  justify-content: center;
+  padding: 0 24px 20px;
+
+  @include responsive(mobilePlus) { padding: 0 16px 16px; }
+}
+
+.post-toc-inner {
+  width: 100%;
+  max-width: 720px;
+  padding: 14px 18px;
+  background: linear-gradient(90deg, rgba(variable.$purple-400, 0.06) 0%, transparent 40%);
+  border: 1px solid var(--blog-border);
+  border-left: 3px solid var(--blog-accent);
+  border-radius: 4px;
+}
+
+.toc-toggle {
+  display: none;
+  width: 100%;
+  align-items: center;
+  justify-content: space-between;
+  background: none;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  color: var(--blog-text-muted);
+  font-family: inherit;
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1.2px;
+
+  @include responsive(tablet) { display: flex; }
+}
+
+.toc-toggle-icon {
+  font-size: 16px;
+  line-height: 1;
+  transition: transform 0.2s ease;
+
+  &.is-open { transform: rotate(180deg); }
+}
+
+.toc-title {
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1.2px;
+  color: var(--blog-text-muted);
+  margin: 0 0 10px;
+
+  @include responsive(tablet) { display: none; }
+}
+
+.toc-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  border-left: 2px solid var(--blog-border);
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+
+  @include responsive(tablet) {
+    display: none;
+    margin-top: 10px;
+
+    &.is-open { display: flex; }
+  }
+}
+
+.toc-item {
+  &.toc-item--active {
+    border-left: 2px solid var(--blog-accent);
+    margin-left: -2px;
+  }
+
+  a {
+    display: block;
+    padding: 3px 0 3px 14px;
+    font-size: 13px;
+    line-height: 1.5;
+    color: var(--blog-text-muted);
+    text-decoration: none;
+    transition: color 0.2s;
+
+    &:hover { color: var(--blog-accent); }
+  }
+
+  &.toc-item--active a { color: var(--blog-accent); }
+  &.toc-item--h3 a { padding-left: 26px; font-size: 12px; }
+}

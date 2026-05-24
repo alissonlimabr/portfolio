@@ -719,6 +719,20 @@
   }
 }
 
+.reading-progress-bar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: var(--progress, 0%);
+  height: 3px;
+  background: linear-gradient(90deg, variable.$purple-400 0%, variable.$accent-pink 100%);
+  z-index: 9999;
+  pointer-events: none;
+  box-shadow: 0 0 8px rgba(variable.$purple-400, 0.5);
+  transition: width 0.08s linear;
+}
+
+
 .post-not-found {
   display: flex;
   justify-content: center;
