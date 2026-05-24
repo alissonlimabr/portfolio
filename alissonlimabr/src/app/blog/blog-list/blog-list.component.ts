@@ -5,20 +5,23 @@ import {
   DestroyRef,
   NgZone,
   OnInit,
+  ViewEncapsulation,
   inject,
 } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { ActivatedRoute, RouterLink } from '@angular/router';
-import { MatCardModule } from '@angular/material/card';
+import { MatCard, MatCardContent } from '@angular/material/card';
 import { Observable } from 'rxjs';
 import { SanityService } from '../services/sanity.service';
 import { Category, PostSummary } from '../models/post.model';
-
+import { IconComponent } from '../../shared/icon.component';
 @Component({
   selector: 'app-blog-list',
   standalone: true,
-  imports: [RouterLink, MatCardModule],
+  imports: [RouterLink, MatCard, MatCardContent, IconComponent],
   templateUrl: './blog-list.component.html',
+  styleUrl: './blog-list.component.scss',
+  encapsulation: ViewEncapsulation.None,
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class BlogListComponent implements OnInit {

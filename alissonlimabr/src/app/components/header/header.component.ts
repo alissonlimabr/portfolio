@@ -1,9 +1,11 @@
 import { isPlatformBrowser } from '@angular/common';
-import { Component, EventEmitter, HostListener, Inject, Input, OnChanges, OnInit, Output, PLATFORM_ID, SimpleChanges } from '@angular/core';
+import { Component, EventEmitter, HostListener, Inject, Input, OnChanges, OnInit, Output, PLATFORM_ID, SimpleChanges, ViewEncapsulation, inject } from '@angular/core';
 import { RouterLink, RouterLinkActive } from '@angular/router';
 import { MatToolbar } from '@angular/material/toolbar';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { faBars, faCode, faXmark } from '@fortawesome/free-solid-svg-icons';
+import { ReadingPreferencesService } from '../../blog/services/reading-preferences.service';
+import { IconComponent } from '../../shared/icon.component';
 
 @Component({
   selector: 'app-header',
@@ -14,8 +16,10 @@ import { faBars, faCode, faXmark } from '@fortawesome/free-solid-svg-icons';
     MatToolbar,
     RouterLink,
     RouterLinkActive,
+    IconComponent,
   ],
   styleUrls: ['./header.component.scss'],
+  encapsulation: ViewEncapsulation.None,
 })
 export class HeaderComponent implements OnInit, OnChanges {
   @Output() openSidenav = new EventEmitter();
@@ -27,8 +31,18 @@ export class HeaderComponent implements OnInit, OnChanges {
   opened?: boolean;
   activePortfolioHash = '';
   private readonly portfolioSectionIds = ['perfil', 'sobre', 'habilidades', 'trabalhos', 'projetos', 'contato'];
+  readonly prefs = inject(ReadingPreferencesService);
 
   constructor(@Inject(PLATFORM_ID) private platformId: Object) {}
+
+  get currentTheme() {
+    return this.prefs.theme();
+  }
+
+  toggleTheme(): void {
+    const next: 'dark' | 'light' = this.prefs.theme() === 'dark' ? 'light' : 'dark';
+    this.prefs.setTheme(next);
+  }
 
   ngOnInit(): void {
     this.syncActivePortfolioLink();

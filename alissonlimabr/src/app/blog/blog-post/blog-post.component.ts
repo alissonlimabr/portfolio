@@ -9,6 +9,7 @@ import {
   OnDestroy,
   OnInit,
   ViewChild,
+  ViewEncapsulation,
   inject,
 } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
@@ -31,12 +32,16 @@ import 'prismjs/components/prism-python';
 import 'prismjs/components/prism-sql';
 import { SanityService } from '../services/sanity.service';
 import { Post, PostSummary } from '../models/post.model';
+import { ReadingPreferencesComponent } from '../components/reading-preferences/reading-preferences.component';
+import { IconComponent } from '../../shared/icon.component';
 
 @Component({
   selector: 'app-blog-post',
   standalone: true,
-  imports: [RouterLink],
+  imports: [RouterLink, ReadingPreferencesComponent, IconComponent],
   templateUrl: './blog-post.component.html',
+  styleUrl: './blog-post.component.scss',
+  encapsulation: ViewEncapsulation.None,
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class BlogPostComponent implements OnInit, OnDestroy {
