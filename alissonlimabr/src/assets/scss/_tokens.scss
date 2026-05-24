@@ -28,7 +28,8 @@
   --blog-bg:               #{p.$bg};
   --blog-surface:          #{p.$surface};
   --blog-surface-elevated: #{p.$surface-elevated};
-  --blog-text:             #{p.$white};
+  --blog-text:             #{p.$gray-100};
+  --blog-heading:          #{p.$white};
   --blog-text-muted:       #{p.$text-muted};
   --blog-border:           #{p.$gray-700};
   --blog-accent:           #{p.$purple-400};
