@@ -17,16 +17,20 @@ import { IconComponent } from '../../../shared/icon.component';
         <app-icon name="chevron-down" [size]="12" class="rp-chevron" />
       </button>
 
-      <div class="rp-desktop-body" id="rp-desktop-body">
+      <div class="rp-desktop-body" id="rp-desktop-body"
+        [attr.aria-hidden]="collapsed()" [attr.inert]="collapsed() ? '' : null">
         <div class="rp-desktop-body-inner">
           <div class="rp-group">
             <span class="rp-label">Fonte</span>
             <div class="rp-btns">
               <button type="button" class="rp-btn" [class.active]="prefs.fontSize() === 'sm'"
+                [attr.aria-pressed]="prefs.fontSize() === 'sm'"
                 (click)="prefs.setFontSize('sm')" aria-label="Fonte pequena">A-</button>
               <button type="button" class="rp-btn" [class.active]="prefs.fontSize() === 'md'"
+                [attr.aria-pressed]="prefs.fontSize() === 'md'"
                 (click)="prefs.setFontSize('md')" aria-label="Fonte média">A</button>
               <button type="button" class="rp-btn" [class.active]="prefs.fontSize() === 'lg'"
+                [attr.aria-pressed]="prefs.fontSize() === 'lg'"
                 (click)="prefs.setFontSize('lg')" aria-label="Fonte grande">A+</button>
             </div>
           </div>
@@ -35,14 +39,17 @@ import { IconComponent } from '../../../shared/icon.component';
             <span class="rp-label">Largura</span>
             <div class="rp-btns">
               <button type="button" class="rp-btn" [class.active]="prefs.textWidth() === 'narrow'"
+                [attr.aria-pressed]="prefs.textWidth() === 'narrow'"
                 (click)="prefs.setTextWidth('narrow')" aria-label="Texto estreito">
                 <app-icon name="text-narrow" [size]="13" />
               </button>
               <button type="button" class="rp-btn" [class.active]="prefs.textWidth() === 'normal'"
+                [attr.aria-pressed]="prefs.textWidth() === 'normal'"
                 (click)="prefs.setTextWidth('normal')" aria-label="Largura normal">
                 <app-icon name="text-normal" [size]="13" />
               </button>
               <button type="button" class="rp-btn" [class.active]="prefs.textWidth() === 'wide'"
+                [attr.aria-pressed]="prefs.textWidth() === 'wide'"
                 (click)="prefs.setTextWidth('wide')" aria-label="Texto largo">
                 <app-icon name="text-wide" [size]="13" />
               </button>
@@ -53,10 +60,12 @@ import { IconComponent } from '../../../shared/icon.component';
             <span class="rp-label">Tema</span>
             <div class="rp-btns">
               <button type="button" class="rp-btn" [class.active]="prefs.theme() === 'dark'"
+                [attr.aria-pressed]="prefs.theme() === 'dark'"
                 (click)="prefs.setTheme('dark')" aria-label="Tema escuro">
                 <app-icon name="moon" [size]="13" />
               </button>
               <button type="button" class="rp-btn" [class.active]="prefs.theme() === 'light'"
+                [attr.aria-pressed]="prefs.theme() === 'light'"
                 (click)="prefs.setTheme('light')" aria-label="Tema claro">
                 <app-icon name="sun" [size]="13" />
               </button>
@@ -68,16 +77,20 @@ import { IconComponent } from '../../../shared/icon.component';
 
     <!-- Mobile/tablet: FAB + collapsible panel -->
     <div class="rp-mobile" [class.rp-mobile--open]="open()">
-      <div class="rp-mobile-panel" role="dialog" aria-label="Preferências de leitura">
+      <div class="rp-mobile-panel" id="rp-mobile-panel" role="dialog" aria-label="Preferências de leitura"
+        [attr.aria-hidden]="!open()" [attr.inert]="open() ? null : ''">
 
         <div class="rp-group">
           <span class="rp-label">Fonte</span>
           <div class="rp-btns">
             <button type="button" class="rp-btn" [class.active]="prefs.fontSize() === 'sm'"
+              [attr.aria-pressed]="prefs.fontSize() === 'sm'"
               (click)="prefs.setFontSize('sm')" aria-label="Fonte pequena">A-</button>
             <button type="button" class="rp-btn" [class.active]="prefs.fontSize() === 'md'"
+              [attr.aria-pressed]="prefs.fontSize() === 'md'"
               (click)="prefs.setFontSize('md')" aria-label="Fonte média">A</button>
             <button type="button" class="rp-btn" [class.active]="prefs.fontSize() === 'lg'"
+              [attr.aria-pressed]="prefs.fontSize() === 'lg'"
               (click)="prefs.setFontSize('lg')" aria-label="Fonte grande">A+</button>
           </div>
         </div>
@@ -86,14 +99,17 @@ import { IconComponent } from '../../../shared/icon.component';
           <span class="rp-label">Largura</span>
           <div class="rp-btns">
             <button type="button" class="rp-btn" [class.active]="prefs.textWidth() === 'narrow'"
+              [attr.aria-pressed]="prefs.textWidth() === 'narrow'"
               (click)="prefs.setTextWidth('narrow')" aria-label="Estreito">
               <app-icon name="text-narrow" [size]="13" />
             </button>
             <button type="button" class="rp-btn" [class.active]="prefs.textWidth() === 'normal'"
+              [attr.aria-pressed]="prefs.textWidth() === 'normal'"
               (click)="prefs.setTextWidth('normal')" aria-label="Normal">
               <app-icon name="text-normal" [size]="13" />
             </button>
             <button type="button" class="rp-btn" [class.active]="prefs.textWidth() === 'wide'"
+              [attr.aria-pressed]="prefs.textWidth() === 'wide'"
               (click)="prefs.setTextWidth('wide')" aria-label="Largo">
               <app-icon name="text-wide" [size]="13" />
             </button>
@@ -104,10 +120,12 @@ import { IconComponent } from '../../../shared/icon.component';
           <span class="rp-label">Tema</span>
           <div class="rp-btns">
             <button type="button" class="rp-btn" [class.active]="prefs.theme() === 'dark'"
+              [attr.aria-pressed]="prefs.theme() === 'dark'"
               (click)="prefs.setTheme('dark')" aria-label="Tema escuro">
               <app-icon name="moon" [size]="13" />
             </button>
             <button type="button" class="rp-btn" [class.active]="prefs.theme() === 'light'"
+              [attr.aria-pressed]="prefs.theme() === 'light'"
               (click)="prefs.setTheme('light')" aria-label="Tema claro">
               <app-icon name="sun" [size]="13" />
             </button>
@@ -116,7 +134,7 @@ import { IconComponent } from '../../../shared/icon.component';
 
       </div>
 
-      <button class="rp-fab" type="button" (click)="toggle($event)"
+      <button class="rp-fab" type="button" (click)="toggle($event)" aria-controls="rp-mobile-panel"
         [attr.aria-expanded]="open()" aria-label="Preferências de leitura">
         <app-icon name="sliders" [size]="16" />
       </button>
@@ -171,20 +189,25 @@ import { IconComponent } from '../../../shared/icon.component';
         border-color: var(--blog-accent, #A855F7);
         color: var(--blog-accent, #A855F7);
       }
+
+      &:focus-visible {
+        outline: 2px solid var(--blog-accent, #A855F7);
+        outline-offset: 2px;
+      }
     }
 
     /* ─────────────────────────────────────────────────────────
-       Desktop panel — always expanded, fixed right side
+       Desktop panel — collapsible, fixed right side
     ───────────────────────────────────────────────────────── */
     .rp-desktop {
       display: none;
 
-      @media (min-width: 1025px) {
+      @media (min-width: 1280px) {
         display: flex;
         flex-direction: column;
         gap: 14px;
         position: fixed;
-        right: 28px;
+        right: 16px;
         top: 50%;
         transform: translateY(-50%);
         z-index: 200;
@@ -201,8 +224,8 @@ import { IconComponent } from '../../../shared/icon.component';
     }
 
     .rp-desktop--collapsed {
-      @media (min-width: 1025px) {
-        width: 82px;
+      @media (min-width: 1280px) {
+        width: 98px;
         gap: 0;
         padding-inline: 10px;
       }
@@ -234,6 +257,11 @@ import { IconComponent } from '../../../shared/icon.component';
 
       &:hover { color: var(--blog-accent, #A855F7); }
 
+      &:focus-visible {
+        outline: 2px solid var(--blog-accent, #A855F7);
+        outline-offset: 3px;
+      }
+
       .rp-chevron {
         margin-left: auto;
         flex-shrink: 0;
@@ -248,6 +276,7 @@ import { IconComponent } from '../../../shared/icon.component';
       .rp-chevron {
         transform: rotate(-90deg);
         opacity: 0;
+        display: none;
       }
     }
 
@@ -278,7 +307,7 @@ import { IconComponent } from '../../../shared/icon.component';
     .rp-mobile {
       display: none;
 
-      @media (max-width: 1024px) {
+      @media (max-width: 1279px) {
         display: flex;
         flex-direction: column-reverse;
         align-items: flex-end;
@@ -334,6 +363,11 @@ import { IconComponent } from '../../../shared/icon.component';
         border-color: var(--blog-accent, #A855F7);
         box-shadow: 0 0 16px rgba(168, 85, 247, 0.3);
       }
+
+      &:focus-visible {
+        outline: 2px solid var(--blog-accent, #A855F7);
+        outline-offset: 3px;
+      }
     }
 
     .rp-mobile--open .rp-fab {
@@ -346,9 +380,7 @@ export class ReadingPreferencesComponent {
   readonly prefs     = inject(ReadingPreferencesService);
   readonly open      = signal(false);
   private readonly isBrowser = isPlatformBrowser(inject(PLATFORM_ID));
-  readonly collapsed = signal(
-    this.isBrowser && localStorage.getItem('blog-rp-collapsed') === 'true'
-  );
+  readonly collapsed = signal(this.loadCollapsed());
 
   private readonly el = inject(ElementRef);
 
@@ -361,16 +393,32 @@ export class ReadingPreferencesComponent {
     this.collapsed.update(v => {
       const next = !v;
       if (this.isBrowser) {
-        localStorage.setItem('blog-rp-collapsed', String(next));
+        try {
+          localStorage.setItem('blog-rp-collapsed', String(next));
+        } catch { /* storage can be unavailable in privacy modes */ }
       }
       return next;
     });
+  }
+
+  @HostListener('document:keydown.escape')
+  onEscape(): void {
+    this.open.set(false);
   }
 
   @HostListener('document:click', ['$event'])
   onClickOutside(event: MouseEvent): void {
     if (this.open() && !this.el.nativeElement.contains(event.target)) {
       this.open.set(false);
+    }
+  }
+
+  private loadCollapsed(): boolean {
+    if (!this.isBrowser) return false;
+    try {
+      return localStorage.getItem('blog-rp-collapsed') === 'true';
+    } catch {
+      return false;
     }
   }
 }

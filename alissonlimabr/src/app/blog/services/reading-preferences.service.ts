@@ -56,10 +56,27 @@ export class ReadingPreferencesService {
     try {
       const stored = localStorage.getItem(STORAGE_KEY);
       if (stored) {
-        return { ...DEFAULT_PREFS, ...JSON.parse(stored) };
+        const parsed = JSON.parse(stored) as Partial<ReadingPreferences>;
+        return {
+          fontSize: this.isFontSize(parsed.fontSize) ? parsed.fontSize : DEFAULT_PREFS.fontSize,
+          textWidth: this.isTextWidth(parsed.textWidth) ? parsed.textWidth : DEFAULT_PREFS.textWidth,
+          theme: this.isReadingTheme(parsed.theme) ? parsed.theme : DEFAULT_PREFS.theme,
+        };
       }
     } catch { /* ignore */ }
     return DEFAULT_PREFS;
+  }
+
+  private isFontSize(value: unknown): value is FontSize {
+    return value === 'sm' || value === 'md' || value === 'lg';
+  }
+
+  private isTextWidth(value: unknown): value is TextWidth {
+    return value === 'narrow' || value === 'normal' || value === 'wide';
+  }
+
+  private isReadingTheme(value: unknown): value is ReadingTheme {
+    return value === 'dark' || value === 'light';
   }
 
   applyBodyClasses(prefs: ReadingPreferences = this.prefs()): void {
