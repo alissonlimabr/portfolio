@@ -41,6 +41,10 @@ mat-toolbar {
   @include responsive(tabletplus) { display: block !important; }
 }
 
+.logo-dev {
+  color: p.$purple-300;
+}
+
 .logo-context {
   font-size: 18px;
   font-weight: 400;

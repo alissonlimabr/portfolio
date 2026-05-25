@@ -55,8 +55,13 @@
     align-items: center;
     gap: 10px;
 
+    .logo-dev {
+      color: p.$purple-300;
+    }
+
     p {
       font-size: 16px;
+      gap: 0;
 
       @include responsive(mobile) {
         font-size: 12px;
@@ -65,6 +70,10 @@
 
     fa-icon {
       font-size: 25px;
+
+      @include responsive(mobile) {
+      font-size: 20px;
+      }
     }
   }
 }

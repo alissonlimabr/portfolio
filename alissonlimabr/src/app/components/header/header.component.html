@@ -4,7 +4,7 @@
   <mat-toolbar>
     <span class="logo">
       <fa-icon [icon]="faCode"></fa-icon>
-      <a routerLink="/">ALISSONLIMADEV</a>
+      <a routerLink="/">ALISSONLIMA<span class="logo-dev">DEV</span></a>
       @if (isBlogRoute) {
         <span class="logo-context">/ blog</span>
       }
@@ -78,7 +78,7 @@
             <a class="link" href="/#projetos" [class.link--section-active]="isPortfolioLinkActive('projetos')">Projetos</a>
           </li>
           <li>
-            <a class="link" href="/#blog" [class.link--section-active]="isPortfolioLinkActive('blog')">Blog</a>
+            <a class="link" routerLink="/blog">Blog</a>
           </li>
           <li>
             <a class="link" href="/#contato" [class.link--section-active]="isPortfolioLinkActive('contato')">Contato</a>
