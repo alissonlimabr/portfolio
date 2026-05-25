@@ -8,12 +8,13 @@ import {
   NgZone,
   OnDestroy,
   OnInit,
+  PLATFORM_ID,
   ViewChild,
   ViewEncapsulation,
   inject,
 } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { DOCUMENT } from '@angular/common';
+import { DOCUMENT, isPlatformBrowser } from '@angular/common';
 import { ActivatedRoute, RouterLink } from '@angular/router';
 import { DomSanitizer, Meta, SafeHtml, Title } from '@angular/platform-browser';
 import { switchMap } from 'rxjs';
@@ -47,6 +48,7 @@ import { IconComponent } from '../../shared/icon.component';
 })
 export class BlogPostComponent implements OnInit, OnDestroy {
   private readonly destroyRef = inject(DestroyRef);
+  private readonly isBrowser = isPlatformBrowser(inject(PLATFORM_ID));
 
   post?: Post;
   bodyHtml?: SafeHtml;
@@ -63,6 +65,7 @@ export class BlogPostComponent implements OnInit, OnDestroy {
   private jsonLdScript?: HTMLScriptElement;
   private scrollCleanup?: () => void;
   private readonly siteOrigin = 'https://alissonlimadev.com';
+  private readonly defaultOgImageUrl = 'https://homolog.alissonlimadev.com/assets/img/og-image.webp';
 
   constructor(
     private route: ActivatedRoute,
@@ -97,8 +100,9 @@ export class BlogPostComponent implements OnInit, OnDestroy {
             if (post.imageUrl && !/^https?:\/\//i.test(post.imageUrl)) {
               post.imageUrl = undefined;
             }
+            const socialImageUrl = post.ogImageUrl || post.imageUrl;
             post.imageUrl = this.sanity.optimizeImageUrl(post.imageUrl, { w: 1200, h: 675 });
-            post.ogImageUrl = this.sanity.optimizeImageUrl(post.ogImageUrl, { w: 1200, h: 630 });
+            post.ogImageUrl = this.sanity.optimizeImageUrl(socialImageUrl, { w: 1200, h: 630 });
 
             this.post = post;
             this.bodyHtml = this.sanitizer.bypassSecurityTrustHtml(
@@ -115,11 +119,13 @@ export class BlogPostComponent implements OnInit, OnDestroy {
             this.setCanonical(post.slug.current);
             this.loadRelatedPosts(post.slug.current, post.tags ?? []);
 
-            window.scrollTo({ top: 0, behavior: 'auto' });
-            setTimeout(() => {
-              this.enhanceCodeBlocks();
-              this.buildToc();
-            }, 0);
+            if (this.isBrowser) {
+              window.scrollTo({ top: 0, behavior: 'auto' });
+              setTimeout(() => {
+                this.enhanceCodeBlocks();
+                this.buildToc();
+              }, 0);
+            }
           });
         },
         error: () => {
@@ -161,7 +167,7 @@ export class BlogPostComponent implements OnInit, OnDestroy {
 
   private applySeo(post: Post): void {
     const description = (post.seoDescription || post.excerpt || '').slice(0, 160);
-    const imageUrl = post.ogImageUrl || post.imageUrl || '';
+    const imageUrl = post.ogImageUrl || post.imageUrl || this.defaultOgImageUrl;
     const title = `${post.title} | Alisson Lima Dev`;
     const url = `${this.siteOrigin}/blog/${post.slug.current}`;
 
@@ -171,15 +177,13 @@ export class BlogPostComponent implements OnInit, OnDestroy {
     this.metaService.updateTag({ property: 'og:title', content: title });
     this.metaService.updateTag({ property: 'og:description', content: description });
     this.metaService.updateTag({ property: 'og:url', content: url });
-    if (imageUrl) {
-      this.metaService.updateTag({ property: 'og:image', content: imageUrl });
-    }
+    this.metaService.updateTag({ property: 'og:image', content: imageUrl });
+    this.metaService.updateTag({ property: 'og:image:width', content: '1200' });
+    this.metaService.updateTag({ property: 'og:image:height', content: '630' });
     this.metaService.updateTag({ name: 'twitter:card', content: 'summary_large_image' });
     this.metaService.updateTag({ name: 'twitter:title', content: title });
     this.metaService.updateTag({ name: 'twitter:description', content: description });
-    if (imageUrl) {
-      this.metaService.updateTag({ name: 'twitter:image', content: imageUrl });
-    }
+    this.metaService.updateTag({ name: 'twitter:image', content: imageUrl });
     this.metaService.updateTag({ property: 'article:published_time', content: post.publishedAt });
   }
 

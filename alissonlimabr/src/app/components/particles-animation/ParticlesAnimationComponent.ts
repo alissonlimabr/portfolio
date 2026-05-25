@@ -25,6 +25,7 @@ import { loadSlim } from '@tsparticles/slim';
 })
 export class ParticlesAnimationComponent implements OnInit {
   id = 'tsparticles';
+  readonly isBrowser: boolean;
   particlesOptions = {
     fpsLimit: 24,
     interactivity: {
@@ -51,10 +52,12 @@ export class ParticlesAnimationComponent implements OnInit {
   constructor(
     private readonly ngParticlesService: NgParticlesService,
     @Inject(PLATFORM_ID) private platformId: Object
-  ) {}
+  ) {
+    this.isBrowser = isPlatformBrowser(this.platformId);
+  }
 
   async ngOnInit(): Promise<void> {
-    if (isPlatformBrowser(this.platformId)) {
+    if (this.isBrowser) {
       await this.loadParticles();
     }
   }

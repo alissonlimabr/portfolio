@@ -6,7 +6,9 @@ import {
   signal,
   effect,
   inject,
+  PLATFORM_ID,
 } from '@angular/core';
+import { isPlatformBrowser } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 
@@ -48,9 +50,13 @@ export class IconComponent {
 
   private readonly http = inject(HttpClient);
   private readonly sanitizer = inject(DomSanitizer);
+  private readonly isBrowser = isPlatformBrowser(inject(PLATFORM_ID));
 
   constructor() {
     effect(() => {
+      if (!this.isBrowser) {
+        return;
+      }
       const name = this.name();
       const folder = this.folder();
       const cacheKey = `${folder}/${name}`;
