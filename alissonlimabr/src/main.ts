@@ -2,7 +2,6 @@ import { bootstrapApplication } from '@angular/platform-browser';
 import { importProvidersFrom } from '@angular/core';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { AppRoutingModule } from './app/app-routing.module';
-import Clarity from '@microsoft/clarity';
 import { provideHttpClient, withFetch, withInterceptorsFromDi } from '@angular/common/http';
 import { AppComponent } from './app/app.component';
 
@@ -14,5 +13,4 @@ bootstrapApplication(AppComponent, {
     provideHttpClient(withFetch(), withInterceptorsFromDi())
   ]
 })
-  .then(() => Clarity.init('pexxkhasj2'))
   .catch(err => console.error(err));

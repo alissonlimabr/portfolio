@@ -26,7 +26,6 @@
     "@fortawesome/angular-fontawesome": "^4.0",
     "@fortawesome/fontawesome-svg-core": "^6.7.2",
     "@fortawesome/free-solid-svg-icons": "^6.7.2",
-    "@microsoft/clarity": "^1.0.2",
     "@tsparticles/angular": "^3.0.0",
     "@tsparticles/engine": "^3.9.1",
     "@tsparticles/slim": "^3.9.1",
