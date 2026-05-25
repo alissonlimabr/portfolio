@@ -250,54 +250,10 @@
     </div>
   </div>
 </section>
-<section id="contato">
-  <div class="contact-wrap">
-    <div class="contact-header">
-      <span class="section-tag">[ 05 ] CONTATO</span>
-      <h2 class="contact-headline">
-        Bora <span class="contact-headline--accent">construir</span><br />
-        algo incrível juntos?
-      </h2>
-      <p class="contact-subtitle">
-        Disponível para projetos full stack, consultoria técnica ou um café virtual.
-        Resposta em até 24h.
-      </p>
-    </div>
-
-    <div class="contact-cta">
-      <a
-        class="contact-cta-primary"
-        appMagnetic
-        [magneticStrength]="0.25"
-        href="mailto:alissonlimabr.dev@gmail.com"
-        aria-label="Enviar email"
-      >
-        <span>alissonlimabr.dev&#64;gmail.com</span>
-        <fa-icon [icon]="faArrowUpRightFromSquare"></fa-icon>
-      </a>
-    </div>
-
-    <div class="contact-socials">
-      @for (social of socialMedia; track social.name) {
-        <a
-          class="contact-social-card"
-          appSpotlight
-          [href]="social.url"
-          [target]="social.name === 'Gmail' ? '_self' : '_blank'"
-          rel="noopener noreferrer"
-          [attr.aria-label]="social.alt"
-        >
-          <app-icon [name]="social.icon" folder="logos" [size]="44" />
-          <span>{{ social.name }}</span>
-        </a>
-      }
-    </div>
-  </div>
-</section>
 <section id="blog">
   <div class="blog-wrap">
     <div class="blog-header">
-      <span class="section-tag">[ 06 ] BLOG</span>
+      <span class="section-tag">[ 05 ] BLOG</span>
       <h2 class="section-headline">
         Últimos<br />
         <span class="section-headline--accent">posts.</span>
@@ -352,6 +308,50 @@
         <span>Ver todos os posts</span>
         <fa-icon [icon]="faChevronRight"></fa-icon>
       </a>
+    </div>
+  </div>
+</section>
+<section id="contato">
+  <div class="contact-wrap">
+    <div class="contact-header">
+      <span class="section-tag">[ 06 ] CONTATO</span>
+      <h2 class="contact-headline">
+        Bora <span class="contact-headline--accent">construir</span><br />
+        algo incrível juntos?
+      </h2>
+      <p class="contact-subtitle">
+        Disponível para projetos full stack, consultoria técnica ou um café virtual.
+        Resposta em até 24h.
+      </p>
+    </div>
+
+    <div class="contact-cta">
+      <a
+        class="contact-cta-primary"
+        appMagnetic
+        [magneticStrength]="0.25"
+        href="mailto:alissonlimabr.dev@gmail.com"
+        aria-label="Enviar email"
+      >
+        <span>alissonlimabr.dev&#64;gmail.com</span>
+        <fa-icon [icon]="faArrowUpRightFromSquare"></fa-icon>
+      </a>
+    </div>
+
+    <div class="contact-socials">
+      @for (social of socialMedia; track social.name) {
+        <a
+          class="contact-social-card"
+          appSpotlight
+          [href]="social.url"
+          [target]="social.name === 'Gmail' ? '_self' : '_blank'"
+          rel="noopener noreferrer"
+          [attr.aria-label]="social.alt"
+        >
+          <app-icon [name]="social.icon" folder="logos" [size]="44" />
+          <span>{{ social.name }}</span>
+        </a>
+      }
     </div>
   </div>
 </section>

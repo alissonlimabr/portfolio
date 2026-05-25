@@ -30,7 +30,7 @@ export class HeaderComponent implements OnInit, OnChanges {
   faXmark = faXmark;
   opened?: boolean;
   activePortfolioHash = '';
-  private readonly portfolioSectionIds = ['perfil', 'sobre', 'habilidades', 'trabalhos', 'projetos', 'contato'];
+  private readonly portfolioSectionIds = ['perfil', 'sobre', 'habilidades', 'trabalhos', 'projetos', 'blog', 'contato'];
   readonly prefs = inject(ReadingPreferencesService);
 
   constructor(@Inject(PLATFORM_ID) private platformId: Object) {}
