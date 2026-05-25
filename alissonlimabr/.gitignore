@@ -48,4 +48,7 @@ src/environments/environment.prod.ts
 # RSS — gerado em build pelo scripts/generate-rss.mjs
 src/rss.xml
 
+# Rotas — gerado em build pelo scripts/generate-routes.mjs
+routes.txt
+
 api/dist
