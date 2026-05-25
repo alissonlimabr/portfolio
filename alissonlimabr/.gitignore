@@ -47,3 +47,5 @@ src/environments/environment.prod.ts
 
 # RSS — gerado em build pelo scripts/generate-rss.mjs
 src/rss.xml
+
+api/dist
