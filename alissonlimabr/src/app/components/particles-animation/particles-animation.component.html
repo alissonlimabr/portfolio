@@ -1,1 +1,3 @@
-<ngx-particles [id]="id" [options]="particlesOptions" [@fadeIn]></ngx-particles>
+@if (isBrowser) {
+  <ngx-particles [id]="id" [options]="particlesOptions" [@fadeIn]></ngx-particles>
+}
