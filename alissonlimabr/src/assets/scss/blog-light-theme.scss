@@ -57,6 +57,7 @@ body.blog-theme-light {
     .logo {
       fa-icon, .fa-icon { color: #7C3AED !important; }
       a { color: var(--blog-text-muted) !important; &:hover { color: var(--blog-text-muted) !important; } }
+      .logo-dev { color: #7C3AED !important; }
     }
     .logo-context { color: #7C3AED !important; }
 
@@ -89,6 +90,27 @@ body.blog-theme-light {
     }
   }
 
+  // ── Sidenav (mobile menu) ─────────────────────────────────────────────
+  mat-sidenav {
+    background: var(--blog-bg) !important;
+    color: var(--blog-text) !important;
+
+    .logo {
+      border-bottom-color: var(--blog-border) !important;
+
+      fa-icon, .fa-icon { color: #7C3AED !important; }
+      a { color: var(--blog-text-muted) !important; }
+      .logo-dev { color: #7C3AED !important; }
+    }
+
+    .nav-links {
+      .link {
+        color: var(--blog-text-muted) !important;
+        &:hover { color: var(--blog-accent-warm) !important; }
+      }
+    }
+  }
+
   // ── Footer ────────────────────────────────────────────────────────────
   footer {
     background-color: var(--blog-bg) !important;
@@ -97,6 +119,7 @@ body.blog-theme-light {
 
     a { color: var(--blog-text-muted) !important; &:hover { color: var(--blog-accent-warm) !important; } }
     p { color: var(--blog-text-muted) !important; }
+    .logo-dev { color: #7C3AED !important; }
   }
 
   // ── Blog hero (radial-gradient → solid bg in light mode) ─────────────
