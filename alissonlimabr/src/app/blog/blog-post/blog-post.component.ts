@@ -9,6 +9,7 @@ import {
   OnDestroy,
   OnInit,
   ViewChild,
+  ViewEncapsulation,
   inject,
 } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
@@ -31,12 +32,17 @@ import 'prismjs/components/prism-python';
 import 'prismjs/components/prism-sql';
 import { SanityService } from '../services/sanity.service';
 import { Post, PostSummary } from '../models/post.model';
+import { ReadingPreferencesComponent } from '../components/reading-preferences/reading-preferences.component';
+import { TocComponent, TocItem } from '../components/toc/toc.component';
+import { IconComponent } from '../../shared/icon.component';
 
 @Component({
   selector: 'app-blog-post',
   standalone: true,
-  imports: [RouterLink],
+  imports: [RouterLink, ReadingPreferencesComponent, TocComponent, IconComponent],
   templateUrl: './blog-post.component.html',
+  styleUrl: './blog-post.component.scss',
+  encapsulation: ViewEncapsulation.None,
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class BlogPostComponent implements OnInit, OnDestroy {
@@ -48,10 +54,14 @@ export class BlogPostComponent implements OnInit, OnDestroy {
   notFound = false;
   relatedPosts: PostSummary[] = [];
   linkCopied = false;
+  tocItems: TocItem[] = [];
+  activeTocId = '';
 
   @ViewChild('postContent') postContentRef?: ElementRef<HTMLDivElement>;
+  @ViewChild('progressBar') progressBarRef?: ElementRef<HTMLDivElement>;
 
   private jsonLdScript?: HTMLScriptElement;
+  private scrollCleanup?: () => void;
   private readonly siteOrigin = 'https://alissonlimadev.com';
 
   constructor(
@@ -66,6 +76,7 @@ export class BlogPostComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit(): void {
+    this.setupScrollListener();
     this.route.paramMap
       .pipe(
         switchMap(params => this.sanity.getPost(params.get('slug')!)),
@@ -95,6 +106,8 @@ export class BlogPostComponent implements OnInit, OnDestroy {
             );
             this.relatedPosts = [];
             this.loading = false;
+            this.tocItems = [];
+            this.activeTocId = '';
             this.cdr.markForCheck();
 
             this.applySeo(post);
@@ -103,7 +116,10 @@ export class BlogPostComponent implements OnInit, OnDestroy {
             this.loadRelatedPosts(post.slug.current, post.tags ?? []);
 
             window.scrollTo({ top: 0, behavior: 'auto' });
-            setTimeout(() => this.enhanceCodeBlocks(), 0);
+            setTimeout(() => {
+              this.enhanceCodeBlocks();
+              this.buildToc();
+            }, 0);
           });
         },
         error: () => {
@@ -119,6 +135,7 @@ export class BlogPostComponent implements OnInit, OnDestroy {
 
   ngOnDestroy(): void {
     this.clearJsonLd();
+    this.scrollCleanup?.();
   }
 
   private loadRelatedPosts(slug: string, tags: string[]): void {
@@ -265,6 +282,83 @@ export class BlogPostComponent implements OnInit, OnDestroy {
       btn.classList.remove('copied', 'failed');
       btn.textContent = 'Copiar';
     }, 1800);
+  }
+
+  private setupScrollListener(): void {
+    if (typeof window === 'undefined') return;
+    let ticking = false;
+
+    const handler = () => {
+      if (ticking) return;
+      ticking = true;
+      requestAnimationFrame(() => {
+        const scrollTop = window.scrollY;
+        const docHeight = this.document.documentElement.scrollHeight - window.innerHeight;
+        const progress = docHeight > 0 ? Math.min(100, (scrollTop / docHeight) * 100) : 0;
+
+        if (this.progressBarRef?.nativeElement) {
+          this.progressBarRef.nativeElement.style.setProperty('--progress', `${progress}%`);
+        }
+
+        let newActive = '';
+        for (const item of this.tocItems) {
+          const el = this.document.getElementById(item.id);
+          if (el && el.getBoundingClientRect().top <= 100) {
+            newActive = item.id;
+          }
+        }
+
+        if (newActive !== this.activeTocId) {
+          this.activeTocId = newActive;
+          this.zone.run(() => this.cdr.markForCheck());
+        }
+
+        ticking = false;
+      });
+    };
+
+    this.zone.runOutsideAngular(() => {
+      window.addEventListener('scroll', handler, { passive: true });
+    });
+
+    this.scrollCleanup = () => window.removeEventListener('scroll', handler);
+  }
+
+  private buildToc(): void {
+    const container = this.postContentRef?.nativeElement;
+    if (!container) return;
+
+    const headings = Array.from(
+      container.querySelectorAll<HTMLHeadingElement>('h2, h3')
+    );
+
+    if (headings.length < 2) return;
+
+    const items: TocItem[] = headings.map((heading, i) => {
+      const text = heading.textContent?.trim() ?? '';
+      const id = `toc-${i}-${text
+        .toLowerCase()
+        .normalize('NFD')
+        .replace(/[\u0300-\u036f]/g, '')
+        .replace(/[^a-z0-9]+/g, '-')
+        .replace(/-$/, '')
+        .slice(0, 50)}`;
+      heading.id = id;
+      return { id, text, level: parseInt(heading.tagName[1]) as 2 | 3 };
+    });
+
+    this.zone.run(() => {
+      this.tocItems = items;
+      this.cdr.markForCheck();
+    });
+  }
+
+  scrollToSection(id: string): void {
+    const el = this.document.getElementById(id);
+    if (el) {
+      const top = el.getBoundingClientRect().top + window.scrollY - 80;
+      window.scrollTo({ top, behavior: 'smooth' });
+    }
   }
 
   get shareUrls(): { twitter: string; linkedin: string; whatsapp: string } | null {

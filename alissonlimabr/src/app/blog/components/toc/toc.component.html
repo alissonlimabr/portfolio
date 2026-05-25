@@ -1,0 +1,24 @@
+<nav class="post-toc-section" aria-label="Tabela de conteúdos">
+  <div class="post-toc-inner">
+
+    <button type="button" class="toc-toggle" (click)="toggle()" [attr.aria-expanded]="isOpen()">
+      <span class="toc-toggle-label">Neste artigo</span>
+      <span class="toc-toggle-icon" [class.is-open]="isOpen()">▾</span>
+    </button>
+
+    <p class="toc-title">Neste artigo</p>
+
+    <ul class="toc-list" [class.is-open]="isOpen()">
+      @for (item of items(); track item.id) {
+        <li
+          class="toc-item"
+          [class.toc-item--h3]="item.level === 3"
+          [class.toc-item--active]="item.id === activeId()"
+        >
+          <a [href]="'#' + item.id" (click)="onItemClick(item.id, $event)">{{ item.text }}</a>
+        </li>
+      }
+    </ul>
+
+  </div>
+</nav>

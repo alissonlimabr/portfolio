@@ -2,6 +2,7 @@ export interface PortableTextMark {
   _key: string;
   _type: string;
   href?: string;
+  blank?: boolean;
 }
 
 export interface PortableTextChild {
@@ -19,6 +20,7 @@ export interface PortableTextBlock {
   markDefs?: PortableTextMark[];
   url?: string;
   alt?: string;
+  caption?: string;
 }
 
 export interface Category {
