@@ -1,83 +1,272 @@
+@use "palette" as p;
+
 // ============================================================
-// Blog Dark Reading Theme — fundo levemente levantado para conforto
+// Tema escuro de leitura do blog — restrito ao conteúdo do artigo
 // ============================================================
 
 body.blog-theme-dark {
   background-color: var(--blog-bg) !important;
   background-image: none !important;
+
+  .blog-post {
+    --blog-bg:               #{p.$blog-dark-bg};
+    --blog-surface:          #{p.$blog-dark-surface};
+    --blog-surface-elevated: #{p.$blog-dark-surface-elevated};
+    --blog-text:             #{p.$blog-dark-text};
+    --blog-heading:          #{p.$blog-dark-heading};
+    --blog-text-muted:       #{p.$blog-dark-text-muted};
+    --blog-border:           #{p.$blog-dark-border};
+    --blog-accent:           #{p.$blog-dark-accent};
+    --blog-accent-hover:     #{p.$blog-dark-accent-hover};
+    --blog-accent-warm:      #{p.$blog-dark-code-keyword};
+    --blog-link:             #{p.$blog-dark-link};
+    --blog-link-hover:       #{p.$blog-dark-link-hover};
+    --blog-code-bg:          #{p.$blog-dark-code-bg};
+    --blog-code-text:        #{p.$blog-dark-text};
+    --blog-shimmer-a:        #{p.$blog-dark-shimmer-a};
+    --blog-shimmer-b:        #{p.$blog-dark-shimmer-b};
+    --blog-inline-code-color:  #{p.$blog-dark-inline-code-color};
+    --blog-inline-code-bg:     #{rgba(p.$blog-dark-inline-code-color, 0.08)};
+    --blog-inline-code-border: #{rgba(p.$blog-dark-inline-code-color, 0.2)};
+
+    background-color: var(--blog-bg);
+
+    ::selection {
+      background-color: rgba(p.$blog-dark-accent, 0.45);
+      color: p.$blog-dark-heading;
+    }
+
+    .post-content {
+      a:not(.blog-category-badge):not(.related-card):not(.back-link):not(.code-copy-btn):not(.post-share-btn) {
+        color: var(--blog-link);
+        text-decoration-color: rgba(p.$blog-dark-link, 0.45);
+
+        &:hover {
+          color: var(--blog-link-hover);
+          text-decoration-color: var(--blog-link-hover);
+          text-shadow: none;
+        }
+      }
+
+      .code-block {
+        border-color: var(--blog-border);
+        box-shadow: none;
+
+        &::before {
+          background: var(--blog-accent);
+        }
+      }
+
+      .code-block-header .code-block-lang {
+        color: var(--blog-text-muted);
+      }
+
+      .token.comment,
+      .token.prolog,
+      .token.doctype,
+      .token.cdata { color: p.$blog-dark-code-comment; }
+      .token.punctuation { color: p.$blog-dark-code-punctuation; }
+      .token.property,
+      .token.tag,
+      .token.boolean,
+      .token.number,
+      .token.constant,
+      .token.symbol,
+      .token.deleted,
+      .token.operator,
+      .token.entity,
+      .token.url,
+      .token.function,
+      .token.class-name { color: var(--blog-accent); }
+      .token.selector,
+      .token.attr-name,
+      .token.string,
+      .token.char,
+      .token.builtin,
+      .token.inserted { color: p.$blog-dark-code-string; }
+      .token.atrule,
+      .token.attr-value,
+      .token.keyword,
+      .token.control,
+      .token.directive,
+      .token.unit,
+      .token.regex,
+      .token.important,
+      .token.variable { color: p.$blog-dark-code-keyword; }
+
+      blockquote {
+        border-left-color: rgba(p.$blog-dark-accent, 0.6);
+        background: var(--blog-surface);
+      }
+
+      mark {
+        background: rgba(p.$blog-dark-callout-warning, 0.2);
+      }
+
+      .callout {
+        &.callout--tip     { background: rgba(p.$blog-dark-accent, 0.07); border-color: p.$blog-dark-accent; }
+        &.callout--info    { background: rgba(p.$blog-dark-callout-info, 0.07); border-color: p.$blog-dark-callout-info; }
+        &.callout--warning { background: rgba(p.$blog-dark-callout-warning, 0.08); border-color: p.$blog-dark-callout-warning; }
+        &.callout--danger  { background: rgba(p.$blog-dark-callout-danger, 0.08); border-color: p.$blog-dark-callout-danger; }
+      }
+    }
+
+    .post-toc-inner {
+      background: linear-gradient(90deg, rgba(p.$blog-dark-accent, 0.035) 0%, transparent 40%);
+      border-left-color: rgba(p.$blog-dark-accent, 0.55);
+    }
+
+    .back-link {
+      color: p.$blog-dark-interactive;
+
+      &:hover {
+        color: p.$blog-dark-interactive-hover;
+      }
+    }
+
+    .post-share-btn {
+      &:hover {
+        border-color: rgba(p.$blog-dark-interactive, 0.7);
+        color: p.$blog-dark-interactive-hover;
+        box-shadow: 0 0 10px rgba(p.$blog-dark-interactive, 0.16);
+      }
+    }
+
+    .related-card:hover {
+      border-color: rgba(p.$blog-dark-interactive, 0.7);
+      box-shadow: 0 5px 16px rgba(p.$blog-dark-interactive, 0.08);
+    }
+
+    .related-card:hover h3 {
+      color: p.$blog-dark-interactive-hover;
+    }
+  }
+}
+
+body.blog-theme-dark.blog-post-page {
+  background-color: p.$blog-dark-bg !important;
+
+  header {
+    background: rgba(p.$blog-dark-bg, 0.94);
+    border-bottom-color: p.$blog-dark-border;
+
+    &::after {
+      background: linear-gradient(90deg, transparent 0%, p.$blog-dark-accent 50%, transparent 100%);
+      box-shadow: 0 0 10px rgba(p.$blog-dark-accent, 0.35);
+    }
+
+    .link {
+      color: p.$blog-dark-text-muted;
+
+      &:hover,
+      &.link--active,
+      &.link--section-active {
+        color: p.$blog-dark-interactive-hover;
+      }
+
+      &::before {
+        background-image: linear-gradient(90deg, p.$blog-dark-interactive 0%, p.$blog-dark-interactive-hover 100%);
+        box-shadow: none;
+      }
+    }
+  }
+
+  footer {
+    background-color: p.$blog-dark-bg;
+    border-top-color: p.$blog-dark-border;
+    color: p.$blog-dark-text-muted;
+
+    .footer-copyright p {
+      color: p.$blog-dark-text-muted !important;
+
+      a {
+        color: p.$blog-dark-interactive !important;
+
+        &:hover {
+          color: p.$blog-dark-interactive-hover !important;
+        }
+      }
+    }
+
+    .footer-copyright .logo .logo-dev {
+      color: p.$blog-dark-interactive !important;
+    }
+  }
 }
 
 // ============================================================
-// Blog Light Reading Theme — warm cream mode
-// Applied to <body class="blog-theme-light"> by ReadingPreferencesService.
-// Only overrides CSS tokens + elements not yet tokenized.
-// Dark defaults: :root block in dark-purple-theme.scss
+// Tema claro de leitura do blog — fundo branco com acentos quentes
+// Aplicado a <body class="blog-theme-light"> pelo ReadingPreferencesService.
+// Sobrescreve apenas tokens CSS e elementos ainda não tokenizados.
+// Padrões escuros: bloco :root em dark-purple-theme.scss.
 // ============================================================
 
 body.blog-theme-light {
 
-  // ── Token overrides ───────────────────────────────────────────────────
-  --blog-bg:               #FAF7EE;
-  --blog-surface:          #F2EDD8;
-  --blog-surface-elevated: #FDF9EF;
-  --blog-text:             #2D2417;
-  --blog-heading:          #1A1208;
-  --blog-text-muted:       #6B5D45;
+  // ── overrides de tokens ────────────────────────────────────────────
+  --blog-bg:               #{p.$blog-light-bg};
+  --blog-surface:          #{p.$blog-light-surface};
+  --blog-surface-elevated: #{p.$blog-light-surface-elevated};
+  --blog-text:             #{p.$blog-light-text};
+  --blog-heading:          #{p.$blog-light-heading};
+  --blog-text-muted:       #{p.$blog-light-text-muted};
 
-  --blog-inline-code-color:  #0e7490;
-  --blog-inline-code-bg:     rgba(6, 182, 212, 0.08);
-  --blog-inline-code-border: rgba(6, 182, 212, 0.22);
-  --blog-border:           #DDD5B8;
-  --blog-accent:           #374151;
-  --blog-accent-warm:      #B45309;
-  --blog-link:             #1F2937;
-  --blog-code-bg:          #EDE8D5;
-  --blog-code-text:        #2D2417;
-  --blog-shimmer-a:        #EDE8D5;
-  --blog-shimmer-b:        #DDD5B8;
+  --blog-inline-code-color:  #{p.$blog-light-accent-strong};
+  --blog-inline-code-bg:     #{rgba(p.$blog-light-accent, 0.07)};
+  --blog-inline-code-border: #{rgba(p.$blog-light-accent, 0.18)};
+  --blog-border:           #{p.$blog-light-border};
+  --blog-accent:           #{p.$blog-light-accent};
+  --blog-accent-hover:     #{p.$blog-light-accent-hover};
+  --blog-accent-warm:      #{p.$blog-light-accent-warm};
+  --blog-link:             #{p.$blog-light-link};
+  --blog-link-hover:       #{p.$blog-light-link-hover};
+  --blog-code-bg:          #{p.$blog-light-code-bg};
+  --blog-code-text:        #{p.$blog-light-text};
+  --blog-shimmer-a:        #{p.$blog-light-shimmer-a};
+  --blog-shimmer-b:        #{p.$blog-light-shimmer-b};
 
-  // ── Body ──────────────────────────────────────────────────────────────
+  // ── Corpo da página ───────────────────────────────────────────────────
   background-color: var(--blog-bg) !important;
   background-image: none !important;
 
-  // ── Scrollbar & selection ─────────────────────────────────────────────
-  scrollbar-color: #9CA3AF var(--blog-border);
-  ::-webkit-scrollbar         { background: var(--blog-border) !important; }
-  ::-webkit-scrollbar-thumb   { background: #9CA3AF !important; border-radius: 10px; }
-  ::-webkit-scrollbar-track   { background: var(--blog-border) !important; }
-  ::selection { background-color: var(--blog-accent); color: #fff; }
+  // ── scrollbar e seleção ────────────────────────────────────────
+  scrollbar-color: rgba(p.$blog-light-accent, 0.48) var(--blog-surface);
+  ::-webkit-scrollbar         { background: var(--blog-surface) !important; }
+  ::-webkit-scrollbar-thumb   { background: rgba(p.$blog-light-accent, 0.48) !important; border-radius: 10px; }
+  ::-webkit-scrollbar-track   { background: var(--blog-surface) !important; }
+  ::selection { background-color: var(--blog-accent); color: p.$white; }
 
-  // ── Header ────────────────────────────────────────────────────────────
+  // ── Header ─────────────────────────────────────────────────────────
   header {
-    background: rgba(250, 247, 238, 0.95) !important;
+    background: rgba(p.$blog-light-bg, 0.94) !important;
     backdrop-filter: blur(14px) saturate(180%);
     border-bottom-color: var(--blog-border) !important;
     color: var(--blog-text) !important;
 
     .logo {
-      fa-icon, .fa-icon { color: #7C3AED !important; }
+      fa-icon, .fa-icon { color: p.$blog-light-accent !important; }
       a { color: var(--blog-text-muted) !important; &:hover { color: var(--blog-text-muted) !important; } }
-      .logo-dev { color: #7C3AED !important; }
+      .logo-dev { color: p.$blog-light-accent !important; }
     }
-    .logo-context { color: #7C3AED !important; }
+    .logo-context { color: p.$blog-light-accent !important; }
 
     // Nav links — texto e underline
     .link {
       color: var(--blog-text-muted) !important;
 
       &::before {
-        background-image: linear-gradient(90deg, var(--blog-accent) 0%, var(--blog-link) 100%) !important;
+        background-image: linear-gradient(90deg, var(--blog-accent) 0%, var(--blog-accent-hover) 100%) !important;
         box-shadow: none !important;
       }
 
-      &:hover { color: var(--blog-accent) !important; }
+      &:hover { color: var(--blog-accent-hover) !important; }
 
       &.link--active,
       &.link--section-active { color: var(--blog-accent) !important; }
 
       &.link--back { color: var(--blog-text-muted) !important; &:hover { color: var(--blog-text) !important; } }
 
-      &.link--rss { color: var(--blog-accent) !important; &:hover { color: var(--blog-link) !important; } }
+      &.link--rss { color: var(--blog-accent) !important; &:hover { color: var(--blog-accent-hover) !important; } }
     }
 
     .nav-links li.theme-toggle .theme-toggle-btn {
@@ -85,12 +274,12 @@ body.blog-theme-light {
       border: none;
       color: var(--blog-text-muted);
 
-      &:hover { color: var(--blog-accent-warm); filter: drop-shadow(0 0 5px rgba(180, 83, 9, 0.5)); }
-      &.active { color: var(--blog-accent-warm); filter: drop-shadow(0 0 5px rgba(180, 83, 9, 0.4)); }
+      &:hover { color: var(--blog-accent); filter: drop-shadow(0 0 4px rgba(p.$blog-light-accent, 0.25)); }
+      &.active { color: var(--blog-accent); filter: drop-shadow(0 0 4px rgba(p.$blog-light-accent, 0.2)); }
     }
   }
 
-  // ── Sidenav (mobile menu) ─────────────────────────────────────────────
+  // ── Sidenav (dispositivos móveis) ────────────────────────────────
   mat-sidenav {
     background: var(--blog-bg) !important;
     color: var(--blog-text) !important;
@@ -98,15 +287,15 @@ body.blog-theme-light {
     .logo {
       border-bottom-color: var(--blog-border) !important;
 
-      fa-icon, .fa-icon { color: #7C3AED !important; }
+      fa-icon, .fa-icon { color: p.$blog-light-accent !important; }
       a { color: var(--blog-text-muted) !important; }
-      .logo-dev { color: #7C3AED !important; }
+      .logo-dev { color: p.$blog-light-accent !important; }
     }
 
     .nav-links {
       .link {
         color: var(--blog-text-muted) !important;
-        &:hover { color: var(--blog-accent-warm) !important; }
+        &:hover { color: var(--blog-accent) !important; }
       }
     }
   }
@@ -119,10 +308,11 @@ body.blog-theme-light {
 
     a { color: var(--blog-text-muted) !important; &:hover { color: var(--blog-accent-warm) !important; } }
     p { color: var(--blog-text-muted) !important; }
-    .logo-dev { color: #7C3AED !important; }
+    .logo { fa-icon, .fa-icon { color: p.$blog-light-accent !important; }}
+    .logo-dev { color: p.$blog-light-accent !important; }
   }
 
-  // ── Blog hero (radial-gradient → solid bg in light mode) ─────────────
+  // ── Destaque do blog (radial-gradient para fundo solid no tema claro) ────
   .blog-hero {
     background: var(--blog-bg);
     border-bottom: 1px solid var(--blog-border);
@@ -132,13 +322,13 @@ body.blog-theme-light {
         90deg,
         transparent 0,
         transparent 120px,
-        rgba(180, 83, 9, 0.04) 120px,
-        rgba(180, 83, 9, 0.04) 121px
+        rgba(p.$blog-light-accent, 0.04) 120px,
+        rgba(p.$blog-light-accent, 0.04) 121px
       );
     }
 
     &::after {
-      background: linear-gradient(90deg, transparent 0%, var(--blog-accent-warm) 50%, transparent 100%);
+      background: linear-gradient(90deg, transparent 0%, rgba(p.$blog-light-accent, 0.38) 50%, transparent 100%);
       box-shadow: none;
       opacity: 0.5;
       animation: none;
@@ -146,19 +336,19 @@ body.blog-theme-light {
 
     &.blog-hero--category {
       border-bottom-color: var(--blog-border);
-      &::after { background: linear-gradient(90deg, transparent 0%, var(--cat-color, var(--blog-accent-warm)) 50%, transparent 100%); }
+      &::after { background: linear-gradient(90deg, transparent 0%, var(--cat-color, var(--blog-accent)) 50%, transparent 100%); }
     }
   }
 
-  // ── blog cards ────────────────────────────────────────────────────────
+  // ── Cards do blog ─────────────────────────────────────────────────────
   .blog-card {
     background: var(--blog-surface-elevated);
     border-color: var(--blog-border);
-    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.06);
+    box-shadow: 0 2px 10px rgba(p.$blog-light-shadow, 0.05);
 
     &:hover {
       border-color: var(--blog-accent);
-      box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
+      box-shadow: 0 4px 16px rgba(p.$blog-light-accent, 0.1);
 
       h3 { text-shadow: none; }
     }
@@ -170,16 +360,42 @@ body.blog-theme-light {
     box-shadow: none !important;
   }
 
-  // ── Category filter active: different visual treatment in light ────────
+  // ── Filtro de categoria ativo: tratamento próprio no tema claro ──────
   .blog-category-filter.active {
-    background: rgba(124, 58, 237, 0.1);
-    border-color: var(--blog-accent);
-    color: var(--blog-accent);
+    background: color-mix(in srgb, var(--cat-color, var(--blog-accent)) 10%, transparent);
+    border-color: var(--cat-color, var(--blog-accent));
+    color: var(--cat-color, var(--blog-accent));
     font-weight: 700;
     &:hover { transform: translateY(-1px); box-shadow: none; }
   }
 
-  // ── Prism syntax highlighting — light token set ───────────────────────
+  .blog-category-filter:not(.active):hover {
+    border-color: var(--cat-color, var(--blog-accent));
+    color: var(--cat-color, var(--blog-accent));
+  }
+
+  .blog-page-btn {
+    border-color: var(--blog-border);
+    color: var(--blog-text-muted);
+
+    &:hover:not(:disabled) {
+      background: rgba(p.$blog-light-accent, 0.05);
+      border-color: var(--blog-accent);
+      color: var(--blog-accent);
+    }
+
+    &.active {
+      background: var(--blog-accent);
+      border-color: var(--blog-accent);
+      color: p.$white;
+    }
+  }
+
+  .blog-page-ellipsis {
+    color: var(--blog-text-muted);
+  }
+
+  // ── Realce de sintaxe do Prism — conjunto de tokens claros ────────────
   .post-content {
     pre[class*="language-"] code,
     code[class*="language-"] { color: var(--blog-text); text-shadow: none; }
@@ -187,8 +403,8 @@ body.blog-theme-light {
     .token.comment,
     .token.prolog,
     .token.doctype,
-    .token.cdata   { color: #8b7a5e; font-style: italic; }
-    .token.punctuation { color: #5a4a3a; }
+    .token.cdata   { color: p.$blog-light-code-comment; font-style: italic; }
+    .token.punctuation { color: p.$blog-light-code-punctuation; }
     .token.namespace   { opacity: 0.75; }
     .token.property,
     .token.tag,
@@ -202,7 +418,7 @@ body.blog-theme-light {
     .token.string,
     .token.char,
     .token.builtin,
-    .token.inserted { color: #15803d; }
+    .token.inserted { color: p.$blog-light-code-string; }
     .token.operator,
     .token.entity,
     .token.url { color: var(--blog-accent); }
@@ -218,6 +434,29 @@ body.blog-theme-light {
     .token.important,
     .token.variable { color: var(--blog-accent-warm); }
 
+    a:not(.blog-category-badge):not(.related-card):not(.back-link):not(.code-copy-btn):not(.post-share-btn) {
+      color: var(--blog-link);
+      text-decoration-color: rgba(p.$blog-light-link, 0.4);
+
+      &:hover {
+        color: var(--blog-link-hover);
+        text-decoration-color: var(--blog-link-hover);
+        text-shadow: none;
+      }
+    }
+
+    pre .code-copy-btn:not(.copied):not(.failed) {
+      background: p.$blog-light-bg;
+      border-color: rgba(p.$blog-light-accent, 0.24);
+      color: var(--blog-accent);
+
+      &:hover {
+        background: var(--blog-accent);
+        border-color: var(--blog-accent);
+        color: p.$white;
+      }
+    }
+
     blockquote {
       border-left-color: var(--blog-accent-warm);
       color: var(--blog-text-muted);
@@ -228,14 +467,28 @@ body.blog-theme-light {
     hr { background: var(--blog-border); }
 
     .callout {
-      &.callout--tip     { background: rgba(124, 58, 237, 0.06); border-color: #7C3AED; }
-      &.callout--info    { background: rgba(6, 182, 212, 0.06); border-color: #0891B2; }
-      &.callout--warning { background: rgba(180, 83, 9, 0.08); border-color: #B45309; }
-      &.callout--danger  { background: rgba(220, 38, 38, 0.06); border-color: #DC2626; }
+      &.callout--tip     { background: rgba(p.$blog-light-accent, 0.06); border-color: p.$blog-light-accent; }
+      &.callout--info    { background: rgba(p.$blog-light-callout-info, 0.06); border-color: p.$blog-light-callout-info; }
+      &.callout--warning { background: rgba(p.$blog-light-accent-warm, 0.08); border-color: p.$blog-light-accent-warm; }
+      &.callout--danger  { background: rgba(p.$blog-light-callout-danger, 0.06); border-color: p.$blog-light-callout-danger; }
       .callout-body { color: var(--blog-text); }
     }
 
     .video-embed .video-wrapper { background: var(--blog-surface); }
+  }
+
+  .back-link:hover,
+  .post-share-btn:hover {
+    border-color: var(--blog-accent);
+    color: var(--blog-accent);
+  }
+
+  .related-card:hover {
+    border-color: var(--blog-accent);
+
+    h3 {
+      color: var(--blog-accent);
+    }
   }
 
 }

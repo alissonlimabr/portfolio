@@ -80,6 +80,7 @@ export class BlogPostComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit(): void {
+    this.document.body.classList.add('blog-post-page');
     this.setupScrollListener();
     this.route.paramMap
       .pipe(
@@ -142,6 +143,7 @@ export class BlogPostComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
+    this.document.body.classList.remove('blog-post-page');
     this.clearJsonLd();
     this.scrollCleanup?.();
   }

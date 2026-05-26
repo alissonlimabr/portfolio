@@ -19,14 +19,16 @@
   }
 }
 
-.post-head-inner {
+.post-content .post-head-inner {
   width: 100%;
   max-width: 720px;
   display: flex;
   flex-direction: column;
-  gap: 10px;
+  gap: 0;
 
-  .back-link { margin-bottom: 2px; }
+  .back-link { margin-bottom: 24px; }
+
+  .blog-categories-row { margin-bottom: 24px; }
 
   h1 {
     font-size: 44px;
@@ -34,10 +36,19 @@
     color: var(--blog-heading);
     line-height: 1.15;
     letter-spacing: -1px;
-    margin: 0;
+    margin: 0 0 20px;
 
     @include responsive(tablet)     { font-size: 32px; letter-spacing: -0.6px; }
     @include responsive(mobilePlus) { font-size: 24px; letter-spacing: -0.4px; }
+  }
+
+  .post-byline { margin: 0 0 18px; }
+
+  @include responsive(mobilePlus) {
+    .back-link { margin-bottom: 20px; }
+    .blog-categories-row { margin-bottom: 18px; }
+    h1 { margin-bottom: 16px; }
+    .post-byline { margin-bottom: 14px; }
   }
 }
 
@@ -99,6 +110,32 @@
 
   @include responsive(tabletplus) { font-size: 17px; }
   @include responsive(mobilePlus) { font-size: 15px; }
+}
+
+.blog-categories-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.blog-category-badge {
+  display: inline-block;
+  padding: 4px 10px;
+  border-radius: 2px;
+  background: var(--cat-color, variable.$purple-500);
+  color: variable.$white;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+  text-decoration: none;
+  text-transform: uppercase;
+  transition: opacity 0.2s, transform 0.2s;
+
+  &:hover {
+    color: variable.$white;
+    opacity: 0.85;
+    transform: translateY(-1px);
+  }
 }
 
 .post-cover {
@@ -211,7 +248,7 @@
     border: 1px solid rgba(variable.$purple-400, 0.18);
     box-shadow: 0 0 24px rgba(variable.$purple-400, 0.04);
 
-    // Accent strip no topo (efeito "terminal window" sutil)
+    // Faixa de destaque no topo (efeito sutil de janela de terminal)
     &::before {
       content: '';
       position: absolute;
@@ -314,7 +351,7 @@
     }
   }
 
-  /* Prism syntax highlighting (custom token colors) */
+  /* Realce de sintaxe do Prism (cores de tokens personalizadas) */
   pre[class*="language-"] code,
   code[class*="language-"] {
     color: var(--blog-code-text);
@@ -397,7 +434,7 @@
     width: 60%;
   }
 
-  // ── Rich paste — elementos comuns de outros sites ─────────────────────────
+  // ── Colagem rica — elementos comuns de outros sites ───────────────────────
 
   table {
     width: 100%;
@@ -481,14 +518,14 @@
     }
   }
 
-  // ── Markdown block (renderizado via marked) — sem wrapper visual,
+  // ── Bloco Markdown (renderizado via marked) — sem container visual,
   //    delega para os estilos já existentes de p/h2/h3/code/pre/etc. ──────────
   .markdown-block {
     > *:first-child { margin-top: 0; }
     > *:last-child  { margin-bottom: 0; }
   }
 
-  // ── Callout ───────────────────────────────────────────────────────────────
+  // ── Callout (destaques)───────────────────────────────────────────────────
   .callout {
     display: flex;
     align-items: flex-start;
@@ -514,7 +551,7 @@
     &.callout--danger  { background: rgba(#ef4444, 0.08); border-color: #ef4444; }
   }
 
-  // ── YouTube embed ─────────────────────────────────────────────────────────
+  // ── YouTube ───────────────────────────────────────────────
   .video-embed {
     margin: 1.8em 0;
     text-align: center;
@@ -823,7 +860,7 @@
   transition: 0.25s;
   overflow: hidden;
 
-  // Corner accent direito superior (decorativo)
+  // Destaque decorativo no canto superior direito
   &::after {
     content: '';
     position: absolute;

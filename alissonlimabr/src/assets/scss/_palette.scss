@@ -46,6 +46,56 @@ $accent-cyan: #67E8F9;
 $pink:        $accent-pink;
 $cyan:        $accent-cyan;
 
+// Tema escuro de leitura do blog
+$blog-dark-bg:                 #18151F;
+$blog-dark-surface:            #211D29;
+$blog-dark-surface-elevated:   #2A2533;
+$blog-dark-text:               #D4CEDB;
+$blog-dark-heading:            #EBE6F0;
+$blog-dark-text-muted:         #A9A2B4;
+$blog-dark-border:             #383143;
+$blog-dark-accent:             #9587BC;
+$blog-dark-accent-hover:       #B2A6D0;
+$blog-dark-interactive:        #A875E2;
+$blog-dark-interactive-hover:  #C19AEF;
+$blog-dark-link:               #B6ADCB;
+$blog-dark-link-hover:         #D4CCDE;
+$blog-dark-code-bg:            #14111A;
+$blog-dark-inline-code-color:  #B7B9CA;
+$blog-dark-shimmer-a:          #221E2A;
+$blog-dark-shimmer-b:          #302A39;
+$blog-dark-code-comment:       #928C9D;
+$blog-dark-code-punctuation:   #BDB6C8;
+$blog-dark-code-string:        #AABFAF;
+$blog-dark-code-keyword:       #C9B3A7;
+$blog-dark-callout-info:       #91B3C2;
+$blog-dark-callout-warning:    #CBB184;
+$blog-dark-callout-danger:     #CA8B92;
+
+// Tema claro de leitura do blog
+$blog-light-bg:               $white;
+$blog-light-surface:          #F8F5FF;
+$blog-light-surface-elevated: $white;
+$blog-light-text:             #322B3D;
+$blog-light-heading:          #181321;
+$blog-light-text-muted:       #665C75;
+$blog-light-border:           #E7E0F0;
+$blog-light-accent:           $purple-500;
+$blog-light-accent-strong:    $purple-600;
+$blog-light-accent-hover:     $purple-600;
+$blog-light-accent-warm:      #B45309;
+$blog-light-link:             #574A65;
+$blog-light-link-hover:       #352C40;
+$blog-light-code-bg:          #F7F4FC;
+$blog-light-shimmer-a:        #F3EFF9;
+$blog-light-shimmer-b:        #E8E1F1;
+$blog-light-shadow:           #2D1C44;
+$blog-light-code-comment:     #756A84;
+$blog-light-code-punctuation: #554B63;
+$blog-light-code-string:      #15803D;
+$blog-light-callout-info:     #0891B2;
+$blog-light-callout-danger:   #DC2626;
+
 // Semântica
 $success:   #16a34a;
 $error:     #b91c1c;

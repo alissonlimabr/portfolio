@@ -48,7 +48,6 @@ mat-card {
   border-bottom: 1px solid rgba(variable.$purple-400, 0.18);
   overflow: hidden;
 
-  // Pattern industrial: linhas verticais espaçadas (data lines)
   &::before {
     content: '';
     position: absolute;
@@ -65,7 +64,7 @@ mat-card {
     z-index: 0;
   }
 
-  // Glow line piscando embaixo (igual scanner)
+  // Linha luminosa pulsando na base (como um scanner)
   &::after {
     content: '';
     position: absolute;
@@ -441,7 +440,7 @@ mat-card {
   text-transform: uppercase;
   letter-spacing: 0.5px;
   padding: 4px 10px;
-  border-radius: 6px;
+  border-radius: 2px;
   background: var(--cat-color, variable.$purple-500);
   color: variable.$white;
   text-decoration: none;
