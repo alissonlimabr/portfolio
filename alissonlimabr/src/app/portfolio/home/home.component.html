@@ -280,7 +280,7 @@
     } @else {
       <div class="blog-grid">
         @for (post of recentPosts; track post._id) {
-          <article class="blog-card" appSpotlight>
+          <a class="blog-card" [routerLink]="['/blog', post.slug.current]" appSpotlight>
             @if (post.imageUrl) {
               <div class="blog-card-image">
                 <img [src]="sanityService.optimizeImageUrl(post.imageUrl, { w: 400, h: 225, fit: 'crop' })" [alt]="post.title" loading="lazy" />
@@ -293,12 +293,12 @@
               </div>
               <h3 class="blog-card-title">{{ post.title }}</h3>
               <p class="blog-card-excerpt">{{ post.excerpt }}</p>
-              <a class="blog-card-link" [routerLink]="['/blog', post.slug.current]">
+              <span class="blog-card-link">
                 <span>Ler mais</span>
                 <fa-icon [icon]="faArrowUpRightFromSquare"></fa-icon>
-              </a>
+              </span>
             </div>
-          </article>
+          </a>
         }
       </div>
     }
