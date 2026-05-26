@@ -109,7 +109,7 @@
           <mat-card>
             @if (post.imageUrl) {
               <div class="blog-card-img">
-                <img [src]="post.imageUrl" [alt]="post.title" loading="lazy" />
+                <img [src]="post.imageUrl" [alt]="post.imageAlt || post.title" loading="lazy" />
               </div>
             }
             <mat-card-content>

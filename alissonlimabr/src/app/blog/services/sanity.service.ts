@@ -5,6 +5,7 @@ import { marked } from 'marked';
 import { environment } from '../../../environments/environment';
 import {
   Category,
+  Author,
   Post,
   PostSummary,
   PortableTextBlock,
@@ -16,6 +17,7 @@ export interface ImageOptions {
   h?: number;
   fit?: 'crop' | 'fill' | 'max' | 'min' | 'scale';
   q?: number;
+  rect?: string;
 }
 
 @Injectable({ providedIn: 'root' })
@@ -42,8 +44,9 @@ export class SanityService {
 
   optimizeImageUrl(url: string | undefined, opts: ImageOptions = {}): string | undefined {
     if (!url || !/^https?:\/\/cdn\.sanity\.io\//i.test(url)) return url;
-    const { w, h, fit = 'crop', q = 75 } = opts;
+    const { w, h, fit = 'crop', q = 75, rect } = opts;
     const params: string[] = ['auto=format', `q=${q}`];
+    if (rect) params.push(`rect=${rect}`);
     if (w) params.push(`w=${w}`);
     if (h) params.push(`h=${h}`);
     if (w || h) params.push(`fit=${fit}`);
@@ -51,10 +54,42 @@ export class SanityService {
     return `${url}${sep}${params.join('&')}`;
   }
 
+  optimizeAuthorImageUrl(author: Author, size = 96): string | undefined {
+    const dimensions = author.imageDimensions;
+    if (!author.imageUrl || !dimensions?.width || !dimensions.height) {
+      return this.optimizeImageUrl(author.imageUrl, { w: size, h: size });
+    }
+
+    const crop = author.imageCrop ?? {};
+    const left = this.clamp(crop.left ?? 0, 0, 1) * dimensions.width;
+    const top = this.clamp(crop.top ?? 0, 0, 1) * dimensions.height;
+    const width = Math.max(
+      1,
+      dimensions.width * (1 - this.clamp(crop.left ?? 0, 0, 1) - this.clamp(crop.right ?? 0, 0, 1))
+    );
+    const height = Math.max(
+      1,
+      dimensions.height * (1 - this.clamp(crop.top ?? 0, 0, 1) - this.clamp(crop.bottom ?? 0, 0, 1))
+    );
+    const side = Math.min(width, height);
+    const focusX = this.clamp(author.imageHotspot?.x ?? 0.5, 0, 1) * dimensions.width;
+    const focusY = this.clamp(author.imageHotspot?.y ?? 0.5, 0, 1) * dimensions.height;
+    const rectLeft = this.clamp(focusX - side / 2, left, left + width - side);
+    const rectTop = this.clamp(focusY - side / 2, top, top + height - side);
+    const rect = [rectLeft, rectTop, side, side].map(value => Math.round(value)).join(',');
+
+    return this.optimizeImageUrl(author.imageUrl, { w: size, h: size, rect });
+  }
+
+  private clamp(value: number, min: number, max: number): number {
+    return Math.min(Math.max(value, min), max);
+  }
+
   private readonly postSummaryProjection = `
     _id, title, slug, excerpt, publishedAt, tags, featured,
     "estimatedReadingTime": round(length(pt::text(body)) / 5 / 180),
     "imageUrl": mainImage.asset->url,
+    "imageAlt": mainImage.alt,
     "categories": categories[]->{ _id, title, slug, description, color }
   `;
 
@@ -70,10 +105,30 @@ export class SanityService {
   getPost(slug: string): Observable<Post> {
     const groq = `
       *[_type == "post" && slug.current == $slug][0] {
-        _id, title, slug, excerpt, publishedAt, tags, featured,
+        _id, title, slug, excerpt,
+        "author": select(
+          author._type == "reference" => coalesce(
+            author->{
+              name,
+              bio,
+              url,
+              "imageUrl": image.asset->url,
+              "imageAlt": image.alt,
+              "imageCrop": image.crop,
+              "imageHotspot": image.hotspot,
+              "imageDimensions": image.asset->metadata.dimensions
+            },
+            { "name": "Alisson Lima", "url": "https://alissonlimadev.com" }
+          ),
+          defined(author) => { "name": author },
+          { "name": "Alisson Lima", "url": "https://alissonlimadev.com" }
+        ),
+        publishedAt, tags, featured,
+        "updatedAt": _updatedAt,
         seoDescription,
         "estimatedReadingTime": round(length(pt::text(body)) / 5 / 180),
         "imageUrl": mainImage.asset->url,
+        "imageAlt": mainImage.alt,
         "ogImageUrl": ogImage.asset->url,
         "categories": categories[]->{ _id, title, slug, description, color },
         body[] { ..., _type == "image" => { ..., "url": asset->url } }

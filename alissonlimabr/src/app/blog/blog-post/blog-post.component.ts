@@ -9,6 +9,7 @@ import {
   OnDestroy,
   OnInit,
   PLATFORM_ID,
+  SecurityContext,
   ViewChild,
   ViewEncapsulation,
   inject,
@@ -103,11 +104,12 @@ export class BlogPostComponent implements OnInit, OnDestroy {
             const socialImageUrl = post.ogImageUrl || post.imageUrl;
             post.imageUrl = this.sanity.optimizeImageUrl(post.imageUrl, { w: 1200, h: 675 });
             post.ogImageUrl = this.sanity.optimizeImageUrl(socialImageUrl, { w: 1200, h: 630 });
+            post.author.imageUrl = this.sanity.optimizeAuthorImageUrl(post.author);
 
             this.post = post;
-            this.bodyHtml = this.sanitizer.bypassSecurityTrustHtml(
-              this.sanity.portableTextToHtml(post.body)
-            );
+            const bodyHtml = this.sanity.portableTextToHtml(post.body);
+            const safeBodyHtml = this.sanitizer.sanitize(SecurityContext.HTML, bodyHtml) ?? '';
+            this.bodyHtml = this.sanitizer.bypassSecurityTrustHtml(safeBodyHtml);
             this.relatedPosts = [];
             this.loading = false;
             this.tocItems = [];
@@ -184,7 +186,11 @@ export class BlogPostComponent implements OnInit, OnDestroy {
     this.metaService.updateTag({ name: 'twitter:title', content: title });
     this.metaService.updateTag({ name: 'twitter:description', content: description });
     this.metaService.updateTag({ name: 'twitter:image', content: imageUrl });
+    this.metaService.updateTag({ property: 'article:author', content: post.author.name });
     this.metaService.updateTag({ property: 'article:published_time', content: post.publishedAt });
+    if (post.updatedAt) {
+      this.metaService.updateTag({ property: 'article:modified_time', content: post.updatedAt });
+    }
   }
 
   private applyJsonLd(post: Post): void {
@@ -199,10 +205,12 @@ export class BlogPostComponent implements OnInit, OnDestroy {
       headline: post.title,
       description,
       datePublished: post.publishedAt,
+      dateModified: post.updatedAt || post.publishedAt,
       author: {
         '@type': 'Person',
-        name: 'Alisson Lima',
-        url: this.siteOrigin,
+        name: post.author.name,
+        ...(post.author.url ? { url: post.author.url } : {}),
+        ...(post.author.imageUrl ? { image: post.author.imageUrl } : {}),
       },
       publisher: {
         '@type': 'Person',
@@ -224,6 +232,16 @@ export class BlogPostComponent implements OnInit, OnDestroy {
     // Escapa </ para evitar quebra do <script> caso o conteúdo contenha "</script>".
     this.jsonLdScript.textContent = JSON.stringify(ld).replace(/<\//g, '<\\/');
     this.document.head.appendChild(this.jsonLdScript);
+  }
+
+  getAuthorInitials(name: string): string {
+    return name
+      .trim()
+      .split(/\s+/)
+      .slice(0, 2)
+      .map(part => part.charAt(0))
+      .join('')
+      .toUpperCase() || 'A';
   }
 
   private clearJsonLd(): void {

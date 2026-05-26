@@ -32,6 +32,17 @@ export interface Category {
   postCount?: number;
 }
 
+export interface Author {
+  name: string;
+  imageUrl?: string;
+  imageAlt?: string;
+  imageCrop?: { top?: number; bottom?: number; left?: number; right?: number };
+  imageHotspot?: { x?: number; y?: number; width?: number; height?: number };
+  imageDimensions?: { width: number; height: number };
+  bio?: string;
+  url?: string;
+}
+
 export interface PostSummary {
   _id: string;
   title: string;
@@ -39,6 +50,7 @@ export interface PostSummary {
   excerpt: string;
   publishedAt: string;
   imageUrl?: string;
+  imageAlt?: string;
   estimatedReadingTime?: number;
   tags?: string[];
   categories?: Category[];
@@ -46,7 +58,9 @@ export interface PostSummary {
 }
 
 export interface Post extends PostSummary {
+  author: Author;
   body: PortableTextBlock[];
   seoDescription?: string;
   ogImageUrl?: string;
+  updatedAt?: string;
 }
