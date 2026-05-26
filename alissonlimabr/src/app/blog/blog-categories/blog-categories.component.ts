@@ -17,6 +17,7 @@ import { Category } from '../models/post.model';
   standalone: true,
   imports: [RouterLink],
   templateUrl: './blog-categories.component.html',
+  styleUrl: './blog-categories.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class BlogCategoriesComponent implements OnInit {
