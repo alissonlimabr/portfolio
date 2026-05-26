@@ -16,9 +16,9 @@ interface Project {
 export const PROJECTS: Project[] = [
   {
     title: 'Portfólio Desenvolvedor',
-    subtitle: 'Angular · Material · SSR',
+    subtitle: 'Angular 21 · SSR · Sanity CMS',
     description:
-      'Este site que você está vendo. Prototipado no Figma e implementado em Angular com Material e SCSS, focado em performance e SEO.',
+      'Portfólio com SSR para performance e SEO, blog integrado ao Sanity CMS com busca, paginação, categorias, posts relacionados, RSS feed e syntax highlighting com Prism.js. Animações de partículas com TsParticles, marquee infinito de tecnologias e preferências de leitura com tema claro/escuro no blog.',
     url: 'https://github.com/alissonlimabr/portfolio',
     skills: PORTFOLIO_SKILLS,
     size: 'featured',
