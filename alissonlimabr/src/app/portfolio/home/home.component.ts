@@ -23,13 +23,9 @@ import {
 
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { NgxTypedWriterModule } from 'ngx-typed-writer';
-import { AUTH_JWT_SKILLS } from 'src/app/portfolio/constants/auth-jwt-skills.constant';
-import { EVENT_PLATAFORM_SKILLS } from 'src/app/portfolio/constants/event-plataform-skills.constant';
 import { JOBS } from 'src/app/portfolio/constants/jobs.constant';
-import { MOTOVOICE_SKILLS } from 'src/app/portfolio/constants/motovoice-skills.constant';
 import { MY_SKILLS } from 'src/app/portfolio/constants/my-skills.constant';
-import { PORTFOLIO_SKILLS } from 'src/app/portfolio/constants/portfolio-skills.constant';
-import { RESET_PASSWORD_SKILLS } from 'src/app/portfolio/constants/reset-password-skills.constant';
+import { PROJECTS } from 'src/app/portfolio/constants/projects.constant';
 import { SOCIAL_MEDIA } from 'src/app/portfolio/constants/social-media.constant';
 import { ParticlesAnimationComponent } from '../../components/particles-animation/ParticlesAnimationComponent';
 import { IconComponent } from '../../shared/icon.component';
@@ -124,11 +120,6 @@ export class HomeComponent implements OnInit {
   faHandPointer = faHandPointer;
 
   mySkills = MY_SKILLS;
-  skillsMotoVoice = MOTOVOICE_SKILLS;
-  skillsAuthJwt = AUTH_JWT_SKILLS;
-  skillsPortfolio = PORTFOLIO_SKILLS;
-  skillsResetPassword = RESET_PASSWORD_SKILLS;
-  skillsEventPlataform = EVENT_PLATAFORM_SKILLS;
   socialMedia = SOCIAL_MEDIA;
 
   jobs = JOBS;
@@ -141,53 +132,7 @@ export class HomeComponent implements OnInit {
   postsLoading = true;
   private readonly destroyRef = inject(DestroyRef);
 
-  projects: Project[] = [
-    {
-      title: 'Portfólio Desenvolvedor',
-      subtitle: 'Angular · Material · SSR',
-      description:
-        'Este site que você está vendo. Prototipado no Figma e implementado em Angular com Material e SCSS, focado em performance e SEO.',
-      url: 'https://github.com/alissonlimabr/portfolio',
-      skills: PORTFOLIO_SKILLS,
-      size: 'featured',
-    },
-    {
-      title: 'Motovoice',
-      subtitle: 'Spring Boot · Angular · Admin Panel',
-      description:
-        'Sistema de coleta de ideias e feedbacks de produtos Motorola, com painel de gerenciamento e insights da plataforma. Produto sob demanda para a conclusão da 1ª turma do WebAcademy.',
-      url: 'https://motovoice.alissonlimadev.com/',
-      skills: MOTOVOICE_SKILLS,
-      size: 'standard',
-    },
-    {
-      title: 'Autenticação JWT',
-      subtitle: 'Java · Spring Security 6 · Kubernetes',
-      description:
-        'Microsserviço de autenticação JWT orquestrado no Azure com Kubernetes e Docker. Frontend Angular consumindo a API.',
-      url: 'https://github.com/alissonlimabr/microservice-login-jwt',
-      skills: AUTH_JWT_SKILLS,
-      size: 'standard',
-    },
-    {
-      title: 'Reset Password',
-      subtitle: 'Java 17 · GitHub Actions · AWS',
-      description:
-        'Módulo de recuperação de senhas via email com pipeline CI/CD GitHub Actions para deploy AWS. Frontend Angular consumindo a API.',
-      url: 'https://github.com/alissonlimabr/forgotPassword',
-      skills: RESET_PASSWORD_SKILLS,
-      size: 'standard',
-    },
-    {
-      title: 'Plataforma de eventos',
-      subtitle: 'React · Vite · GraphQL · Tailwind',
-      description:
-        'Plataforma de hospedagem de vídeos e aulas desenvolvida no Ignite Lab da Rocketseat.',
-      url: 'https://github.com/alissonlimabr/event-plataform-reactjs',
-      skills: EVENT_PLATAFORM_SKILLS,
-      size: 'standard',
-    },
-  ];
+  projects: Project[] = PROJECTS;
 
   currentPage = 0;
   pageSize = 3;

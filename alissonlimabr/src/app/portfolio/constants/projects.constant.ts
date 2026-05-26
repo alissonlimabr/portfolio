@@ -4,7 +4,16 @@ import { MOTOVOICE_SKILLS } from './motovoice-skills.constant';
 import { PORTFOLIO_SKILLS } from './portfolio-skills.constant';
 import { RESET_PASSWORD_SKILLS } from './reset-password-skills.constant';
 
-export const PROJECTS = [
+interface Project {
+  title: string;
+  subtitle: string;
+  description: string;
+  url?: string;
+  skills: { icon: string; alt: string; name?: string }[];
+  size: 'featured' | 'standard' | 'placeholder';
+}
+
+export const PROJECTS: Project[] = [
   {
     title: 'Portfólio Desenvolvedor',
     subtitle: 'Angular · Material · SSR',
@@ -15,21 +24,21 @@ export const PROJECTS = [
     size: 'featured',
   },
   {
-    title: 'Motovoice',
-    subtitle: 'Spring Boot · Angular · Admin Panel',
-    description:
-      'Sistema de coleta de ideias e feedbacks de produtos Motorola, com painel de gerenciamento e insights da plataforma. Produto sob demanda para a conclusão da 1ª turma do WebAcademy.',
-    url: 'https://motovoice.alissonlimadev.com/',
-    skills: MOTOVOICE_SKILLS,
-    size: 'standard',
-  },
-  {
     title: 'Autenticação JWT',
     subtitle: 'Java · Spring Security 6 · Kubernetes',
     description:
       'Microsserviço de autenticação JWT orquestrado no Azure com Kubernetes e Docker. Frontend Angular consumindo a API.',
     url: 'https://github.com/alissonlimabr/microservice-login-jwt',
     skills: AUTH_JWT_SKILLS,
+    size: 'standard',
+  },
+    {
+    title: 'Motovoice',
+    subtitle: 'Spring Boot · Angular · Admin Panel',
+    description:
+      'Sistema de coleta de ideias e feedbacks de produtos Motorola, com painel de gerenciamento e insights da plataforma. Produto sob demanda para a conclusão da 1ª turma do WebAcademy.',
+    url: 'https://motovoice.alissonlimadev.com/',
+    skills: MOTOVOICE_SKILLS,
     size: 'standard',
   },
   {
