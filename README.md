@@ -1,9 +1,11 @@
 <div align="center">
-<img src="https://github.com/alissonlimabr/portfolio/assets/101370736/0adf873b-f8fc-4d43-99ff-7e7f54da3202">
+<img width="1252" height="592" alt="2026-05-25_23-04-56" src="https://github.com/user-attachments/assets/597b317b-4395-4719-b6d0-838c7547b4d9" />
+
 
 ###
 
-<img src="https://github.com/alissonlimabr/portfolio/assets/101370736/0d8f69e4-81d6-4b51-9344-e069d80c3227">
+<img width="1239" height="512" alt="2026-05-25_23-07-30" src="https://github.com/user-attachments/assets/2ed959c8-d1cf-4610-83b8-4d0a2d0b2012" />
+
 </div>
 
 <h1 align="center">Portfólio v2 - Alisson Lima</h1>
