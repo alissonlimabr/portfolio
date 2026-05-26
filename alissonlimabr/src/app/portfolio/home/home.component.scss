@@ -1217,15 +1217,15 @@
   .blog-card-meta {
     display: flex;
     gap: 8px;
-    font-size: 11px;
-    color: variable.$gray-500;
+    font-size: 13px;
+    color: variable.$gray-300;
   }
 
   .blog-card-date,
-  .blog-card-read-time { color: variable.$gray-500; }
+  .blog-card-read-time { color: variable.$gray-300; }
 
   .blog-card-title {
-    font-size: 13px;
+    font-size: 16px;
     font-weight: 600;
     color: variable.$gray-100;
     line-height: 1.35;
@@ -1238,8 +1238,8 @@
   }
 
   .blog-card-excerpt {
-    font-size: 12px;
-    color: variable.$gray-400;
+    font-size: 14px;
+    color: variable.$gray-300;
     line-height: 1.5;
     font-weight: 300;
     display: -webkit-box;
@@ -1273,9 +1273,9 @@
     align-items: center;
     gap: 4px;
     margin-top: 6px;
-    font-size: 11px;
+    font-size: 13px;
     font-weight: 500;
-    color: variable.$gray-400;
+    color: variable.$gray-200;
     transition: color 0.2s;
 
     fa-icon, .fa-icon { transition: transform 0.2s; }
