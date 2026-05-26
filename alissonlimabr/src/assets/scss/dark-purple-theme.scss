@@ -29,16 +29,18 @@ body.blog-font-lg {
 // ── Reading preferences — text width ──────────────────────────────────────
 body.blog-width-narrow {
   .blog-post .post-content-inner,
-  .blog-post .post-head-inner { max-width: 580px !important; }
+  .blog-post .post-head-inner,
+  .blog-post .post-toc-inner { max-width: 580px !important; }
 }
 
 body.blog-width-normal {
   .blog-post .post-content-inner,
-  .blog-post .post-head-inner { max-width: 720px !important; }
+  .blog-post .post-head-inner,
+  .blog-post .post-toc-inner { max-width: 720px !important; }
 }
 
 body.blog-width-wide {
   .blog-post .post-content-inner,
-  .blog-post .post-head-inner { max-width: 900px !important; }
+  .blog-post .post-head-inner,
+  .blog-post .post-toc-inner { max-width: 900px !important; }
 }
-
