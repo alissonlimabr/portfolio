@@ -34,7 +34,8 @@ fa-icon {
 mat-sidenav-container {
   display: flex;
   justify-content: center;
-  min-width: 100vw;
+  width: 100%;
+  min-width: 0;
   min-height: 100vh;
   position: absolute !important;
   overflow: initial !important;
@@ -85,7 +86,8 @@ mat-sidenav {
 }
 
 mat-sidenav-content {
-  min-width: 100vw;
+  width: 100%;
+  min-width: 0;
   min-height: 100vh;
   overflow: initial !important;
 }
