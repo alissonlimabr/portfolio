@@ -851,8 +851,8 @@
     &::before { opacity: 1; }
 
     .skill-card-icon app-icon {
-      color: tokens.$white;
-      filter: drop-shadow(0 0 8px rgba(tokens.$purple-400, 0.4));
+      color: tokens.$purple-50;
+      filter: drop-shadow(0 0 6px rgba(tokens.$purple-300, 0.34));
     }
   }
 
