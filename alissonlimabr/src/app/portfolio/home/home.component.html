@@ -75,11 +75,36 @@
     </div>
 
     <div class="about-grid">
-      <div class="about-text">
+      <div class="about-intro">
         <p class="about-lead">
           Sou <strong>Alisson Lima</strong>, Desenvolvedor Full Stack com experiência em Angular,
           Django e APIs REST, focado em sistemas web e soluções escaláveis.
         </p>
+      </div>
+
+      <aside class="about-highlights">
+        <div class="about-highlight-metric" appSpotlight>
+          <span class="about-highlight-number">{{ experienceYears }}+</span>
+          <span class="about-highlight-caption">anos construindo soluções web</span>
+        </div>
+
+        <div class="about-highlight-list">
+          <div class="about-highlight-item" appSpotlight>
+            <span class="about-highlight-label">Atuação</span>
+            <strong>100% remoto</strong>
+          </div>
+          <div class="about-highlight-item" appSpotlight>
+            <span class="about-highlight-label">Métodos</span>
+            <strong>Scrum, Kanban e XP</strong>
+          </div>
+          <div class="about-highlight-item" appSpotlight>
+            <span class="about-highlight-label">Experiência prática</span>
+            <strong>IFAC, SEFAZ/AC e produtos institucionais</strong>
+          </div>
+        </div>
+      </aside>
+
+      <div class="about-details">
         <p>
           Atualmente atuo no <strong>Instituto Federal do Acre (IFAC)</strong>, evoluindo sistemas
           institucionais voltados à gestão pública com Python, Django, PostgreSQL, Docker e
@@ -92,25 +117,6 @@
           e Gestão de Projetos.
         </p>
       </div>
-
-      <aside class="about-stats">
-        <div class="stat-card" appSpotlight>
-          <span class="stat-card-value">{{ experienceYears }}+</span>
-          <span class="stat-card-label">anos de experiência</span>
-        </div>
-        <div class="stat-card" appSpotlight>
-          <span class="stat-card-value stat-card-value--text">100% remoto</span>
-          <span class="stat-card-label">disponibilidade de atuação</span>
-        </div>
-        <div class="stat-card" appSpotlight>
-          <span class="stat-card-value stat-card-value--text">Scrum, Kanban e XP</span>
-          <span class="stat-card-label">metodologias ágeis</span>
-        </div>
-        <div class="stat-card" appSpotlight>
-          <span class="stat-card-value stat-card-value--text">Projetos reais</span>
-          <span class="stat-card-label">IFAC, SEFAZ/AC e produtos institucionais</span>
-        </div>
-      </aside>
     </div>
   </div>
 </section>
