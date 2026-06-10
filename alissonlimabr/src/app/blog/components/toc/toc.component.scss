@@ -1,4 +1,4 @@
-@use "src/assets/scss/palette" as variable;
+@use "src/assets/scss/palette" as tokens;
 @import "src/assets/scss/variables-mixins";
 
 .post-toc-section {
@@ -11,9 +11,9 @@
 
 .post-toc-inner {
   width: 100%;
-  max-width: 720px;
+  max-width: tokens.$prose-max-width;
   padding: 14px 18px;
-  background: linear-gradient(90deg, rgba(variable.$purple-400, 0.06) 0%, transparent 40%);
+  background: linear-gradient(90deg, rgba(tokens.$purple-400, 0.06) 0%, transparent 40%);
   border: 1px solid var(--blog-border);
   border-left: 3px solid var(--blog-accent);
   border-radius: 4px;

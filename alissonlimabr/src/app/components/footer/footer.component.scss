@@ -1,4 +1,4 @@
-@use "src/assets/scss/palette" as p;
+@use "src/assets/scss/palette" as tokens;
 @import "src/assets/scss/variables-mixins";
 
 .footer {
@@ -18,7 +18,7 @@
   justify-content: space-between;
   align-items: center;
   width: 100%;
-  max-width: p.$container-width;
+  max-width: tokens.$container-wide-max-width;
 
   @include responsive(mobilePlus) {
     justify-content: center;
@@ -33,13 +33,13 @@
     gap: 10px;
 
     a {
-      color: p.$purple-400;
+      color: tokens.$purple-400;
       text-decoration: none;
       font-weight: 700;
       transition: 0.3s;
 
       &:hover {
-        color: p.$purple-500;
+        color: tokens.$purple-500;
       }
     }
 
@@ -56,7 +56,7 @@
     gap: 10px;
 
     .logo-dev {
-      color: p.$purple-300;
+      color: tokens.$purple-300;
     }
 
     p {

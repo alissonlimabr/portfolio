@@ -1,4 +1,4 @@
-@use "src/assets/scss/palette" as variable;
+@use "src/assets/scss/palette" as tokens;
 @import "src/assets/scss/variables-mixins";
 
 .blog-post {
@@ -21,7 +21,7 @@
 
 .post-content .post-head-inner {
   width: 100%;
-  max-width: 720px;
+  max-width: tokens.$prose-max-width;
   display: flex;
   flex-direction: column;
   gap: 0;
@@ -122,8 +122,8 @@
   display: inline-block;
   padding: 4px 10px;
   border-radius: 2px;
-  background: var(--cat-color, variable.$purple-500);
-  color: variable.$white;
+  background: var(--cat-color, tokens.$purple-500);
+  color: tokens.$white;
   font-size: 11px;
   font-weight: 700;
   letter-spacing: 0.5px;
@@ -132,7 +132,7 @@
   transition: opacity 0.2s, transform 0.2s;
 
   &:hover {
-    color: variable.$white;
+    color: tokens.$white;
     opacity: 0.85;
     transform: translateY(-1px);
   }
@@ -218,13 +218,13 @@
     color: var(--blog-link);
     text-decoration: underline;
     text-underline-offset: 3px;
-    text-decoration-color: rgba(variable.$purple-400, 0.5);
+    text-decoration-color: rgba(tokens.$purple-400, 0.5);
     transition: 0.2s;
 
     &:hover {
       color: var(--blog-accent-warm);
-      text-decoration-color: variable.$accent-pink;
-      text-shadow: 0 0 8px rgba(variable.$accent-pink, 0.4);
+      text-decoration-color: tokens.$accent-pink;
+      text-shadow: 0 0 8px rgba(tokens.$accent-pink, 0.4);
     }
   }
 
@@ -245,8 +245,8 @@
     margin: 1.6em 0;
     border-radius: 6px;
     overflow: hidden;
-    border: 1px solid rgba(variable.$purple-400, 0.18);
-    box-shadow: 0 0 24px rgba(variable.$purple-400, 0.04);
+    border: 1px solid rgba(tokens.$purple-400, 0.18);
+    box-shadow: 0 0 24px rgba(tokens.$purple-400, 0.04);
 
     // Faixa de destaque no topo (efeito sutil de janela de terminal)
     &::before {
@@ -256,7 +256,7 @@
       left: 0;
       right: 0;
       height: 2px;
-      background: linear-gradient(90deg, variable.$purple-400 0%, variable.$accent-pink 100%);
+      background: linear-gradient(90deg, tokens.$purple-400 0%, tokens.$accent-pink 100%);
       z-index: 2;
     }
 
@@ -279,7 +279,7 @@
     }
 
     .code-block-lang {
-      color: variable.$accent-pink;
+      color: tokens.$accent-pink;
       text-transform: uppercase;
       letter-spacing: 1px;
       font-size: 10px;
@@ -312,10 +312,10 @@
       top: 8px;
       right: 8px;
       padding: 4px 10px;
-      background: rgba(variable.$purple-900, 0.85);
-      border: 1px solid rgba(variable.$purple-500, 0.3);
+      background: rgba(tokens.$purple-900, 0.85);
+      border: 1px solid rgba(tokens.$purple-500, 0.3);
       border-radius: 5px;
-      color: variable.$gray-200;
+      color: tokens.$gray-200;
       font-size: 11px;
       font-weight: 600;
       letter-spacing: 0.4px;
@@ -325,21 +325,21 @@
       transition: opacity 0.2s, background 0.2s, color 0.2s, border-color 0.2s;
 
       &:hover {
-        background: variable.$purple-500;
-        color: variable.$white;
-        border-color: variable.$purple-500;
+        background: tokens.$purple-500;
+        color: tokens.$white;
+        border-color: tokens.$purple-500;
       }
 
       &.copied {
-        background: variable.$success;
-        color: variable.$white;
-        border-color: variable.$success;
+        background: tokens.$success;
+        color: tokens.$white;
+        border-color: tokens.$success;
       }
 
       &.failed {
-        background: variable.$error;
-        color: variable.$white;
-        border-color: variable.$error;
+        background: tokens.$error;
+        color: tokens.$white;
+        border-color: tokens.$error;
       }
     }
 
@@ -370,7 +370,7 @@
   .token.number,
   .token.constant,
   .token.symbol,
-  .token.deleted { color: variable.$purple-400; }
+  .token.deleted { color: tokens.$purple-400; }
   .token.selector,
   .token.attr-name,
   .token.string,
@@ -379,30 +379,30 @@
   .token.inserted { color: #A5F3D1; }
   .token.operator,
   .token.entity,
-  .token.url { color: variable.$purple-200; }
+  .token.url { color: tokens.$purple-200; }
   .token.atrule,
   .token.attr-value,
   .token.keyword,
   .token.control,
   .token.directive,
-  .token.unit { color: variable.$accent-pink; font-weight: 600; }
+  .token.unit { color: tokens.$accent-pink; font-weight: 600; }
   .token.function,
-  .token.class-name { color: variable.$purple-300; }
+  .token.class-name { color: tokens.$purple-300; }
   .token.regex,
   .token.important,
-  .token.variable { color: variable.$accent-pink; }
+  .token.variable { color: tokens.$accent-pink; }
   .token.bold { font-weight: 700; }
   .token.italic { font-style: italic; }
 
   blockquote {
     position: relative;
-    border-left: 3px solid variable.$purple-400;
+    border-left: 3px solid tokens.$purple-400;
     padding: 6px 0 6px 22px;
     margin: 1.4em 0;
     color: var(--blog-text-muted);
     font-style: italic;
     font-size: 1.05em;
-    background: linear-gradient(90deg, rgba(variable.$purple-400, 0.06) 0%, transparent 30%);
+    background: linear-gradient(90deg, rgba(tokens.$purple-400, 0.06) 0%, transparent 30%);
   }
 
   figure {
@@ -422,14 +422,14 @@
     li {
       margin-bottom: 0.35em;
 
-      &::marker { color: variable.$purple-500; }
+      &::marker { color: tokens.$purple-500; }
     }
   }
 
   hr {
     border: 0;
     height: 1px;
-    background: rgba(variable.$purple-500, 0.25);
+    background: rgba(tokens.$purple-500, 0.25);
     margin: 2.5em auto;
     width: 60%;
   }
@@ -462,7 +462,7 @@
     }
 
     tr:last-child td { border-bottom: none; }
-    tbody tr:hover td { background: rgba(variable.$purple-400, 0.04); }
+    tbody tr:hover td { background: rgba(tokens.$purple-400, 0.04); }
   }
 
   figcaption {
@@ -474,7 +474,7 @@
   }
 
   mark {
-    background: rgba(variable.$accent-pink, 0.22);
+    background: rgba(tokens.$accent-pink, 0.22);
     color: inherit;
     padding: 1px 3px;
     border-radius: 2px;
@@ -545,9 +545,9 @@
 
     .callout-body { flex: 1; color: var(--blog-text); }
 
-    &.callout--tip     { background: rgba(variable.$purple-400, 0.08); border-color: variable.$purple-400; }
-    &.callout--info    { background: rgba(variable.$cyan, 0.08); border-color: variable.$cyan; }
-    &.callout--warning { background: rgba(variable.$accent-pink, 0.08); border-color: variable.$accent-pink; }
+    &.callout--tip     { background: rgba(tokens.$purple-400, 0.08); border-color: tokens.$purple-400; }
+    &.callout--info    { background: rgba(tokens.$cyan, 0.08); border-color: tokens.$cyan; }
+    &.callout--warning { background: rgba(tokens.$accent-pink, 0.08); border-color: tokens.$accent-pink; }
     &.callout--danger  { background: rgba(#ef4444, 0.08); border-color: #ef4444; }
   }
 
@@ -583,7 +583,7 @@
 
 .post-content-inner {
   width: 100%;
-  max-width: 720px;
+  max-width: tokens.$prose-max-width;
 }
 
 .back-link {
@@ -648,15 +648,15 @@
     border-color: var(--blog-accent);
     color: var(--blog-accent);
     transform: translateY(-1px);
-    box-shadow: 0 0 14px rgba(variable.$purple-400, 0.25);
+    box-shadow: 0 0 14px rgba(tokens.$purple-400, 0.25);
   }
 
   &.copy.copied {
-    background: variable.$success;
-    border-color: variable.$success;
-    color: variable.$white;
+    background: tokens.$success;
+    border-color: tokens.$success;
+    color: tokens.$white;
 
-    &:hover { background: variable.$success; border-color: variable.$success; }
+    &:hover { background: tokens.$success; border-color: tokens.$success; }
   }
 }
 
@@ -714,17 +714,17 @@
   transition: 0.2s;
 
   &:hover {
-    border-color: variable.$purple-400;
+    border-color: tokens.$purple-400;
 
     .related-card-img img { transform: scale(1.04); }
-    h3 { color: variable.$purple-300; }
+    h3 { color: tokens.$purple-300; }
   }
 
   .related-card-img {
     width: 100%;
     aspect-ratio: 16 / 9;
     overflow: hidden;
-    background: variable.$background-color;
+    background: tokens.$background-color;
 
     img {
       width: 100%;
@@ -802,7 +802,7 @@
   .post-skeleton-bar {
     height: 32px;
     width: 60%;
-    max-width: 720px;
+    max-width: tokens.$prose-max-width;
 
     &.post-skeleton-bar-short { height: 18px; width: 40%; }
 
@@ -819,7 +819,7 @@
     flex-direction: column;
     gap: 12px;
     width: 100%;
-    max-width: 720px;
+    max-width: tokens.$prose-max-width;
     margin-top: 8px;
   }
 
@@ -838,10 +838,10 @@
   left: 0;
   width: var(--progress, 0%);
   height: 3px;
-  background: linear-gradient(90deg, variable.$purple-400 0%, variable.$accent-pink 100%);
+  background: linear-gradient(90deg, tokens.$purple-400 0%, tokens.$accent-pink 100%);
   z-index: 9999;
   pointer-events: none;
-  box-shadow: 0 0 8px rgba(variable.$purple-400, 0.5);
+  box-shadow: 0 0 8px rgba(tokens.$purple-400, 0.5);
   transition: width 0.08s linear;
 }
 

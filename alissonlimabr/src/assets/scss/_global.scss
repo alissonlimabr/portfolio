@@ -1,9 +1,9 @@
-@use "palette" as p;
+@use "palette" as tokens;
 @import "variables-mixins";
 
 // Estilo global para todos os ícones FontAwesome
 fa-icon {
-  color: p.$purple-400;
+  color: tokens.$purple-400;
 }
 
 .content {
@@ -14,7 +14,7 @@ fa-icon {
   padding: 0 100px;
   gap: 40px;
   width: 100%;
-  max-width: p.$container-width !important;
+  max-width: tokens.$container-max-width !important;
 
   @include responsive(tabletplus) { padding: 0 20px; }
   @include responsive(mobilePlus) { padding: 0 10px; }
@@ -45,8 +45,8 @@ mat-sidenav {
   min-height: 100vh;
   width: 70%;
   position: fixed !important;
-  background: p.$background-color !important;
-  color: p.$white !important;
+  background: tokens.$background-color !important;
+  color: tokens.$white !important;
 
   @include responsive(tabletplus) { display: block !important; }
 
@@ -54,7 +54,7 @@ mat-sidenav {
     display: flex;
     justify-content: center;
     border-bottom: 1px solid;
-    color: p.$purple-500;
+    color: tokens.$purple-500;
     padding: 0.35rem;
     gap: 10px;
     font-weight: bold;
@@ -63,7 +63,7 @@ mat-sidenav {
       width: 80%;
       font-size: 24px;
       text-decoration: none;
-      color: p.$white;
+      color: tokens.$white;
 
       @include responsive(mobile) { font-size: 18px; }
       @include responsive(tablet) { font-size: 20px; }
@@ -150,7 +150,7 @@ mat-sidenav-content {
   padding: 5px 10px;
   text-decoration: none;
   transition: 0.2s;
-  color: p.$white;
+  color: tokens.$white;
 
   &:hover { transition: 0.2s; }
 
@@ -161,21 +161,21 @@ mat-sidenav-content {
     left: 0;
     height: 2px;
     width: 0%;
-    background-image: linear-gradient(90deg, p.$purple-400 0%, p.$accent-pink 100%);
+    background-image: linear-gradient(90deg, tokens.$purple-400 0%, tokens.$accent-pink 100%);
     border-radius: 0;
     transition: all 0.4s ease;
-    box-shadow: 0 0 8px rgba(p.$purple-400, 0.5);
+    box-shadow: 0 0 8px rgba(tokens.$purple-400, 0.5);
   }
 
   &:hover:before { width: 100%; }
 
-  &.link--active        { color: p.$purple-300; &:before { width: 100%; } }
+  &.link--active        { color: tokens.$purple-300; &:before { width: 100%; } }
   &.link--section-active { &:before { width: 100%; } }
 
   &.link--back {
-    color: p.$gray-300;
+    color: tokens.$gray-300;
     font-size: 16px;
-    &:hover { color: p.$white; }
+    &:hover { color: tokens.$white; }
     &:before { display: none; }
   }
 
@@ -183,9 +183,9 @@ mat-sidenav-content {
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    color: p.$purple-300;
+    color: tokens.$purple-300;
     padding: 5px 8px;
-    &:hover { color: p.$purple-400; }
+    &:hover { color: tokens.$purple-400; }
     &:before { display: none; }
   }
 
@@ -196,7 +196,7 @@ mat-sidenav-content {
   background: none;
   border: none;
   padding: 5px 8px;
-  color: p.$purple-300;
+  color: tokens.$purple-300;
   cursor: pointer;
   display: inline-flex;
   align-items: center;
@@ -204,22 +204,21 @@ mat-sidenav-content {
   transition: color 0.2s, filter 0.2s;
 
   &:hover {
-    color: p.$purple-400;
-    filter: drop-shadow(0 0 6px rgba(p.$purple-400, 0.6));
+    color: tokens.$purple-400;
+    filter: drop-shadow(0 0 6px rgba(tokens.$purple-400, 0.6));
   }
 
   &.active {
-    color: p.$accent-pink;
-    filter: drop-shadow(0 0 6px rgba(p.$accent-pink, 0.5));
+    color: tokens.$accent-pink;
+    filter: drop-shadow(0 0 6px rgba(tokens.$accent-pink, 0.5));
   }
 }
 
 // Cor padrão por slug de categoria; [style.--cat-color] do Sanity tem precedência.
-.category--desenvolvimento { --cat-color: #{p.$category-desenvolvimento}; }
-.category--backend         { --cat-color: #{p.$category-backend}; }
-.category--frontend        { --cat-color: #{p.$category-frontend}; }
+.category--desenvolvimento { --cat-color: #{tokens.$category-desenvolvimento}; }
+.category--backend         { --cat-color: #{tokens.$category-backend}; }
+.category--frontend        { --cat-color: #{tokens.$category-frontend}; }
 .category--devops,
-.category--devops-cloud    { --cat-color: #{p.$category-devops}; }
-.category--carreira        { --cat-color: #{p.$category-carreira}; }
-.category--tutoriais       { --cat-color: #{p.$category-tutoriais}; }
-
+.category--devops-cloud    { --cat-color: #{tokens.$category-devops}; }
+.category--carreira        { --cat-color: #{tokens.$category-carreira}; }
+.category--tutoriais       { --cat-color: #{tokens.$category-tutoriais}; }

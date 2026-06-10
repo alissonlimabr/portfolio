@@ -1,5 +1,5 @@
-@use "src/assets/scss/palette" as p;
+@use "src/assets/scss/palette" as tokens;
 
 .logo-dev {
-  color: p.$purple-300;
+  color: tokens.$purple-300;
 }

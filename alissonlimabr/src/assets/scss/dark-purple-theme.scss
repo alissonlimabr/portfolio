@@ -1,4 +1,6 @@
-// ── Reading preferences — font size (works in both dark and light) ────────
+@use "palette" as tokens;
+
+// ── Preferências de leitura — tamanho da fonte ───────────────────────────
 body.blog-font-sm {
   .blog-list h3,
   .blog-card-excerpt { font-size: 15px !important; }
@@ -26,7 +28,7 @@ body.blog-font-lg {
   .related-card-body h3 { font-size: 22px !important; }
 }
 
-// ── Reading preferences — text width ──────────────────────────────────────
+// ── Preferências de leitura — largura do texto ───────────────────────────
 body.blog-width-narrow {
   .blog-post .post-content-inner,
   .blog-post .post-head-inner,
@@ -36,11 +38,11 @@ body.blog-width-narrow {
 body.blog-width-normal {
   .blog-post .post-content-inner,
   .blog-post .post-head-inner,
-  .blog-post .post-toc-inner { max-width: 720px !important; }
+  .blog-post .post-toc-inner { max-width: tokens.$prose-max-width !important; }
 }
 
 body.blog-width-wide {
   .blog-post .post-content-inner,
   .blog-post .post-head-inner,
-  .blog-post .post-toc-inner { max-width: 900px !important; }
+  .blog-post .post-toc-inner { max-width: tokens.$prose-wide-max-width !important; }
 }

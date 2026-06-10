@@ -1,4 +1,4 @@
-@use "src/assets/scss/palette" as variable;
+@use "src/assets/scss/palette" as tokens;
 @import "src/assets/scss/variables-mixins";
 
 .blog-hero {
@@ -7,8 +7,8 @@
   justify-content: center;
   padding: 64px 24px 48px;
   background:
-    radial-gradient(ellipse 60% 60% at 50% 0%, rgba(variable.$purple-400, 0.10) 0%, transparent 70%);
-  border-bottom: 1px solid rgba(variable.$purple-400, 0.18);
+    radial-gradient(ellipse 60% 60% at 50% 0%, rgba(tokens.$purple-400, 0.10) 0%, transparent 70%);
+  border-bottom: 1px solid rgba(tokens.$purple-400, 0.18);
   overflow: hidden;
 
   &::before {
@@ -20,8 +20,8 @@
         90deg,
         transparent 0,
         transparent 120px,
-        rgba(variable.$purple-400, 0.04) 120px,
-        rgba(variable.$purple-400, 0.04) 121px
+        rgba(tokens.$purple-400, 0.04) 120px,
+        rgba(tokens.$purple-400, 0.04) 121px
       );
     pointer-events: none;
     z-index: 0;
@@ -34,8 +34,8 @@
     left: 0;
     right: 0;
     height: 1px;
-    background: linear-gradient(90deg, transparent 0%, variable.$purple-400 50%, transparent 100%);
-    box-shadow: 0 0 14px rgba(variable.$purple-400, 0.6);
+    background: linear-gradient(90deg, transparent 0%, tokens.$purple-400 50%, transparent 100%);
+    box-shadow: 0 0 14px rgba(tokens.$purple-400, 0.6);
     animation: blog-hero-scan 4s ease-in-out infinite;
   }
 
@@ -47,7 +47,7 @@
 
 .blog-hero-inner {
   text-align: center;
-  max-width: 720px;
+  max-width: tokens.$prose-max-width;
 
   .blog-hero-label {
     display: inline-block;
@@ -56,12 +56,12 @@
     font-weight: 600;
     text-transform: uppercase;
     letter-spacing: 2px;
-    color: variable.$purple-400;
+    color: tokens.$purple-400;
     margin-bottom: 12px;
     padding: 4px 12px;
-    border: 1px solid rgba(variable.$purple-400, 0.4);
+    border: 1px solid rgba(tokens.$purple-400, 0.4);
     border-radius: 2px;
-    background: rgba(variable.$purple-400, 0.05);
+    background: rgba(tokens.$purple-400, 0.05);
   }
 
   h1 {
@@ -70,7 +70,7 @@
     color: var(--blog-text);
     margin-bottom: 10px;
     letter-spacing: -0.5px;
-    text-shadow: 0 0 24px rgba(variable.$purple-400, 0.18);
+    text-shadow: 0 0 24px rgba(tokens.$purple-400, 0.18);
 
     @include responsive(tablet)     { font-size: 36px; }
     @include responsive(mobilePlus) { font-size: 28px; }
@@ -133,7 +133,7 @@
   padding: 22px 24px;
   background-color: var(--blog-surface);
   border: 1px solid var(--blog-border);
-  border-left: 3px solid var(--cat-color, variable.$purple-400);
+  border-left: 3px solid var(--cat-color, tokens.$purple-400);
   border-radius: 4px;
   text-decoration: none;
   color: var(--blog-text);
@@ -142,12 +142,12 @@
 
   &:hover {
     transform: translateY(-3px);
-    border-color: var(--cat-color, variable.$purple-400);
+    border-color: var(--cat-color, tokens.$purple-400);
     box-shadow:
-      0 0 28px -4px color-mix(in srgb, var(--cat-color, variable.$purple-400) 50%, transparent),
-      inset 0 0 30px color-mix(in srgb, var(--cat-color, variable.$purple-400) 5%, transparent);
+      0 0 28px -4px color-mix(in srgb, var(--cat-color, tokens.$purple-400) 50%, transparent),
+      inset 0 0 30px color-mix(in srgb, var(--cat-color, tokens.$purple-400) 5%, transparent);
 
-    .category-card-link { color: var(--cat-color, variable.$purple-400); }
+    .category-card-link { color: var(--cat-color, tokens.$purple-400); }
   }
 
   .category-card-header {

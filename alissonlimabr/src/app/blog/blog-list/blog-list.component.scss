@@ -1,40 +1,40 @@
-@use "src/assets/scss/palette" as variable;
+@use "src/assets/scss/palette" as tokens;
 @import "src/assets/scss/variables-mixins";
 
 mat-card {
   display: flex;
   justify-content: center;
   align-items: center;
-  background-color: variable.$surface !important;
+  background-color: tokens.$surface !important;
   border-width: 1px !important;
   border-style: solid !important;
-  border-color: rgba(variable.$purple-400, 0.15) !important;
+  border-color: rgba(tokens.$purple-400, 0.15) !important;
   padding: 10px 5px;
   gap: 5px;
   box-shadow: 0 4px 14px rgba(0, 0, 0, 0.4);
   transition: 0.3s !important;
 
   h4 {
-    color: variable.$purple-400;
+    color: tokens.$purple-400;
     font-weight: 700;
     text-align: center;
     font-size: 14px;
-    text-shadow: 0 0 12px rgba(variable.$purple-400, 0.4);
+    text-shadow: 0 0 12px rgba(tokens.$purple-400, 0.4);
   }
 
   &:hover {
     box-shadow:
-      0 4px 18px rgba(variable.$purple-400, 0.25),
-      0 0 24px rgba(variable.$accent-pink, 0.12);
+      0 4px 18px rgba(tokens.$purple-400, 0.25),
+      0 0 24px rgba(tokens.$accent-pink, 0.12);
     transform: translateY(-5px) !important;
-    border-color: variable.$purple-400 !important;
+    border-color: tokens.$purple-400 !important;
   }
   &:active {
     box-shadow:
-      0 2px 10px rgba(variable.$purple-400, 0.4),
-      0 0 18px rgba(variable.$accent-pink, 0.18);
+      0 2px 10px rgba(tokens.$purple-400, 0.4),
+      0 0 18px rgba(tokens.$accent-pink, 0.18);
     transform: translateY(-3px) !important;
-    border-color: variable.$accent-pink !important;
+    border-color: tokens.$accent-pink !important;
   }
 }
 
@@ -44,8 +44,8 @@ mat-card {
   justify-content: center;
   padding: 64px 24px 48px;
   background:
-    radial-gradient(ellipse 60% 60% at 50% 0%, rgba(variable.$purple-400, 0.10) 0%, transparent 70%);
-  border-bottom: 1px solid rgba(variable.$purple-400, 0.18);
+    radial-gradient(ellipse 60% 60% at 50% 0%, rgba(tokens.$purple-400, 0.10) 0%, transparent 70%);
+  border-bottom: 1px solid rgba(tokens.$purple-400, 0.18);
   overflow: hidden;
 
   &::before {
@@ -57,8 +57,8 @@ mat-card {
         90deg,
         transparent 0,
         transparent 120px,
-        rgba(variable.$purple-400, 0.04) 120px,
-        rgba(variable.$purple-400, 0.04) 121px
+        rgba(tokens.$purple-400, 0.04) 120px,
+        rgba(tokens.$purple-400, 0.04) 121px
       );
     pointer-events: none;
     z-index: 0;
@@ -72,8 +72,8 @@ mat-card {
     left: 0;
     right: 0;
     height: 1px;
-    background: linear-gradient(90deg, transparent 0%, variable.$purple-400 50%, transparent 100%);
-    box-shadow: 0 0 14px rgba(variable.$purple-400, 0.6);
+    background: linear-gradient(90deg, transparent 0%, tokens.$purple-400 50%, transparent 100%);
+    box-shadow: 0 0 14px rgba(tokens.$purple-400, 0.6);
     animation: blog-hero-scan 4s ease-in-out infinite;
   }
 
@@ -84,17 +84,17 @@ mat-card {
 
   &.blog-hero--category {
     background:
-      radial-gradient(ellipse 60% 60% at 50% 0%, color-mix(in srgb, var(--cat-color, variable.$purple-400) 15%, transparent) 0%, transparent 70%);
-    border-bottom-color: color-mix(in srgb, var(--cat-color, variable.$purple-400) 35%, transparent);
+      radial-gradient(ellipse 60% 60% at 50% 0%, color-mix(in srgb, var(--cat-color, tokens.$purple-400) 15%, transparent) 0%, transparent 70%);
+    border-bottom-color: color-mix(in srgb, var(--cat-color, tokens.$purple-400) 35%, transparent);
 
-    &::after { background: linear-gradient(90deg, transparent 0%, var(--cat-color, variable.$purple-400) 50%, transparent 100%); }
-    .blog-hero-label { color: var(--cat-color, variable.$purple-400); text-shadow: 0 0 12px color-mix(in srgb, var(--cat-color, variable.$purple-400) 50%, transparent); }
+    &::after { background: linear-gradient(90deg, transparent 0%, var(--cat-color, tokens.$purple-400) 50%, transparent 100%); }
+    .blog-hero-label { color: var(--cat-color, tokens.$purple-400); text-shadow: 0 0 12px color-mix(in srgb, var(--cat-color, tokens.$purple-400) 50%, transparent); }
   }
 }
 
 .blog-hero-inner {
   text-align: center;
-  max-width: 720px;
+  max-width: tokens.$prose-max-width;
 
   .blog-hero-label {
     display: inline-block;
@@ -103,12 +103,12 @@ mat-card {
     font-weight: 600;
     text-transform: uppercase;
     letter-spacing: 2px;
-    color: variable.$purple-400;
+    color: tokens.$purple-400;
     margin-bottom: 12px;
     padding: 4px 12px;
-    border: 1px solid rgba(variable.$purple-400, 0.4);
+    border: 1px solid rgba(tokens.$purple-400, 0.4);
     border-radius: 2px;
-    background: rgba(variable.$purple-400, 0.05);
+    background: rgba(tokens.$purple-400, 0.05);
   }
 
   h1 {
@@ -117,7 +117,7 @@ mat-card {
     color: var(--blog-text);
     margin-bottom: 10px;
     letter-spacing: -0.5px;
-    text-shadow: 0 0 24px rgba(variable.$purple-400, 0.18);
+    text-shadow: 0 0 24px rgba(tokens.$purple-400, 0.18);
 
     @include responsive(tablet)     { font-size: 36px; }
     @include responsive(mobilePlus) { font-size: 28px; }
@@ -158,17 +158,17 @@ mat-card {
   justify-content: center;
   width: 46px;
   flex-shrink: 0;
-  background: linear-gradient(135deg, variable.$purple-400 0%, variable.$accent-pink 100%);
+  background: linear-gradient(135deg, tokens.$purple-400 0%, tokens.$accent-pink 100%);
   border: 1px solid transparent;
   border-radius: 4px;
-  color: variable.$background-color;
+  color: tokens.$background-color;
   cursor: pointer;
   transition: 0.2s;
-  box-shadow: 0 0 12px rgba(variable.$purple-400, 0.25);
+  box-shadow: 0 0 12px rgba(tokens.$purple-400, 0.25);
 
   &:hover {
     transform: scale(0.96);
-    box-shadow: 0 0 18px rgba(variable.$accent-pink, 0.4);
+    box-shadow: 0 0 18px rgba(tokens.$accent-pink, 0.4);
   }
 
   &:active { transform: scale(0.92); }
@@ -190,9 +190,9 @@ mat-card {
 
   &:focus {
     outline: none;
-    border-color: variable.$purple-400;
+    border-color: tokens.$purple-400;
     background: var(--blog-surface-elevated);
-    box-shadow: 0 0 0 2px rgba(variable.$purple-400, 0.15), 0 0 18px rgba(variable.$purple-400, 0.12);
+    box-shadow: 0 0 0 2px rgba(tokens.$purple-400, 0.15), 0 0 18px rgba(tokens.$purple-400, 0.12);
   }
 
   &::-webkit-search-cancel-button {
@@ -200,7 +200,7 @@ mat-card {
     appearance: none;
     height: 16px;
     width: 16px;
-    background: variable.$gray-400;
+    background: tokens.$gray-400;
     mask: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'><path d='M18.3 5.71 12 12.01l-6.29-6.3-1.42 1.42 6.3 6.29-6.3 6.29 1.42 1.42 6.29-6.3 6.29 6.3 1.42-1.42-6.3-6.29 6.3-6.29z'/></svg>") no-repeat center / contain;
     cursor: pointer;
   }
@@ -220,9 +220,9 @@ mat-card {
   height: 36px;
   padding: 0 10px;
   background: transparent;
-  border: 1px solid variable.$purple-800;
+  border: 1px solid tokens.$purple-800;
   border-radius: 6px;
-  color: variable.$gray-200;
+  color: tokens.$gray-200;
   font-size: 14px;
   font-weight: 500;
   font-family: inherit;
@@ -230,14 +230,14 @@ mat-card {
   transition: 0.2s;
 
   &:hover:not(:disabled) {
-    border-color: variable.$purple-500;
-    color: variable.$white;
+    border-color: tokens.$purple-500;
+    color: tokens.$white;
   }
 
   &.active {
-    background: variable.$purple-500;
-    border-color: variable.$purple-500;
-    color: variable.$white;
+    background: tokens.$purple-500;
+    border-color: tokens.$purple-500;
+    color: tokens.$white;
   }
 
   &:disabled {
@@ -247,7 +247,7 @@ mat-card {
 }
 
 .blog-page-ellipsis {
-  color: variable.$gray-400;
+  color: tokens.$gray-400;
   padding: 0 4px;
   user-select: none;
 }
@@ -257,7 +257,7 @@ mat-card {
   grid-template-columns: repeat(3, 1fr);
   gap: 24px;
   width: 100%;
-  max-width: 1200px;
+  max-width: tokens.$container-max-width;
 
   @include responsive(notebook) {
     grid-template-columns: repeat(2, 1fr);
@@ -381,8 +381,8 @@ mat-card {
   letter-spacing: 0.6px;
   padding: 3px 10px;
   border-radius: 20px;
-  color: variable.$purple-400;
-  border: 1px solid rgba(variable.$purple-500, 0.4);
+  color: tokens.$purple-400;
+  border: 1px solid rgba(tokens.$purple-500, 0.4);
 }
 
 .blog-categories {
@@ -391,7 +391,7 @@ mat-card {
   justify-content: center;
   gap: 8px;
   width: 100%;
-  max-width: 1200px;
+  max-width: tokens.$container-max-width;
 }
 
 .blog-category-filter {
@@ -417,12 +417,12 @@ mat-card {
   &.active {
     background: var(--cat-color, var(--blog-accent));
     border-color: var(--cat-color, var(--blog-accent));
-    color: variable.$white;
+    color: tokens.$white;
     font-weight: 700;
 
     &:hover {
       transform: translateY(-1px);
-      box-shadow: 0 0 18px color-mix(in srgb, var(--cat-color, variable.$purple-400) 60%, transparent);
+      box-shadow: 0 0 18px color-mix(in srgb, var(--cat-color, tokens.$purple-400) 60%, transparent);
     }
   }
 }
@@ -441,8 +441,8 @@ mat-card {
   letter-spacing: 0.5px;
   padding: 4px 10px;
   border-radius: 2px;
-  background: var(--cat-color, variable.$purple-500);
-  color: variable.$white;
+  background: var(--cat-color, tokens.$purple-500);
+  color: tokens.$white;
   text-decoration: none;
   transition: 0.2s;
 

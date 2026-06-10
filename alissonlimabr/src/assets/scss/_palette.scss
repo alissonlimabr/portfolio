@@ -1,8 +1,10 @@
 // Variáveis de cor e dimensão. Tokens CSS runtime: _tokens.scss.
 
 // Layout
-$container-width:      1600px;
-$container-blog-width: 1200px;
+$container-max-width:      1280px;
+$container-wide-max-width: 1440px;
+$prose-max-width:           760px;
+$prose-wide-max-width:      900px;
 
 // Fundo e superfícies
 $background-color: #0A0814;
