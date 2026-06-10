@@ -183,6 +183,8 @@
 
   @include responsive(mobilePlus) {
     align-items: center;
+    flex-direction: row;
+    gap: 10px;
   }
 
   .hero-name-line {
@@ -271,18 +273,20 @@
 // Botões de ação (LinkedIn / GitHub) — magnetic + glow
 .actions {
   margin: 12px 0 0;
-  display: flex;
+  display: inline-grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  align-self: flex-start;
   gap: 16px;
 
-  @include responsive(mobile) {
+  @include responsive(mobilePlus) {
     gap: 12px;
-    flex-wrap: wrap;
-    justify-content: center;
+    align-self: center;
   }
 
   a {
     display: inline-flex;
     align-items: center;
+    justify-content: center;
     gap: 10px;
     padding: 13px 28px;
     border-radius: 6px;
@@ -331,7 +335,7 @@
       }
     }
 
-    @include responsive(mobile) {
+    @include responsive(mobilePlus) {
       padding: 11px 22px;
       font-size: 14px;
     }
@@ -340,13 +344,20 @@
 
 // Avatar — wrap com decorações
 .hero-avatar-wrap {
+  --avatar-size: 280px;
+
   position: relative;
   display: flex;
   justify-content: center;
   align-items: center;
   width: 100%;
 
+  @include responsive(tablet) {
+    --avatar-size: 240px;
+  }
+
   @include responsive(mobilePlus) {
+    --avatar-size: 200px;
     order: -1;
   }
 }
@@ -410,8 +421,8 @@
 .avatar {
   position: relative;
   display: block;
-  width: 280px;
-  height: 280px;
+  width: var(--avatar-size);
+  height: var(--avatar-size);
   border-radius: 50%;
   overflow: hidden;
   background: linear-gradient(135deg, tokens.$purple-500 0%, tokens.$accent-pink 100%);
@@ -435,20 +446,12 @@
     object-fit: cover;
   }
 
-  @include responsive(tablet) {
-    width: 240px;
-    height: 240px;
-  }
-  @include responsive(mobilePlus) {
-    width: 200px;
-    height: 200px;
-  }
 }
 
 .hero-avatar-badge {
   position: absolute;
   bottom: 8%;
-  right: 4%;
+  right: calc(50% - (var(--avatar-size) / 2));
   display: inline-flex;
   align-items: center;
   gap: 6px;
