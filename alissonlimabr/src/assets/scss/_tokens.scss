@@ -1,69 +1,75 @@
-@use 'palette' as tokens;
+@use "palette" as tokens;
 
 // CSS custom properties. Overrides de tema claro: blog-light-theme.scss.
 
 :root {
   // ── Cores base ───────────────────────────────────────────────────────────
-  --color-bg:             #{tokens.$bg};
-  --color-surface:        #{tokens.$surface};
+  --color-bg: #{tokens.$bg};
+  --color-surface: #{tokens.$surface};
   --color-surface-raised: #{tokens.$surface-elevated};
   --color-surface-bright: #{tokens.$surface-bright};
-  --color-border:         #{rgba(tokens.$purple-400, 0.12)};
+  --color-border: #{rgba(tokens.$purple-400, 0.12)};
 
-  --color-text:           #{tokens.$text};
-  --color-text-muted:     #{tokens.$text-muted};
+  --color-text: #{tokens.$text};
+  --color-text-muted: #{tokens.$text-muted};
 
-  --color-accent:         #{tokens.$purple-500};
-  --color-accent-light:   #{tokens.$purple-400};
-  --color-accent-dim:     #{rgba(tokens.$purple-400, 0.18)};
-  --color-accent-hover:   #{rgba(tokens.$purple-400, 0.45)};
+  --color-accent: #{tokens.$purple-500};
+  --color-accent-light: #{tokens.$purple-400};
+  --color-accent-dim: #{rgba(tokens.$purple-400, 0.18)};
+  --color-accent-hover: #{rgba(tokens.$purple-400, 0.45)};
 
-  --color-pink:           #{tokens.$pink};
-  --color-cyan:           #{tokens.$cyan};
+  --color-pink: #{tokens.$pink};
+  --color-cyan: #{tokens.$cyan};
 
-  --color-success:        #{tokens.$success};
-  --color-error:          #{tokens.$error};
+  --color-success: #{tokens.$success};
+  --color-error: #{tokens.$error};
 
   // ── Blog tokens — defaults dark ──────────────────────────────────────────
   // Paleta dedicada do blog. Não reaproveita tokens "Cyber Purple" do site
   // pq leitura longa pede menos contraste (texto off-white, não puro #FFF)
   // e fundos um pouco menos escuros que o tema principal.
-  --blog-bg:               #15121F;
-  --blog-surface:          #1F1B2D;
-  --blog-surface-elevated: #2A2540;
-  --blog-text:             #D8D2E5;
-  --blog-heading:          #F0EBF7;
-  --blog-text-muted:       #9A93AD;
-  --blog-border:           #2D293D;
-  --blog-accent:           #{tokens.$purple-400};
-  --blog-accent-warm:      #{tokens.$accent-pink};
-  --blog-link:             #{tokens.$purple-200};
-  --blog-code-bg:          #14111E;
-  --blog-code-text:        #D8D2E5;
-  --blog-shimmer-a:        #1F1B2D;
-  --blog-shimmer-b:        #2A2540;
+  --blog-bg: #15121f;
+  --blog-surface: #1f1b2d;
+  --blog-surface-elevated: #2a2540;
+  --blog-text: #d8d2e5;
+  --blog-heading: #f0ebf7;
+  --blog-text-muted: #9a93ad;
+  --blog-border: #2d293d;
+  --blog-accent: #{tokens.$purple-400};
+  --blog-accent-warm: #{tokens.$accent-pink};
+  --blog-link: #{tokens.$purple-200};
+  --blog-code-bg: #14111e;
+  --blog-code-text: #d8d2e5;
+  --blog-shimmer-a: #1f1b2d;
+  --blog-shimmer-b: #2a2540;
 
-  --blog-inline-code-color:  #{tokens.$cyan};
-  --blog-inline-code-bg:     #{rgba(tokens.$cyan, 0.08)};
+  --blog-inline-code-color: #{tokens.$cyan};
+  --blog-inline-code-bg: #{rgba(tokens.$cyan, 0.08)};
   --blog-inline-code-border: #{rgba(tokens.$cyan, 0.18)};
 
   // ── Raios ────────────────────────────────────────────────────────────────
-  --radius-sm:  6px;
-  --radius-md:  10px;
-  --radius-lg:  14px;
-  --radius-xl:  20px;
+  --radius-sm: 6px;
+  --radius-md: 10px;
+  --radius-lg: 14px;
+  --radius-xl: 20px;
 
   // ── Espaçamento ──────────────────────────────────────────────────────────
-  --space-1: 4px;   --space-2: 8px;   --space-3: 12px;
-  --space-4: 16px;  --space-5: 20px;  --space-6: 24px;
-  --space-8: 32px;  --space-10: 40px; --space-12: 48px;
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-5: 20px;
+  --space-6: 24px;
+  --space-8: 32px;
+  --space-10: 40px;
+  --space-12: 48px;
 
   // ── Tipografia ───────────────────────────────────────────────────────────
-  --font-sans: 'Inter', 'Roboto', sans-serif;
-  --font-mono: 'Fira Code', monospace;
+  --font-sans: "Inter", "Roboto", sans-serif;
+  --font-mono: "Fira Code", monospace;
 
   // ── Transições ───────────────────────────────────────────────────────────
-  --transition-fast:   0.15s ease;
+  --transition-fast: 0.15s ease;
   --transition-normal: 0.25s ease;
-  --transition-slow:   0.4s ease;
+  --transition-slow: 0.4s ease;
 }

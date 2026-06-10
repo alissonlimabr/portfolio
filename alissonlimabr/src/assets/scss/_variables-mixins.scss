@@ -1,21 +1,28 @@
 // Mixin para responsividade
 @mixin responsive($device) {
   @if $device == mobile {
-      @media (max-width: 480px) { @content; }
-  }
-  @else if $device == mobilePlus {
-      @media (max-width: 660px) { @content; }
-  }
-  @else if $device == tablet {
-      @media (max-width: 860px) { @content; }
-  }
-  @else if $device == tabletplus {
-      @media (max-width: 992px) { @content; }
-  }
-  @else if $device == notebook {
-      @media (max-width: 1200px) { @content; }
-  }
-  @else if $device == desktop {
-    @media (min-width: 1281px) { @content; }
+    @media (max-width: 480px) {
+      @content;
+    }
+  } @else if $device == mobilePlus {
+    @media (max-width: 660px) {
+      @content;
+    }
+  } @else if $device == tablet {
+    @media (max-width: 860px) {
+      @content;
+    }
+  } @else if $device == tabletplus {
+    @media (max-width: 992px) {
+      @content;
+    }
+  } @else if $device == notebook {
+    @media (max-width: 1200px) {
+      @content;
+    }
+  } @else if $device == desktop {
+    @media (min-width: 1281px) {
+      @content;
+    }
   }
 }

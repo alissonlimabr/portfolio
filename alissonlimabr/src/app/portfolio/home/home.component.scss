@@ -13,7 +13,7 @@
 
   // Grid SVG sutil sobre o hero
   &::before {
-    content: '';
+    content: "";
     position: absolute;
     inset: 0;
     background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='56' height='56' viewBox='0 0 56 56'%3E%3Cpath d='M 56 0 L 0 0 0 56' fill='none' stroke='rgba(168,85,247,0.06)' stroke-width='1'/%3E%3C/svg%3E");
@@ -27,8 +27,13 @@
     width: 100%;
   }
 
-  @include responsive(tablet)     { padding: 80px 0; min-height: auto; }
-  @include responsive(mobilePlus) { padding: 60px 0; }
+  @include responsive(tablet) {
+    padding: 80px 0;
+    min-height: auto;
+  }
+  @include responsive(mobilePlus) {
+    padding: 60px 0;
+  }
 }
 
 // Orbs animados de gradient mesh (decorativos do hero)
@@ -60,8 +65,18 @@
   }
 
   @include responsive(mobilePlus) {
-    &--top    { width: 320px; height: 320px; top: -80px; left: -60px; }
-    &--bottom { width: 320px; height: 320px; bottom: -80px; right: -60px; }
+    &--top {
+      width: 320px;
+      height: 320px;
+      top: -80px;
+      left: -60px;
+    }
+    &--bottom {
+      width: 320px;
+      height: 320px;
+      bottom: -80px;
+      right: -60px;
+    }
   }
 }
 
@@ -74,8 +89,15 @@
   max-width: tokens.$container-wide-max-width;
   padding: 0 90px;
 
-  @include responsive(tabletplus) { padding: 0 60px; gap: 60px; }
-  @include responsive(tablet)     { padding: 0 40px; gap: 40px; grid-template-columns: 1.2fr 1fr; }
+  @include responsive(tabletplus) {
+    padding: 0 60px;
+    gap: 60px;
+  }
+  @include responsive(tablet) {
+    padding: 0 40px;
+    gap: 40px;
+    grid-template-columns: 1.2fr 1fr;
+  }
   @include responsive(mobilePlus) {
     grid-template-columns: 1fr;
     padding: 0 20px !important;
@@ -89,7 +111,10 @@
     justify-content: center;
     gap: 24px;
 
-    @include responsive(mobilePlus) { align-items: center; gap: 18px; }
+    @include responsive(mobilePlus) {
+      align-items: center;
+      gap: 18px;
+    }
   }
 
   .welcome {
@@ -97,7 +122,9 @@
     flex-direction: column;
     gap: 14px;
 
-    @include responsive(mobilePlus) { align-items: center; }
+    @include responsive(mobilePlus) {
+      align-items: center;
+    }
   }
 }
 
@@ -106,7 +133,7 @@
   display: inline-flex;
   align-items: center;
   gap: 8px;
-  font-family: 'Fira Code', 'Courier New', monospace;
+  font-family: "Fira Code", "Courier New", monospace;
   font-size: 13px;
   font-weight: 500;
   color: tokens.$gray-300;
@@ -126,7 +153,9 @@
     animation: status-pulse 2s ease-in-out infinite;
   }
 
-  .hero-eyebrow-text { color: tokens.$gray-200; }
+  .hero-eyebrow-text {
+    color: tokens.$gray-200;
+  }
 
   .hero-eyebrow-cursor {
     color: tokens.$purple-400;
@@ -134,12 +163,15 @@
     animation: blink 1.1s steps(2, end) infinite;
   }
 
-  @include responsive(mobile) { font-size: 11px; padding: 5px 10px; }
+  @include responsive(mobile) {
+    font-size: 11px;
+    padding: 5px 10px;
+  }
 }
 
 // Tipografia gigante do nome
 .hero-name {
-  font-family: 'Inter', 'Roboto', sans-serif;
+  font-family: "Inter", "Roboto", sans-serif;
   font-size: clamp(40px, 8vw, 96px);
   font-weight: 800;
   line-height: 0.95;
@@ -149,7 +181,9 @@
   display: flex;
   flex-direction: column;
 
-  @include responsive(mobilePlus) { align-items: center; }
+  @include responsive(mobilePlus) {
+    align-items: center;
+  }
 
   .hero-name-line {
     display: block;
@@ -171,7 +205,7 @@
 
 // Role tipo Full Stack Developer (typed writer)
 .hero-role {
-  font-family: 'Fira Code', 'Courier New', monospace;
+  font-family: "Fira Code", "Courier New", monospace;
   font-size: clamp(18px, 2vw, 22px);
   font-weight: 500;
   color: tokens.$purple-300;
@@ -179,8 +213,12 @@
   letter-spacing: 0.5px;
   min-height: 1.5em;
 
-  @include responsive(tabletplus) { font-size: 18px; }
-  @include responsive(mobile)     { font-size: 16px; }
+  @include responsive(tabletplus) {
+    font-size: 18px;
+  }
+  @include responsive(mobile) {
+    font-size: 16px;
+  }
 }
 
 // Tagline descritivo
@@ -196,7 +234,9 @@
     font-weight: 600;
   }
 
-  @include responsive(mobilePlus) { max-width: 100%; }
+  @include responsive(mobilePlus) {
+    max-width: 100%;
+  }
 }
 
 // Badge "Disponível para projetos"
@@ -222,7 +262,10 @@
     animation: status-pulse 2s ease-in-out infinite;
   }
 
-  @include responsive(mobile) { font-size: 12px; padding: 6px 12px; }
+  @include responsive(mobile) {
+    font-size: 12px;
+    padding: 6px 12px;
+  }
 }
 
 // Botões de ação (LinkedIn / GitHub) — magnetic + glow
@@ -231,7 +274,11 @@
   display: flex;
   gap: 16px;
 
-  @include responsive(mobile) { gap: 12px; flex-wrap: wrap; justify-content: center; }
+  @include responsive(mobile) {
+    gap: 12px;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
 
   a {
     display: inline-flex;
@@ -252,7 +299,9 @@
       font-weight: 400;
     }
 
-    &:hover .action-arrow { transform: translateX(4px); }
+    &:hover .action-arrow {
+      transform: translateX(4px);
+    }
 
     &#linkedin {
       background: linear-gradient(135deg, tokens.$purple-500 0%, tokens.$purple-400 100%);
@@ -282,7 +331,10 @@
       }
     }
 
-    @include responsive(mobile) { padding: 11px 22px; font-size: 14px; }
+    @include responsive(mobile) {
+      padding: 11px 22px;
+      font-size: 14px;
+    }
   }
 }
 
@@ -294,7 +346,9 @@
   align-items: center;
   width: 100%;
 
-  @include responsive(mobilePlus) { order: -1; }
+  @include responsive(mobilePlus) {
+    order: -1;
+  }
 }
 
 .hero-avatar-deco {
@@ -309,7 +363,7 @@
     animation: spin-slow 24s linear infinite;
 
     &::before {
-      content: '';
+      content: "";
       position: absolute;
       top: -4px;
       left: 50%;
@@ -331,13 +385,25 @@
   }
 
   @include responsive(tablet) {
-    &--ring { width: 320px; height: 320px; }
-    &--grid { width: 380px; height: 380px; }
+    &--ring {
+      width: 320px;
+      height: 320px;
+    }
+    &--grid {
+      width: 380px;
+      height: 380px;
+    }
   }
 
   @include responsive(mobilePlus) {
-    &--ring { width: 260px; height: 260px; }
-    &--grid { width: 300px; height: 300px; }
+    &--ring {
+      width: 260px;
+      height: 260px;
+    }
+    &--grid {
+      width: 300px;
+      height: 300px;
+    }
   }
 }
 
@@ -356,7 +422,9 @@
     0 0 80px rgba(tokens.$accent-pink, 0.15);
   z-index: 1;
 
-  &:hover { transform: scale(1.04); }
+  &:hover {
+    transform: scale(1.04);
+  }
 
   img {
     width: 100%;
@@ -367,8 +435,14 @@
     object-fit: cover;
   }
 
-  @include responsive(tablet)     { width: 240px; height: 240px; }
-  @include responsive(mobilePlus) { width: 200px; height: 200px; }
+  @include responsive(tablet) {
+    width: 240px;
+    height: 240px;
+  }
+  @include responsive(mobilePlus) {
+    width: 200px;
+    height: 200px;
+  }
 }
 
 .hero-avatar-badge {
@@ -382,7 +456,7 @@
   background: rgba(tokens.$background-color, 0.85);
   border: 1px solid tokens.$green-400;
   border-radius: 100px;
-  font-family: 'Fira Code', 'Courier New', monospace;
+  font-family: "Fira Code", "Courier New", monospace;
   font-size: 10px;
   font-weight: 700;
   letter-spacing: 1.5px;
@@ -400,7 +474,10 @@
     animation: status-pulse 2s ease-in-out infinite;
   }
 
-  @include responsive(mobilePlus) { font-size: 9px; padding: 4px 10px; }
+  @include responsive(mobilePlus) {
+    font-size: 9px;
+    padding: 4px 10px;
+  }
 }
 
 // Scroll hint no canto inferior
@@ -413,7 +490,7 @@
   flex-direction: column;
   align-items: center;
   gap: 10px;
-  font-family: 'Fira Code', 'Courier New', monospace;
+  font-family: "Fira Code", "Courier New", monospace;
   font-size: 11px;
   letter-spacing: 3px;
   color: tokens.$gray-400;
@@ -421,7 +498,9 @@
   z-index: 2;
   transition: color 0.3s;
 
-  &:hover { color: tokens.$purple-400; }
+  &:hover {
+    color: tokens.$purple-400;
+  }
 
   .hero-scroll-line {
     width: 1px;
@@ -431,7 +510,7 @@
     overflow: hidden;
 
     &::after {
-      content: '';
+      content: "";
       position: absolute;
       top: 0;
       left: 0;
@@ -440,9 +519,11 @@
       background: tokens.$white;
       animation: scroll-line 2.2s ease-in-out infinite;
     }
-   }
+  }
 
-  @include responsive(mobilePlus) { display: none; }
+  @include responsive(mobilePlus) {
+    display: none;
+  }
 }
 
 /*  About section */
@@ -452,8 +533,12 @@
   position: relative;
   overflow: hidden;
 
-  @include responsive(tablet)     { padding: 80px 0; }
-  @include responsive(mobilePlus) { padding: 60px 0; }
+  @include responsive(tablet) {
+    padding: 80px 0;
+  }
+  @include responsive(mobilePlus) {
+    padding: 60px 0;
+  }
 }
 
 // Container das seções principais do portfólio
@@ -471,15 +556,21 @@
   padding: 0 80px;
   z-index: 1;
 
-  @include responsive(tabletplus) { padding: 0 60px; }
-  @include responsive(tablet)     { padding: 0 40px; }
-  @include responsive(mobilePlus) { padding: 0 20px; }
+  @include responsive(tabletplus) {
+    padding: 0 60px;
+  }
+  @include responsive(tablet) {
+    padding: 0 40px;
+  }
+  @include responsive(mobilePlus) {
+    padding: 0 20px;
+  }
 }
 
 // Cabeçalhos uniformes das seções
 .section-tag {
   display: inline-block;
-  font-family: 'Fira Code', 'Courier New', monospace;
+  font-family: "Fira Code", "Courier New", monospace;
   font-size: 12px;
   font-weight: 600;
   letter-spacing: 3px;
@@ -492,7 +583,7 @@
 }
 
 .section-headline {
-  font-family: 'Inter', 'Roboto', sans-serif;
+  font-family: "Inter", "Roboto", sans-serif;
   font-size: clamp(28px, 4vw, 52px);
   font-weight: 800;
   line-height: 1.05;
@@ -512,26 +603,30 @@
 .about-header {
   margin-bottom: 56px;
 
-  @include responsive(mobilePlus) { margin-bottom: 36px; }
+  @include responsive(mobilePlus) {
+    margin-bottom: 36px;
+  }
 }
 
 .about-grid {
   display: grid;
   grid-template-columns: minmax(0, 1.6fr) minmax(320px, 0.9fr);
   grid-template-areas:
-    'intro highlights'
-    'details highlights';
+    "intro highlights"
+    "details highlights";
   gap: 56px;
   row-gap: 18px;
   align-items: start;
 
-  @include responsive(tablet)     { gap: 48px; }
+  @include responsive(tablet) {
+    gap: 48px;
+  }
   @include responsive(mobilePlus) {
     grid-template-columns: 1fr;
     grid-template-areas:
-      'intro'
-      'highlights'
-      'details';
+      "intro"
+      "highlights"
+      "details";
     gap: 32px;
   }
 }
@@ -567,11 +662,15 @@
   }
 
   @include responsive(mobilePlus) {
-    .about-lead { font-size: 18px; }
+    .about-lead {
+      font-size: 18px;
+    }
   }
 }
 
-.about-details { grid-area: details; }
+.about-details {
+  grid-area: details;
+}
 
 .about-highlights {
   grid-area: highlights;
@@ -590,10 +689,12 @@
   border-left: 3px solid tokens.$purple-400;
   border-radius: 0 10px 10px 0;
   overflow: hidden;
-  transition: transform 0.3s ease, border-color 0.3s ease;
+  transition:
+    transform 0.3s ease,
+    border-color 0.3s ease;
 
   &::before {
-    content: '';
+    content: "";
     position: absolute;
     inset: 0;
     background: radial-gradient(
@@ -610,12 +711,14 @@
     transform: translateY(-3px);
     border-color: rgba(tokens.$purple-400, 0.5);
 
-    &::before { opacity: 1; }
+    &::before {
+      opacity: 1;
+    }
   }
 }
 
 .about-highlight-number {
-  font-family: 'Inter', 'Roboto', sans-serif;
+  font-family: "Inter", "Roboto", sans-serif;
   font-size: clamp(52px, 5vw, 72px);
   font-weight: 800;
   line-height: 0.85;
@@ -656,10 +759,12 @@
   border: 1px solid tokens.$gray-700;
   border-radius: 8px;
   overflow: hidden;
-  transition: transform 0.3s ease, border-color 0.3s ease;
+  transition:
+    transform 0.3s ease,
+    border-color 0.3s ease;
 
   &::before {
-    content: '';
+    content: "";
     position: absolute;
     inset: 0;
     background: radial-gradient(
@@ -676,7 +781,9 @@
     transform: translateY(-3px);
     border-color: rgba(tokens.$purple-400, 0.4);
 
-    &::before { opacity: 1; }
+    &::before {
+      opacity: 1;
+    }
   }
 
   &:last-child {
@@ -695,7 +802,7 @@
 }
 
 .about-highlight-label {
-  font-family: 'Fira Code', 'Courier New', monospace;
+  font-family: "Fira Code", "Courier New", monospace;
   font-size: 11px;
   font-weight: 600;
   letter-spacing: 0.08em;
@@ -706,10 +813,17 @@
 }
 
 @include responsive(mobile) {
-  .about-highlight-metric { padding: 18px; }
-  .about-highlight-list { grid-template-columns: 1fr; }
+  .about-highlight-metric {
+    padding: 18px;
+  }
+  .about-highlight-list {
+    grid-template-columns: 1fr;
+  }
   .about-highlight-item,
-  .about-highlight-item:last-child { grid-column: auto; min-height: auto; }
+  .about-highlight-item:last-child {
+    grid-column: auto;
+    min-height: auto;
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -727,14 +841,20 @@
   position: relative;
   overflow: hidden;
 
-  @include responsive(tablet)     { padding: 80px 0; }
-  @include responsive(mobilePlus) { padding: 60px 0; }
+  @include responsive(tablet) {
+    padding: 80px 0;
+  }
+  @include responsive(mobilePlus) {
+    padding: 60px 0;
+  }
 }
 
 .skills-header {
   margin-bottom: 56px;
 
-  @include responsive(mobilePlus) { margin-bottom: 36px; }
+  @include responsive(mobilePlus) {
+    margin-bottom: 36px;
+  }
 }
 
 // Marquee infinito (ticker tape de tecnologias)
@@ -768,7 +888,10 @@
   gap: 48px;
   padding-right: 48px;
 
-  @include responsive(mobilePlus) { gap: 32px; padding-right: 32px; }
+  @include responsive(mobilePlus) {
+    gap: 32px;
+    padding-right: 32px;
+  }
 }
 
 .skills-marquee-item {
@@ -776,7 +899,7 @@
   align-items: center;
   gap: 14px;
   white-space: nowrap;
-  font-family: 'Fira Code', 'Courier New', monospace;
+  font-family: "Fira Code", "Courier New", monospace;
   font-size: 18px;
   font-weight: 500;
   color: tokens.$gray-200;
@@ -790,16 +913,25 @@
   }
 
   &::after {
-    content: '◆';
+    content: "◆";
     color: tokens.$purple-500;
     margin-left: 18px;
     font-size: 8px;
     opacity: 0.4;
 
-    @include responsive(mobilePlus) { margin-left: 0; display: none; }
+    @include responsive(mobilePlus) {
+      margin-left: 0;
+      display: none;
+    }
   }
 
-  @include responsive(mobilePlus) { font-size: 15px; img { width: 22px; height: 22px; } }
+  @include responsive(mobilePlus) {
+    font-size: 15px;
+    img {
+      width: 22px;
+      height: 22px;
+    }
+  }
 }
 
 // Grid de skill cards com spotlight
@@ -827,11 +959,13 @@
   border: 1px solid tokens.$gray-700;
   border-radius: 10px;
   overflow: hidden;
-  transition: transform 0.3s, border-color 0.3s;
+  transition:
+    transform 0.3s,
+    border-color 0.3s;
 
   // Spotlight
   &::before {
-    content: '';
+    content: "";
     position: absolute;
     inset: 0;
     background: radial-gradient(
@@ -848,7 +982,9 @@
     border-color: rgba(tokens.$purple-400, 0.4);
     transform: translateY(-2px);
 
-    &::before { opacity: 1; }
+    &::before {
+      opacity: 1;
+    }
 
     .skill-card-icon app-icon {
       color: tokens.$purple-50;
@@ -869,7 +1005,9 @@
       width: 100%;
       height: 100%;
       color: tokens.$purple-400;
-      transition: filter 0.3s, color 0.3s;
+      transition:
+        filter 0.3s,
+        color 0.3s;
     }
   }
 
@@ -885,8 +1023,13 @@
 
   @include responsive(mobilePlus) {
     padding: 18px 12px;
-    .skill-card-icon { width: 44px; height: 44px; }
-    .skill-card-name { font-size: 11px; }
+    .skill-card-icon {
+      width: 44px;
+      height: 44px;
+    }
+    .skill-card-name {
+      font-size: 11px;
+    }
   }
 }
 
@@ -896,14 +1039,20 @@
   position: relative;
   overflow: hidden;
 
-  @include responsive(tablet)     { padding: 80px 0; }
-  @include responsive(mobilePlus) { padding: 60px 0; }
+  @include responsive(tablet) {
+    padding: 80px 0;
+  }
+  @include responsive(mobilePlus) {
+    padding: 60px 0;
+  }
 }
 
 .jobs-header {
   margin-bottom: 72px;
 
-  @include responsive(mobilePlus) { margin-bottom: 40px; }
+  @include responsive(mobilePlus) {
+    margin-bottom: 40px;
+  }
 }
 
 // Timeline vertical
@@ -916,22 +1065,20 @@
 
   // Linha vertical animada à esquerda
   &::before {
-    content: '';
+    content: "";
     position: absolute;
     top: 14px;
     bottom: 14px;
     left: 11px;
     width: 2px;
-    background: linear-gradient(
-      180deg,
-      tokens.$purple-400 0%,
-      tokens.$accent-pink 50%,
-      transparent 100%
-    );
+    background: linear-gradient(180deg, tokens.$purple-400 0%, tokens.$accent-pink 50%, transparent 100%);
     opacity: 0.4;
   }
 
-  @include responsive(mobilePlus) { gap: 20px; padding-left: 24px; }
+  @include responsive(mobilePlus) {
+    gap: 20px;
+    padding-left: 24px;
+  }
 }
 
 .timeline-item {
@@ -943,17 +1090,19 @@
   background: tokens.$surface;
   border: 1px solid tokens.$gray-700;
   border-radius: 10px;
-  transition: border-color 0.3s, transform 0.3s;
+  transition:
+    border-color 0.3s,
+    transform 0.3s;
   overflow: hidden;
 
   // Spotlight
   &::before {
-    content: '';
+    content: "";
     position: absolute;
     inset: 0;
     background: radial-gradient(
       500px circle at var(--spotlight-x, 50%) var(--spotlight-y, 50%),
-      rgba(tokens.$purple-400, 0.10),
+      rgba(tokens.$purple-400, 0.1),
       transparent 40%
     );
     opacity: 0;
@@ -965,10 +1114,15 @@
     border-color: rgba(tokens.$purple-400, 0.35);
     transform: translateX(4px);
 
-    &::before { opacity: 1; }
+    &::before {
+      opacity: 1;
+    }
   }
 
-  @include responsive(tablet)     { gap: 16px; padding: 24px 24px 24px 12px; }
+  @include responsive(tablet) {
+    gap: 16px;
+    padding: 24px 24px 24px 12px;
+  }
   @include responsive(mobilePlus) {
     grid-template-columns: 44px 1fr;
     gap: 12px;
@@ -984,8 +1138,13 @@
   padding-top: 8px;
   padding-right: 12px;
 
-  @include responsive(tablet)     { padding-right: 8px; }
-  @include responsive(mobilePlus) { padding-top: 4px; padding-right: 6px; }
+  @include responsive(tablet) {
+    padding-right: 8px;
+  }
+  @include responsive(mobilePlus) {
+    padding-top: 4px;
+    padding-right: 6px;
+  }
 }
 
 .timeline-dot {
@@ -997,11 +1156,22 @@
   border-radius: 50%;
   background: tokens.$purple-400;
   border: 2px solid tokens.$background-color;
-  box-shadow: 0 0 0 2px tokens.$purple-400, 0 0 14px rgba(tokens.$purple-400, 0.6);
+  box-shadow:
+    0 0 0 2px tokens.$purple-400,
+    0 0 14px rgba(tokens.$purple-400, 0.6);
   z-index: 2;
 
-  @include responsive(tablet)     { left: -27px; width: 11px; height: 11px; }
-  @include responsive(mobilePlus) { left: -23px; top: 18px; width: 10px; height: 10px; }
+  @include responsive(tablet) {
+    left: -27px;
+    width: 11px;
+    height: 11px;
+  }
+  @include responsive(mobilePlus) {
+    left: -23px;
+    top: 18px;
+    width: 10px;
+    height: 10px;
+  }
 }
 
 .timeline-icon {
@@ -1022,8 +1192,22 @@
     object-fit: contain;
   }
 
-  @include responsive(tablet)     { width: 48px; height: 48px; img { width: 28px; height: 28px; } }
-  @include responsive(mobilePlus) { width: 40px; height: 40px; img { width: 22px; height: 22px; } }
+  @include responsive(tablet) {
+    width: 48px;
+    height: 48px;
+    img {
+      width: 28px;
+      height: 28px;
+    }
+  }
+  @include responsive(mobilePlus) {
+    width: 40px;
+    height: 40px;
+    img {
+      width: 22px;
+      height: 22px;
+    }
+  }
 }
 
 .timeline-content {
@@ -1039,7 +1223,7 @@
 }
 
 .timeline-duration {
-  font-family: 'Fira Code', 'Courier New', monospace;
+  font-family: "Fira Code", "Courier New", monospace;
   font-size: 12px;
   font-weight: 600;
   letter-spacing: 1px;
@@ -1055,16 +1239,20 @@
   line-height: 1.3;
   margin: 0;
 
-  @include responsive(mobile) { font-size: 17px; }
+  @include responsive(mobile) {
+    font-size: 17px;
+  }
 }
 
 .timeline-company {
   font-size: 14px;
   color: tokens.$accent-pink;
   font-weight: 500;
-  font-family: 'Fira Code', 'Courier New', monospace;
+  font-family: "Fira Code", "Courier New", monospace;
 
-  @include responsive(mobilePlus) { font-size: 12px; }
+  @include responsive(mobilePlus) {
+    font-size: 12px;
+  }
 }
 
 .timeline-tasks {
@@ -1090,7 +1278,10 @@
       flex-shrink: 0;
     }
 
-    @include responsive(mobile) { font-size: 13px; line-height: 1.6; }
+    @include responsive(mobile) {
+      font-size: 13px;
+      line-height: 1.6;
+    }
   }
 }
 
@@ -1100,14 +1291,20 @@
   position: relative;
   overflow: hidden;
 
-  @include responsive(tablet)     { padding: 80px 0; }
-  @include responsive(mobilePlus) { padding: 60px 0; }
+  @include responsive(tablet) {
+    padding: 80px 0;
+  }
+  @include responsive(mobilePlus) {
+    padding: 60px 0;
+  }
 }
 
 .projects-header {
   margin-bottom: 56px;
 
-  @include responsive(mobilePlus) { margin-bottom: 36px; }
+  @include responsive(mobilePlus) {
+    margin-bottom: 36px;
+  }
 }
 
 // Bento grid assimétrico — 3 colunas, com card featured ocupando 2 colunas
@@ -1139,12 +1336,14 @@
   border-radius: 8px;
   text-decoration: none;
   color: tokens.$white;
-  transition: border-color 0.3s, transform 0.3s;
+  transition:
+    border-color 0.3s,
+    transform 0.3s;
   overflow: hidden;
 
   // Spotlight follow-cursor
   &::before {
-    content: '';
+    content: "";
     position: absolute;
     inset: 0;
     background: radial-gradient(
@@ -1159,7 +1358,7 @@
 
   // Glow no canto direito superior (corner cyber)
   &::after {
-    content: '';
+    content: "";
     position: absolute;
     top: -40px;
     right: -40px;
@@ -1176,12 +1375,19 @@
     border-color: rgba(tokens.$purple-400, 0.4);
     transform: translateY(-3px);
 
-    &::before { opacity: 1; }
-    &::after  { opacity: 1; }
+    &::before {
+      opacity: 1;
+    }
+    &::after {
+      opacity: 1;
+    }
 
     .project-card-link {
       color: tokens.$accent-pink;
-      .fa-icon, fa-icon { transform: translate(2px, -2px); }
+      .fa-icon,
+      fa-icon {
+        transform: translate(2px, -2px);
+      }
     }
   }
 
@@ -1191,12 +1397,27 @@
     grid-row: span 1;
     padding: 18px 20px;
 
-    .project-card-title { font-size: clamp(26px, 3vw, 36px); }
-    .project-card-description { font-size: 15px; max-width: 100%; }
+    .project-card-title {
+      font-size: clamp(26px, 3vw, 36px);
+    }
+    .project-card-description {
+      font-size: 15px;
+      max-width: 100%;
+    }
 
-    @include responsive(notebook)   { grid-column: 1 / span 2; grid-row: auto; }
-    @include responsive(tablet)     { grid-column: 1 / span 2; grid-row: auto; padding: 14px 16px; }
-    @include responsive(mobilePlus) { grid-column: 1 / span 1; padding: 12px 14px; }
+    @include responsive(notebook) {
+      grid-column: 1 / span 2;
+      grid-row: auto;
+    }
+    @include responsive(tablet) {
+      grid-column: 1 / span 2;
+      grid-row: auto;
+      padding: 14px 16px;
+    }
+    @include responsive(mobilePlus) {
+      grid-column: 1 / span 1;
+      padding: 12px 14px;
+    }
   }
 
   // Placeholder (em desenvolvimento)
@@ -1208,12 +1429,23 @@
     border-color: tokens.$gray-600;
     color: tokens.$gray-300;
 
-    .project-card-head { display: none; }
-    .project-card-title { font-size: 20px; color: tokens.$gray-200; }
-    .project-card-description { color: tokens.$gray-400; font-size: 14px; }
+    .project-card-head {
+      display: none;
+    }
+    .project-card-title {
+      font-size: 20px;
+      color: tokens.$gray-200;
+    }
+    .project-card-description {
+      color: tokens.$gray-400;
+      font-size: 14px;
+    }
   }
 
-  @include responsive(mobilePlus) { padding: 22px 20px; gap: 12px; }
+  @include responsive(mobilePlus) {
+    padding: 22px 20px;
+    gap: 12px;
+  }
 }
 
 // ==========================================
@@ -1224,14 +1456,20 @@
   position: relative;
   overflow: hidden;
 
-  @include responsive(tablet)     { padding: 80px 0; }
-  @include responsive(mobilePlus) { padding: 60px 0; }
+  @include responsive(tablet) {
+    padding: 80px 0;
+  }
+  @include responsive(mobilePlus) {
+    padding: 60px 0;
+  }
 }
 
 .blog-header {
   margin-bottom: 40px;
 
-  @include responsive(mobilePlus) { margin-bottom: 28px; }
+  @include responsive(mobilePlus) {
+    margin-bottom: 28px;
+  }
 }
 
 .blog-header-desc {
@@ -1241,8 +1479,13 @@
   max-width: 540px;
   line-height: 1.6;
 
-  @include responsive(tabletplus) { font-size: 16px; }
-  @include responsive(mobilePlus) { font-size: 14px; max-width: 100%; }
+  @include responsive(tabletplus) {
+    font-size: 16px;
+  }
+  @include responsive(mobilePlus) {
+    font-size: 14px;
+    max-width: 100%;
+  }
 }
 
 .blog-grid {
@@ -1275,8 +1518,12 @@
   &:hover {
     border-color: rgba(tokens.$purple-400, 0.5);
 
-    .blog-card-image img { transform: scale(1.04); }
-    .blog-card-title     { color: tokens.$purple-300; }
+    .blog-card-image img {
+      transform: scale(1.04);
+    }
+    .blog-card-title {
+      color: tokens.$purple-300;
+    }
   }
 
   .blog-card-image {
@@ -1310,7 +1557,9 @@
   }
 
   .blog-card-date,
-  .blog-card-read-time { color: tokens.$gray-300; }
+  .blog-card-read-time {
+    color: tokens.$gray-300;
+  }
 
   .blog-card-title {
     font-size: 16px;
@@ -1351,9 +1600,14 @@
       justify-content: center;
     }
 
-    .blog-card-excerpt { display: none; }
+    .blog-card-excerpt {
+      display: none;
+    }
 
-    .blog-card-title { -webkit-line-clamp: 3; line-clamp: 3; }
+    .blog-card-title {
+      -webkit-line-clamp: 3;
+      line-clamp: 3;
+    }
   }
 
   .blog-card-link {
@@ -1366,11 +1620,17 @@
     color: tokens.$gray-200;
     transition: color 0.2s;
 
-    fa-icon, .fa-icon { transition: transform 0.2s; }
+    fa-icon,
+    .fa-icon {
+      transition: transform 0.2s;
+    }
 
     &:hover {
       color: tokens.$accent-pink;
-      fa-icon, .fa-icon { transform: translate(2px, -2px); }
+      fa-icon,
+      .fa-icon {
+        transform: translate(2px, -2px);
+      }
     }
   }
 }
@@ -1393,14 +1653,17 @@
   font-weight: 500;
   color: tokens.$gray-200;
   text-decoration: none;
-  transition: border-color 0.3s, color 0.3s;
+  transition:
+    border-color 0.3s,
+    color 0.3s;
 
   &:hover {
     border-color: tokens.$purple-400;
     color: tokens.$purple-400;
   }
 
-  fa-icon, .fa-icon {
+  fa-icon,
+  .fa-icon {
     transition: transform 0.3s;
   }
 
@@ -1417,7 +1680,7 @@
 }
 
 .project-card-index {
-  font-family: 'Fira Code', 'Courier New', monospace;
+  font-family: "Fira Code", "Courier New", monospace;
   font-size: 13px;
   font-weight: 700;
   color: tokens.$purple-300;
@@ -1425,7 +1688,7 @@
 }
 
 .project-card-subtitle {
-  font-family: 'Fira Code', 'Courier New', monospace;
+  font-family: "Fira Code", "Courier New", monospace;
   font-size: 11px;
   font-weight: 500;
   color: tokens.$gray-200;
@@ -1434,7 +1697,7 @@
 }
 
 .project-card-title {
-  font-family: 'Inter', 'Roboto', sans-serif;
+  font-family: "Inter", "Roboto", sans-serif;
   font-size: 24px;
   font-weight: 700;
   letter-spacing: -0.02em;
@@ -1444,7 +1707,9 @@
   position: relative;
   z-index: 1;
 
-  @include responsive(mobile) { font-size: 20px; }
+  @include responsive(mobile) {
+    font-size: 20px;
+  }
 }
 
 .project-card-description {
@@ -1488,7 +1753,9 @@
     border-color: tokens.$purple-400;
     transform: translateY(-2px);
 
-    app-icon { color: tokens.$purple-300; }
+    app-icon {
+      color: tokens.$purple-300;
+    }
   }
 }
 
@@ -1496,7 +1763,7 @@
   display: inline-flex;
   align-items: center;
   gap: 8px;
-  font-family: 'Fira Code', 'Courier New', monospace;
+  font-family: "Fira Code", "Courier New", monospace;
   font-size: 13px;
   font-weight: 600;
   color: tokens.$purple-300;
@@ -1510,7 +1777,9 @@
   position: relative;
   z-index: 1;
 
-  fa-icon { transition: transform 0.3s; }
+  fa-icon {
+    transition: transform 0.3s;
+  }
 }
 
 #contato {
@@ -1521,7 +1790,7 @@
   // Glow orbs decorativos no fundo do contato
   &::before,
   &::after {
-    content: '';
+    content: "";
     position: absolute;
     width: 500px;
     height: 500px;
@@ -1541,19 +1810,29 @@
     background: radial-gradient(circle, rgba(tokens.$accent-pink, 0.14) 0%, transparent 70%);
   }
 
-  > * { position: relative; z-index: 1; }
+  > * {
+    position: relative;
+    z-index: 1;
+  }
 
-  @include responsive(tablet)     { padding: 100px 0 80px; }
-  @include responsive(mobilePlus) { padding: 70px 0 60px; }
+  @include responsive(tablet) {
+    padding: 100px 0 80px;
+  }
+  @include responsive(mobilePlus) {
+    padding: 70px 0 60px;
+  }
 }
 
-.contact-header { text-align: center; margin-bottom: 48px; }
+.contact-header {
+  text-align: center;
+  margin-bottom: 48px;
+}
 
 .contact-headline {
-  font-family: 'Inter', 'Roboto', sans-serif;
+  font-family: "Inter", "Roboto", sans-serif;
   font-size: clamp(32px, 5vw, 64px);
   font-weight: 800;
-  line-height: 1.0;
+  line-height: 1;
   letter-spacing: -0.04em;
   color: tokens.$white;
   margin: 18px 0 28px;
@@ -1574,8 +1853,13 @@
   margin: 0 auto;
   line-height: 1.6;
 
-  @include responsive(tabletplus) { font-size: 16px; }
-  @include responsive(mobilePlus) { font-size: 14px; max-width: 100%; }
+  @include responsive(tabletplus) {
+    font-size: 16px;
+  }
+  @include responsive(mobilePlus) {
+    font-size: 14px;
+    max-width: 100%;
+  }
 }
 
 .contact-cta {
@@ -1583,7 +1867,9 @@
   justify-content: center;
   margin-bottom: 60px;
 
-  @include responsive(mobile) { margin-bottom: 40px; }
+  @include responsive(mobile) {
+    margin-bottom: 40px;
+  }
 }
 
 .contact-cta-primary {
@@ -1594,7 +1880,7 @@
   background: linear-gradient(135deg, tokens.$purple-500 0%, tokens.$purple-400 100%);
   color: tokens.$white;
   border-radius: 100px;
-  font-family: 'Fira Code', 'Courier New', monospace;
+  font-family: "Fira Code", "Courier New", monospace;
   font-size: 16px;
   font-weight: 600;
   letter-spacing: 0.3px;
@@ -1604,16 +1890,24 @@
     0 8px 24px rgba(tokens.$purple-400, 0.4),
     inset 0 1px 0 rgba(tokens.$white, 0.2);
 
-  fa-icon { transition: transform 0.3s; }
+  fa-icon {
+    transition: transform 0.3s;
+  }
 
   &:hover {
     box-shadow:
       0 12px 36px rgba(tokens.$purple-400, 0.55),
       inset 0 1px 0 rgba(tokens.$white, 0.25);
-    fa-icon { transform: translate(3px, -3px); }
+    fa-icon {
+      transform: translate(3px, -3px);
+    }
   }
 
-  @include responsive(mobile) { padding: 14px 22px; font-size: 14px; gap: 10px; }
+  @include responsive(mobile) {
+    padding: 14px 22px;
+    font-size: 14px;
+    gap: 10px;
+  }
 }
 
 .contact-socials {
@@ -1626,6 +1920,10 @@
 
   @include responsive(mobilePlus) {
     gap: 14px;
+  }
+
+  @include responsive(mobile) {
+    gap: 10px;
   }
 }
 
@@ -1642,17 +1940,20 @@
   border-radius: 8px;
   text-decoration: none;
   color: tokens.$gray-200;
-  transition: border-color 0.3s, transform 0.3s, color 0.3s;
+  transition:
+    border-color 0.3s,
+    transform 0.3s,
+    color 0.3s;
   overflow: hidden;
 
   // Spotlight
   &::before {
-    content: '';
+    content: "";
     position: absolute;
     inset: 0;
     background: radial-gradient(
       300px circle at var(--spotlight-x, 50%) var(--spotlight-y, 50%),
-      rgba(tokens.$purple-400, 0.20),
+      rgba(tokens.$purple-400, 0.2),
       transparent 40%
     );
     opacity: 0;
@@ -1665,19 +1966,31 @@
     transform: translateY(-4px);
     color: tokens.$white;
 
-    &::before { opacity: 1; }
-    app-icon { filter: drop-shadow(0 0 12px rgba(tokens.$purple-400, 0.5)); color: white; }
+    &::before {
+      opacity: 1;
+    }
+    app-icon {
+      filter: drop-shadow(0 0 12px rgba(tokens.$purple-400, 0.5));
+      color: white;
+    }
   }
 
   app-icon {
     color: tokens.$purple-400;
-    transition: filter 0.3s, color 0.3s;
+    transition:
+      filter 0.3s,
+      color 0.3s;
     position: relative;
     z-index: 1;
+
+    @include responsive(mobilePlus) {
+      width: 32px !important;
+      height: 32px !important;
+    }
   }
 
   span {
-    font-family: 'Fira Code', 'Courier New', monospace;
+    font-family: "Fira Code", "Courier New", monospace;
     font-size: 13px;
     font-weight: 600;
     letter-spacing: 0.5px;
@@ -1686,9 +1999,14 @@
   }
 
   @include responsive(mobile) {
-    padding: 20px 12px;
-    img { width: 36px; height: 36px; }
-    span { font-size: 11px; }
+    padding: 14px 8px;
+    img {
+      width: 32px;
+      height: 32px;
+    }
+    span {
+      font-size: 11px;
+    }
   }
 }
 
@@ -1709,7 +2027,12 @@
 .blog-card-skeleton-img {
   width: 100%;
   aspect-ratio: 16 / 9;
-  background: linear-gradient(90deg, tokens.$surface-elevated 25%, tokens.$surface-bright 50%, tokens.$surface-elevated 75%);
+  background: linear-gradient(
+    90deg,
+    tokens.$surface-elevated 25%,
+    tokens.$surface-bright 50%,
+    tokens.$surface-elevated 75%
+  );
   background-size: 600px 100%;
   animation: blogShimmer 1.6s infinite linear;
 
@@ -1736,15 +2059,30 @@
 .blog-card-skeleton-title,
 .blog-card-skeleton-line {
   border-radius: 4px;
-  background: linear-gradient(90deg, tokens.$surface-elevated 25%, tokens.$surface-bright 50%, tokens.$surface-elevated 75%);
+  background: linear-gradient(
+    90deg,
+    tokens.$surface-elevated 25%,
+    tokens.$surface-bright 50%,
+    tokens.$surface-elevated 75%
+  );
   background-size: 600px 100%;
   animation: blogShimmer 1.6s infinite linear;
 }
 
-.blog-card-skeleton-meta  { height: 10px; width: 55%; }
-.blog-card-skeleton-title { height: 14px; width: 85%; }
-.blog-card-skeleton-line  { height: 11px; width: 100%;
-  &--short { width: 60%; }
+.blog-card-skeleton-meta {
+  height: 10px;
+  width: 55%;
+}
+.blog-card-skeleton-title {
+  height: 14px;
+  width: 85%;
+}
+.blog-card-skeleton-line {
+  height: 11px;
+  width: 100%;
+  &--short {
+    width: 60%;
+  }
 }
 
 // Escala tipográfica para layouts que aproveitam o container amplo
@@ -1760,33 +2098,65 @@
   }
 
   .about-intro {
-    .about-lead { font-size: 22px; }
+    .about-lead {
+      font-size: 22px;
+    }
   }
 
-  .about-highlight-caption { font-size: 15px; }
-  .about-highlight-item strong { font-size: 17px; }
+  .about-highlight-caption {
+    font-size: 15px;
+  }
+  .about-highlight-item strong {
+    font-size: 17px;
+  }
 
-  .skills-marquee-item { font-size: 19px; }
-  .skill-card-name { font-size: 13px; }
+  .skills-marquee-item {
+    font-size: 19px;
+  }
+  .skill-card-name {
+    font-size: 13px;
+  }
 
-  .timeline-position { font-size: 22px; }
-  .timeline-company { font-size: 15px; }
-  .timeline-tasks li { font-size: 16px; }
+  .timeline-position {
+    font-size: 22px;
+  }
+  .timeline-company {
+    font-size: 15px;
+  }
+  .timeline-tasks li {
+    font-size: 16px;
+  }
 
-  .project-card-title { font-size: 26px; }
-  .project-card-description { font-size: 15px; }
+  .project-card-title {
+    font-size: 26px;
+  }
+  .project-card-description {
+    font-size: 15px;
+  }
 
   .project-card--featured {
-    .project-card-title { font-size: clamp(30px, 2.4vw, 38px); }
-    .project-card-description { font-size: 16px; }
+    .project-card-title {
+      font-size: clamp(30px, 2.4vw, 38px);
+    }
+    .project-card-description {
+      font-size: 16px;
+    }
   }
 
   .blog-header-desc,
-  .contact-subtitle { font-size: 18px; }
+  .contact-subtitle {
+    font-size: 18px;
+  }
 
   .blog-grid {
-    .blog-card-title { font-size: 17px; }
-    .blog-card-excerpt { font-size: 15px; }
-    .blog-card-link { font-size: 14px; }
+    .blog-card-title {
+      font-size: 17px;
+    }
+    .blog-card-excerpt {
+      font-size: 15px;
+    }
+    .blog-card-link {
+      font-size: 14px;
+    }
   }
 }

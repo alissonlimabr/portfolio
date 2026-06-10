@@ -16,8 +16,12 @@ fa-icon {
   width: 100%;
   max-width: tokens.$container-max-width !important;
 
-  @include responsive(tabletplus) { padding: 0 20px; }
-  @include responsive(mobilePlus) { padding: 0 10px; }
+  @include responsive(tabletplus) {
+    padding: 0 20px;
+  }
+  @include responsive(mobilePlus) {
+    padding: 0 10px;
+  }
 }
 
 // Wrapper de largura máxima
@@ -49,7 +53,9 @@ mat-sidenav {
   background: tokens.$background-color !important;
   color: tokens.$white !important;
 
-  @include responsive(tabletplus) { display: block !important; }
+  @include responsive(tabletplus) {
+    display: block !important;
+  }
 
   .logo {
     display: flex;
@@ -66,23 +72,38 @@ mat-sidenav {
       text-decoration: none;
       color: tokens.$white;
 
-      @include responsive(mobile) { font-size: 18px; }
-      @include responsive(tablet) { font-size: 20px; }
+      @include responsive(mobile) {
+        font-size: 18px;
+      }
+      @include responsive(tablet) {
+        font-size: 20px;
+      }
     }
 
     fa-icon {
       font-size: 40px !important;
       padding: 0 1rem;
 
-      @include responsive(tablet) { font-size: 30px !important; }
+      @include responsive(tablet) {
+        font-size: 30px !important;
+      }
     }
 
-    #close { font-size: 35px !important; }
+    #close {
+      font-size: 35px !important;
+    }
   }
 
-  @include responsive(tabletplus) { width: 50%; }
-  @include responsive(tablet)     { padding: 0.8rem 0; width: 70%; }
-  @include responsive(mobile)     { width: 100%; }
+  @include responsive(tabletplus) {
+    width: 50%;
+  }
+  @include responsive(tablet) {
+    padding: 0.8rem 0;
+    width: 70%;
+  }
+  @include responsive(mobile) {
+    width: 100%;
+  }
 }
 
 mat-sidenav-content {
@@ -100,12 +121,16 @@ mat-sidenav-content {
   font-size: 20px;
   font-weight: 700;
 
-  @include responsive(mobile) { font-size: 18px; }
+  @include responsive(mobile) {
+    font-size: 18px;
+  }
 
   fa-icon {
     font-size: 32px;
 
-    @include responsive(mobile) { font-size: 24px; }
+    @include responsive(mobile) {
+      font-size: 24px;
+    }
   }
 }
 
@@ -154,7 +179,9 @@ mat-sidenav-content {
   transition: 0.2s;
   color: tokens.$white;
 
-  &:hover { transition: 0.2s; }
+  &:hover {
+    transition: 0.2s;
+  }
 
   &:before {
     content: "";
@@ -169,16 +196,31 @@ mat-sidenav-content {
     box-shadow: 0 0 8px rgba(tokens.$purple-400, 0.5);
   }
 
-  &:hover:before { width: 100%; }
+  &:hover:before {
+    width: 100%;
+  }
 
-  &.link--active        { color: tokens.$purple-300; &:before { width: 100%; } }
-  &.link--section-active { &:before { width: 100%; } }
+  &.link--active {
+    color: tokens.$purple-300;
+    &:before {
+      width: 100%;
+    }
+  }
+  &.link--section-active {
+    &:before {
+      width: 100%;
+    }
+  }
 
   &.link--back {
     color: tokens.$gray-300;
     font-size: 16px;
-    &:hover { color: tokens.$white; }
-    &:before { display: none; }
+    &:hover {
+      color: tokens.$white;
+    }
+    &:before {
+      display: none;
+    }
   }
 
   &.link--rss {
@@ -187,11 +229,17 @@ mat-sidenav-content {
     justify-content: center;
     color: tokens.$purple-300;
     padding: 5px 8px;
-    &:hover { color: tokens.$purple-400; }
-    &:before { display: none; }
+    &:hover {
+      color: tokens.$purple-400;
+    }
+    &:before {
+      display: none;
+    }
   }
 
-  @include responsive(mobile) { font-size: 18px; }
+  @include responsive(mobile) {
+    font-size: 18px;
+  }
 }
 
 .theme-toggle-btn {
@@ -203,7 +251,9 @@ mat-sidenav-content {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  transition: color 0.2s, filter 0.2s;
+  transition:
+    color 0.2s,
+    filter 0.2s;
 
   &:hover {
     color: tokens.$purple-400;
@@ -217,10 +267,22 @@ mat-sidenav-content {
 }
 
 // Cor padrão por slug de categoria; [style.--cat-color] do Sanity tem precedência.
-.category--desenvolvimento { --cat-color: #{tokens.$category-desenvolvimento}; }
-.category--backend         { --cat-color: #{tokens.$category-backend}; }
-.category--frontend        { --cat-color: #{tokens.$category-frontend}; }
+.category--desenvolvimento {
+  --cat-color: #{tokens.$category-desenvolvimento};
+}
+.category--backend {
+  --cat-color: #{tokens.$category-backend};
+}
+.category--frontend {
+  --cat-color: #{tokens.$category-frontend};
+}
 .category--devops,
-.category--devops-cloud    { --cat-color: #{tokens.$category-devops}; }
-.category--carreira        { --cat-color: #{tokens.$category-carreira}; }
-.category--tutoriais       { --cat-color: #{tokens.$category-tutoriais}; }
+.category--devops-cloud {
+  --cat-color: #{tokens.$category-devops};
+}
+.category--carreira {
+  --cat-color: #{tokens.$category-carreira};
+}
+.category--tutoriais {
+  --cat-color: #{tokens.$category-tutoriais};
+}

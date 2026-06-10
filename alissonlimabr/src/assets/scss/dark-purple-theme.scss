@@ -3,46 +3,82 @@
 // ── Preferências de leitura — tamanho da fonte ───────────────────────────
 body.blog-font-sm {
   .blog-list h3,
-  .blog-card-excerpt { font-size: 15px !important; }
-  .blog-post .post-head-inner h1 { font-size: 36px !important; }
-  .blog-post .post-excerpt { font-size: 16px !important; }
-  .blog-post .post-body { font-size: 15px !important; }
-  .related-card-body h3 { font-size: 17px !important; }
+  .blog-card-excerpt {
+    font-size: 15px !important;
+  }
+  .blog-post .post-head-inner h1 {
+    font-size: 36px !important;
+  }
+  .blog-post .post-excerpt {
+    font-size: 16px !important;
+  }
+  .blog-post .post-body {
+    font-size: 15px !important;
+  }
+  .related-card-body h3 {
+    font-size: 17px !important;
+  }
 }
 
 body.blog-font-md {
   .blog-list h3,
-  .blog-card-excerpt { font-size: 17px !important; }
-  .blog-post .post-head-inner h1 { font-size: 44px !important; }
-  .blog-post .post-excerpt { font-size: 18px !important; }
-  .blog-post .post-body { font-size: 17px !important; }
-  .related-card-body h3 { font-size: 19px !important; }
+  .blog-card-excerpt {
+    font-size: 17px !important;
+  }
+  .blog-post .post-head-inner h1 {
+    font-size: 44px !important;
+  }
+  .blog-post .post-excerpt {
+    font-size: 18px !important;
+  }
+  .blog-post .post-body {
+    font-size: 17px !important;
+  }
+  .related-card-body h3 {
+    font-size: 19px !important;
+  }
 }
 
 body.blog-font-lg {
   .blog-list h3,
-  .blog-card-excerpt { font-size: 20px !important; }
-  .blog-post .post-head-inner h1 { font-size: 52px !important; }
-  .blog-post .post-excerpt { font-size: 21px !important; }
-  .blog-post .post-body { font-size: 20px !important; }
-  .related-card-body h3 { font-size: 22px !important; }
+  .blog-card-excerpt {
+    font-size: 20px !important;
+  }
+  .blog-post .post-head-inner h1 {
+    font-size: 52px !important;
+  }
+  .blog-post .post-excerpt {
+    font-size: 21px !important;
+  }
+  .blog-post .post-body {
+    font-size: 20px !important;
+  }
+  .related-card-body h3 {
+    font-size: 22px !important;
+  }
 }
 
 // ── Preferências de leitura — largura do texto ───────────────────────────
 body.blog-width-narrow {
   .blog-post .post-content-inner,
   .blog-post .post-head-inner,
-  .blog-post .post-toc-inner { max-width: 580px !important; }
+  .blog-post .post-toc-inner {
+    max-width: 580px !important;
+  }
 }
 
 body.blog-width-normal {
   .blog-post .post-content-inner,
   .blog-post .post-head-inner,
-  .blog-post .post-toc-inner { max-width: tokens.$prose-max-width !important; }
+  .blog-post .post-toc-inner {
+    max-width: tokens.$prose-max-width !important;
+  }
 }
 
 body.blog-width-wide {
   .blog-post .post-content-inner,
   .blog-post .post-head-inner,
-  .blog-post .post-toc-inner { max-width: tokens.$prose-wide-max-width !important; }
+  .blog-post .post-toc-inner {
+    max-width: tokens.$prose-wide-max-width !important;
+  }
 }

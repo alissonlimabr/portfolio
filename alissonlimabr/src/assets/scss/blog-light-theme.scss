@@ -9,24 +9,24 @@ body.blog-theme-dark {
   background-image: none !important;
 
   .blog-post {
-    --blog-bg:               #{tokens.$blog-dark-bg};
-    --blog-surface:          #{tokens.$blog-dark-surface};
+    --blog-bg: #{tokens.$blog-dark-bg};
+    --blog-surface: #{tokens.$blog-dark-surface};
     --blog-surface-elevated: #{tokens.$blog-dark-surface-elevated};
-    --blog-text:             #{tokens.$blog-dark-text};
-    --blog-heading:          #{tokens.$blog-dark-heading};
-    --blog-text-muted:       #{tokens.$blog-dark-text-muted};
-    --blog-border:           #{tokens.$blog-dark-border};
-    --blog-accent:           #{tokens.$blog-dark-accent};
-    --blog-accent-hover:     #{tokens.$blog-dark-accent-hover};
-    --blog-accent-warm:      #{tokens.$blog-dark-code-keyword};
-    --blog-link:             #{tokens.$blog-dark-link};
-    --blog-link-hover:       #{tokens.$blog-dark-link-hover};
-    --blog-code-bg:          #{tokens.$blog-dark-code-bg};
-    --blog-code-text:        #{tokens.$blog-dark-text};
-    --blog-shimmer-a:        #{tokens.$blog-dark-shimmer-a};
-    --blog-shimmer-b:        #{tokens.$blog-dark-shimmer-b};
-    --blog-inline-code-color:  #{tokens.$blog-dark-inline-code-color};
-    --blog-inline-code-bg:     #{rgba(tokens.$blog-dark-inline-code-color, 0.08)};
+    --blog-text: #{tokens.$blog-dark-text};
+    --blog-heading: #{tokens.$blog-dark-heading};
+    --blog-text-muted: #{tokens.$blog-dark-text-muted};
+    --blog-border: #{tokens.$blog-dark-border};
+    --blog-accent: #{tokens.$blog-dark-accent};
+    --blog-accent-hover: #{tokens.$blog-dark-accent-hover};
+    --blog-accent-warm: #{tokens.$blog-dark-code-keyword};
+    --blog-link: #{tokens.$blog-dark-link};
+    --blog-link-hover: #{tokens.$blog-dark-link-hover};
+    --blog-code-bg: #{tokens.$blog-dark-code-bg};
+    --blog-code-text: #{tokens.$blog-dark-text};
+    --blog-shimmer-a: #{tokens.$blog-dark-shimmer-a};
+    --blog-shimmer-b: #{tokens.$blog-dark-shimmer-b};
+    --blog-inline-code-color: #{tokens.$blog-dark-inline-code-color};
+    --blog-inline-code-bg: #{rgba(tokens.$blog-dark-inline-code-color, 0.08)};
     --blog-inline-code-border: #{rgba(tokens.$blog-dark-inline-code-color, 0.2)};
 
     background-color: var(--blog-bg);
@@ -64,8 +64,12 @@ body.blog-theme-dark {
       .token.comment,
       .token.prolog,
       .token.doctype,
-      .token.cdata { color: tokens.$blog-dark-code-comment; }
-      .token.punctuation { color: tokens.$blog-dark-code-punctuation; }
+      .token.cdata {
+        color: tokens.$blog-dark-code-comment;
+      }
+      .token.punctuation {
+        color: tokens.$blog-dark-code-punctuation;
+      }
       .token.property,
       .token.tag,
       .token.boolean,
@@ -77,13 +81,17 @@ body.blog-theme-dark {
       .token.entity,
       .token.url,
       .token.function,
-      .token.class-name { color: var(--blog-accent); }
+      .token.class-name {
+        color: var(--blog-accent);
+      }
       .token.selector,
       .token.attr-name,
       .token.string,
       .token.char,
       .token.builtin,
-      .token.inserted { color: tokens.$blog-dark-code-string; }
+      .token.inserted {
+        color: tokens.$blog-dark-code-string;
+      }
       .token.atrule,
       .token.attr-value,
       .token.keyword,
@@ -92,7 +100,9 @@ body.blog-theme-dark {
       .token.unit,
       .token.regex,
       .token.important,
-      .token.variable { color: tokens.$blog-dark-code-keyword; }
+      .token.variable {
+        color: tokens.$blog-dark-code-keyword;
+      }
 
       blockquote {
         border-left-color: rgba(tokens.$blog-dark-accent, 0.6);
@@ -104,10 +114,22 @@ body.blog-theme-dark {
       }
 
       .callout {
-        &.callout--tip     { background: rgba(tokens.$blog-dark-accent, 0.07); border-color: tokens.$blog-dark-accent; }
-        &.callout--info    { background: rgba(tokens.$blog-dark-callout-info, 0.07); border-color: tokens.$blog-dark-callout-info; }
-        &.callout--warning { background: rgba(tokens.$blog-dark-callout-warning, 0.08); border-color: tokens.$blog-dark-callout-warning; }
-        &.callout--danger  { background: rgba(tokens.$blog-dark-callout-danger, 0.08); border-color: tokens.$blog-dark-callout-danger; }
+        &.callout--tip {
+          background: rgba(tokens.$blog-dark-accent, 0.07);
+          border-color: tokens.$blog-dark-accent;
+        }
+        &.callout--info {
+          background: rgba(tokens.$blog-dark-callout-info, 0.07);
+          border-color: tokens.$blog-dark-callout-info;
+        }
+        &.callout--warning {
+          background: rgba(tokens.$blog-dark-callout-warning, 0.08);
+          border-color: tokens.$blog-dark-callout-warning;
+        }
+        &.callout--danger {
+          background: rgba(tokens.$blog-dark-callout-danger, 0.08);
+          border-color: tokens.$blog-dark-callout-danger;
+        }
       }
     }
 
@@ -165,7 +187,11 @@ body.blog-theme-dark.blog-post-page {
       }
 
       &::before {
-        background-image: linear-gradient(90deg, tokens.$blog-dark-interactive 0%, tokens.$blog-dark-interactive-hover 100%);
+        background-image: linear-gradient(
+          90deg,
+          tokens.$blog-dark-interactive 0%,
+          tokens.$blog-dark-interactive-hover 100%
+        );
         box-shadow: none;
       }
     }
@@ -202,28 +228,27 @@ body.blog-theme-dark.blog-post-page {
 // ============================================================
 
 body.blog-theme-light {
-
   // ── overrides de tokens ────────────────────────────────────────────
-  --blog-bg:               #{tokens.$blog-light-bg};
-  --blog-surface:          #{tokens.$blog-light-surface};
+  --blog-bg: #{tokens.$blog-light-bg};
+  --blog-surface: #{tokens.$blog-light-surface};
   --blog-surface-elevated: #{tokens.$blog-light-surface-elevated};
-  --blog-text:             #{tokens.$blog-light-text};
-  --blog-heading:          #{tokens.$blog-light-heading};
-  --blog-text-muted:       #{tokens.$blog-light-text-muted};
+  --blog-text: #{tokens.$blog-light-text};
+  --blog-heading: #{tokens.$blog-light-heading};
+  --blog-text-muted: #{tokens.$blog-light-text-muted};
 
-  --blog-inline-code-color:  #{tokens.$blog-light-accent-strong};
-  --blog-inline-code-bg:     #{rgba(tokens.$blog-light-accent, 0.07)};
+  --blog-inline-code-color: #{tokens.$blog-light-accent-strong};
+  --blog-inline-code-bg: #{rgba(tokens.$blog-light-accent, 0.07)};
   --blog-inline-code-border: #{rgba(tokens.$blog-light-accent, 0.18)};
-  --blog-border:           #{tokens.$blog-light-border};
-  --blog-accent:           #{tokens.$blog-light-accent};
-  --blog-accent-hover:     #{tokens.$blog-light-accent-hover};
-  --blog-accent-warm:      #{tokens.$blog-light-accent-warm};
-  --blog-link:             #{tokens.$blog-light-link};
-  --blog-link-hover:       #{tokens.$blog-light-link-hover};
-  --blog-code-bg:          #{tokens.$blog-light-code-bg};
-  --blog-code-text:        #{tokens.$blog-light-text};
-  --blog-shimmer-a:        #{tokens.$blog-light-shimmer-a};
-  --blog-shimmer-b:        #{tokens.$blog-light-shimmer-b};
+  --blog-border: #{tokens.$blog-light-border};
+  --blog-accent: #{tokens.$blog-light-accent};
+  --blog-accent-hover: #{tokens.$blog-light-accent-hover};
+  --blog-accent-warm: #{tokens.$blog-light-accent-warm};
+  --blog-link: #{tokens.$blog-light-link};
+  --blog-link-hover: #{tokens.$blog-light-link-hover};
+  --blog-code-bg: #{tokens.$blog-light-code-bg};
+  --blog-code-text: #{tokens.$blog-light-text};
+  --blog-shimmer-a: #{tokens.$blog-light-shimmer-a};
+  --blog-shimmer-b: #{tokens.$blog-light-shimmer-b};
 
   // ── Corpo da página ───────────────────────────────────────────────────
   background-color: var(--blog-bg) !important;
@@ -231,10 +256,20 @@ body.blog-theme-light {
 
   // ── scrollbar e seleção ────────────────────────────────────────
   scrollbar-color: rgba(tokens.$blog-light-accent, 0.48) var(--blog-surface);
-  ::-webkit-scrollbar         { background: var(--blog-surface) !important; }
-  ::-webkit-scrollbar-thumb   { background: rgba(tokens.$blog-light-accent, 0.48) !important; border-radius: 10px; }
-  ::-webkit-scrollbar-track   { background: var(--blog-surface) !important; }
-  ::selection { background-color: var(--blog-accent); color: tokens.$white; }
+  ::-webkit-scrollbar {
+    background: var(--blog-surface) !important;
+  }
+  ::-webkit-scrollbar-thumb {
+    background: rgba(tokens.$blog-light-accent, 0.48) !important;
+    border-radius: 10px;
+  }
+  ::-webkit-scrollbar-track {
+    background: var(--blog-surface) !important;
+  }
+  ::selection {
+    background-color: var(--blog-accent);
+    color: tokens.$white;
+  }
 
   // ── Header ─────────────────────────────────────────────────────────
   header {
@@ -244,11 +279,23 @@ body.blog-theme-light {
     color: var(--blog-text) !important;
 
     .logo {
-      fa-icon, .fa-icon { color: tokens.$blog-light-accent !important; }
-      a { color: var(--blog-text-muted) !important; &:hover { color: var(--blog-text-muted) !important; } }
-      .logo-dev { color: tokens.$blog-light-accent !important; }
+      fa-icon,
+      .fa-icon {
+        color: tokens.$blog-light-accent !important;
+      }
+      a {
+        color: var(--blog-text-muted) !important;
+        &:hover {
+          color: var(--blog-text-muted) !important;
+        }
+      }
+      .logo-dev {
+        color: tokens.$blog-light-accent !important;
+      }
     }
-    .logo-context { color: tokens.$blog-light-accent !important; }
+    .logo-context {
+      color: tokens.$blog-light-accent !important;
+    }
 
     // Nav links — texto e underline
     .link {
@@ -259,14 +306,28 @@ body.blog-theme-light {
         box-shadow: none !important;
       }
 
-      &:hover { color: var(--blog-accent-hover) !important; }
+      &:hover {
+        color: var(--blog-accent-hover) !important;
+      }
 
       &.link--active,
-      &.link--section-active { color: var(--blog-accent) !important; }
+      &.link--section-active {
+        color: var(--blog-accent) !important;
+      }
 
-      &.link--back { color: var(--blog-text-muted) !important; &:hover { color: var(--blog-text) !important; } }
+      &.link--back {
+        color: var(--blog-text-muted) !important;
+        &:hover {
+          color: var(--blog-text) !important;
+        }
+      }
 
-      &.link--rss { color: var(--blog-accent) !important; &:hover { color: var(--blog-accent-hover) !important; } }
+      &.link--rss {
+        color: var(--blog-accent) !important;
+        &:hover {
+          color: var(--blog-accent-hover) !important;
+        }
+      }
     }
 
     .nav-links li.theme-toggle .theme-toggle-btn {
@@ -274,8 +335,14 @@ body.blog-theme-light {
       border: none;
       color: var(--blog-text-muted);
 
-      &:hover { color: var(--blog-accent); filter: drop-shadow(0 0 4px rgba(tokens.$blog-light-accent, 0.25)); }
-      &.active { color: var(--blog-accent); filter: drop-shadow(0 0 4px rgba(tokens.$blog-light-accent, 0.2)); }
+      &:hover {
+        color: var(--blog-accent);
+        filter: drop-shadow(0 0 4px rgba(tokens.$blog-light-accent, 0.25));
+      }
+      &.active {
+        color: var(--blog-accent);
+        filter: drop-shadow(0 0 4px rgba(tokens.$blog-light-accent, 0.2));
+      }
     }
   }
 
@@ -287,15 +354,24 @@ body.blog-theme-light {
     .logo {
       border-bottom-color: var(--blog-border) !important;
 
-      fa-icon, .fa-icon { color: tokens.$blog-light-accent !important; }
-      a { color: var(--blog-text-muted) !important; }
-      .logo-dev { color: tokens.$blog-light-accent !important; }
+      fa-icon,
+      .fa-icon {
+        color: tokens.$blog-light-accent !important;
+      }
+      a {
+        color: var(--blog-text-muted) !important;
+      }
+      .logo-dev {
+        color: tokens.$blog-light-accent !important;
+      }
     }
 
     .nav-links {
       .link {
         color: var(--blog-text-muted) !important;
-        &:hover { color: var(--blog-accent) !important; }
+        &:hover {
+          color: var(--blog-accent) !important;
+        }
       }
     }
   }
@@ -306,10 +382,24 @@ body.blog-theme-light {
     border-top-color: var(--blog-border) !important;
     color: var(--blog-text-muted) !important;
 
-    a { color: var(--blog-text-muted) !important; &:hover { color: var(--blog-accent-warm) !important; } }
-    p { color: var(--blog-text-muted) !important; }
-    .logo { fa-icon, .fa-icon { color: tokens.$blog-light-accent !important; }}
-    .logo-dev { color: tokens.$blog-light-accent !important; }
+    a {
+      color: var(--blog-text-muted) !important;
+      &:hover {
+        color: var(--blog-accent-warm) !important;
+      }
+    }
+    p {
+      color: var(--blog-text-muted) !important;
+    }
+    .logo {
+      fa-icon,
+      .fa-icon {
+        color: tokens.$blog-light-accent !important;
+      }
+    }
+    .logo-dev {
+      color: tokens.$blog-light-accent !important;
+    }
   }
 
   // ── Destaque do blog (radial-gradient para fundo solid no tema claro) ────
@@ -336,7 +426,9 @@ body.blog-theme-light {
 
     &.blog-hero--category {
       border-bottom-color: var(--blog-border);
-      &::after { background: linear-gradient(90deg, transparent 0%, var(--cat-color, var(--blog-accent)) 50%, transparent 100%); }
+      &::after {
+        background: linear-gradient(90deg, transparent 0%, var(--cat-color, var(--blog-accent)) 50%, transparent 100%);
+      }
     }
   }
 
@@ -350,7 +442,9 @@ body.blog-theme-light {
       border-color: var(--blog-accent);
       box-shadow: 0 4px 16px rgba(tokens.$blog-light-accent, 0.1);
 
-      h3 { text-shadow: none; }
+      h3 {
+        text-shadow: none;
+      }
     }
   }
 
@@ -366,7 +460,10 @@ body.blog-theme-light {
     border-color: var(--cat-color, var(--blog-accent));
     color: var(--cat-color, var(--blog-accent));
     font-weight: 700;
-    &:hover { transform: translateY(-1px); box-shadow: none; }
+    &:hover {
+      transform: translateY(-1px);
+      box-shadow: none;
+    }
   }
 
   .blog-category-filter:not(.active):hover {
@@ -398,41 +495,64 @@ body.blog-theme-light {
   // ── Realce de sintaxe do Prism — conjunto de tokens claros ────────────
   .post-content {
     pre[class*="language-"] code,
-    code[class*="language-"] { color: var(--blog-text); text-shadow: none; }
+    code[class*="language-"] {
+      color: var(--blog-text);
+      text-shadow: none;
+    }
 
     .token.comment,
     .token.prolog,
     .token.doctype,
-    .token.cdata   { color: tokens.$blog-light-code-comment; font-style: italic; }
-    .token.punctuation { color: tokens.$blog-light-code-punctuation; }
-    .token.namespace   { opacity: 0.75; }
+    .token.cdata {
+      color: tokens.$blog-light-code-comment;
+      font-style: italic;
+    }
+    .token.punctuation {
+      color: tokens.$blog-light-code-punctuation;
+    }
+    .token.namespace {
+      opacity: 0.75;
+    }
     .token.property,
     .token.tag,
     .token.boolean,
     .token.number,
     .token.constant,
     .token.symbol,
-    .token.deleted { color: var(--blog-accent); }
+    .token.deleted {
+      color: var(--blog-accent);
+    }
     .token.selector,
     .token.attr-name,
     .token.string,
     .token.char,
     .token.builtin,
-    .token.inserted { color: tokens.$blog-light-code-string; }
+    .token.inserted {
+      color: tokens.$blog-light-code-string;
+    }
     .token.operator,
     .token.entity,
-    .token.url { color: var(--blog-accent); }
+    .token.url {
+      color: var(--blog-accent);
+    }
     .token.atrule,
     .token.attr-value,
     .token.keyword,
     .token.control,
     .token.directive,
-    .token.unit { color: var(--blog-accent-warm); font-weight: 600; }
+    .token.unit {
+      color: var(--blog-accent-warm);
+      font-weight: 600;
+    }
     .token.function,
-    .token.class-name { color: var(--blog-accent); }
+    .token.class-name {
+      color: var(--blog-accent);
+    }
     .token.regex,
     .token.important,
-    .token.variable { color: var(--blog-accent-warm); }
+    .token.variable {
+      color: var(--blog-accent-warm);
+    }
 
     a:not(.blog-category-badge):not(.related-card):not(.back-link):not(.code-copy-btn):not(.post-share-btn) {
       color: var(--blog-link);
@@ -463,18 +583,39 @@ body.blog-theme-light {
       background: var(--blog-surface);
     }
 
-    ul, ol li::marker { color: var(--blog-accent); }
-    hr { background: var(--blog-border); }
-
-    .callout {
-      &.callout--tip     { background: rgba(tokens.$blog-light-accent, 0.06); border-color: tokens.$blog-light-accent; }
-      &.callout--info    { background: rgba(tokens.$blog-light-callout-info, 0.06); border-color: tokens.$blog-light-callout-info; }
-      &.callout--warning { background: rgba(tokens.$blog-light-accent-warm, 0.08); border-color: tokens.$blog-light-accent-warm; }
-      &.callout--danger  { background: rgba(tokens.$blog-light-callout-danger, 0.06); border-color: tokens.$blog-light-callout-danger; }
-      .callout-body { color: var(--blog-text); }
+    ul,
+    ol li::marker {
+      color: var(--blog-accent);
+    }
+    hr {
+      background: var(--blog-border);
     }
 
-    .video-embed .video-wrapper { background: var(--blog-surface); }
+    .callout {
+      &.callout--tip {
+        background: rgba(tokens.$blog-light-accent, 0.06);
+        border-color: tokens.$blog-light-accent;
+      }
+      &.callout--info {
+        background: rgba(tokens.$blog-light-callout-info, 0.06);
+        border-color: tokens.$blog-light-callout-info;
+      }
+      &.callout--warning {
+        background: rgba(tokens.$blog-light-accent-warm, 0.08);
+        border-color: tokens.$blog-light-accent-warm;
+      }
+      &.callout--danger {
+        background: rgba(tokens.$blog-light-callout-danger, 0.06);
+        border-color: tokens.$blog-light-callout-danger;
+      }
+      .callout-body {
+        color: var(--blog-text);
+      }
+    }
+
+    .video-embed .video-wrapper {
+      background: var(--blog-surface);
+    }
   }
 
   .back-link:hover,
@@ -490,5 +631,4 @@ body.blog-theme-light {
       color: var(--blog-accent);
     }
   }
-
 }
