@@ -3,14 +3,12 @@ import {
   ChangeDetectorRef,
   Component,
   DestroyRef,
-  ElementRef,
   Inject,
   NgZone,
   OnDestroy,
   OnInit,
   PLATFORM_ID,
   SecurityContext,
-  ViewChild,
   ViewEncapsulation,
   inject,
 } from '@angular/core';
@@ -19,29 +17,31 @@ import { DOCUMENT, isPlatformBrowser } from '@angular/common';
 import { ActivatedRoute, RouterLink } from '@angular/router';
 import { DomSanitizer, Meta, SafeHtml, Title } from '@angular/platform-browser';
 import { switchMap } from 'rxjs';
-import Prism from 'prismjs';
-import 'prismjs/components/prism-markup';
-import 'prismjs/components/prism-css';
-import 'prismjs/components/prism-clike';
-import 'prismjs/components/prism-javascript';
-import 'prismjs/components/prism-typescript';
-import 'prismjs/components/prism-json';
-import 'prismjs/components/prism-bash';
-import 'prismjs/components/prism-yaml';
-import 'prismjs/components/prism-scss';
-import 'prismjs/components/prism-java';
-import 'prismjs/components/prism-python';
-import 'prismjs/components/prism-sql';
 import { SanityService } from '../services/sanity.service';
 import { Post, PostSummary } from '../models/post.model';
 import { ReadingPreferencesComponent } from '../components/reading-preferences/reading-preferences.component';
 import { TocComponent, TocItem } from '../components/toc/toc.component';
 import { IconComponent } from '../../shared/icon.component';
+import { ActiveSectionDirective } from '../../shared/directives/active-section.directive';
+import { CodeBlockEnhancerDirective } from '../../shared/directives/code-block-enhancer.directive';
+import { ContentHeadingsDirective } from '../../shared/directives/content-headings.directive';
+import { CopyToClipboardDirective } from '../../shared/directives/copy-to-clipboard.directive';
+import { ScrollProgressDirective } from '../../shared/directives/scroll-progress.directive';
 
 @Component({
   selector: 'app-blog-post',
   standalone: true,
-  imports: [RouterLink, ReadingPreferencesComponent, TocComponent, IconComponent],
+  imports: [
+    RouterLink,
+    ReadingPreferencesComponent,
+    TocComponent,
+    IconComponent,
+    ActiveSectionDirective,
+    CodeBlockEnhancerDirective,
+    ContentHeadingsDirective,
+    CopyToClipboardDirective,
+    ScrollProgressDirective,
+  ],
   templateUrl: './blog-post.component.html',
   styleUrl: './blog-post.component.scss',
   encapsulation: ViewEncapsulation.None,
@@ -58,13 +58,11 @@ export class BlogPostComponent implements OnInit, OnDestroy {
   relatedPosts: PostSummary[] = [];
   linkCopied = false;
   tocItems: TocItem[] = [];
+  tocSectionIds: string[] = [];
   activeTocId = '';
 
-  @ViewChild('postContent') postContentRef?: ElementRef<HTMLDivElement>;
-  @ViewChild('progressBar') progressBarRef?: ElementRef<HTMLDivElement>;
-
   private jsonLdScript?: HTMLScriptElement;
-  private scrollCleanup?: () => void;
+  private linkCopiedTimer: number | null = null;
   private readonly siteOrigin = 'https://alissonlimadev.com';
   private readonly defaultOgImageUrl = 'https://homolog.alissonlimadev.com/assets/img/og-image.webp';
 
@@ -81,7 +79,6 @@ export class BlogPostComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.document.body.classList.add('blog-post-page');
-    this.setupScrollListener();
     this.route.paramMap
       .pipe(
         switchMap(params => this.sanity.getPost(params.get('slug')!)),
@@ -114,6 +111,7 @@ export class BlogPostComponent implements OnInit, OnDestroy {
             this.relatedPosts = [];
             this.loading = false;
             this.tocItems = [];
+            this.tocSectionIds = [];
             this.activeTocId = '';
             this.cdr.markForCheck();
 
@@ -124,10 +122,6 @@ export class BlogPostComponent implements OnInit, OnDestroy {
 
             if (this.isBrowser) {
               window.scrollTo({ top: 0, behavior: 'auto' });
-              setTimeout(() => {
-                this.enhanceCodeBlocks();
-                this.buildToc();
-              }, 0);
             }
           });
         },
@@ -145,7 +139,10 @@ export class BlogPostComponent implements OnInit, OnDestroy {
   ngOnDestroy(): void {
     this.document.body.classList.remove('blog-post-page');
     this.clearJsonLd();
-    this.scrollCleanup?.();
+    const window = this.document.defaultView;
+    if (window && this.linkCopiedTimer !== null) {
+      window.clearTimeout(this.linkCopiedTimer);
+    }
   }
 
   private loadRelatedPosts(slug: string, tags: string[]): void {
@@ -263,118 +260,14 @@ export class BlogPostComponent implements OnInit, OnDestroy {
     link.href = `${this.siteOrigin}/blog/${slug}`;
   }
 
-  private enhanceCodeBlocks(): void {
-    const container = this.postContentRef?.nativeElement;
-    if (!container) return;
-    Prism.highlightAllUnder(container);
-    this.addCopyButtons(container);
+  onContentHeadingsChange(items: TocItem[]): void {
+    this.tocItems = items;
+    this.tocSectionIds = items.map(item => item.id);
+    this.activeTocId = '';
   }
 
-  private addCopyButtons(container: HTMLElement): void {
-    const pres = container.querySelectorAll<HTMLPreElement>('pre');
-    pres.forEach(pre => {
-      if (pre.querySelector('.code-copy-btn')) return;
-      const btn = this.document.createElement('button');
-      btn.type = 'button';
-      btn.className = 'code-copy-btn';
-      btn.setAttribute('aria-label', 'Copiar código');
-      btn.textContent = 'Copiar';
-      btn.addEventListener('click', event => {
-        event.preventDefault();
-        event.stopPropagation();
-        this.handleCopyClick(btn, pre);
-      });
-      pre.appendChild(btn);
-    });
-  }
-
-  private handleCopyClick(btn: HTMLButtonElement, pre: HTMLElement): void {
-    const code = pre.querySelector('code');
-    if (!code) return;
-    const text = code.textContent ?? '';
-    navigator.clipboard
-      .writeText(text)
-      .then(() => this.flashButton(btn, 'Copiado', true))
-      .catch(() => this.flashButton(btn, 'Falhou', false));
-  }
-
-  private flashButton(btn: HTMLButtonElement, label: string, success: boolean): void {
-    btn.classList.toggle('copied', success);
-    btn.classList.toggle('failed', !success);
-    btn.textContent = label;
-    setTimeout(() => {
-      btn.classList.remove('copied', 'failed');
-      btn.textContent = 'Copiar';
-    }, 1800);
-  }
-
-  private setupScrollListener(): void {
-    if (typeof window === 'undefined') return;
-    let ticking = false;
-
-    const handler = () => {
-      if (ticking) return;
-      ticking = true;
-      requestAnimationFrame(() => {
-        const scrollTop = window.scrollY;
-        const docHeight = this.document.documentElement.scrollHeight - window.innerHeight;
-        const progress = docHeight > 0 ? Math.min(100, (scrollTop / docHeight) * 100) : 0;
-
-        if (this.progressBarRef?.nativeElement) {
-          this.progressBarRef.nativeElement.style.setProperty('--progress', `${progress}%`);
-        }
-
-        let newActive = '';
-        for (const item of this.tocItems) {
-          const el = this.document.getElementById(item.id);
-          if (el && el.getBoundingClientRect().top <= 100) {
-            newActive = item.id;
-          }
-        }
-
-        if (newActive !== this.activeTocId) {
-          this.activeTocId = newActive;
-          this.zone.run(() => this.cdr.markForCheck());
-        }
-
-        ticking = false;
-      });
-    };
-
-    this.zone.runOutsideAngular(() => {
-      window.addEventListener('scroll', handler, { passive: true });
-    });
-
-    this.scrollCleanup = () => window.removeEventListener('scroll', handler);
-  }
-
-  private buildToc(): void {
-    const container = this.postContentRef?.nativeElement;
-    if (!container) return;
-
-    const headings = Array.from(
-      container.querySelectorAll<HTMLHeadingElement>('h2, h3')
-    );
-
-    if (headings.length < 2) return;
-
-    const items: TocItem[] = headings.map((heading, i) => {
-      const text = heading.textContent?.trim() ?? '';
-      const id = `toc-${i}-${text
-        .toLowerCase()
-        .normalize('NFD')
-        .replace(/[\u0300-\u036f]/g, '')
-        .replace(/[^a-z0-9]+/g, '-')
-        .replace(/-$/, '')
-        .slice(0, 50)}`;
-      heading.id = id;
-      return { id, text, level: parseInt(heading.tagName[1]) as 2 | 3 };
-    });
-
-    this.zone.run(() => {
-      this.tocItems = items;
-      this.cdr.markForCheck();
-    });
+  onActiveTocSectionChange(sectionId: string): void {
+    this.activeTocId = sectionId;
   }
 
   scrollToSection(id: string): void {
@@ -387,7 +280,7 @@ export class BlogPostComponent implements OnInit, OnDestroy {
 
   get shareUrls(): { twitter: string; linkedin: string; whatsapp: string } | null {
     if (!this.post) return null;
-    const url = `${this.siteOrigin}/blog/${this.post.slug.current}`;
+    const url = this.postUrl;
     const encodedUrl = encodeURIComponent(url);
     const encodedTitle = encodeURIComponent(this.post.title);
     return {
@@ -397,20 +290,27 @@ export class BlogPostComponent implements OnInit, OnDestroy {
     };
   }
 
-  copyPostLink(): void {
-    if (!this.post) return;
-    const url = `${this.siteOrigin}/blog/${this.post.slug.current}`;
-    navigator.clipboard
-      .writeText(url)
-      .then(() => {
-        this.linkCopied = true;
-        this.cdr.markForCheck();
-        setTimeout(() => {
-          this.linkCopied = false;
-          this.cdr.markForCheck();
-        }, 1800);
-      })
-      .catch(() => {});
+  get postUrl(): string {
+    return this.post
+      ? `${this.siteOrigin}/blog/${this.post.slug.current}`
+      : '';
+  }
+
+  onPostLinkCopied(): void {
+    const window = this.document.defaultView;
+    if (!window) {
+      return;
+    }
+
+    this.linkCopied = true;
+    if (this.linkCopiedTimer !== null) {
+      window.clearTimeout(this.linkCopiedTimer);
+    }
+    this.linkCopiedTimer = window.setTimeout(() => {
+      this.linkCopied = false;
+      this.linkCopiedTimer = null;
+      this.cdr.markForCheck();
+    }, 1800);
   }
 
   formatDate(dateStr: string): string {

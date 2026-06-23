@@ -27,8 +27,13 @@
 }
 
 @if (!loading && !notFound && post) {
-  <div #progressBar class="reading-progress-bar"></div>
-  <article class="blog-post">
+  <div class="reading-progress-bar" appScrollProgress></div>
+  <article
+    class="blog-post"
+    [appActiveSection]="tocSectionIds"
+    [activeSectionOffset]="100"
+    (activeSectionChange)="onActiveTocSectionChange($event)"
+  >
     <div class="post-content">
       <app-reading-preferences></app-reading-preferences>
       <section class="post-head">
@@ -129,7 +134,8 @@
                   type="button"
                   class="post-share-btn copy"
                   [class.copied]="linkCopied"
-                  (click)="copyPostLink()"
+                  [appCopyToClipboard]="postUrl"
+                  (copySuccess)="onPostLinkCopied()"
                   [attr.aria-label]="linkCopied ? 'Link copiado' : 'Copiar link'"
                 >
                   @if (linkCopied) {
@@ -157,7 +163,13 @@
       }
 
       <section class="post-body">
-        <div #postContent class="post-content-inner" [innerHTML]="bodyHtml"></div>
+        <div
+          class="post-content-inner"
+          [innerHTML]="bodyHtml"
+          [appCodeBlockEnhancer]="bodyHtml"
+          [appContentHeadings]="bodyHtml"
+          (contentHeadingsChange)="onContentHeadingsChange($event)"
+        ></div>
       </section>
 
       @if (relatedPosts.length > 0) {

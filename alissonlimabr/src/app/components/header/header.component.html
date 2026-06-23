@@ -1,5 +1,13 @@
 <!-- Sidenav -->
-<div class="navbar">
+<div
+  class="navbar"
+  [appActiveSection]="portfolioSectionIds"
+  [activeSectionOffset]="160"
+  [activeSectionUseHash]="true"
+  [activeSectionFallbackToFirst]="true"
+  [activeSectionDisabled]="isBlogRoute"
+  (activeSectionChange)="onActivePortfolioSectionChange($event)"
+>
   <!-- Tollbar desktop + nav links -->
   <mat-toolbar>
     <span class="logo">
