@@ -11,8 +11,12 @@
   justify-content: center;
   padding: 28px 24px 24px;
 
-  @include responsive(tablet) { padding: 24px 20px 22px; }
-  @include responsive(mobilePlus) { padding: 20px 16px 18px; }
+  @include responsive(tablet) {
+    padding: 24px 20px 22px;
+  }
+  @include responsive(mobilePlus) {
+    padding: 20px 16px 18px;
+  }
 }
 
 .post-toc-inner {
@@ -47,7 +51,9 @@
   line-height: 1;
   transition: transform 0.2s ease;
 
-  &.is-open { transform: rotate(180deg); }
+  &.is-open {
+    transform: rotate(180deg);
+  }
 }
 
 .toc-title {
@@ -80,11 +86,7 @@
     border-left: 3px solid var(--blog-accent);
     margin-left: -2px;
     border-radius: 0 6px 6px 0;
-    background: linear-gradient(
-      90deg,
-      rgba(tokens.$purple-400, 0.16) 0%,
-      rgba(tokens.$purple-400, 0.04) 100%
-    );
+    background: linear-gradient(90deg, rgba(tokens.$purple-400, 0.16) 0%, rgba(tokens.$purple-400, 0.04) 100%);
   }
 
   a {
@@ -94,7 +96,9 @@
     line-height: 1.45;
     color: var(--blog-text-muted);
     text-decoration: none;
-    transition: color 0.2s, background 0.2s;
+    transition:
+      color 0.2s,
+      background 0.2s;
 
     &:hover {
       color: var(--blog-text);

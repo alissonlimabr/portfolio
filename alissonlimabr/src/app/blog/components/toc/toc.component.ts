@@ -1,5 +1,12 @@
 import { isPlatformBrowser } from '@angular/common';
-import { Component, PLATFORM_ID, inject, input, output, signal } from '@angular/core';
+import {
+  Component,
+  PLATFORM_ID,
+  inject,
+  input,
+  output,
+  signal,
+} from '@angular/core';
 
 const TOC_OPEN_STORAGE_KEY = 'blog-toc-open';
 
@@ -25,7 +32,7 @@ export class TocComponent {
   readonly isOpen = signal(this.loadOpenState());
 
   toggle(): void {
-    this.isOpen.update(current => {
+    this.isOpen.update((current) => {
       const next = !current;
       this.persistOpenState(next);
       return next;
