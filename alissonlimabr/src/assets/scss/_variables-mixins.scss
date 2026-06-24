@@ -27,6 +27,18 @@
   }
 }
 
+@mixin reading-preferences-mobile {
+  @media (max-width: 1279px) {
+    @content;
+  }
+}
+
+@mixin reading-preferences-desktop {
+  @media (min-width: 1280px) {
+    @content;
+  }
+}
+
 // TOC lateral quando há espaço para texto padrão + coluna lateral.
 @mixin blog-toc-sidebar-desktop {
   @media (min-width: 1360px) and (max-width: 1679px) {
