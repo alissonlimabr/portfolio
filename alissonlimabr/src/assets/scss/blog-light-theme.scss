@@ -133,11 +133,6 @@ body.blog-theme-dark {
       }
     }
 
-    .post-toc-inner {
-      background: linear-gradient(90deg, rgba(tokens.$blog-dark-accent, 0.035) 0%, transparent 40%);
-      border-left-color: rgba(tokens.$blog-dark-accent, 0.55);
-    }
-
     .back-link {
       color: tokens.$blog-dark-interactive;
 

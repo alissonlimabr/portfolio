@@ -60,25 +60,43 @@ body.blog-font-lg {
 
 // ── Preferências de leitura — largura do texto ───────────────────────────
 body.blog-width-narrow {
+  --blog-prose-width: 580px;
+
   .blog-post .post-content-inner,
-  .blog-post .post-head-inner,
-  .blog-post .post-toc-inner {
+  .blog-post .post-head-inner {
     max-width: 580px !important;
   }
 }
 
 body.blog-width-normal {
+  --blog-prose-width: #{tokens.$prose-max-width};
+
   .blog-post .post-content-inner,
-  .blog-post .post-head-inner,
-  .blog-post .post-toc-inner {
+  .blog-post .post-head-inner {
     max-width: tokens.$prose-max-width !important;
   }
 }
 
 body.blog-width-wide {
+  --blog-prose-width: #{tokens.$prose-wide-max-width};
+
   .blog-post .post-content-inner,
-  .blog-post .post-head-inner,
-  .blog-post .post-toc-inner {
+  .blog-post .post-head-inner {
     max-width: tokens.$prose-wide-max-width !important;
+  }
+
+  .blog-post .post-body .post-content-inner {
+    > p,
+    > ul,
+    > ol,
+    > blockquote,
+    > h2,
+    > h3,
+    > h4,
+    > h5,
+    > h6 {
+      max-width: 80ch;
+      margin-inline: auto;
+    }
   }
 }

@@ -1,4 +1,4 @@
-// Mixin para responsividade
+// Mixins para responsividade
 @mixin responsive($device) {
   @if $device == mobile {
     @media (max-width: 480px) {
@@ -24,5 +24,19 @@
     @media (min-width: 1281px) {
       @content;
     }
+  }
+}
+
+// TOC lateral quando há espaço para texto padrão + coluna lateral.
+@mixin blog-toc-sidebar-desktop {
+  @media (min-width: 1360px) and (max-width: 1679px) {
+    @content;
+  }
+}
+
+// TOC lateral em telas muito largas, inclusive com leitura ampla.
+@mixin blog-toc-sidebar-large-desktop {
+  @media (min-width: 1680px) {
+    @content;
   }
 }
