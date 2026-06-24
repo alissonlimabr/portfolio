@@ -21,4 +21,16 @@ describe('HeaderComponent', () => {
   it('should create', () => {
     expect(component).toBeTruthy();
   });
+
+  it('marks the blog link as active while the blog section is visible', () => {
+    component.onActivePortfolioSectionChange('blog');
+    fixture.detectChanges();
+
+    const root = fixture.nativeElement as HTMLElement;
+    const blogLink = Array.from(
+      root.querySelectorAll<HTMLAnchorElement>('.nav-links a')
+    ).find(link => link.textContent?.trim() === 'Blog');
+
+    expect(blogLink?.classList.contains('link--section-active')).toBeTrue();
+  });
 });
