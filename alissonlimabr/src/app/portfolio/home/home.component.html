@@ -164,15 +164,15 @@
 <section id="trabalhos">
   <div class="jobs-wrap">
     <div class="jobs-header">
-      <span class="section-tag">[ 03 ] EXPERIÊNCIA</span>
+      <span class="section-tag">[ 03 ] CARREIRA</span>
       <h2 class="section-headline">
-        Minha trajetória<br />
+        Experiência<br />
         <span class="section-headline--accent">profissional.</span>
       </h2>
     </div>
 
     <div class="timeline">
-      @for (job of jobs; track job.company + job.duration) {
+      @for (job of visibleJobs; track job.company + job.duration) {
         <article class="timeline-item" appSpotlight>
           <div class="timeline-marker">
             <div class="timeline-dot"></div>
@@ -200,6 +200,25 @@
         </article>
       }
     </div>
+
+    @if (hasHiddenJobs) {
+      <div class="jobs-more">
+        <button
+          class="jobs-more-button"
+          type="button"
+          (click)="toggleCareerList()"
+          [attr.aria-expanded]="isCareerExpanded"
+          [attr.aria-label]="isCareerExpanded ? 'Mostrar menos itens da carreira' : 'Mostrar mais itens da carreira'"
+        >
+          <span class="jobs-more-prompt" aria-hidden="true">›</span>
+          <span class="jobs-more-text">{{ isCareerExpanded ? 'Mostrar menos' : 'Mostrar mais' }}</span>
+          @if (!isCareerExpanded) {
+            <span class="jobs-more-count">{{ hiddenJobsCount }} ocultos</span>
+          }
+          <span class="jobs-more-cursor" aria-hidden="true"></span>
+        </button>
+      </div>
+    }
   </div>
 </section>
 

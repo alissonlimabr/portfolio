@@ -55,13 +55,15 @@
   }
 
   &--bottom {
-    bottom: -120px;
-    right: -80px;
-    width: 520px;
-    height: 520px;
+    top: 50%;
+    right: -120px;
+    bottom: auto;
+    width: 460px;
+    height: 460px;
     background: radial-gradient(circle, tokens.$accent-pink 0%, transparent 70%);
     animation: orb-drift-b 22s ease-in-out infinite;
-    opacity: 0.4;
+    opacity: 0.24;
+    transform: translateY(-50%);
   }
 
   @include responsive(mobilePlus) {
@@ -72,10 +74,10 @@
       left: -60px;
     }
     &--bottom {
-      width: 320px;
-      height: 320px;
-      bottom: -80px;
-      right: -60px;
+      width: 280px;
+      height: 280px;
+      top: 34%;
+      right: -110px;
     }
   }
 }
@@ -445,7 +447,6 @@
     display: block;
     object-fit: cover;
   }
-
 }
 
 .hero-avatar-badge {
@@ -1285,6 +1286,189 @@
       font-size: 13px;
       line-height: 1.6;
     }
+  }
+}
+
+.jobs-more {
+  display: flex;
+  justify-content: center;
+  margin-top: 38px;
+  position: relative;
+
+  &::before {
+    content: "";
+    position: absolute;
+    top: -24px;
+    left: 50%;
+    width: 1px;
+    height: 18px;
+    background: linear-gradient(180deg, rgba(tokens.$purple-400, 0.5), transparent);
+    opacity: 0.65;
+  }
+
+  @include responsive(mobilePlus) {
+    margin-top: 28px;
+  }
+}
+
+.jobs-more-button {
+  appearance: none;
+  border: 1px solid rgba(tokens.$purple-400, 0.22);
+  border-radius: 4px;
+  background: rgba(tokens.$surface, 0.78);
+  box-shadow:
+    inset 0 0 0 1px rgba(tokens.$white, 0.02),
+    0 18px 42px rgba(0, 0, 0, 0.14);
+  color: tokens.$gray-200;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 11px 16px;
+  font-family: "Fira Code", "Courier New", monospace;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 1.6px;
+  min-height: 44px;
+  overflow: hidden;
+  position: relative;
+  text-transform: uppercase;
+  transition:
+    background 0.3s,
+    border-color 0.3s,
+    box-shadow 0.3s,
+    color 0.3s,
+    transform 0.3s;
+
+  &::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+      100deg,
+      transparent 0%,
+      rgba(tokens.$purple-400, 0.12) 45%,
+      rgba(tokens.$accent-pink, 0.08) 52%,
+      transparent 64%
+    );
+    opacity: 0;
+    transform: translateX(-100%);
+    transition:
+      opacity 0.3s,
+      transform 0.7s ease;
+  }
+
+  &::after {
+    content: "";
+    position: absolute;
+    top: -1px;
+    right: 12px;
+    left: 12px;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, rgba(tokens.$purple-400, 0.65), transparent);
+    opacity: 0.42;
+  }
+
+  &:hover,
+  &:focus-visible {
+    background: rgba(tokens.$surface-elevated, 0.78);
+    border-color: rgba(tokens.$purple-400, 0.5);
+    box-shadow:
+      inset 0 0 0 1px rgba(tokens.$white, 0.03),
+      0 20px 48px rgba(0, 0, 0, 0.2),
+      0 0 0 1px rgba(tokens.$purple-400, 0.08);
+    color: tokens.$white;
+    transform: translateY(-2px);
+
+    &::before {
+      opacity: 1;
+      transform: translateX(100%);
+    }
+
+    .jobs-more-prompt {
+      transform: translateX(2px);
+    }
+  }
+
+  &:focus-visible {
+    outline: 1px solid rgba(tokens.$purple-400, 0.5);
+    outline-offset: 6px;
+  }
+
+  @include responsive(mobilePlus) {
+    gap: 10px;
+    min-height: 42px;
+    padding: 10px 12px;
+    font-size: 10px;
+    letter-spacing: 1.4px;
+  }
+}
+
+.jobs-more-prompt,
+.jobs-more-text,
+.jobs-more-count,
+.jobs-more-cursor {
+  position: relative;
+  z-index: 1;
+}
+
+.jobs-more-prompt {
+  color: tokens.$purple-300;
+  font-size: 16px;
+  line-height: 1;
+  transition: transform 0.25s;
+  animation: career-prompt-pulse 2.4s ease-in-out infinite;
+}
+
+.jobs-more-count {
+  border-left: 1px solid rgba(tokens.$purple-400, 0.24);
+  color: tokens.$gray-300;
+  letter-spacing: 1px;
+  padding-left: 10px;
+  text-transform: lowercase;
+}
+
+.jobs-more-cursor {
+  width: 7px;
+  height: 14px;
+  background: tokens.$purple-300;
+  opacity: 0.7;
+  animation: career-cursor-blink 1.15s steps(2, start) infinite;
+}
+
+.jobs-more-button[aria-expanded="true"] {
+  .jobs-more-prompt {
+    transform: rotate(-90deg);
+  }
+}
+
+@keyframes career-prompt-pulse {
+  0%,
+  100% {
+    opacity: 0.55;
+  }
+  50% {
+    opacity: 1;
+  }
+}
+
+@keyframes career-cursor-blink {
+  0%,
+  45% {
+    opacity: 0.8;
+  }
+  46%,
+  100% {
+    opacity: 0;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .jobs-more-button::before,
+  .jobs-more-prompt,
+  .jobs-more-cursor {
+    animation: none;
+    transition: none;
   }
 }
 

@@ -1,6 +1,12 @@
 import { animate, style, transition, trigger } from '@angular/animations';
 import { CommonModule } from '@angular/common';
-import { Component, DestroyRef, OnInit, ViewEncapsulation, inject } from '@angular/core';
+import {
+  Component,
+  DestroyRef,
+  OnInit,
+  ViewEncapsulation,
+  inject,
+} from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { RouterLink } from '@angular/router';
 import { MagneticDirective } from '../../shared/directives/magnetic.directive';
@@ -123,9 +129,9 @@ export class HomeComponent implements OnInit {
   socialMedia = SOCIAL_MEDIA;
 
   jobs = JOBS;
+  readonly initialVisibleJobs = 2;
   experienceYears = this.calculateExperienceYears();
-  selectedJob!: Job;
-  hasInteractedCard = false;
+  isCareerExpanded = false;
 
   sanityService = inject(SanityService);
   recentPosts: PostSummary[] = [];
@@ -134,67 +140,37 @@ export class HomeComponent implements OnInit {
 
   projects: Project[] = PROJECTS;
 
-  currentPage = 0;
-  pageSize = 3;
-
-
   async ngOnInit(): Promise<void> {
-    if (this.jobs?.length) {
-      this.selectedJob = this.jobs[0];
-    }
-
-    this.sanityService.getPosts().pipe(takeUntilDestroyed(this.destroyRef)).subscribe({
-      next: posts => {
-        this.recentPosts = posts.slice(0, 3);
-        this.postsLoading = false;
-      },
-      error: () => {
-        this.postsLoading = false;
-      },
-    });
-
+    this.sanityService
+      .getPosts()
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe({
+        next: (posts) => {
+          this.recentPosts = posts.slice(0, 3);
+          this.postsLoading = false;
+        },
+        error: () => {
+          this.postsLoading = false;
+        },
+      });
   }
 
-  private get currentJobIndex(): number {
-    return this.jobs.findIndex((j) => j === this.selectedJob);
-  }
-  private syncPageWithJob(): void {
-    const index = this.currentJobIndex;
-    this.currentPage = Math.floor(index / this.pageSize);
+  get visibleJobs(): Job[] {
+    return this.isCareerExpanded
+      ? this.jobs
+      : this.jobs.slice(0, this.initialVisibleJobs);
   }
 
-  get totalPages(): number {
-    return Math.ceil(this.jobs.length / this.pageSize);
+  get hiddenJobsCount(): number {
+    return Math.max(this.jobs.length - this.initialVisibleJobs, 0);
   }
 
-  get pagesArray(): number[] {
-    return Array.from({ length: this.totalPages }, (_, i) => i);
+  get hasHiddenJobs(): boolean {
+    return this.hiddenJobsCount > 0;
   }
 
-  get paginatedJobs(): Job[] {
-    const startIndex = this.currentPage * this.pageSize;
-    return this.jobs.slice(startIndex, startIndex + this.pageSize);
-  }
-
-  changePage(page: number): void {
-    this.currentPage = page;
-    this.selectedJob = this.paginatedJobs[0];
-  }
-
-  selectJob(job: Job): void {
-    this.selectedJob = job;
-  }
-
-  nextPage(): void {
-    if (this.currentPage < this.totalPages - 1) {
-      this.changePage(this.currentPage + 1);
-    }
-  }
-
-  previousPage(): void {
-    if (this.currentPage > 0) {
-      this.changePage(this.currentPage - 1);
-    }
+  toggleCareerList(): void {
+    this.isCareerExpanded = !this.isCareerExpanded;
   }
 
   private calculateExperienceYears(): number {
@@ -207,7 +183,11 @@ export class HomeComponent implements OnInit {
         continue;
       }
 
-      const cursor = new Date(range.start.getFullYear(), range.start.getMonth(), 1);
+      const cursor = new Date(
+        range.start.getFullYear(),
+        range.start.getMonth(),
+        1,
+      );
       const end = new Date(range.end.getFullYear(), range.end.getMonth(), 1);
 
       while (cursor <= end) {
@@ -219,17 +199,20 @@ export class HomeComponent implements OnInit {
     return Math.floor(workedMonths.size / 12);
   }
 
-  private parseDurationRange(duration: string): { start: Date; end: Date } | null {
-    const [rawStart, rawEnd] = duration.split(' - ').map(part => part.trim());
+  private parseDurationRange(
+    duration: string,
+  ): { start: Date; end: Date } | null {
+    const [rawStart, rawEnd] = duration.split(' - ').map((part) => part.trim());
 
     if (!rawStart || !rawEnd) {
       return null;
     }
 
     const start = this.parseMonthYear(rawStart);
-    const end = rawEnd.toLowerCase() === 'atualmente'
-      ? new Date()
-      : this.parseMonthYear(rawEnd);
+    const end =
+      rawEnd.toLowerCase() === 'atualmente'
+        ? new Date()
+        : this.parseMonthYear(rawEnd);
 
     if (!start || !end) {
       return null;
@@ -255,24 +238,5 @@ export class HomeComponent implements OnInit {
     }
 
     return new Date(year, month, 1);
-  }
-
-  goToNextJob(): void {
-    const index = this.currentJobIndex;
-
-    if (index < this.jobs.length - 1) {
-      this.selectedJob = this.jobs[index + 1];
-      this.syncPageWithJob();
-      this.hasInteractedCard = true;
-    }
-  }
-  goToPreviousJob(): void {
-    const index = this.currentJobIndex;
-
-    if (index > 0) {
-      this.selectedJob = this.jobs[index - 1];
-      this.syncPageWithJob();
-      this.hasInteractedCard = true;
-    }
   }
 }
