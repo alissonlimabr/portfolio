@@ -1,5 +1,5 @@
 @use "src/assets/scss/palette" as tokens;
-@import "src/assets/scss/variables-mixins";
+@use "src/assets/scss/variables-mixins" as *;
 
 .blog-hero {
   position: relative;

@@ -1,5 +1,5 @@
 @use "src/assets/scss/palette" as tokens;
-@import "src/assets/scss/variables-mixins";
+@use "src/assets/scss/variables-mixins" as *;
 
 mat-toolbar {
   display: flex;
@@ -7,13 +7,17 @@ mat-toolbar {
   width: 100%;
   max-width: tokens.$container-wide-max-width;
 
-  a { color: tokens.$white; }
+  a {
+    color: tokens.$white;
+  }
 
   @include responsive(tabletplus) {
     display: flex;
     justify-content: space-between;
 
-    .nav-links { display: none !important; }
+    .nav-links {
+      display: none !important;
+    }
   }
 }
 
@@ -24,7 +28,9 @@ mat-toolbar {
   padding: 0.6rem;
   width: 100%;
 
-  @include responsive(tabletplus) { padding: 4px 0; }
+  @include responsive(tabletplus) {
+    padding: 4px 0;
+  }
 }
 
 .menu {
@@ -38,7 +44,9 @@ mat-toolbar {
     transition: 0.3s;
   }
 
-  @include responsive(tabletplus) { display: block !important; }
+  @include responsive(tabletplus) {
+    display: block !important;
+  }
 }
 
 .logo-dev {
@@ -52,5 +60,7 @@ mat-toolbar {
   letter-spacing: 0.5px;
   margin-left: 4px;
 
-  @include responsive(mobile) { font-size: 14px; }
+  @include responsive(mobile) {
+    font-size: 14px;
+  }
 }

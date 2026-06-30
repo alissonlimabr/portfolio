@@ -1,18 +1,18 @@
 @use "src/assets/scss/palette" as tokens;
-@import "src/assets/scss/variables-mixins";
+@use "src/assets/scss/variables-mixins" as *;
 
 mat-card {
   display: flex;
   justify-content: center;
   align-items: center;
-  background-color: tokens.$surface !important;
-  border-width: 1px !important;
-  border-style: solid !important;
-  border-color: rgba(tokens.$purple-400, 0.15) !important;
+  background-color: tokens.$surface;
+  border-width: 1px;
+  border-style: solid;
+  border-color: rgba(tokens.$purple-400, 0.15);
   padding: 10px 5px;
   gap: 5px;
   box-shadow: 0 4px 14px rgba(0, 0, 0, 0.4);
-  transition: 0.3s !important;
+  transition: 0.3s;
 
   h4 {
     color: tokens.$purple-400;
@@ -26,15 +26,15 @@ mat-card {
     box-shadow:
       0 4px 18px rgba(tokens.$purple-400, 0.25),
       0 0 24px rgba(tokens.$accent-pink, 0.12);
-    transform: translateY(-5px) !important;
-    border-color: tokens.$purple-400 !important;
+    transform: translateY(-5px);
+    border-color: tokens.$purple-400;
   }
   &:active {
     box-shadow:
       0 2px 10px rgba(tokens.$purple-400, 0.4),
       0 0 18px rgba(tokens.$accent-pink, 0.18);
-    transform: translateY(-3px) !important;
-    border-color: tokens.$accent-pink !important;
+    transform: translateY(-3px);
+    border-color: tokens.$accent-pink;
   }
 }
 
@@ -129,7 +129,7 @@ mat-card {
     font-weight: 700;
     color: var(--blog-text);
     margin-bottom: 10px;
-    letter-spacing:§ -0.5px;
+    letter-spacing: -0.5px;
     text-shadow: 0 0 24px rgba(tokens.$purple-400, 0.18);
 
     @include responsive(tablet) {

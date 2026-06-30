@@ -1,5 +1,5 @@
 @use "palette" as tokens;
-@import "variables-mixins";
+@use "variables-mixins" as *;
 
 * {
   margin: 0;

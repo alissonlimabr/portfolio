@@ -1,5 +1,5 @@
 @use "palette" as tokens;
-@import "variables-mixins";
+@use "variables-mixins" as *;
 
 // Estilo global para todos os ícones FontAwesome
 fa-icon {
@@ -90,7 +90,18 @@ mat-sidenav {
     }
 
     #close {
-      font-size: 35px !important;
+      margin-left: auto;
+      background: transparent;
+      border: 0;
+      color: inherit;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+
+      fa-icon {
+        font-size: 35px !important;
+      }
     }
   }
 

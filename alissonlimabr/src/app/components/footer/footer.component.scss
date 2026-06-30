@@ -1,5 +1,5 @@
 @use "src/assets/scss/palette" as tokens;
-@import "src/assets/scss/variables-mixins";
+@use "src/assets/scss/variables-mixins" as *;
 
 .footer {
   display: flex;
@@ -72,7 +72,7 @@
       font-size: 25px;
 
       @include responsive(mobile) {
-      font-size: 20px;
+        font-size: 20px;
       }
     }
   }
