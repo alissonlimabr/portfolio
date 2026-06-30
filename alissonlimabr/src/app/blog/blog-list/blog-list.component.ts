@@ -26,6 +26,10 @@ import { IconComponent } from '../../shared/icon.component';
 })
 export class BlogListComponent implements OnInit {
   private readonly destroyRef = inject(DestroyRef);
+  private readonly sanity = inject(SanityService);
+  private readonly route = inject(ActivatedRoute);
+  private readonly zone = inject(NgZone);
+  private readonly cdr = inject(ChangeDetectorRef);
 
   posts: PostSummary[] = [];
   categories: Category[] = [];
@@ -36,32 +40,25 @@ export class BlogListComponent implements OnInit {
   currentPage = 1;
   readonly pageSize = 6;
 
-  constructor(
-    private sanity: SanityService,
-    private route: ActivatedRoute,
-    private zone: NgZone,
-    private cdr: ChangeDetectorRef
-  ) {}
-
   ngOnInit(): void {
     this.sanity
       .getCategories()
       .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe({
-      // Clarity faz monkey-patch no XHR e quebra o Zone do Angular —
-      // por isso forçamos a callback a rodar dentro da zone.
-      next: cats => {
-        this.zone.run(() => {
-          this.categories = cats ?? [];
-          this.cdr.markForCheck();
-        });
-      },
-      error: () => {},
-    });
+        // Clarity faz monkey-patch no XHR e quebra o Zone do Angular —
+        // por isso forçamos a callback a rodar dentro da zone.
+        next: (cats) => {
+          this.zone.run(() => {
+            this.categories = cats ?? [];
+            this.cdr.markForCheck();
+          });
+        },
+        error: () => {},
+      });
 
     this.route.paramMap
       .pipe(takeUntilDestroyed(this.destroyRef))
-      .subscribe(params => {
+      .subscribe((params) => {
         const slug = params.get('slug');
         this.searchTerm = '';
         this.currentPage = 1;
@@ -81,7 +78,7 @@ export class BlogListComponent implements OnInit {
         .getCategoryBySlug(categorySlug)
         .pipe(takeUntilDestroyed(this.destroyRef))
         .subscribe({
-          next: cat => {
+          next: (cat) => {
             this.zone.run(() => {
               this.currentCategory = cat ?? undefined;
               this.cdr.markForCheck();
@@ -97,9 +94,9 @@ export class BlogListComponent implements OnInit {
 
   private fetchPosts(source$: Observable<PostSummary[]>): void {
     source$.pipe(takeUntilDestroyed(this.destroyRef)).subscribe({
-      next: posts => {
+      next: (posts) => {
         this.zone.run(() => {
-          this.posts = (posts ?? []).map(p => ({
+          this.posts = (posts ?? []).map((p) => ({
             ...p,
             imageUrl:
               p.imageUrl && /^https?:\/\//i.test(p.imageUrl)
@@ -124,11 +121,12 @@ export class BlogListComponent implements OnInit {
     const term = this.searchTerm.trim().toLowerCase();
     if (!term) return this.posts;
     return this.posts.filter(
-      p =>
+      (p) =>
         p.title.toLowerCase().includes(term) ||
         (p.excerpt?.toLowerCase().includes(term) ?? false) ||
-        (p.tags?.some(t => t.toLowerCase().includes(term)) ?? false) ||
-        (p.categories?.some(c => c.title.toLowerCase().includes(term)) ?? false)
+        (p.tags?.some((t) => t.toLowerCase().includes(term)) ?? false) ||
+        (p.categories?.some((c) => c.title.toLowerCase().includes(term)) ??
+          false),
     );
   }
 

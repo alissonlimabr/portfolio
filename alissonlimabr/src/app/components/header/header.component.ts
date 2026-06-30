@@ -1,8 +1,17 @@
-import { Component, EventEmitter, Input, Output, ViewEncapsulation, inject } from '@angular/core';
+import {
+  Component,
+  EventEmitter,
+  Input,
+  Output,
+  ViewEncapsulation,
+  computed,
+  inject,
+  signal,
+} from '@angular/core';
 import { RouterLink, RouterLinkActive } from '@angular/router';
 import { MatToolbar } from '@angular/material/toolbar';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
-import { faBars, faCode, faXmark } from '@fortawesome/free-solid-svg-icons';
+import { faBars, faCode } from '@fortawesome/free-solid-svg-icons';
 import { ReadingPreferencesService } from '../../blog/services/reading-preferences.service';
 import { IconComponent } from '../../shared/icon.component';
 import { ActiveSectionDirective } from '../../shared/directives/active-section.directive';
@@ -23,36 +32,35 @@ import { ActiveSectionDirective } from '../../shared/directives/active-section.d
   encapsulation: ViewEncapsulation.None,
 })
 export class HeaderComponent {
-  @Output() openSidenav = new EventEmitter();
+  @Output() openSidenav = new EventEmitter<void>();
   @Input() isBlogRoute = false;
 
-  faCode = faCode;
-  faBars = faBars;
-  faXmark = faXmark;
-  opened?: boolean;
-  activePortfolioHash = '';
-  readonly portfolioSectionIds = ['perfil', 'sobre', 'habilidades', 'trabalhos', 'projetos', 'blog', 'contato'];
+  readonly faCode = faCode;
+  readonly faBars = faBars;
+  readonly portfolioSectionIds = [
+    'perfil',
+    'sobre',
+    'habilidades',
+    'trabalhos',
+    'projetos',
+    'blog',
+    'contato',
+  ];
   readonly prefs = inject(ReadingPreferencesService);
-
-  get currentTheme() {
-    return this.prefs.theme();
-  }
+  readonly currentTheme = computed(() => this.prefs.theme());
+  private readonly activePortfolioHash = signal('#perfil');
 
   toggleTheme(): void {
-    const next: 'dark' | 'light' = this.prefs.theme() === 'dark' ? 'light' : 'dark';
+    const next: 'dark' | 'light' =
+      this.currentTheme() === 'dark' ? 'light' : 'dark';
     this.prefs.setTheme(next);
   }
 
   isPortfolioLinkActive(fragment: string): boolean {
-    const hash = this.activePortfolioHash || '#perfil';
-    return hash === `#${fragment}`;
+    return this.activePortfolioHash() === `#${fragment}`;
   }
 
   onActivePortfolioSectionChange(sectionId: string): void {
-    this.activePortfolioHash = `#${sectionId}`;
-  }
-
-  closeSideNav() {
-    this.opened = false;
+    this.activePortfolioHash.set(`#${sectionId}`);
   }
 }

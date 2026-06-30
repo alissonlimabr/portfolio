@@ -1,12 +1,27 @@
-import { Component, DestroyRef, Inject, OnInit, PLATFORM_ID, inject } from '@angular/core';
+import {
+  Component,
+  DestroyRef,
+  OnInit,
+  PLATFORM_ID,
+  inject,
+} from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { NavigationEnd, Router, RouterLink, RouterOutlet } from '@angular/router';
+import {
+  NavigationEnd,
+  Router,
+  RouterLink,
+  RouterOutlet,
+} from '@angular/router';
 import { isPlatformBrowser } from '@angular/common';
 import { filter } from 'rxjs/operators';
 import { ReadingPreferencesService } from './blog/services/reading-preferences.service';
 
 import { faBars, faCode, faXmark } from '@fortawesome/free-solid-svg-icons';
-import { MatSidenav, MatSidenavContainer, MatSidenavContent } from '@angular/material/sidenav';
+import {
+  MatSidenav,
+  MatSidenavContainer,
+  MatSidenavContent,
+} from '@angular/material/sidenav';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { JsonLdComponent } from './components/json-ld/json-ld.component';
 import { FooterComponent } from './components/footer/footer.component';
@@ -31,6 +46,8 @@ import { HeaderComponent } from './components/header/header.component';
 })
 export class AppComponent implements OnInit {
   private readonly destroyRef = inject(DestroyRef);
+  private readonly router = inject(Router);
+  private readonly platformId = inject(PLATFORM_ID);
 
   title = 'alissonlimabr';
 
@@ -42,11 +59,6 @@ export class AppComponent implements OnInit {
   isBlogRoute = false;
 
   private readonly readingPrefs = inject(ReadingPreferencesService);
-
-  constructor(
-    private router: Router,
-    @Inject(PLATFORM_ID) private platformId: Object
-  ) {}
 
   ngOnInit(): void {
     this.isBlogRoute = this.router.url.startsWith('/blog');
@@ -61,10 +73,9 @@ export class AppComponent implements OnInit {
     this.router.events
       .pipe(
         filter(
-          (event): event is NavigationEnd =>
-            event instanceof NavigationEnd
+          (event): event is NavigationEnd => event instanceof NavigationEnd,
         ),
-        takeUntilDestroyed(this.destroyRef)
+        takeUntilDestroyed(this.destroyRef),
       )
       .subscribe((event) => {
         const onBlog = event.urlAfterRedirects.startsWith('/blog');

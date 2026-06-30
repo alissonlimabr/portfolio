@@ -1,4 +1,11 @@
-import { Injectable, PLATFORM_ID, signal, effect, inject } from '@angular/core';
+import {
+  Injectable,
+  PLATFORM_ID,
+  computed,
+  effect,
+  inject,
+  signal,
+} from '@angular/core';
 import { isPlatformBrowser } from '@angular/common';
 import { DOCUMENT } from '@angular/common';
 
@@ -25,9 +32,9 @@ export class ReadingPreferencesService {
   private readonly document = inject(DOCUMENT);
   private readonly prefs = signal<ReadingPreferences>(this.load());
 
-  readonly fontSize = () => this.prefs().fontSize;
-  readonly textWidth = () => this.prefs().textWidth;
-  readonly theme = () => this.prefs().theme;
+  readonly fontSize = computed(() => this.prefs().fontSize);
+  readonly textWidth = computed(() => this.prefs().textWidth);
+  readonly theme = computed(() => this.prefs().theme);
 
   constructor() {
     effect(() => {
@@ -40,15 +47,15 @@ export class ReadingPreferencesService {
   }
 
   setFontSize(size: FontSize): void {
-    this.prefs.update(p => ({ ...p, fontSize: size }));
+    this.prefs.update((p) => ({ ...p, fontSize: size }));
   }
 
   setTextWidth(width: TextWidth): void {
-    this.prefs.update(p => ({ ...p, textWidth: width }));
+    this.prefs.update((p) => ({ ...p, textWidth: width }));
   }
 
   setTheme(theme: ReadingTheme): void {
-    this.prefs.update(p => ({ ...p, theme }));
+    this.prefs.update((p) => ({ ...p, theme }));
   }
 
   private load(): ReadingPreferences {
@@ -58,12 +65,20 @@ export class ReadingPreferencesService {
       if (stored) {
         const parsed = JSON.parse(stored) as Partial<ReadingPreferences>;
         return {
-          fontSize: this.isFontSize(parsed.fontSize) ? parsed.fontSize : DEFAULT_PREFS.fontSize,
-          textWidth: this.isTextWidth(parsed.textWidth) ? parsed.textWidth : DEFAULT_PREFS.textWidth,
-          theme: this.isReadingTheme(parsed.theme) ? parsed.theme : DEFAULT_PREFS.theme,
+          fontSize: this.isFontSize(parsed.fontSize)
+            ? parsed.fontSize
+            : DEFAULT_PREFS.fontSize,
+          textWidth: this.isTextWidth(parsed.textWidth)
+            ? parsed.textWidth
+            : DEFAULT_PREFS.textWidth,
+          theme: this.isReadingTheme(parsed.theme)
+            ? parsed.theme
+            : DEFAULT_PREFS.theme,
         };
       }
-    } catch { /* ignore */ }
+    } catch {
+      /* ignore */
+    }
     return DEFAULT_PREFS;
   }
 
@@ -82,7 +97,11 @@ export class ReadingPreferencesService {
   applyBodyClasses(prefs: ReadingPreferences = this.prefs()): void {
     const body = this.document.body;
     body.classList.remove('blog-font-sm', 'blog-font-md', 'blog-font-lg');
-    body.classList.remove('blog-width-narrow', 'blog-width-normal', 'blog-width-wide');
+    body.classList.remove(
+      'blog-width-narrow',
+      'blog-width-normal',
+      'blog-width-wide',
+    );
     body.classList.remove('blog-theme-dark', 'blog-theme-light');
     body.classList.add(`blog-font-${prefs.fontSize}`);
     body.classList.add(`blog-width-${prefs.textWidth}`);
@@ -91,9 +110,14 @@ export class ReadingPreferencesService {
 
   removeBlogClasses(): void {
     this.document.body.classList.remove(
-      'blog-font-sm', 'blog-font-md', 'blog-font-lg',
-      'blog-width-narrow', 'blog-width-normal', 'blog-width-wide',
-      'blog-theme-dark', 'blog-theme-light',
+      'blog-font-sm',
+      'blog-font-md',
+      'blog-font-lg',
+      'blog-width-narrow',
+      'blog-width-normal',
+      'blog-width-wide',
+      'blog-theme-dark',
+      'blog-theme-light',
     );
   }
 }
