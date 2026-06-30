@@ -30,7 +30,10 @@ export class SanityService {
     return `https://${projectId}.${host}.sanity.io/v${apiVersion}/data/query/${dataset}`;
   }
 
-  private query<T>(groq: string, params?: Record<string, unknown>): Observable<T> {
+  private query<T>(
+    groq: string,
+    params?: Record<string, unknown>,
+  ): Observable<T> {
     let httpParams = new HttpParams().set('query', groq);
     if (params) {
       Object.entries(params).forEach(([k, v]) => {
@@ -39,10 +42,13 @@ export class SanityService {
     }
     return this.http
       .get<{ result: T }>(this.baseUrl, { params: httpParams })
-      .pipe(map(r => r.result));
+      .pipe(map((r) => r.result));
   }
 
-  optimizeImageUrl(url: string | undefined, opts: ImageOptions = {}): string | undefined {
+  optimizeImageUrl(
+    url: string | undefined,
+    opts: ImageOptions = {},
+  ): string | undefined {
     if (!url || !/^https?:\/\/cdn\.sanity\.io\//i.test(url)) return url;
     const { w, h, fit = 'crop', q = 75, rect } = opts;
     const params: string[] = ['auto=format', `q=${q}`];
@@ -65,18 +71,28 @@ export class SanityService {
     const top = this.clamp(crop.top ?? 0, 0, 1) * dimensions.height;
     const width = Math.max(
       1,
-      dimensions.width * (1 - this.clamp(crop.left ?? 0, 0, 1) - this.clamp(crop.right ?? 0, 0, 1))
+      dimensions.width *
+        (1 -
+          this.clamp(crop.left ?? 0, 0, 1) -
+          this.clamp(crop.right ?? 0, 0, 1)),
     );
     const height = Math.max(
       1,
-      dimensions.height * (1 - this.clamp(crop.top ?? 0, 0, 1) - this.clamp(crop.bottom ?? 0, 0, 1))
+      dimensions.height *
+        (1 -
+          this.clamp(crop.top ?? 0, 0, 1) -
+          this.clamp(crop.bottom ?? 0, 0, 1)),
     );
     const side = Math.min(width, height);
-    const focusX = this.clamp(author.imageHotspot?.x ?? 0.5, 0, 1) * dimensions.width;
-    const focusY = this.clamp(author.imageHotspot?.y ?? 0.5, 0, 1) * dimensions.height;
+    const focusX =
+      this.clamp(author.imageHotspot?.x ?? 0.5, 0, 1) * dimensions.width;
+    const focusY =
+      this.clamp(author.imageHotspot?.y ?? 0.5, 0, 1) * dimensions.height;
     const rectLeft = this.clamp(focusX - side / 2, left, left + width - side);
     const rectTop = this.clamp(focusY - side / 2, top, top + height - side);
-    const rect = [rectLeft, rectTop, side, side].map(value => Math.round(value)).join(',');
+    const rect = [rectLeft, rectTop, side, side]
+      .map((value) => Math.round(value))
+      .join(',');
 
     return this.optimizeImageUrl(author.imageUrl, { w: size, h: size, rect });
   }
@@ -118,10 +134,10 @@ export class SanityService {
               "imageHotspot": image.hotspot,
               "imageDimensions": image.asset->metadata.dimensions
             },
-            { "name": "Alisson Lima", "url": "https://alissonlimadev.com" }
+            { "name": "Alisson Lima", "url": "https://www.alissonlimadev.com" }
           ),
           defined(author) => { "name": author },
-          { "name": "Alisson Lima", "url": "https://alissonlimadev.com" }
+          { "name": "Alisson Lima", "url": "https://www.alissonlimadev.com" }
         ),
         publishedAt, tags, featured,
         "updatedAt": _updatedAt,
@@ -137,7 +153,11 @@ export class SanityService {
     return this.query<Post>(groq, { slug });
   }
 
-  getRelatedPosts(slug: string, tags: string[], limit: number): Observable<PostSummary[]> {
+  getRelatedPosts(
+    slug: string,
+    tags: string[],
+    limit: number,
+  ): Observable<PostSummary[]> {
     if (!tags?.length) {
       return this.getRecentPostsExcluding(slug, limit);
     }
@@ -148,13 +168,18 @@ export class SanityService {
       }
     `;
     return this.query<PostSummary[]>(groq, { slug, tags, limit }).pipe(
-      switchMap(results =>
-        results.length > 0 ? of(results) : this.getRecentPostsExcluding(slug, limit)
-      )
+      switchMap((results) =>
+        results.length > 0
+          ? of(results)
+          : this.getRecentPostsExcluding(slug, limit),
+      ),
     );
   }
 
-  private getRecentPostsExcluding(slug: string, limit: number): Observable<PostSummary[]> {
+  private getRecentPostsExcluding(
+    slug: string,
+    limit: number,
+  ): Observable<PostSummary[]> {
     const groq = `
       *[_type == "post" && slug.current != $slug]
       | order(publishedAt desc) [0...$limit] {
@@ -205,19 +230,28 @@ export class SanityService {
   portableTextToHtml(blocks: PortableTextBlock[]): string {
     if (!Array.isArray(blocks)) return '';
     return blocks
-      .map(block => {
+      .map((block) => {
         if (block._type === 'image') {
           const url = this.safeUrl(block['url']);
           if (!url) return '';
           const alt = this.escapeAttr(block.alt || '');
-          const caption = block['caption'] ? `<figcaption>${this.escapeHtml(block['caption'])}</figcaption>` : '';
+          const caption = block['caption']
+            ? `<figcaption>${this.escapeHtml(block['caption'])}</figcaption>`
+            : '';
           return `<figure><img src="${url}" alt="${alt}" loading="lazy" />${caption}</figure>`;
         }
 
         // codeBlock = legacy schema; code = @sanity/code-input (new)
         if (block._type === 'codeBlock' || block._type === 'code') {
-          const raw = block as unknown as { code?: string; language?: string; filename?: string };
-          const lang = (raw.language || 'text').replace(/[^a-z0-9_+-]/gi, '').toLowerCase() || 'text';
+          const raw = block as unknown as {
+            code?: string;
+            language?: string;
+            filename?: string;
+          };
+          const lang =
+            (raw.language || 'text')
+              .replace(/[^a-z0-9_+-]/gi, '')
+              .toLowerCase() || 'text';
           const code = this.escapeHtml(raw.code || '');
           const filename = raw.filename ? this.escapeHtml(raw.filename) : '';
           const header = filename
@@ -228,7 +262,12 @@ export class SanityService {
 
         if (block._type === 'callout') {
           const raw = block as unknown as { type?: string; text?: string };
-          const icons: Record<string, string> = { tip: '💡', info: 'ℹ️', warning: '⚠️', danger: '🚫' };
+          const icons: Record<string, string> = {
+            tip: '💡',
+            info: 'ℹ️',
+            warning: '⚠️',
+            danger: '🚫',
+          };
           const type = raw.type || 'info';
           const text = this.escapeHtml(raw.text || '');
           const icon = icons[type] ?? 'ℹ️';
@@ -236,7 +275,8 @@ export class SanityService {
         }
 
         if (block._type === 'divider') {
-          const style = (block as unknown as { style?: string }).style || 'line';
+          const style =
+            (block as unknown as { style?: string }).style || 'line';
           return style === 'space'
             ? '<div class="divider divider--space"></div>'
             : '<hr class="divider" />';
@@ -246,7 +286,11 @@ export class SanityService {
           const md = (block as unknown as { markdown?: string }).markdown || '';
           if (!md.trim()) return '';
           // marked.parse com gfm + breaks; sync mode (string)
-          const html = marked.parse(md, { async: false, gfm: true, breaks: false }) as string;
+          const html = marked.parse(md, {
+            async: false,
+            gfm: true,
+            breaks: false,
+          }) as string;
           return `<div class="markdown-block">${html}</div>`;
         }
 
@@ -254,7 +298,9 @@ export class SanityService {
           const raw = block as unknown as { url?: string; caption?: string };
           const videoId = this.extractYouTubeId(raw.url || '');
           if (!videoId) return '';
-          const caption = raw.caption ? `<figcaption>${this.escapeHtml(raw.caption)}</figcaption>` : '';
+          const caption = raw.caption
+            ? `<figcaption>${this.escapeHtml(raw.caption)}</figcaption>`
+            : '';
           return `<figure class="video-embed"><div class="video-wrapper"><iframe src="https://www.youtube-nocookie.com/embed/${videoId}" loading="lazy" allowfullscreen title="${caption ? this.escapeAttr(raw.caption!) : 'YouTube video'}"></iframe></div>${caption}</figure>`;
         }
 
@@ -264,7 +310,7 @@ export class SanityService {
         const children = (block.children || [])
           .map((child: PortableTextChild) => {
             let text = this.escapeHtml(child.text || '');
-            (child.marks || []).forEach(mark => {
+            (child.marks || []).forEach((mark) => {
               if (mark === 'strong') text = `<strong>${text}</strong>`;
               else if (mark === 'em') text = `<em>${text}</em>`;
               else if (mark === 'code') text = `<code>${text}</code>`;
@@ -272,12 +318,14 @@ export class SanityService {
               else if (mark === 'strike-through') text = `<del>${text}</del>`;
               else if (mark === 'highlight') text = `<mark>${text}</mark>`;
               else {
-                const def = defs.find(d => d._key === mark);
+                const def = defs.find((d) => d._key === mark);
                 if (def?._type === 'link' && def.href) {
                   const safeHref = this.safeUrl(def.href);
                   if (safeHref) {
                     const external = def['blank'] !== false;
-                    const attrs = external ? ' target="_blank" rel="noopener noreferrer"' : '';
+                    const attrs = external
+                      ? ' target="_blank" rel="noopener noreferrer"'
+                      : '';
                     text = `<a href="${safeHref}"${attrs}>${text}</a>`;
                   }
                 }
@@ -288,13 +336,20 @@ export class SanityService {
           .join('');
 
         switch (block.style) {
-          case 'h1': return `<h1>${children}</h1>`;
-          case 'h2': return `<h2>${children}</h2>`;
-          case 'h3': return `<h3>${children}</h3>`;
-          case 'h4': return `<h4>${children}</h4>`;
-          case 'blockquote': return `<blockquote>${children}</blockquote>`;
-          case 'code': return `<pre class="language-typescript"><code class="language-typescript">${children}</code></pre>`;
-          default: return children ? `<p>${children}</p>` : '';
+          case 'h1':
+            return `<h1>${children}</h1>`;
+          case 'h2':
+            return `<h2>${children}</h2>`;
+          case 'h3':
+            return `<h3>${children}</h3>`;
+          case 'h4':
+            return `<h4>${children}</h4>`;
+          case 'blockquote':
+            return `<blockquote>${children}</blockquote>`;
+          case 'code':
+            return `<pre class="language-typescript"><code class="language-typescript">${children}</code></pre>`;
+          default:
+            return children ? `<p>${children}</p>` : '';
         }
       })
       .join('\n');
@@ -302,7 +357,7 @@ export class SanityService {
 
   private extractYouTubeId(url: string): string | null {
     const match = url.match(
-      /(?:youtube\.com\/watch\?v=|youtu\.be\/|youtube\.com\/embed\/)([a-zA-Z0-9_-]{11})/
+      /(?:youtube\.com\/watch\?v=|youtu\.be\/|youtube\.com\/embed\/)([a-zA-Z0-9_-]{11})/,
     );
     return match ? match[1] : null;
   }
@@ -313,7 +368,7 @@ export class SanityService {
     const lower = trimmed.toLowerCase();
     const isAbsolute = /^[a-z][a-z0-9+.-]*:/i.test(trimmed);
     const allowed = ['http:', 'https:', 'mailto:'];
-    if (isAbsolute && !allowed.some(p => lower.startsWith(p))) {
+    if (isAbsolute && !allowed.some((p) => lower.startsWith(p))) {
       return null;
     }
     return this.escapeAttr(trimmed);

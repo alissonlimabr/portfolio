@@ -63,8 +63,8 @@ export class BlogPostComponent implements OnInit, OnDestroy {
 
   private jsonLdScript?: HTMLScriptElement;
   private linkCopiedTimer: number | null = null;
-  private readonly siteOrigin = 'https://alissonlimadev.com';
-  private readonly defaultOgImageUrl = 'https://homolog.alissonlimadev.com/assets/img/og-image.webp';
+  private readonly siteOrigin = 'https://www.alissonlimadev.com';
+  private readonly defaultOgImageUrl = `${this.siteOrigin}/assets/img/og-image.webp`;
 
   constructor(
     private route: ActivatedRoute,
@@ -74,40 +74,47 @@ export class BlogPostComponent implements OnInit, OnDestroy {
     private cdr: ChangeDetectorRef,
     private titleService: Title,
     private metaService: Meta,
-    @Inject(DOCUMENT) private document: Document
+    @Inject(DOCUMENT) private document: Document,
   ) {}
 
   ngOnInit(): void {
     this.document.body.classList.add('blog-post-page');
     this.route.paramMap
       .pipe(
-        switchMap(params => this.sanity.getPost(params.get('slug')!)),
-        takeUntilDestroyed(this.destroyRef)
+        switchMap((params) => this.sanity.getPost(params.get('slug') ?? '')),
+        takeUntilDestroyed(this.destroyRef),
       )
       .subscribe({
         // Clarity faz monkey-patch no XHR e quebra o Zone do Angular —
         // por isso forçamos a callback a rodar dentro da zone.
-        next: post => {
+        next: (post) => {
           this.zone.run(() => {
             if (!post) {
-              this.notFound = true;
-              this.loading = false;
-              this.relatedPosts = [];
-              this.cdr.markForCheck();
+              this.handlePostNotFound();
               return;
             }
             if (post.imageUrl && !/^https?:\/\//i.test(post.imageUrl)) {
               post.imageUrl = undefined;
             }
             const socialImageUrl = post.ogImageUrl || post.imageUrl;
-            post.imageUrl = this.sanity.optimizeImageUrl(post.imageUrl, { w: 1200, h: 675 });
-            post.ogImageUrl = this.sanity.optimizeImageUrl(socialImageUrl, { w: 1200, h: 630 });
-            post.author.imageUrl = this.sanity.optimizeAuthorImageUrl(post.author);
+            post.imageUrl = this.sanity.optimizeImageUrl(post.imageUrl, {
+              w: 1200,
+              h: 675,
+            });
+            post.ogImageUrl = this.sanity.optimizeImageUrl(socialImageUrl, {
+              w: 1200,
+              h: 630,
+            });
+            post.author.imageUrl = this.sanity.optimizeAuthorImageUrl(
+              post.author,
+            );
 
             this.post = post;
             const bodyHtml = this.sanity.portableTextToHtml(post.body);
-            const safeBodyHtml = this.sanitizer.sanitize(SecurityContext.HTML, bodyHtml) ?? '';
-            this.bodyHtml = this.sanitizer.bypassSecurityTrustHtml(safeBodyHtml);
+            const safeBodyHtml =
+              this.sanitizer.sanitize(SecurityContext.HTML, bodyHtml) ?? '';
+            this.bodyHtml =
+              this.sanitizer.bypassSecurityTrustHtml(safeBodyHtml);
             this.relatedPosts = [];
             this.loading = false;
             this.tocItems = [];
@@ -117,7 +124,7 @@ export class BlogPostComponent implements OnInit, OnDestroy {
 
             this.applySeo(post);
             this.applyJsonLd(post);
-            this.setCanonical(post.slug.current);
+            this.setCanonicalPath(`/blog/${post.slug.current}`);
             this.loadRelatedPosts(post.slug.current, post.tags ?? []);
 
             if (this.isBrowser) {
@@ -127,10 +134,7 @@ export class BlogPostComponent implements OnInit, OnDestroy {
         },
         error: () => {
           this.zone.run(() => {
-            this.notFound = true;
-            this.loading = false;
-            this.relatedPosts = [];
-            this.cdr.markForCheck();
+            this.handlePostError();
           });
         },
       });
@@ -150,24 +154,27 @@ export class BlogPostComponent implements OnInit, OnDestroy {
       .getRelatedPosts(slug, tags, 3)
       .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe({
-      next: related => {
-        this.zone.run(() => {
-          this.relatedPosts = (related ?? []).map(p => ({
-            ...p,
-            imageUrl:
-              p.imageUrl && /^https?:\/\//i.test(p.imageUrl)
-                ? this.sanity.optimizeImageUrl(p.imageUrl, { w: 600, h: 338 })
-                : undefined,
-          }));
-          this.cdr.markForCheck();
-        });
-      },
-      error: () => {},
-    });
+        next: (related) => {
+          this.zone.run(() => {
+            this.relatedPosts = (related ?? []).map((p) => ({
+              ...p,
+              imageUrl:
+                p.imageUrl && /^https?:\/\//i.test(p.imageUrl)
+                  ? this.sanity.optimizeImageUrl(p.imageUrl, { w: 600, h: 338 })
+                  : undefined,
+            }));
+            this.cdr.markForCheck();
+          });
+        },
+        error: () => {},
+      });
   }
 
   private applySeo(post: Post): void {
-    const description = (post.seoDescription || post.excerpt || '').slice(0, 160);
+    const description = (post.seoDescription || post.excerpt || '').slice(
+      0,
+      160,
+    );
     const imageUrl = post.ogImageUrl || post.imageUrl || this.defaultOgImageUrl;
     const title = `${post.title} | Alisson Lima Dev`;
     const url = `${this.siteOrigin}/blog/${post.slug.current}`;
@@ -176,20 +183,109 @@ export class BlogPostComponent implements OnInit, OnDestroy {
     this.metaService.updateTag({ name: 'description', content: description });
     this.metaService.updateTag({ property: 'og:type', content: 'article' });
     this.metaService.updateTag({ property: 'og:title', content: title });
-    this.metaService.updateTag({ property: 'og:description', content: description });
+    this.metaService.updateTag({
+      property: 'og:description',
+      content: description,
+    });
     this.metaService.updateTag({ property: 'og:url', content: url });
     this.metaService.updateTag({ property: 'og:image', content: imageUrl });
     this.metaService.updateTag({ property: 'og:image:width', content: '1200' });
     this.metaService.updateTag({ property: 'og:image:height', content: '630' });
-    this.metaService.updateTag({ name: 'twitter:card', content: 'summary_large_image' });
+    this.metaService.updateTag({
+      name: 'twitter:card',
+      content: 'summary_large_image',
+    });
     this.metaService.updateTag({ name: 'twitter:title', content: title });
-    this.metaService.updateTag({ name: 'twitter:description', content: description });
+    this.metaService.updateTag({
+      name: 'twitter:description',
+      content: description,
+    });
     this.metaService.updateTag({ name: 'twitter:image', content: imageUrl });
-    this.metaService.updateTag({ property: 'article:author', content: post.author.name });
-    this.metaService.updateTag({ property: 'article:published_time', content: post.publishedAt });
+    this.metaService.updateTag({
+      property: 'article:author',
+      content: post.author.name,
+    });
+    this.metaService.updateTag({
+      property: 'article:published_time',
+      content: post.publishedAt,
+    });
     if (post.updatedAt) {
-      this.metaService.updateTag({ property: 'article:modified_time', content: post.updatedAt });
+      this.metaService.updateTag({
+        property: 'article:modified_time',
+        content: post.updatedAt,
+      });
     }
+  }
+
+  private handlePostNotFound(): void {
+    this.resetPostState();
+    this.applyFallbackSeo(
+      'Artigo não encontrado | Alisson Lima Dev',
+      'O artigo que você procurou não foi encontrado.',
+      '/blog',
+    );
+  }
+
+  private handlePostError(): void {
+    this.resetPostState();
+    this.applyFallbackSeo(
+      'Blog | Alisson Lima Dev',
+      'Não foi possível carregar este artigo agora. Tente novamente em instantes.',
+      '/blog',
+    );
+  }
+
+  private resetPostState(): void {
+    this.post = undefined;
+    this.bodyHtml = undefined;
+    this.notFound = true;
+    this.loading = false;
+    this.relatedPosts = [];
+    this.tocItems = [];
+    this.tocSectionIds = [];
+    this.activeTocId = '';
+    this.clearJsonLd();
+    this.cdr.markForCheck();
+  }
+
+  private applyFallbackSeo(
+    title: string,
+    description: string,
+    path: string,
+  ): void {
+    const url = `${this.siteOrigin}${path}`;
+    this.titleService.setTitle(title);
+    this.metaService.updateTag({ name: 'description', content: description });
+    this.metaService.updateTag({ property: 'og:type', content: 'website' });
+    this.metaService.updateTag({ property: 'og:title', content: title });
+    this.metaService.updateTag({
+      property: 'og:description',
+      content: description,
+    });
+    this.metaService.updateTag({ property: 'og:url', content: url });
+    this.metaService.updateTag({
+      property: 'og:image',
+      content: this.defaultOgImageUrl,
+    });
+    this.metaService.updateTag({ property: 'og:image:width', content: '1200' });
+    this.metaService.updateTag({ property: 'og:image:height', content: '630' });
+    this.metaService.updateTag({
+      name: 'twitter:card',
+      content: 'summary_large_image',
+    });
+    this.metaService.updateTag({ name: 'twitter:title', content: title });
+    this.metaService.updateTag({
+      name: 'twitter:description',
+      content: description,
+    });
+    this.metaService.updateTag({
+      name: 'twitter:image',
+      content: this.defaultOgImageUrl,
+    });
+    this.metaService.removeTag("property='article:author'");
+    this.metaService.removeTag("property='article:published_time'");
+    this.metaService.removeTag("property='article:modified_time'");
+    this.setCanonicalPath(path);
   }
 
   private applyJsonLd(post: Post): void {
@@ -223,7 +319,7 @@ export class BlogPostComponent implements OnInit, OnDestroy {
     if (imageUrl) ld['image'] = imageUrl;
     if (post.tags?.length) ld['keywords'] = post.tags.join(', ');
     if (post.categories?.length) {
-      ld['articleSection'] = post.categories.map(c => c.title).join(', ');
+      ld['articleSection'] = post.categories.map((c) => c.title).join(', ');
     }
 
     this.jsonLdScript = this.document.createElement('script');
@@ -234,13 +330,15 @@ export class BlogPostComponent implements OnInit, OnDestroy {
   }
 
   getAuthorInitials(name: string): string {
-    return name
-      .trim()
-      .split(/\s+/)
-      .slice(0, 2)
-      .map(part => part.charAt(0))
-      .join('')
-      .toUpperCase() || 'A';
+    return (
+      name
+        .trim()
+        .split(/\s+/)
+        .slice(0, 2)
+        .map((part) => part.charAt(0))
+        .join('')
+        .toUpperCase() || 'A'
+    );
   }
 
   private clearJsonLd(): void {
@@ -250,19 +348,21 @@ export class BlogPostComponent implements OnInit, OnDestroy {
     }
   }
 
-  private setCanonical(slug: string): void {
-    let link = this.document.querySelector('link[rel="canonical"]') as HTMLLinkElement | null;
+  private setCanonicalPath(path: string): void {
+    let link = this.document.querySelector(
+      'link[rel="canonical"]',
+    ) as HTMLLinkElement | null;
     if (!link) {
       link = this.document.createElement('link');
       link.rel = 'canonical';
       this.document.head.appendChild(link);
     }
-    link.href = `${this.siteOrigin}/blog/${slug}`;
+    link.href = `${this.siteOrigin}${path}`;
   }
 
   onContentHeadingsChange(items: TocItem[]): void {
     this.tocItems = items;
-    this.tocSectionIds = items.map(item => item.id);
+    this.tocSectionIds = items.map((item) => item.id);
     this.activeTocId = '';
   }
 
@@ -278,7 +378,11 @@ export class BlogPostComponent implements OnInit, OnDestroy {
     }
   }
 
-  get shareUrls(): { twitter: string; linkedin: string; whatsapp: string } | null {
+  get shareUrls(): {
+    twitter: string;
+    linkedin: string;
+    whatsapp: string;
+  } | null {
     if (!this.post) return null;
     const url = this.postUrl;
     const encodedUrl = encodeURIComponent(url);
@@ -291,9 +395,7 @@ export class BlogPostComponent implements OnInit, OnDestroy {
   }
 
   get postUrl(): string {
-    return this.post
-      ? `${this.siteOrigin}/blog/${this.post.slug.current}`
-      : '';
+    return this.post ? `${this.siteOrigin}/blog/${this.post.slug.current}` : '';
   }
 
   onPostLinkCopied(): void {
