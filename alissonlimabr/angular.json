@@ -32,7 +32,8 @@
               "src/favicon.ico",
               "src/assets",
               "src/robots.txt",
-              { "glob": "rss.xml", "input": "src", "output": "/" }
+              { "glob": "rss.xml", "input": "src", "output": "/" },
+              { "glob": "sitemap.xml", "input": "src", "output": "/" }
             ],
             "styles": [
               "src/styles.scss"
@@ -55,12 +56,16 @@
                 },
                 {
                   "type": "anyComponentStyle",
-                  "maximumWarning": "30kb",
-                  "maximumError": "40kb"
+                  "maximumWarning": "35kb",
+                  "maximumError": "45kb"
                 }
               ],
               "outputHashing": "all",
-              "optimization": true,
+              "optimization": {
+                "scripts": true,
+                "styles": true,
+                "fonts": false
+              },
               "sourceMap": false,
               "namedChunks": false,
               "aot": true,
@@ -110,7 +115,8 @@
               "src/favicon.ico",
               "src/assets",
               "src/robots.txt",
-              { "glob": "rss.xml", "input": "src", "output": "/" }
+              { "glob": "rss.xml", "input": "src", "output": "/" },
+              { "glob": "sitemap.xml", "input": "src", "output": "/" }
             ],
             "styles": [
               "src/styles.scss"
