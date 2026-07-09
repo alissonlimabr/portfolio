@@ -1,41 +1,80 @@
 <!-- Sidenav -->
-<div class="navbar">
-  <!-- Tollbar desktop + nav links -->
+<div class="navbar" [appActiveSection]="portfolioSectionIds" [activeSectionOffset]="160" [activeSectionUseHash]="true"
+  [activeSectionFallbackToFirst]="true" [activeSectionDisabled]="isBlogRoute"
+  (activeSectionChange)="onActivePortfolioSectionChange($event)">
+  <!-- Toolbar desktop + nav links -->
   <mat-toolbar>
     <span class="logo">
       <fa-icon [icon]="faCode"></fa-icon>
-      <a href="#">ALISSONLIMADEV</a>
+      <a routerLink="/" aria-label="Ir para a página inicial">ALISSONLIMA<span class="logo-dev">DEV</span></a>
+      @if (isBlogRoute) {
+      <span class="logo-context">/ blog</span>
+      }
     </span>
     <span class="nav-links">
+      @if (isBlogRoute) {
       <ul>
         <li>
-          <a class="link" href="#perfil">Perfil</a>
+          <a class="link" routerLink="/blog" routerLinkActive="link--active"
+            [routerLinkActiveOptions]="{ exact: true }">Posts</a>
         </li>
         <li>
-          <a class="link" href="#sobre">Sobre mim</a>
+          <a class="link" routerLink="/blog/categorias" routerLinkActive="link--active">Categorias</a>
+        </li>
+        <li class="theme-toggle">
+          <button type="button" class="theme-toggle-btn" [class.active]="currentTheme() === 'light'"
+            (click)="toggleTheme()"
+            [attr.aria-label]="currentTheme() === 'dark' ? 'Ativar modo claro' : 'Ativar modo escuro'">
+            <span class="theme-icon">
+              @if (currentTheme() === 'dark') {
+              <app-icon name="sun" [size]="17" />
+              } @else {
+              <app-icon name="moon" [size]="17" />
+              }
+            </span>
+          </button>
         </li>
         <li>
-          <a class="link" href="#habilidades">Habilidades</a>
+          <a class="link link--rss" href="/rss.xml" target="_blank" rel="noopener noreferrer" aria-label="RSS feed"
+            title="RSS feed">
+            <app-icon name="rss" [size]="16" />
+          </a>
         </li>
         <li>
-          <a class="link" href="#trabalhos">Trabalhos</a>
-        </li>
-        <li>
-          <a class="link" href="#projetos">Projetos</a>
-        </li>
-        <li>
-          <a class="link" href="#contato">Contato</a>
+          <a class="link link--back" routerLink="/">← Portfólio</a>
         </li>
       </ul>
+      } @else {
+      <ul>
+        <li>
+          <a class="link" href="/#perfil" [class.link--section-active]="isPortfolioLinkActive('perfil')">Perfil</a>
+        </li>
+        <li>
+          <a class="link" href="/#sobre" [class.link--section-active]="isPortfolioLinkActive('sobre')">Sobre mim</a>
+        </li>
+        <li>
+          <a class="link" href="/#habilidades"
+            [class.link--section-active]="isPortfolioLinkActive('habilidades')">Habilidades</a>
+        </li>
+        <li>
+          <a class="link" href="/#trabalhos"
+            [class.link--section-active]="isPortfolioLinkActive('trabalhos')">Trabalhos</a>
+        </li>
+        <li>
+          <a class="link" href="/#projetos"
+            [class.link--section-active]="isPortfolioLinkActive('projetos')">Projetos</a>
+        </li>
+        <li>
+          <a class="link" routerLink="/blog" [class.link--section-active]="isPortfolioLinkActive('blog')">Blog</a>
+        </li>
+        <li>
+          <a class="link" href="/#contato" [class.link--section-active]="isPortfolioLinkActive('contato')">Contato</a>
+        </li>
+      </ul>
+      }
     </span>
     <!-- Sidenav button open -->
-    <button
-      class="menu"
-      mat-icon-button
-      matTooltip="Basic"
-      aria-label="menu"
-      (click)="openSidenav.emit()"
-    >
+    <button class="menu" mat-icon-button aria-label="Abrir menu" (click)="openSidenav.emit()">
       <fa-icon [icon]="faBars"></fa-icon>
     </button>
   </mat-toolbar>

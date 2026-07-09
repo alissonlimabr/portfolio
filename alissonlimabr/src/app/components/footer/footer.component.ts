@@ -6,12 +6,10 @@ import { faCode } from '@fortawesome/free-solid-svg-icons';
   selector: 'app-footer',
   templateUrl: './footer.component.html',
   standalone: true,
-  imports: [
-    FontAwesomeModule,
-  ],
+  imports: [FontAwesomeModule],
   styleUrls: ['./footer.component.scss'],
 })
 export class FooterComponent {
-  faCode = faCode;
-  anoAtual: number = new Date().getFullYear();
+  readonly faCode = faCode;
+  readonly anoAtual = new Date().getFullYear();
 }

@@ -1,0 +1,299 @@
+@use "palette" as tokens;
+@use "variables-mixins" as *;
+
+// Estilo global para todos os ícones FontAwesome
+fa-icon {
+  color: tokens.$purple-400;
+}
+
+.content {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  padding: 0 100px;
+  gap: 40px;
+  width: 100%;
+  max-width: tokens.$container-max-width !important;
+
+  @include responsive(tabletplus) {
+    padding: 0 20px;
+  }
+  @include responsive(mobilePlus) {
+    padding: 0 10px;
+  }
+}
+
+// Wrapper de largura máxima
+.container {
+  display: flex;
+  justify-content: center;
+
+  @include responsive(mobilePlus) {
+    min-height: 500px;
+  }
+}
+
+// ── Sidenav ──────────────────────────────────────────────────────────────────
+mat-sidenav-container {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  min-width: 0;
+  min-height: 100vh;
+  position: absolute !important;
+  overflow: initial !important;
+}
+
+mat-sidenav {
+  display: none !important;
+  min-height: 100vh;
+  width: 70%;
+  position: fixed !important;
+  background: tokens.$background-color !important;
+  color: tokens.$white !important;
+
+  @include responsive(tabletplus) {
+    display: block !important;
+  }
+
+  .logo {
+    display: flex;
+    justify-content: center;
+    border-bottom: 1px solid;
+    color: tokens.$purple-500;
+    padding: 0.35rem;
+    gap: 10px;
+    font-weight: bold;
+
+    a {
+      width: 80%;
+      font-size: 24px;
+      text-decoration: none;
+      color: tokens.$white;
+
+      @include responsive(mobile) {
+        font-size: 18px;
+      }
+      @include responsive(tablet) {
+        font-size: 20px;
+      }
+    }
+
+    fa-icon {
+      font-size: 40px !important;
+      padding: 0 1rem;
+
+      @include responsive(tablet) {
+        font-size: 30px !important;
+      }
+    }
+
+    #close {
+      margin-left: auto;
+      background: transparent;
+      border: 0;
+      color: inherit;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+
+      fa-icon {
+        font-size: 35px !important;
+      }
+    }
+  }
+
+  @include responsive(tabletplus) {
+    width: 50%;
+  }
+  @include responsive(tablet) {
+    padding: 0.8rem 0;
+    width: 70%;
+  }
+  @include responsive(mobile) {
+    width: 100%;
+  }
+}
+
+mat-sidenav-content {
+  width: 100%;
+  min-width: 0;
+  min-height: 100vh;
+  overflow: initial !important;
+}
+
+// ── Nav ──────────────────────────────────────────────────────────────────────
+.logo {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 20px;
+  font-weight: 700;
+
+  @include responsive(mobile) {
+    font-size: 18px;
+  }
+
+  fa-icon {
+    font-size: 32px;
+
+    @include responsive(mobile) {
+      font-size: 24px;
+    }
+  }
+}
+
+.nav-links {
+  display: flex;
+  align-items: center;
+
+  ul {
+    display: flex;
+    flex-direction: row;
+    font-size: 20px;
+    font-weight: 500;
+    width: 100%;
+    height: 100%;
+    gap: 10px;
+
+    @include responsive(tabletplus) {
+      display: flex;
+      align-items: center;
+      flex-direction: column;
+      margin: 40px 0;
+      justify-content: center;
+    }
+  }
+
+  li {
+    display: flex;
+    padding: 2px;
+
+    @include responsive(tabletplus) {
+      padding: 10px;
+      min-width: 40%;
+      text-align: center;
+    }
+  }
+}
+
+.link {
+  position: relative;
+  font-size: 18px;
+  font-weight: 500;
+  width: 100%;
+  height: 100%;
+  padding: 5px 10px;
+  text-decoration: none;
+  transition: 0.2s;
+  color: tokens.$white;
+
+  &:hover {
+    transition: 0.2s;
+  }
+
+  &:before {
+    content: "";
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    height: 2px;
+    width: 0%;
+    background-image: linear-gradient(90deg, tokens.$purple-400 0%, tokens.$accent-pink 100%);
+    border-radius: 0;
+    transition: all 0.4s ease;
+    box-shadow: 0 0 8px rgba(tokens.$purple-400, 0.5);
+  }
+
+  &:hover:before {
+    width: 100%;
+  }
+
+  &.link--active {
+    color: tokens.$purple-300;
+    &:before {
+      width: 100%;
+    }
+  }
+  &.link--section-active {
+    &:before {
+      width: 100%;
+    }
+  }
+
+  &.link--back {
+    color: tokens.$gray-300;
+    font-size: 16px;
+    &:hover {
+      color: tokens.$white;
+    }
+    &:before {
+      display: none;
+    }
+  }
+
+  &.link--rss {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    color: tokens.$purple-300;
+    padding: 5px 8px;
+    &:hover {
+      color: tokens.$purple-400;
+    }
+    &:before {
+      display: none;
+    }
+  }
+
+  @include responsive(mobile) {
+    font-size: 18px;
+  }
+}
+
+.theme-toggle-btn {
+  background: none;
+  border: none;
+  padding: 5px 8px;
+  color: tokens.$purple-300;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  transition:
+    color 0.2s,
+    filter 0.2s;
+
+  &:hover {
+    color: tokens.$purple-400;
+    filter: drop-shadow(0 0 6px rgba(tokens.$purple-400, 0.6));
+  }
+
+  &.active {
+    color: tokens.$accent-pink;
+    filter: drop-shadow(0 0 6px rgba(tokens.$accent-pink, 0.5));
+  }
+}
+
+// Cor padrão por slug de categoria; [style.--cat-color] do Sanity tem precedência.
+.category--desenvolvimento {
+  --cat-color: #{tokens.$category-desenvolvimento};
+}
+.category--backend {
+  --cat-color: #{tokens.$category-backend};
+}
+.category--frontend {
+  --cat-color: #{tokens.$category-frontend};
+}
+.category--devops,
+.category--devops-cloud {
+  --cat-color: #{tokens.$category-devops};
+}
+.category--carreira {
+  --cat-color: #{tokens.$category-carreira};
+}
+.category--tutoriais {
+  --cat-color: #{tokens.$category-tutoriais};
+}

@@ -1,0 +1,187 @@
+<section
+  class="blog-hero {{ currentCategory ? 'blog-hero--category category--' + currentCategory.slug.current : '' }}"
+  [style.--cat-color]="currentCategory?.color || null"
+>
+  <div class="blog-hero-inner">
+    @if (currentCategory) {
+      <span class="blog-hero-label">Categoria</span>
+      <h1>{{ currentCategory.title }}</h1>
+      @if (currentCategory.description) {
+        <p>{{ currentCategory.description }}</p>
+      }
+    } @else {
+      <h1>Blog</h1>
+      <p>Artigos sobre desenvolvimento, tecnologia e carreira</p>
+    }
+  </div>
+</section>
+
+<section class="blog-section">
+  @if (loading && categories.length === 0) {
+    <nav class="blog-categories" aria-label="Filtrar por categoria">
+      @for (_ of [1, 2, 3, 4]; track $index) {
+        <span class="blog-category-filter-skeleton"></span>
+      }
+    </nav>
+  } @else if (categories.length > 0) {
+    <nav class="blog-categories" aria-label="Filtrar por categoria">
+      <a class="blog-category-filter" routerLink="/blog" [class.active]="!currentCategory">
+        Todas
+      </a>
+      @for (cat of categories; track cat._id) {
+        <a
+          class="blog-category-filter category--{{ cat.slug.current }}"
+          [routerLink]="['/blog/categoria', cat.slug.current]"
+          [class.active]="currentCategory?._id === cat._id"
+          [style.--cat-color]="cat.color || null"
+        >
+          {{ cat.title }}
+        </a>
+      }
+    </nav>
+  }
+
+  @if (!loading && !error && posts.length > 0) {
+    <div class="blog-toolbar">
+      <input
+        #searchInput
+        class="blog-search"
+        type="search"
+        placeholder="Buscar artigos por título, resumo, tag ou categoria..."
+        [value]="searchTerm"
+        (search)="onSearch(searchInput.value)"
+        aria-label="Buscar artigos"
+      />
+      <button
+        type="button"
+        class="blog-search-btn"
+        (click)="onSearch(searchInput.value)"
+        aria-label="Buscar"
+      >
+        <app-icon name="search" [size]="18" />
+      </button>
+    </div>
+  }
+
+  @if (loading) {
+    <div class="blog-list">
+      @for (_ of [1, 2, 3, 4, 5, 6]; track $index) {
+        <div class="blog-skeleton">
+          <div class="blog-skeleton-img"></div>
+          <div class="blog-skeleton-body">
+            <div class="blog-skeleton-line blog-skeleton-line-title"></div>
+            <div class="blog-skeleton-line"></div>
+            <div class="blog-skeleton-line blog-skeleton-line-short"></div>
+          </div>
+        </div>
+      }
+    </div>
+  }
+
+  @if (error) {
+    <div class="blog-state-msg">
+      <p>Não foi possível carregar os artigos. Tente novamente mais tarde.</p>
+    </div>
+  }
+
+  @if (!loading && !error && posts.length === 0) {
+    <div class="blog-state-msg">
+      <p>
+        @if (currentCategory) {
+          Nenhum artigo publicado nesta categoria ainda.
+        } @else {
+          Nenhum artigo publicado ainda. Em breve!
+        }
+      </p>
+    </div>
+  }
+
+  @if (!loading && !error && posts.length > 0 && filteredPosts.length === 0) {
+    <div class="blog-state-msg">
+      <p>Nenhum artigo encontrado para "{{ searchTerm }}".</p>
+    </div>
+  }
+
+  @if (!loading && !error && pagedPosts.length > 0) {
+    <div class="blog-list">
+      @for (post of pagedPosts; track post._id) {
+        <a class="blog-card" [routerLink]="['/blog', post.slug.current]">
+          <mat-card>
+            @if (post.imageUrl) {
+              <div class="blog-card-img">
+                <img [src]="post.imageUrl" [alt]="post.imageAlt || post.title" loading="lazy" />
+              </div>
+            }
+            <mat-card-content>
+              @if (post.categories?.length) {
+                <div class="blog-categories-row">
+                  @for (cat of post.categories!; track cat._id) {
+                    <span
+                      class="blog-category-badge category--{{ cat.slug.current }}"
+                      [style.--cat-color]="cat.color || null"
+                    >
+                      {{ cat.title }}
+                    </span>
+                  }
+                </div>
+              }
+              <h3>{{ post.title }}</h3>
+              <p class="blog-card-excerpt">{{ post.excerpt }}</p>
+              @if (post.tags?.length) {
+                <div class="blog-tags">
+                  @for (tag of post.tags!; track tag) {
+                    <span class="blog-tag">{{ tag }}</span>
+                  }
+                </div>
+              }
+              <div class="blog-card-meta">
+                <span>{{ formatDate(post.publishedAt) }}</span>
+                @if (post.estimatedReadingTime) {
+                  <span>· {{ post.estimatedReadingTime }} min de leitura</span>
+                }
+              </div>
+            </mat-card-content>
+          </mat-card>
+        </a>
+      }
+    </div>
+
+    @if (totalPages > 1) {
+      <nav class="blog-pagination" aria-label="Paginação dos artigos">
+        <button
+          type="button"
+          class="blog-page-btn"
+          (click)="goToPage(currentPage - 1)"
+          [disabled]="currentPage === 1"
+          aria-label="Página anterior"
+        >
+          ←
+        </button>
+        @for (page of pageNumbers; track $index) {
+          @if (page === null) {
+            <span class="blog-page-ellipsis">…</span>
+          } @else {
+            <button
+              type="button"
+              class="blog-page-btn"
+              [class.active]="page === currentPage"
+              (click)="goToPage(page)"
+              [attr.aria-current]="page === currentPage ? 'page' : null"
+            >
+              {{ page }}
+            </button>
+          }
+        }
+        <button
+          type="button"
+          class="blog-page-btn"
+          (click)="goToPage(currentPage + 1)"
+          [disabled]="currentPage === totalPages"
+          aria-label="Próxima página"
+        >
+          →
+        </button>
+      </nav>
+    }
+  }
+</section>

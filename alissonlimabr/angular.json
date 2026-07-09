@@ -25,33 +25,48 @@
             ],
             "tsConfig": "tsconfig.app.json",
             "inlineStyleLanguage": "scss",
+            "allowedCommonJsDependencies": [
+              "prismjs"
+            ],
             "assets": [
               "src/favicon.ico",
               "src/assets",
-              "src/robots.txt"
+              "src/robots.txt",
+              { "glob": "llms.txt", "input": "src", "output": "/" },
+              { "glob": "rss.xml", "input": "src", "output": "/" },
+              { "glob": "sitemap.xml", "input": "src", "output": "/" }
             ],
             "styles": [
-              "src/styles.scss",
-              "./node_modules/aos/dist/aos.css"
+              "src/styles.scss"
             ],
             "scripts": []
           },
           "configurations": {
             "production": {
+              "fileReplacements": [
+                {
+                  "replace": "src/environments/environment.ts",
+                  "with": "src/environments/environment.prod.ts"
+                }
+              ],
               "budgets": [
                 {
                   "type": "initial",
-                  "maximumWarning": "1mb",
-                  "maximumError": "1mb"
+                  "maximumWarning": "1.1mb",
+                  "maximumError": "1.5mb"
                 },
                 {
                   "type": "anyComponentStyle",
-                  "maximumWarning": "2kb",
-                  "maximumError": "4kb"
+                  "maximumWarning": "35kb",
+                  "maximumError": "45kb"
                 }
               ],
               "outputHashing": "all",
-              "optimization": true,
+              "optimization": {
+                "scripts": true,
+                "styles": true,
+                "fonts": false
+              },
               "sourceMap": false,
               "namedChunks": false,
               "aot": true,
@@ -100,11 +115,13 @@
             "assets": [
               "src/favicon.ico",
               "src/assets",
-              "src/robots.txt"
+              "src/robots.txt",
+              { "glob": "llms.txt", "input": "src", "output": "/" },
+              { "glob": "rss.xml", "input": "src", "output": "/" },
+              { "glob": "sitemap.xml", "input": "src", "output": "/" }
             ],
             "styles": [
-              "src/styles.scss",
-              "./node_modules/aos/dist/aos.css"
+              "src/styles.scss"
             ],
             "scripts": []
           }
@@ -113,7 +130,7 @@
           "builder": "@angular-devkit/build-angular:server",
           "options": {
             "outputPath": "dist/alissonlimabr/server",
-            "main": "server.ts",
+            "main": "src/main.server.ts",
             "tsConfig": "tsconfig.server.json",
             "inlineStyleLanguage": "scss"
           },

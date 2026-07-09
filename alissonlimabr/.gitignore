@@ -40,3 +40,15 @@ testem.log
 # System files
 .DS_Store
 Thumbs.db
+
+# Environment — nunca comitar valores reais
+src/environments/environment.ts
+src/environments/environment.prod.ts
+
+# RSS — gerado em build pelo scripts/generate-rss.mjs
+src/rss.xml
+
+# Rotas — gerado em build pelo scripts/generate-routes.mjs
+routes.txt
+
+api/dist

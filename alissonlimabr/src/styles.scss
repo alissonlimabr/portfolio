@@ -1,1 +1,6 @@
-@import "assets/scss/dark-purple-theme.scss"
+@use "assets/scss/tokens";
+@use "assets/scss/reset";
+@use "assets/scss/animations";
+@use "assets/scss/global";
+@use "assets/scss/dark-purple-theme";
+@use "assets/scss/blog-light-theme";

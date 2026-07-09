@@ -1,0 +1,66 @@
+@use "src/assets/scss/palette" as tokens;
+@use "src/assets/scss/variables-mixins" as *;
+
+mat-toolbar {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  max-width: tokens.$container-wide-max-width;
+
+  a {
+    color: tokens.$white;
+  }
+
+  @include responsive(tabletplus) {
+    display: flex;
+    justify-content: space-between;
+
+    .nav-links {
+      display: none !important;
+    }
+  }
+}
+
+.navbar {
+  display: flex;
+  justify-content: center;
+  border-color: tokens.$purple-500;
+  padding: 0.6rem;
+  width: 100%;
+
+  @include responsive(tabletplus) {
+    padding: 4px 0;
+  }
+}
+
+.menu {
+  display: none !important;
+  background: transparent;
+  border: 0;
+  font-size: 24px;
+
+  &:hover {
+    transform: translateX(3px);
+    transition: 0.3s;
+  }
+
+  @include responsive(tabletplus) {
+    display: block !important;
+  }
+}
+
+.logo-dev {
+  color: tokens.$purple-300;
+}
+
+.logo-context {
+  font-size: 18px;
+  font-weight: 400;
+  color: tokens.$purple-300;
+  letter-spacing: 0.5px;
+  margin-left: 4px;
+
+  @include responsive(mobile) {
+    font-size: 14px;
+  }
+}

@@ -1,0 +1,113 @@
+// Variáveis de cor e dimensão. Tokens CSS runtime: _tokens.scss.
+
+// Layout
+$container-max-width: 1280px;
+$container-wide-max-width: 1440px;
+$prose-max-width: 760px;
+$prose-wide-max-width: 1080px;
+
+// Fundo e superfícies
+$background-color: #0a0814;
+$bg: $background-color;
+
+$surface: #14101f;
+$surface-elevated: #1e1830;
+$surface-bright: #2a2240;
+
+// Base
+$white: #ffffff;
+$text: $white;
+$text-muted: #8b859b;
+
+// Escala de cinza
+$gray-100: #e8e5f0;
+$gray-200: #b8b3c9;
+$gray-300: #8b859b;
+$gray-400: #5c5670;
+$gray-500: #3f3a52;
+$gray-600: #2a2638;
+$gray-700: #1e1a2a;
+$gray-800: #15121f;
+$gray-900: #0e0b17;
+
+// Escala de roxo
+$purple-50: #f4eafc;
+$purple-100: #e5cff8;
+$purple-200: #c9a1f0;
+$purple-300: #ad73e8;
+$purple-400: #a855f7;
+$purple-500: #7c3aed;
+$purple-600: #6d28d9;
+$purple-700: #5b21b6;
+$purple-800: #3b0f7e;
+$purple-900: #1f0942;
+
+// Acentos
+$accent-pink: #e879f9;
+$accent-cyan: #67e8f9;
+$pink: $accent-pink;
+$cyan: $accent-cyan;
+
+// Tema escuro de leitura do blog
+$blog-dark-bg: #18151f;
+$blog-dark-surface: #211d29;
+$blog-dark-surface-elevated: #2a2533;
+$blog-dark-text: #d4cedb;
+$blog-dark-heading: #ebe6f0;
+$blog-dark-text-muted: #a9a2b4;
+$blog-dark-border: #383143;
+$blog-dark-accent: #9587bc;
+$blog-dark-accent-hover: #b2a6d0;
+$blog-dark-interactive: #a875e2;
+$blog-dark-interactive-hover: #c19aef;
+$blog-dark-link: #b6adcb;
+$blog-dark-link-hover: #d4ccde;
+$blog-dark-code-bg: #14111a;
+$blog-dark-inline-code-color: #b7b9ca;
+$blog-dark-shimmer-a: #221e2a;
+$blog-dark-shimmer-b: #302a39;
+$blog-dark-code-comment: #928c9d;
+$blog-dark-code-punctuation: #bdb6c8;
+$blog-dark-code-string: #aabfaf;
+$blog-dark-code-keyword: #c9b3a7;
+$blog-dark-callout-info: #91b3c2;
+$blog-dark-callout-warning: #cbb184;
+$blog-dark-callout-danger: #ca8b92;
+
+// Tema claro de leitura do blog
+$blog-light-bg: $white;
+$blog-light-surface: #f8f5ff;
+$blog-light-surface-elevated: $white;
+$blog-light-text: #322b3d;
+$blog-light-heading: #181321;
+$blog-light-text-muted: #665c75;
+$blog-light-border: #e7e0f0;
+$blog-light-accent: $purple-500;
+$blog-light-accent-strong: $purple-600;
+$blog-light-accent-hover: $purple-600;
+$blog-light-accent-warm: #b45309;
+$blog-light-link: #574a65;
+$blog-light-link-hover: #352c40;
+$blog-light-code-bg: #f7f4fc;
+$blog-light-shimmer-a: #f3eff9;
+$blog-light-shimmer-b: #e8e1f1;
+$blog-light-shadow: #2d1c44;
+$blog-light-code-comment: #756a84;
+$blog-light-code-punctuation: #554b63;
+$blog-light-code-string: #15803d;
+$blog-light-callout-info: #0891b2;
+$blog-light-callout-danger: #dc2626;
+
+// Semântica
+$success: #16a34a;
+$error: #b91c1c;
+$green-400: #4ade80;
+
+// Cores das categorias do blog
+// Manter em sincronia com o campo "color" cadastrado no Sanity.
+$category-desenvolvimento: #a855f7;
+$category-backend: #f59e0b;
+$category-frontend: #06b6d4;
+$category-devops: #3b82f6;
+$category-carreira: #10b981;
+$category-tutoriais: #ec4899;

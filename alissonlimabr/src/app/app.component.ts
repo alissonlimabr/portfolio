@@ -1,10 +1,27 @@
-import { Component, Inject, OnInit, PLATFORM_ID } from '@angular/core';
-import { NavigationEnd, Router, RouterOutlet } from '@angular/router';
+import {
+  Component,
+  DestroyRef,
+  OnInit,
+  PLATFORM_ID,
+  inject,
+} from '@angular/core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import {
+  NavigationEnd,
+  Router,
+  RouterLink,
+  RouterOutlet,
+} from '@angular/router';
 import { isPlatformBrowser } from '@angular/common';
 import { filter } from 'rxjs/operators';
+import { ReadingPreferencesService } from './blog/services/reading-preferences.service';
 
 import { faBars, faCode, faXmark } from '@fortawesome/free-solid-svg-icons';
-import { MatSidenav, MatSidenavContainer, MatSidenavContent } from '@angular/material/sidenav';
+import {
+  MatSidenav,
+  MatSidenavContainer,
+  MatSidenavContent,
+} from '@angular/material/sidenav';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { JsonLdComponent } from './components/json-ld/json-ld.component';
 import { FooterComponent } from './components/footer/footer.component';
@@ -15,7 +32,6 @@ import { HeaderComponent } from './components/header/header.component';
   templateUrl: './app.component.html',
   standalone: true,
   imports: [
-    //mat-sidenav-container
     MatSidenavContainer,
     MatSidenav,
     MatSidenavContent,
@@ -24,10 +40,15 @@ import { HeaderComponent } from './components/header/header.component';
     HeaderComponent,
     FooterComponent,
     RouterOutlet,
+    RouterLink,
   ],
   styleUrls: ['./app.component.scss'],
 })
 export class AppComponent implements OnInit {
+  private readonly destroyRef = inject(DestroyRef);
+  private readonly router = inject(Router);
+  private readonly platformId = inject(PLATFORM_ID);
+
   title = 'alissonlimabr';
 
   faBars = faBars;
@@ -35,31 +56,37 @@ export class AppComponent implements OnInit {
   faCode = faCode;
 
   opened?: boolean;
+  isBlogRoute = false;
 
-  constructor(
-    private router: Router,
-    @Inject(PLATFORM_ID) private platformId: Object
-  ) {}
+  private readonly readingPrefs = inject(ReadingPreferencesService);
 
   ngOnInit(): void {
-    // 🔒 SSR guard absoluto
+    this.isBlogRoute = this.router.url.startsWith('/blog');
+
     if (!isPlatformBrowser(this.platformId)) {
       return;
     }
 
-    // Garante dataLayer no browser
     const win = window as any;
     win.dataLayer = win.dataLayer || [];
 
-    // Pageview a cada navegação
     this.router.events
       .pipe(
         filter(
-          (event): event is NavigationEnd =>
-            event instanceof NavigationEnd
-        )
+          (event): event is NavigationEnd => event instanceof NavigationEnd,
+        ),
+        takeUntilDestroyed(this.destroyRef),
       )
       .subscribe((event) => {
+        const onBlog = event.urlAfterRedirects.startsWith('/blog');
+        this.isBlogRoute = onBlog;
+
+        if (onBlog) {
+          this.readingPrefs.applyBodyClasses();
+        } else {
+          this.readingPrefs.removeBlogClasses();
+        }
+
         win.dataLayer.push({
           event: 'page',
           pageName: event.urlAfterRedirects,

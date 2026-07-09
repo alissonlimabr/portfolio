@@ -6,10 +6,11 @@ describe('JsonLdComponent', () => {
   let component: JsonLdComponent;
   let fixture: ComponentFixture<JsonLdComponent>;
 
-  beforeEach(() => {
-    TestBed.configureTestingModule({
-      declarations: [JsonLdComponent]
-    });
+  beforeEach(async () => {
+    await TestBed.configureTestingModule({
+      imports: [JsonLdComponent],
+    }).compileComponents();
+
     fixture = TestBed.createComponent(JsonLdComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();

@@ -1,0 +1,124 @@
+<!-- Desktop: panel fixed on right side, collapsible -->
+<aside class="rp-desktop" [class.rp-desktop--collapsed]="collapsed()" aria-label="Preferências de leitura">
+  <button type="button" class="rp-desktop-header" (click)="toggleCollapsed()" [attr.aria-expanded]="!collapsed()"
+    aria-controls="rp-desktop-body">
+    <app-icon name="sliders" [size]="13" />
+    <span>Leitura</span>
+    <app-icon name="chevron-down" [size]="12" class="rp-chevron" />
+  </button>
+
+  <div class="rp-desktop-body" id="rp-desktop-body" [attr.aria-hidden]="collapsed()"
+    [attr.inert]="collapsed() ? '' : null">
+    <div class="rp-desktop-body-inner">
+      <div class="rp-group">
+        <span class="rp-label">Fonte</span>
+        <div class="rp-btns">
+          <button type="button" class="rp-btn" [class.active]="prefs.fontSize() === 'sm'"
+            [attr.aria-pressed]="prefs.fontSize() === 'sm'" (click)="prefs.setFontSize('sm')"
+            aria-label="Fonte pequena">A-</button>
+          <button type="button" class="rp-btn" [class.active]="prefs.fontSize() === 'md'"
+            [attr.aria-pressed]="prefs.fontSize() === 'md'" (click)="prefs.setFontSize('md')"
+            aria-label="Fonte média">A</button>
+          <button type="button" class="rp-btn" [class.active]="prefs.fontSize() === 'lg'"
+            [attr.aria-pressed]="prefs.fontSize() === 'lg'" (click)="prefs.setFontSize('lg')"
+            aria-label="Fonte grande">A+</button>
+        </div>
+      </div>
+
+      <div class="rp-group">
+        <span class="rp-label">Largura</span>
+        <div class="rp-btns">
+          <button type="button" class="rp-btn" [class.active]="prefs.textWidth() === 'narrow'"
+            [attr.aria-pressed]="prefs.textWidth() === 'narrow'" (click)="prefs.setTextWidth('narrow')"
+            aria-label="Texto estreito">
+            <app-icon name="text-narrow" [size]="13" />
+          </button>
+          <button type="button" class="rp-btn" [class.active]="prefs.textWidth() === 'normal'"
+            [attr.aria-pressed]="prefs.textWidth() === 'normal'" (click)="prefs.setTextWidth('normal')"
+            aria-label="Largura normal">
+            <app-icon name="text-normal" [size]="13" />
+          </button>
+          <button type="button" class="rp-btn" [class.active]="prefs.textWidth() === 'wide'"
+            [attr.aria-pressed]="prefs.textWidth() === 'wide'" (click)="prefs.setTextWidth('wide')"
+            aria-label="Texto largo">
+            <app-icon name="text-wide" [size]="13" />
+          </button>
+        </div>
+      </div>
+
+      <div class="rp-group">
+        <span class="rp-label">Tema</span>
+        <div class="rp-btns">
+          <button type="button" class="rp-btn" [class.active]="prefs.theme() === 'dark'"
+            [attr.aria-pressed]="prefs.theme() === 'dark'" (click)="prefs.setTheme('dark')" aria-label="Tema escuro">
+            <app-icon name="moon" [size]="13" />
+          </button>
+          <button type="button" class="rp-btn" [class.active]="prefs.theme() === 'light'"
+            [attr.aria-pressed]="prefs.theme() === 'light'" (click)="prefs.setTheme('light')" aria-label="Tema claro">
+            <app-icon name="sun" [size]="13" />
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</aside>
+
+<!-- Mobile/tablet: FAB + collapsible panel -->
+<div class="rp-mobile" [class.rp-mobile--open]="open()">
+  <div class="rp-mobile-panel" id="rp-mobile-panel" role="dialog" aria-label="Preferências de leitura"
+    [attr.aria-hidden]="!open()" [attr.inert]="open() ? null : ''">
+    <div class="rp-group">
+      <span class="rp-label">Fonte</span>
+      <div class="rp-btns">
+        <button type="button" class="rp-btn" [class.active]="prefs.fontSize() === 'sm'"
+          [attr.aria-pressed]="prefs.fontSize() === 'sm'" (click)="prefs.setFontSize('sm')"
+          aria-label="Fonte pequena">A-</button>
+        <button type="button" class="rp-btn" [class.active]="prefs.fontSize() === 'md'"
+          [attr.aria-pressed]="prefs.fontSize() === 'md'" (click)="prefs.setFontSize('md')"
+          aria-label="Fonte média">A</button>
+        <button type="button" class="rp-btn" [class.active]="prefs.fontSize() === 'lg'"
+          [attr.aria-pressed]="prefs.fontSize() === 'lg'" (click)="prefs.setFontSize('lg')"
+          aria-label="Fonte grande">A+</button>
+      </div>
+    </div>
+
+    <div class="rp-group">
+      <span class="rp-label">Largura</span>
+      <div class="rp-btns">
+        <button type="button" class="rp-btn" [class.active]="prefs.textWidth() === 'narrow'"
+          [attr.aria-pressed]="prefs.textWidth() === 'narrow'" (click)="prefs.setTextWidth('narrow')"
+          aria-label="Estreito">
+          <app-icon name="text-narrow" [size]="13" />
+        </button>
+        <button type="button" class="rp-btn" [class.active]="prefs.textWidth() === 'normal'"
+          [attr.aria-pressed]="prefs.textWidth() === 'normal'" (click)="prefs.setTextWidth('normal')"
+          aria-label="Normal">
+          <app-icon name="text-normal" [size]="13" />
+        </button>
+        <button type="button" class="rp-btn" [class.active]="prefs.textWidth() === 'wide'"
+          [attr.aria-pressed]="prefs.textWidth() === 'wide'" (click)="prefs.setTextWidth('wide')" aria-label="Largo">
+          <app-icon name="text-wide" [size]="13" />
+        </button>
+      </div>
+    </div>
+
+    <div class="rp-group">
+      <span class="rp-label">Tema</span>
+      <div class="rp-btns">
+        <button type="button" class="rp-btn" [class.active]="prefs.theme() === 'dark'"
+          [attr.aria-pressed]="prefs.theme() === 'dark'" (click)="prefs.setTheme('dark')" aria-label="Tema escuro">
+          <app-icon name="moon" [size]="13" />
+        </button>
+        <button type="button" class="rp-btn" [class.active]="prefs.theme() === 'light'"
+          [attr.aria-pressed]="prefs.theme() === 'light'" (click)="prefs.setTheme('light')" aria-label="Tema claro">
+          <app-icon name="sun" [size]="13" />
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <button class="rp-fab" type="button" (click)="toggle($event)" aria-controls="rp-mobile-panel"
+    [attr.aria-expanded]="open()" aria-label="Preferências de leitura">
+    <app-icon name="sliders" [size]="16" />
+  </button>
+</div>

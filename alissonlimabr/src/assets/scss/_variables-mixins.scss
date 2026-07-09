@@ -1,44 +1,54 @@
-// Mixin para responsividade
+// Mixins para responsividade
 @mixin responsive($device) {
   @if $device == mobile {
-      @media (max-width: 480px) { @content; }
-  }
-  @else if $device == mobilePlus {
-      @media (max-width: 660px) { @content; }
-  }
-  @else if $device == tablet {
-      @media (max-width: 860px) { @content; }
-  }
-  @else if $device == tabletplus {
-      @media (max-width: 992px) { @content; }
-  }
-  @else if $device == notebook {
-      @media (max-width: 1200px) { @content; }
-  }
-  @else if $device == desktop {
-    @media (min-width: 1550px) { @content; }
-  }
-}
-
-@keyframes morph{
-  0%, 100% {
-  border-radius: 40% 60% 70% 30% / 40% 40% 60% 50%;
-  }
-  34% {
-    border-radius: 70% 30% 50% 50% / 30% 30% 70% 70%;
-  }
-  67% {
-    border-radius: 100% 60% 60% 100% / 100% 100% 60% 60%;
+    @media (max-width: 480px) {
+      @content;
+    }
+  } @else if $device == mobilePlus {
+    @media (max-width: 660px) {
+      @content;
+    }
+  } @else if $device == tablet {
+    @media (max-width: 860px) {
+      @content;
+    }
+  } @else if $device == tabletplus {
+    @media (max-width: 992px) {
+      @content;
+    }
+  } @else if $device == notebook {
+    @media (max-width: 1200px) {
+      @content;
+    }
+  } @else if $device == desktop {
+    @media (min-width: 1281px) {
+      @content;
+    }
   }
 }
 
-@keyframes fadein{
-	0% {
-		opacity: 0;
-	}
-
-	100% {
-		opacity: 1;
-	}
+@mixin reading-preferences-mobile {
+  @media (max-width: 1279px) {
+    @content;
+  }
 }
 
+@mixin reading-preferences-desktop {
+  @media (min-width: 1280px) {
+    @content;
+  }
+}
+
+// TOC lateral quando há espaço para texto padrão + coluna lateral.
+@mixin blog-toc-sidebar-desktop {
+  @media (min-width: 1360px) and (max-width: 1679px) {
+    @content;
+  }
+}
+
+// TOC lateral em telas muito largas, inclusive com leitura ampla.
+@mixin blog-toc-sidebar-large-desktop {
+  @media (min-width: 1680px) {
+    @content;
+  }
+}
