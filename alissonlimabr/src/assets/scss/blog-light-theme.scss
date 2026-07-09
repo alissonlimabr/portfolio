@@ -343,7 +343,7 @@ body.blog-theme-light {
 
   // ── Sidenav (dispositivos móveis) ────────────────────────────────
   mat-sidenav {
-    background: var(--blog-bg) !important;
+    background: var(--blog-surface) !important;
     color: var(--blog-text) !important;
 
     .logo {

@@ -24,10 +24,24 @@
           <a class="link" href="/#contato">Contato</a>
         </li>
         <li (click)="closeSideNav()">
-          <a class="link" href="/rss.xml" target="_blank" rel="noopener noreferrer">RSS</a>
-        </li>
-        <li (click)="closeSideNav()">
           <a class="link link--back" routerLink="/">← Portfólio</a>
+        </li>
+        <li class="theme-toggle">
+          <button type="button" class="theme-toggle-btn" [class.active]="currentTheme() === 'light'"
+            (click)="toggleTheme()"
+            [attr.aria-label]="currentTheme() === 'dark' ? 'Ativar modo claro' : 'Ativar modo escuro'">
+            <span class="theme-icon">
+              @if (currentTheme() === 'dark') {
+              <app-icon name="sun" [size]="28" />
+              } @else {
+              <app-icon name="moon" [size]="28" />
+              }
+            </span>
+          </button>
+          <a class="link link--rss" href="/rss.xml" target="_blank" rel="noopener noreferrer" aria-label="RSS feed"
+            title="RSS feed" (click)="closeSideNav()">
+            <app-icon name="rss" [size]="30" />
+          </a>
         </li>
       </ul>
       } @else {

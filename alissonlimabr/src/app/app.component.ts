@@ -1,5 +1,6 @@
 import {
   Component,
+  computed,
   DestroyRef,
   OnInit,
   PLATFORM_ID,
@@ -26,6 +27,7 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { JsonLdComponent } from './components/json-ld/json-ld.component';
 import { FooterComponent } from './components/footer/footer.component';
 import { HeaderComponent } from './components/header/header.component';
+import { IconComponent } from './shared/icon.component';
 
 @Component({
   selector: 'app-root',
@@ -39,6 +41,7 @@ import { HeaderComponent } from './components/header/header.component';
     JsonLdComponent,
     HeaderComponent,
     FooterComponent,
+    IconComponent,
     RouterOutlet,
     RouterLink,
   ],
@@ -59,6 +62,7 @@ export class AppComponent implements OnInit {
   isBlogRoute = false;
 
   private readonly readingPrefs = inject(ReadingPreferencesService);
+  readonly currentTheme = computed(() => this.readingPrefs.theme());
 
   ngOnInit(): void {
     this.isBlogRoute = this.router.url.startsWith('/blog');
@@ -96,5 +100,11 @@ export class AppComponent implements OnInit {
 
   closeSideNav(): void {
     this.opened = false;
+  }
+
+  toggleTheme(): void {
+    const next: 'dark' | 'light' =
+      this.currentTheme() === 'dark' ? 'light' : 'dark';
+    this.readingPrefs.setTheme(next);
   }
 }

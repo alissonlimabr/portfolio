@@ -1,5 +1,35 @@
 @use "src/assets/scss/palette" as tokens;
+@use "src/assets/scss/variables-mixins" as *;
 
 .logo-dev {
   color: tokens.$purple-300;
+}
+
+.theme-toggle {
+  align-items: center;
+  justify-content: center;
+  gap: 0.65rem;
+  width: 100%;
+  min-width: 100% !important;
+  padding-top: 0.5rem;
+}
+
+.theme-toggle-btn,
+.theme-toggle .link--rss {
+  width: 3rem;
+  height: 3rem;
+  padding: 0;
+  flex-shrink: 0;
+}
+
+@include responsive(tabletplus) {
+  .theme-toggle {
+    display: none !important;
+  }
+}
+
+@include responsive(mobile) {
+  .theme-toggle {
+    display: flex !important;
+  }
 }

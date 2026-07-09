@@ -38,6 +38,7 @@ mat-toolbar {
   background: transparent;
   border: 0;
   font-size: 24px;
+  padding-left: 10px;
 
   &:hover {
     transform: translateX(3px);
@@ -62,5 +63,51 @@ mat-toolbar {
 
   @include responsive(mobile) {
     font-size: 14px;
+  }
+}
+
+mat-toolbar .nav-links:has(li.theme-toggle) {
+  ul,
+  li {
+    align-items: center;
+  }
+}
+
+@include responsive(tabletplus) {
+  mat-toolbar .nav-links:has(li.theme-toggle) {
+    display: flex !important;
+    margin-left: auto;
+
+    ul {
+      align-items: center;
+      flex-direction: row;
+      justify-content: flex-end;
+      gap: 0.65rem;
+      margin: 0;
+    }
+
+    li {
+      display: none;
+      min-width: auto;
+      padding: 0;
+    }
+
+    li.theme-toggle,
+    li.theme-toggle + li {
+      display: flex;
+    }
+
+    .theme-toggle-btn,
+    .link--rss {
+      width: auto;
+      height: auto;
+      padding: 5px 8px;
+    }
+  }
+}
+
+@include responsive(mobile) {
+  mat-toolbar .nav-links:has(li.theme-toggle) {
+    display: none !important;
   }
 }
