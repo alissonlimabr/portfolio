@@ -1,0 +1,21 @@
+# Alisson Lima Dev
+
+Índice técnico das URLs canônicas do site para navegação de agentes de IA.
+
+## Páginas principais
+
+- [Home](https://www.alissonlimadev.com/): visão geral do portfólio.
+- [Perfil](https://www.alissonlimadev.com/#perfil): resumo profissional e competências.
+- [Projetos](https://www.alissonlimadev.com/#projetos): projetos e stack utilizada.
+- [Contato](https://www.alissonlimadev.com/#contato): canais de contato.
+
+## Conteúdo técnico
+
+- [Blog](https://www.alissonlimadev.com/blog): artigos e estudos técnicos.
+- [Categorias do blog](https://www.alissonlimadev.com/blog/categorias): navegação por temas.
+
+## Descoberta e rastreamento
+
+- [Sitemap XML](https://www.alissonlimadev.com/sitemap.xml): lista de URLs indexáveis.
+- [RSS](https://www.alissonlimadev.com/rss.xml): feed de atualizações do blog.
+- [Robots](https://www.alissonlimadev.com/robots.txt): diretrizes para crawlers.

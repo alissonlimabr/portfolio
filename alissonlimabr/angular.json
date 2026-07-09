@@ -32,6 +32,7 @@
               "src/favicon.ico",
               "src/assets",
               "src/robots.txt",
+              { "glob": "llms.txt", "input": "src", "output": "/" },
               { "glob": "rss.xml", "input": "src", "output": "/" },
               { "glob": "sitemap.xml", "input": "src", "output": "/" }
             ],
@@ -115,6 +116,7 @@
               "src/favicon.ico",
               "src/assets",
               "src/robots.txt",
+              { "glob": "llms.txt", "input": "src", "output": "/" },
               { "glob": "rss.xml", "input": "src", "output": "/" },
               { "glob": "sitemap.xml", "input": "src", "output": "/" }
             ],
