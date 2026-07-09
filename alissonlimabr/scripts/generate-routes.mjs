@@ -6,11 +6,30 @@ import { dirname, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
-const target = resolve(__dirname, '..', 'routes.txt');
+const routesTarget = resolve(__dirname, '..', 'routes.txt');
+const sitemapTarget = resolve(__dirname, '..', 'src', 'sitemap.xml');
 
 const PROJECT_ID = process.env.SANITY_PROJECT_ID;
 const DATASET = process.env.SANITY_DATASET || 'production';
 const API_VERSION = process.env.SANITY_API_VERSION || '2025-05-20';
+const RAW_SITE_URL = (
+  process.env.SITE_URL || 'https://www.alissonlimadev.com'
+).replace(/\/$/, '');
+
+let SITE_URL;
+try {
+  const parsed = new URL(RAW_SITE_URL);
+  if (parsed.protocol !== 'https:' && parsed.protocol !== 'http:') {
+    throw new Error(`invalid protocol: ${parsed.protocol}`);
+  }
+  SITE_URL = `${parsed.protocol}//${parsed.host}${parsed.pathname.replace(
+    /\/$/,
+    '',
+  )}`;
+} catch (err) {
+  console.error(`[generate-routes] Invalid SITE_URL (${RAW_SITE_URL}): ${err.message}`);
+  process.exit(1);
+}
 
 if (!PROJECT_ID) {
   console.error('[generate-routes] SANITY_PROJECT_ID is required to prerender blog routes.');
@@ -69,5 +88,50 @@ const routes = new Set([
   ...categories.map(slug => `/blog/categoria/${slug}`),
 ]);
 
-writeFileSync(target, `${Array.from(routes).join('\n')}\n`, 'utf8');
+const sortedRoutes = Array.from(routes).sort((a, b) => a.localeCompare(b));
+writeFileSync(routesTarget, `${sortedRoutes.join('\n')}\n`, 'utf8');
+
+const escapeXml = (str) =>
+  String(str ?? '')
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&apos;');
+
+const toAbsoluteUrl = (route) =>
+  route === '/' ? `${SITE_URL}/` : `${SITE_URL}${route}`;
+
+const getSitemapHints = (route) => {
+  if (route === '/') return { changefreq: 'weekly', priority: '1.0' };
+  if (route === '/blog') return { changefreq: 'daily', priority: '0.9' };
+  if (route === '/blog/categorias') {
+    return { changefreq: 'daily', priority: '0.8' };
+  }
+  if (route.startsWith('/blog/categoria/')) {
+    return { changefreq: 'daily', priority: '0.8' };
+  }
+  if (route.startsWith('/blog/')) return { changefreq: 'weekly', priority: '0.7' };
+  return { changefreq: 'monthly', priority: '0.6' };
+};
+
+const sitemapEntries = sortedRoutes
+  .map((route) => {
+    const { changefreq, priority } = getSitemapHints(route);
+    return `  <url>
+    <loc>${escapeXml(toAbsoluteUrl(route))}</loc>
+    <changefreq>${changefreq}</changefreq>
+    <priority>${priority}</priority>
+  </url>`;
+  })
+  .join('\n');
+
+const sitemap = `<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+${sitemapEntries}
+</urlset>
+`;
+
+writeFileSync(sitemapTarget, sitemap, 'utf8');
 console.log(`[generate-routes] routes.txt generated with ${routes.size} routes.`);
+console.log(`[generate-routes] sitemap.xml generated with ${routes.size} URLs.`);

@@ -9,9 +9,11 @@ import {
   inject,
 } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { DOCUMENT } from '@angular/common';
 import { ActivatedRoute, RouterLink } from '@angular/router';
 import { MatCard, MatCardContent } from '@angular/material/card';
 import { Observable } from 'rxjs';
+import { Meta, Title } from '@angular/platform-browser';
 import { SanityService } from '../services/sanity.service';
 import { Category, PostSummary } from '../models/post.model';
 import { IconComponent } from '../../shared/icon.component';
@@ -30,6 +32,11 @@ export class BlogListComponent implements OnInit {
   private readonly route = inject(ActivatedRoute);
   private readonly zone = inject(NgZone);
   private readonly cdr = inject(ChangeDetectorRef);
+  private readonly titleService = inject(Title);
+  private readonly metaService = inject(Meta);
+  private readonly document = inject(DOCUMENT);
+  private readonly siteOrigin = 'https://www.alissonlimadev.com';
+  private readonly defaultOgImageUrl = `${this.siteOrigin}/assets/img/og-image.webp`;
 
   posts: PostSummary[] = [];
   categories: Category[] = [];
@@ -74,6 +81,11 @@ export class BlogListComponent implements OnInit {
     this.cdr.markForCheck();
 
     if (categorySlug) {
+      this.applySeo(
+        'Categoria | Blog | Alisson Lima Dev',
+        'Artigos de desenvolvimento filtrados por categoria.',
+        `/blog/categoria/${categorySlug}`,
+      );
       this.sanity
         .getCategoryBySlug(categorySlug)
         .pipe(takeUntilDestroyed(this.destroyRef))
@@ -81,6 +93,16 @@ export class BlogListComponent implements OnInit {
           next: (cat) => {
             this.zone.run(() => {
               this.currentCategory = cat ?? undefined;
+              if (cat) {
+                this.applySeo(
+                  `${cat.title} | Blog | Alisson Lima Dev`,
+                  (
+                    cat.description ||
+                    `Artigos da categoria ${cat.title} no blog de Alisson Lima.`
+                  ).slice(0, 160),
+                  `/blog/categoria/${categorySlug}`,
+                );
+              }
               this.cdr.markForCheck();
             });
           },
@@ -88,8 +110,61 @@ export class BlogListComponent implements OnInit {
         });
       this.fetchPosts(this.sanity.getPostsByCategory(categorySlug));
     } else {
+      this.applySeo(
+        'Blog | Alisson Lima Dev',
+        'Artigos sobre desenvolvimento web, APIs REST, integrações e carreira em tecnologia.',
+        '/blog',
+      );
       this.fetchPosts(this.sanity.getPosts());
     }
+  }
+
+  private applySeo(title: string, description: string, path: string): void {
+    const url = `${this.siteOrigin}${path}`;
+    this.titleService.setTitle(title);
+    this.metaService.updateTag({ name: 'description', content: description });
+    this.metaService.updateTag({ property: 'og:type', content: 'website' });
+    this.metaService.updateTag({ property: 'og:title', content: title });
+    this.metaService.updateTag({
+      property: 'og:description',
+      content: description,
+    });
+    this.metaService.updateTag({ property: 'og:url', content: url });
+    this.metaService.updateTag({
+      property: 'og:image',
+      content: this.defaultOgImageUrl,
+    });
+    this.metaService.updateTag({ property: 'og:image:width', content: '1200' });
+    this.metaService.updateTag({ property: 'og:image:height', content: '630' });
+    this.metaService.updateTag({
+      name: 'twitter:card',
+      content: 'summary_large_image',
+    });
+    this.metaService.updateTag({ name: 'twitter:title', content: title });
+    this.metaService.updateTag({
+      name: 'twitter:description',
+      content: description,
+    });
+    this.metaService.updateTag({
+      name: 'twitter:image',
+      content: this.defaultOgImageUrl,
+    });
+    this.metaService.removeTag("property='article:author'");
+    this.metaService.removeTag("property='article:published_time'");
+    this.metaService.removeTag("property='article:modified_time'");
+    this.setCanonicalPath(path);
+  }
+
+  private setCanonicalPath(path: string): void {
+    let link = this.document.querySelector(
+      'link[rel="canonical"]',
+    ) as HTMLLinkElement | null;
+    if (!link) {
+      link = this.document.createElement('link');
+      link.rel = 'canonical';
+      this.document.head.appendChild(link);
+    }
+    link.href = `${this.siteOrigin}${path}`;
   }
 
   private fetchPosts(source$: Observable<PostSummary[]>): void {

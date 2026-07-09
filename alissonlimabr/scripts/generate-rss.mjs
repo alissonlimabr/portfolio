@@ -6,7 +6,7 @@
 //   SANITY_PROJECT_ID         (obrigatória; se ausente, escreve placeholder)
 //   SANITY_DATASET            (default: production)
 //   SANITY_API_VERSION        (default: 2025-05-20)
-//   SITE_URL                  (default: https://alissonlimadev.com)
+//   SITE_URL                  (default: https://www.alissonlimadev.com)
 //   RSS_TITLE / RSS_DESCRIPTION / RSS_AUTHOR (opcionais)
 
 import { mkdirSync, writeFileSync } from 'node:fs';
@@ -16,7 +16,9 @@ import { fileURLToPath } from 'node:url';
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const target = resolve(__dirname, '..', 'src', 'rss.xml');
 
-const RAW_SITE_URL = (process.env.SITE_URL || 'https://alissonlimadev.com').replace(/\/$/, '');
+const RAW_SITE_URL = (
+  process.env.SITE_URL || 'https://www.alissonlimadev.com'
+).replace(/\/$/, '');
 let SITE_URL;
 try {
   const parsed = new URL(RAW_SITE_URL);
