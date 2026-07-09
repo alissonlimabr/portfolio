@@ -26,7 +26,8 @@
             </ngx-typed-writer>
           </p>
           <p class="hero-tagline">
-            Desenvolvedor web full stack focado em soluções escaláveis. Sistemas web, APIs REST e infraestrutura em nuvem.
+            Desenvolvedor web full stack focado em soluções escaláveis. Sistemas web, APIs REST e infraestrutura em
+            nuvem.
           </p>
         </div>
 
@@ -36,11 +37,13 @@
         </div>
 
         <div class="actions">
-          <a id="linkedin" appMagnetic [magneticStrength]="0.35" href="https://www.linkedin.com/in/alissonlimadev" target="_blank" rel="noopener noreferrer">
+          <a id="linkedin" appMagnetic [magneticStrength]="0.35" href="https://www.linkedin.com/in/alissonlimadev"
+            target="_blank" rel="noopener noreferrer">
             <span>LinkedIn</span>
             <span class="action-arrow">→</span>
           </a>
-          <a id="github" appMagnetic [magneticStrength]="0.35" href="https://github.com/alissonlimabr" target="_blank" rel="noopener noreferrer">
+          <a id="github" appMagnetic [magneticStrength]="0.35" href="https://github.com/alissonlimabr" target="_blank"
+            rel="noopener noreferrer">
             <span>GitHub</span>
             <span class="action-arrow">→</span>
           </a>
@@ -98,23 +101,23 @@
             <strong>Scrum, Kanban e XP</strong>
           </div>
           <div class="about-highlight-item" appSpotlight>
-            <span class="about-highlight-label">Experiência prática</span>
-            <strong>IFAC, SEFAZ/AC e produtos institucionais</strong>
+            <span class="about-highlight-label">Foco de atuação</span>
+            <strong>Sistemas web, APIs REST e integrações entre serviços</strong>
           </div>
         </div>
       </aside>
 
       <div class="about-details">
         <p>
-          Atualmente atuo no <strong>Instituto Federal do Acre (IFAC)</strong>, evoluindo sistemas
+          Atualmente atuo como desenvolvedor no <strong>Instituto Federal do Acre (IFAC)</strong>, evoluindo sistemas
           institucionais voltados à gestão pública com Python, Django, PostgreSQL, Docker e
           orquestração em Swarm.
         </p>
         <p>
-          Ao longo da minha trajetória, também trabalhei com Java, Spring Boot, AWS e projetos
-          estratégicos para clientes como SEFAZ/AC. Sou graduado em
-          Análise e Desenvolvimento de Sistemas, com especializações em Engenharia de Software
-          e Gestão de Projetos.
+          Na minha atuação profissional, também trabalhei com Java, Spring Boot e AWS em projetos
+          estratégicos para clientes como a Secretaria da Fazenda do Acre (SEFAZ/AC), por meio da
+          VINT Global. Sou graduado em Análise e Desenvolvimento de Sistemas, com especializações em
+          Engenharia de Software e Gestão de Projetos.
         </p>
       </div>
     </div>
@@ -135,14 +138,14 @@
       <div class="skills-marquee-inner">
         <div class="skills-marquee-track">
           @for (_ of [0, 1]; track $index) {
-            <div class="skills-marquee-group">
-              @for (skill of mySkills; track skill.name) {
-                <div class="skills-marquee-item">
-                  <app-icon [name]="skill.icon" folder="logos" [size]="28" />
-                  <span>{{ skill.name }}</span>
-                </div>
-              }
+          <div class="skills-marquee-group">
+            @for (skill of mySkills; track skill.name) {
+            <div class="skills-marquee-item">
+              <app-icon [name]="skill.icon" folder="logos" [size]="28" />
+              <span>{{ skill.name }}</span>
             </div>
+            }
+          </div>
           }
         </div>
       </div>
@@ -150,12 +153,12 @@
 
     <div class="skills-grid">
       @for (skill of mySkills; track skill.name) {
-        <div class="skill-card" appSpotlight>
-          <div class="skill-card-icon">
-            <app-icon [name]="skill.icon" folder="logos" />
-          </div>
-          <span class="skill-card-name">{{ skill.name }}</span>
+      <div class="skill-card" appSpotlight>
+        <div class="skill-card-icon">
+          <app-icon [name]="skill.icon" folder="logos" />
         </div>
+        <span class="skill-card-name">{{ skill.name }}</span>
+      </div>
       }
     </div>
   </div>
@@ -173,51 +176,47 @@
 
     <div class="timeline">
       @for (job of visibleJobs; track job.company + job.duration) {
-        <article class="timeline-item" appSpotlight>
-          <div class="timeline-marker">
-            <div class="timeline-dot"></div>
-            <div class="timeline-icon">
-              <img [src]="job.icon" [alt]="job.company" loading="lazy" />
-            </div>
+      <article class="timeline-item" appSpotlight>
+        <div class="timeline-marker">
+          <div class="timeline-dot"></div>
+          <div class="timeline-icon">
+            <img [src]="job.icon" [alt]="job.company" loading="lazy" />
+          </div>
+        </div>
+
+        <div class="timeline-content">
+          <div class="timeline-meta">
+            <span class="timeline-duration">{{ job.duration }}</span>
+            <h3 class="timeline-position">{{ job.position }}</h3>
+            <span class="timeline-company">@{{ job.company }}</span>
           </div>
 
-          <div class="timeline-content">
-            <div class="timeline-meta">
-              <span class="timeline-duration">{{ job.duration }}</span>
-              <h3 class="timeline-position">{{ job.position }}</h3>
-              <span class="timeline-company">@{{ job.company }}</span>
-            </div>
-
-            <ul class="timeline-tasks">
-              @for (description of job.description; track $index) {
-                <li>
-                  <fa-icon [icon]="faCodeCommit"></fa-icon>
-                  <span>{{ description }}</span>
-                </li>
-              }
-            </ul>
-          </div>
-        </article>
+          <ul class="timeline-tasks">
+            @for (description of job.description; track $index) {
+            <li>
+              <fa-icon [icon]="faCodeCommit"></fa-icon>
+              <span>{{ description }}</span>
+            </li>
+            }
+          </ul>
+        </div>
+      </article>
       }
     </div>
 
     @if (hasHiddenJobs) {
-      <div class="jobs-more">
-        <button
-          class="jobs-more-button"
-          type="button"
-          (click)="toggleCareerList()"
-          [attr.aria-expanded]="isCareerExpanded"
-          [attr.aria-label]="isCareerExpanded ? 'Mostrar menos itens da carreira' : 'Mostrar mais itens da carreira'"
-        >
-          <span class="jobs-more-prompt" aria-hidden="true">›</span>
-          <span class="jobs-more-text">{{ isCareerExpanded ? 'Mostrar menos' : 'Mostrar mais' }}</span>
-          @if (!isCareerExpanded) {
-            <span class="jobs-more-count">{{ hiddenJobsCount }} ocultos</span>
-          }
-          <span class="jobs-more-cursor" aria-hidden="true"></span>
-        </button>
-      </div>
+    <div class="jobs-more">
+      <button class="jobs-more-button" type="button" (click)="toggleCareerList()"
+        [attr.aria-expanded]="isCareerExpanded"
+        [attr.aria-label]="isCareerExpanded ? 'Mostrar menos itens da carreira' : 'Mostrar mais itens da carreira'">
+        <span class="jobs-more-prompt" aria-hidden="true">›</span>
+        <span class="jobs-more-text">{{ isCareerExpanded ? 'Mostrar menos' : 'Mostrar mais' }}</span>
+        @if (!isCareerExpanded) {
+        <span class="jobs-more-count">{{ hiddenJobsCount }} ocultos</span>
+        }
+        <span class="jobs-more-cursor" aria-hidden="true">|</span>
+      </button>
+    </div>
     }
   </div>
 </section>
@@ -234,43 +233,34 @@
 
     <div class="projects-grid">
       @for (project of projects; track project.title) {
-        <article
-          class="project-card"
-          [class.project-card--featured]="project.size === 'featured'"
-          [class.project-card--placeholder]="project.size === 'placeholder'"
-          appSpotlight
-        >
-          <div class="project-card-head">
-            <span class="project-card-index">{{ '0' + ($index + 1) }}</span>
-            <span class="project-card-subtitle">{{ project.subtitle }}</span>
-          </div>
+      <article class="project-card" [class.project-card--featured]="project.size === 'featured'"
+        [class.project-card--placeholder]="project.size === 'placeholder'" appSpotlight>
+        <div class="project-card-head">
+          <span class="project-card-index">{{ '0' + ($index + 1) }}</span>
+          <span class="project-card-subtitle">{{ project.subtitle }}</span>
+        </div>
 
-          <h3 class="project-card-title">{{ project.title }}</h3>
-          <p class="project-card-description">{{ project.description }}</p>
+        <h3 class="project-card-title">{{ project.title }}</h3>
+        <p class="project-card-description">{{ project.description }}</p>
 
-          @if (project.skills.length > 0) {
-            <div class="project-card-stack">
-              @for (skill of project.skills; track skill.alt) {
-                <span class="project-card-tech" [title]="skill.alt">
-                  <app-icon [name]="skill.icon" folder="logos" [size]="20" />
-                </span>
-              }
-            </div>
+        @if (project.skills.length > 0) {
+        <div class="project-card-stack">
+          @for (skill of project.skills; track skill.alt) {
+          <span class="project-card-tech" [title]="skill.alt">
+            <app-icon [name]="skill.icon" folder="logos" [size]="20" />
+          </span>
           }
+        </div>
+        }
 
-          @if (project.url) {
-            <a
-              class="project-card-link"
-              [href]="project.url"
-              target="_blank"
-              rel="noopener noreferrer"
-              [attr.aria-label]="'Acesse o projeto: ' + project.title"
-            >
-              <span>Ver projeto</span>
-              <fa-icon [icon]="faArrowUpRightFromSquare"></fa-icon>
-            </a>
-          }
-        </article>
+        @if (project.url) {
+        <a class="project-card-link" [href]="project.url" target="_blank" rel="noopener noreferrer"
+          [attr.aria-label]="'Acesse o projeto: ' + project.title">
+          <span>Ver projeto</span>
+          <fa-icon [icon]="faArrowUpRightFromSquare"></fa-icon>
+        </a>
+        }
+      </article>
       }
     </div>
   </div>
@@ -289,43 +279,44 @@
     </div>
 
     @if (postsLoading) {
-      <div class="blog-grid">
-        @for (_ of [1, 2, 3]; track $index) {
-          <div class="blog-card-skeleton">
-            <div class="blog-card-skeleton-img"></div>
-            <div class="blog-card-skeleton-body">
-              <div class="blog-card-skeleton-meta"></div>
-              <div class="blog-card-skeleton-title"></div>
-              <div class="blog-card-skeleton-line"></div>
-              <div class="blog-card-skeleton-line blog-card-skeleton-line--short"></div>
-            </div>
-          </div>
-        }
+    <div class="blog-grid">
+      @for (_ of [1, 2, 3]; track $index) {
+      <div class="blog-card-skeleton">
+        <div class="blog-card-skeleton-img"></div>
+        <div class="blog-card-skeleton-body">
+          <div class="blog-card-skeleton-meta"></div>
+          <div class="blog-card-skeleton-title"></div>
+          <div class="blog-card-skeleton-line"></div>
+          <div class="blog-card-skeleton-line blog-card-skeleton-line--short"></div>
+        </div>
       </div>
+      }
+    </div>
     } @else {
-      <div class="blog-grid">
-        @for (post of recentPosts; track post._id) {
-          <a class="blog-card" [routerLink]="['/blog', post.slug.current]" appSpotlight>
-            @if (post.imageUrl) {
-              <div class="blog-card-image">
-                <img [src]="sanityService.optimizeImageUrl(post.imageUrl, { w: 400, h: 225, fit: 'crop' })" [alt]="post.title" loading="lazy" />
-              </div>
-            }
-            <div class="blog-card-content">
-              <div class="blog-card-meta">
-                <span class="blog-card-date">{{ post.publishedAt | date: 'dd MMM yyyy' }}</span>
-                <span class="blog-card-read-time">{{ post.estimatedReadingTime }} min de leitura</span>
-              </div>
-              <h3 class="blog-card-title">{{ post.title }}</h3>
-              <p class="blog-card-excerpt">{{ post.excerpt }}</p>
-              <span class="blog-card-link">
-                <span>Ler mais</span>
-                <fa-icon [icon]="faArrowUpRightFromSquare"></fa-icon>
-              </span>
-            </div>
-          </a>
+    <div class="blog-grid">
+      @for (post of recentPosts; track post._id) {
+      <a class="blog-card" [routerLink]="['/blog', post.slug.current]" appSpotlight>
+        @if (post.imageUrl) {
+        <div class="blog-card-image">
+          <img [src]="sanityService.optimizeImageUrl(post.imageUrl, { w: 400, h: 225, fit: 'crop' })" [alt]="post.title"
+            loading="lazy" />
+        </div>
         }
-      </div>
+        <div class="blog-card-content">
+          <div class="blog-card-meta">
+            <span class="blog-card-date">{{ post.publishedAt | date: 'dd MMM yyyy' }}</span>
+            <span class="blog-card-read-time">{{ post.estimatedReadingTime }} min de leitura</span>
+          </div>
+          <h3 class="blog-card-title">{{ post.title }}</h3>
+          <p class="blog-card-excerpt">{{ post.excerpt }}</p>
+          <span class="blog-card-link">
+            <span>Ler mais</span>
+            <fa-icon [icon]="faArrowUpRightFromSquare"></fa-icon>
+          </span>
+        </div>
+      </a>
+      }
+    </div>
     }
 
     <div class="blog-cta">
@@ -351,13 +342,8 @@
     </div>
 
     <div class="contact-cta">
-      <a
-        class="contact-cta-primary"
-        appMagnetic
-        [magneticStrength]="0.25"
-        href="mailto:alissonlimabr.dev@gmail.com"
-        aria-label="Enviar email"
-      >
+      <a class="contact-cta-primary" appMagnetic [magneticStrength]="0.25" href="mailto:alissonlimabr.dev@gmail.com"
+        aria-label="Enviar email">
         <span>alissonlimabr.dev&#64;gmail.com</span>
         <fa-icon [icon]="faArrowUpRightFromSquare"></fa-icon>
       </a>
@@ -365,17 +351,12 @@
 
     <div class="contact-socials">
       @for (social of socialMedia; track social.name) {
-        <a
-          class="contact-social-card"
-          appSpotlight
-          [href]="social.url"
-          [target]="social.name === 'Gmail' ? '_self' : '_blank'"
-          rel="noopener noreferrer"
-          [attr.aria-label]="social.alt"
-        >
-          <app-icon [name]="social.icon" folder="logos" [size]="44" />
-          <span>{{ social.name }}</span>
-        </a>
+      <a class="contact-social-card" appSpotlight [href]="social.url"
+        [target]="social.name === 'Gmail' ? '_self' : '_blank'" rel="noopener noreferrer"
+        [attr.aria-label]="social.alt">
+        <app-icon [name]="social.icon" folder="logos" [size]="44" />
+        <span>{{ social.name }}</span>
+      </a>
       }
     </div>
   </div>
