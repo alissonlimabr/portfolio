@@ -1,27 +1,59 @@
-# Alissonlimabr
+# alissonlimabr
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 16.2.3.
+## Stack
 
-## Development server
+- Angular `21.2.x`
+- Angular Material
+- SSR + prerender
+- Blog integrado ao Sanity CMS
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The application will automatically reload if you change any of the source files.
+## Rodar localmente
 
-## Code scaffolding
+```bash
+cd alissonlimabr
+npm ci
+npx ng serve
+```
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+App em `http://localhost:4200`.
 
-## Build
+## Angular CLI
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory.
+- `ng serve`: servidor de desenvolvimento
+- `ng build`: build de produção
+- `ng build --watch --configuration development`: build em watch (development)
+- `ng test`: testes unitários (Karma)
+- `ng run alissonlimabr:server:production`: build SSR server (produção)
 
-## Running unit tests
+Se não tiver Angular CLI global, use `npx`:
 
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
+- `npx ng serve`
+- `npx ng build`
+- `npx ng test`
 
-## Running end-to-end tests
+## Scripts utilitários do projeto
 
-Run `ng e2e` to execute the end-to-end tests via a platform of your choice. To use this command, you need to first add a package that implements end-to-end testing capabilities.
+- `npm run start`: atalho para `ng serve`
+- `npm run build`: atalho para `ng build`
+- `npm run watch`: atalho para `ng build --watch --configuration development`
+- `npm run test`: atalho para `ng test`
+- `npm run prerender`: gera rotas dinâmicas e prerenderiza HTML estático
 
-## Further help
+## Ambiente (Sanity)
 
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.io/cli) page.
+Copie `src/environments/environment.example.ts` para:
+
+- `src/environments/environment.ts`
+- `src/environments/environment.prod.ts`
+
+Ou gere automaticamente:
+
+```bash
+node scripts/generate-env.mjs
+```
+
+Variáveis esperadas:
+
+- `SANITY_PROJECT_ID` (obrigatória)
+- `SANITY_DATASET` (default: `production`)
+- `SANITY_API_VERSION` (default: `2025-05-20`)
