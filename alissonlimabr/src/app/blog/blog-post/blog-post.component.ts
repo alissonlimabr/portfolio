@@ -14,7 +14,7 @@ import {
 } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { DOCUMENT, isPlatformBrowser } from '@angular/common';
-import { ActivatedRoute, RouterLink } from '@angular/router';
+import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { DomSanitizer, Meta, SafeHtml, Title } from '@angular/platform-browser';
 import { switchMap } from 'rxjs';
 import { SanityService } from '../services/sanity.service';
@@ -50,6 +50,7 @@ import { ScrollProgressDirective } from '../../shared/directives/scroll-progress
 export class BlogPostComponent implements OnInit, OnDestroy {
   private readonly destroyRef = inject(DestroyRef);
   private readonly isBrowser = isPlatformBrowser(inject(PLATFORM_ID));
+  private readonly router = inject(Router);
 
   post?: Post;
   bodyHtml?: SafeHtml;
@@ -181,6 +182,7 @@ export class BlogPostComponent implements OnInit, OnDestroy {
 
     this.titleService.setTitle(title);
     this.metaService.updateTag({ name: 'description', content: description });
+    this.metaService.updateTag({ name: 'robots', content: 'index, follow' });
     this.metaService.updateTag({ property: 'og:type', content: 'article' });
     this.metaService.updateTag({ property: 'og:title', content: title });
     this.metaService.updateTag({
@@ -218,12 +220,18 @@ export class BlogPostComponent implements OnInit, OnDestroy {
   }
 
   private handlePostNotFound(): void {
+    if (this.isBrowser) {
+      void this.router.navigate(['/404'], { replaceUrl: true });
+      return;
+    }
+
     this.resetPostState();
     this.applyFallbackSeo(
       'Artigo não encontrado | Alisson Lima Dev',
       'O artigo que você procurou não foi encontrado.',
-      '/blog',
+      '/404',
     );
+    this.metaService.updateTag({ name: 'robots', content: 'noindex, follow' });
   }
 
   private handlePostError(): void {

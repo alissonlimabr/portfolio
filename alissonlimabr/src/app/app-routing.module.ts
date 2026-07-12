@@ -9,7 +9,14 @@ const routes: Routes = [
     loadChildren: () =>
       import('./blog/blog.routes').then(m => m.BLOG_ROUTES),
   },
-  { path: '**', redirectTo: '' },
+  {
+    path: '404',
+    loadComponent: () =>
+      import('./not-found/not-found.component').then(
+        m => m.NotFoundComponent,
+      ),
+  },
+  { path: '**', redirectTo: '404' },
 ];
 
 @NgModule({

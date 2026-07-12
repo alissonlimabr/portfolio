@@ -84,7 +84,7 @@
     </div>
   }
 
-  @if (!loading && !error && posts.length === 0) {
+  @if (!loading && !error && !notFound && posts.length === 0) {
     <div class="blog-state-msg">
       <p>
         @if (currentCategory) {
@@ -96,13 +96,19 @@
     </div>
   }
 
-  @if (!loading && !error && posts.length > 0 && filteredPosts.length === 0) {
+  @if (notFound) {
+    <div class="blog-state-msg">
+      <p>Categoria não encontrada.</p>
+    </div>
+  }
+
+  @if (!loading && !error && !notFound && posts.length > 0 && filteredPosts.length === 0) {
     <div class="blog-state-msg">
       <p>Nenhum artigo encontrado para "{{ searchTerm }}".</p>
     </div>
   }
 
-  @if (!loading && !error && pagedPosts.length > 0) {
+  @if (!loading && !error && !notFound && pagedPosts.length > 0) {
     <div class="blog-list">
       @for (post of pagedPosts; track post._id) {
         <a class="blog-card" [routerLink]="['/blog', post.slug.current]">
