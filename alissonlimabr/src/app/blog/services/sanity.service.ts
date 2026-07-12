@@ -311,16 +311,34 @@ export class SanityService {
     };
     const lang = this.normalizeCodeLanguage(raw.language);
     const code = this.escapeHtml(raw.code || '');
-    const header = raw.filename
-      ? this.renderCodeBlockHeader(raw.filename, lang)
-      : '';
-    return `<div class="code-block">${header}<pre class="language-${lang}"><code class="language-${lang}">${code}</code></pre></div>`;
+    return this.renderCodeBlockShell(code, lang, raw.filename);
   }
 
-  private renderCodeBlockHeader(filename: string, language: string): string {
-    const safeFilename = this.escapeHtml(filename);
+  private renderCodeBlockShell(
+    code: string,
+    language: string,
+    filename?: string,
+  ): string {
+    const header = this.renderCodeBlockHeader(filename, language);
+    return `<div class="code-block">${header}<pre class="language-${language}"><code class="language-${language}">${code}</code></pre></div>`;
+  }
+
+  private renderCodeBlockHeader(
+    filename: string | undefined,
+    language: string,
+  ): string {
+    const filenameMarkup = filename
+      ? `<span class="code-block-filename">${this.escapeHtml(filename)}</span>`
+      : '';
     const safeLanguage = this.escapeHtml(language);
-    return `<div class="code-block-header"><span class="code-block-filename">${safeFilename}</span><span class="code-block-lang">${safeLanguage}</span></div>`;
+    const headerClass = filename
+      ? 'code-block-header'
+      : 'code-block-header code-block-header--compact';
+    return `<div class="${headerClass}">${filenameMarkup}<div class="code-block-actions"><span class="code-block-lang">${safeLanguage}</span>${this.renderCodeCopyButton()}</div></div>`;
+  }
+
+  private renderCodeCopyButton(): string {
+    return '<button type="button" class="code-copy-btn" aria-label="Copiar código">Copiar</button>';
   }
 
   private normalizeCodeLanguage(language?: string): string {
@@ -387,9 +405,7 @@ export class SanityService {
 
     if (style === 'code') {
       const text = this.escapeHtml(this.extractPlainText(block.children));
-      return text
-        ? `<pre class="language-text"><code class="language-text">${text}</code></pre>`
-        : '';
+      return text ? this.renderCodeBlockShell(text, 'text') : '';
     }
 
     const children = this.renderTextChildren(block);

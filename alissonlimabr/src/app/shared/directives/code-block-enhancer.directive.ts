@@ -9,19 +9,43 @@ import {
   inject,
 } from '@angular/core';
 import { DOCUMENT, isPlatformBrowser } from '@angular/common';
-import Prism from 'prismjs';
-import 'prismjs/components/prism-markup';
-import 'prismjs/components/prism-css';
-import 'prismjs/components/prism-clike';
-import 'prismjs/components/prism-javascript';
-import 'prismjs/components/prism-typescript';
-import 'prismjs/components/prism-json';
-import 'prismjs/components/prism-bash';
-import 'prismjs/components/prism-yaml';
-import 'prismjs/components/prism-scss';
-import 'prismjs/components/prism-java';
-import 'prismjs/components/prism-python';
-import 'prismjs/components/prism-sql';
+
+type PrismInstance = typeof import('prismjs');
+type PrismModule = PrismInstance & { default?: PrismInstance };
+
+const PRISM_COMPONENT_LOADERS = [
+  () => import('prismjs/components/prism-markup'),
+  () => import('prismjs/components/prism-css'),
+  () => import('prismjs/components/prism-clike'),
+  () => import('prismjs/components/prism-javascript'),
+  () => import('prismjs/components/prism-typescript'),
+  () => import('prismjs/components/prism-json'),
+  () => import('prismjs/components/prism-bash'),
+  () => import('prismjs/components/prism-yaml'),
+  () => import('prismjs/components/prism-scss'),
+  () => import('prismjs/components/prism-java'),
+  () => import('prismjs/components/prism-python'),
+  () => import('prismjs/components/prism-sql'),
+] as const;
+
+let prismLoaderPromise: Promise<PrismInstance> | null = null;
+
+async function loadPrism(): Promise<PrismInstance> {
+  if (!prismLoaderPromise) {
+    prismLoaderPromise = (async () => {
+      const prismModule = (await import('prismjs')) as PrismModule;
+      for (const loadComponent of PRISM_COMPONENT_LOADERS) {
+        await loadComponent();
+      }
+      return prismModule.default ?? prismModule;
+    })().catch((error) => {
+      prismLoaderPromise = null;
+      throw error;
+    });
+  }
+
+  return prismLoaderPromise;
+}
 
 @Directive({
   selector: '[appCodeBlockEnhancer]',
@@ -82,32 +106,61 @@ export class CodeBlockEnhancerDirective implements OnInit, OnDestroy {
       return;
     }
 
+    if (!this.el.nativeElement.querySelector('pre:not([data-code-enhanced])')) {
+      return;
+    }
+
     if (this.enhancementTimer !== null) {
       window.clearTimeout(this.enhancementTimer);
     }
 
     this.enhancementTimer = window.setTimeout(() => {
       this.enhancementTimer = null;
-      this.enhanceCodeBlocks();
+      void this.enhanceCodeBlocks();
     });
   }
 
-  private enhanceCodeBlocks(): void {
-    const container: HTMLElement = this.el.nativeElement;
-    Prism.highlightAllUnder(container);
-
-    container.querySelectorAll<HTMLPreElement>('pre').forEach(pre => {
-      if (pre.querySelector('.code-copy-btn')) {
+  private async enhanceCodeBlocks(): Promise<void> {
+    try {
+      const container: HTMLElement = this.el.nativeElement;
+      const preBlocks = Array.from(
+        container.querySelectorAll<HTMLPreElement>('pre')
+      ).filter((pre) => !pre.hasAttribute('data-code-enhanced'));
+      if (!preBlocks.length) {
         return;
       }
 
-      const button = this.renderer.createElement('button') as HTMLButtonElement;
-      this.renderer.setAttribute(button, 'type', 'button');
-      this.renderer.setAttribute(button, 'class', 'code-copy-btn');
-      this.renderer.setAttribute(button, 'aria-label', 'Copiar código');
-      this.renderer.setProperty(button, 'textContent', 'Copiar');
-      this.renderer.appendChild(pre, button);
-    });
+      const Prism = await loadPrism();
+      if (this.destroyed) {
+        return;
+      }
+
+      preBlocks.forEach((pre) => {
+        const code = pre.querySelector<HTMLElement>('code');
+        if (code) {
+          Prism.highlightElement(code);
+        }
+
+        this.ensureCopyButton(pre);
+        this.renderer.setAttribute(pre, 'data-code-enhanced', 'true');
+      });
+    } catch {
+      // Falha de highlight não deve impedir a leitura ou o copy button.
+    }
+  }
+
+  private ensureCopyButton(pre: HTMLPreElement): void {
+    const buttonOwner = pre.closest('.code-block') ?? pre;
+    if (buttonOwner.querySelector('.code-copy-btn')) {
+      return;
+    }
+
+    const button = this.renderer.createElement('button') as HTMLButtonElement;
+    this.renderer.setAttribute(button, 'type', 'button');
+    this.renderer.setAttribute(button, 'class', 'code-copy-btn');
+    this.renderer.setAttribute(button, 'aria-label', 'Copiar código');
+    this.renderer.setProperty(button, 'textContent', 'Copiar');
+    this.renderer.appendChild(pre, button);
   }
 
   private handleClick(event: Event): void {
@@ -124,7 +177,9 @@ export class CodeBlockEnhancerDirective implements OnInit, OnDestroy {
     event.preventDefault();
     event.stopPropagation();
 
-    const code = button.closest('pre')?.querySelector('code');
+    const code =
+      button.closest('.code-block')?.querySelector('pre code') ??
+      button.closest('pre')?.querySelector('code');
     if (!code) {
       return;
     }

@@ -9,14 +9,16 @@ import {
   OnInit,
   PLATFORM_ID,
   SecurityContext,
+  TransferState,
   ViewEncapsulation,
   inject,
+  makeStateKey,
 } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { DOCUMENT, isPlatformBrowser } from '@angular/common';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { DomSanitizer, Meta, SafeHtml, Title } from '@angular/platform-browser';
-import { switchMap } from 'rxjs';
+import { Observable, catchError, distinctUntilChanged, map, of, switchMap } from 'rxjs';
 import { SanityService } from '../services/sanity.service';
 import { Post, PostSummary } from '../models/post.model';
 import { resolveCategoryColor } from '../utils/category-color.util';
@@ -29,6 +31,23 @@ import { ContentHeadingsDirective } from '../../shared/directives/content-headin
 import { CopyToClipboardDirective } from '../../shared/directives/copy-to-clipboard.directive';
 import { ScrollProgressDirective } from '../../shared/directives/scroll-progress.directive';
 import { SITE_BRAND, SITE_ORIGIN } from '../../shared/constants/site.constants';
+
+type BlogPostViewModel = Omit<Post, 'body'>;
+
+interface BlogPostPageState {
+  post: BlogPostViewModel | null;
+  bodyHtml: string;
+  relatedPosts: PostSummary[];
+}
+
+const EMPTY_BLOG_POST_PAGE_STATE: BlogPostPageState = {
+  post: null,
+  bodyHtml: '',
+  relatedPosts: [],
+};
+
+const BLOG_POST_PAGE_CACHE = new Map<string, BlogPostPageState>();
+const BLOG_POST_TRANSFER_STATE_PREFIX = 'blog-post-page:';
 
 @Component({
   selector: 'app-blog-post',
@@ -53,9 +72,10 @@ export class BlogPostComponent implements OnInit, OnDestroy {
   private readonly destroyRef = inject(DestroyRef);
   private readonly isBrowser = isPlatformBrowser(inject(PLATFORM_ID));
   private readonly router = inject(Router);
+  private readonly transferState = inject(TransferState);
   readonly resolveCategoryColor = resolveCategoryColor;
 
-  post?: Post;
+  post?: BlogPostViewModel;
   bodyHtml?: SafeHtml;
   loading = true;
   notFound = false;
@@ -86,55 +106,21 @@ export class BlogPostComponent implements OnInit, OnDestroy {
     this.document.body.classList.add('blog-post-page');
     this.route.paramMap
       .pipe(
-        switchMap((params) => this.sanity.getPost(params.get('slug') ?? '')),
+        map((params) => params.get('slug') ?? ''),
+        distinctUntilChanged(),
+        switchMap((slug) => this.loadPostPageState(slug)),
         takeUntilDestroyed(this.destroyRef),
       )
       .subscribe({
         // Clarity faz monkey-patch no XHR e quebra o Zone do Angular —
         // por isso forçamos a callback a rodar dentro da zone.
-        next: (post) => {
+        next: (pageState) => {
           this.zone.run(() => {
-            if (!post) {
+            if (!pageState.post) {
               this.handlePostNotFound();
               return;
             }
-            if (post.imageUrl && !/^https?:\/\//i.test(post.imageUrl)) {
-              post.imageUrl = undefined;
-            }
-            const socialImageUrl = post.ogImageUrl || post.imageUrl;
-            post.imageUrl = this.sanity.optimizeImageUrl(post.imageUrl, {
-              w: 1200,
-              h: 675,
-            });
-            post.ogImageUrl = this.sanity.optimizeImageUrl(socialImageUrl, {
-              w: 1200,
-              h: 630,
-            });
-            post.author.imageUrl = this.sanity.optimizeAuthorImageUrl(
-              post.author,
-            );
-
-            this.post = post;
-            const bodyHtml = this.sanity.portableTextToHtml(post.body);
-            const safeBodyHtml =
-              this.sanitizer.sanitize(SecurityContext.HTML, bodyHtml) ?? '';
-            this.bodyHtml =
-              this.sanitizer.bypassSecurityTrustHtml(safeBodyHtml);
-            this.relatedPosts = [];
-            this.loading = false;
-            this.tocItems = [];
-            this.tocSectionIds = [];
-            this.activeTocId = '';
-            this.cdr.markForCheck();
-
-            this.applySeo(post);
-            this.applyJsonLd(post);
-            this.setCanonicalPath(`/blog/${post.slug.current}`);
-            this.loadRelatedPosts(post.slug.current, post.tags ?? []);
-
-            if (this.isBrowser) {
-              window.scrollTo({ top: 0, behavior: 'auto' });
-            }
+            this.applyLoadedPostPage(pageState);
           });
         },
         error: () => {
@@ -154,28 +140,169 @@ export class BlogPostComponent implements OnInit, OnDestroy {
     }
   }
 
-  private loadRelatedPosts(slug: string, tags: string[]): void {
-    this.sanity
-      .getRelatedPosts(slug, tags, 3)
-      .pipe(takeUntilDestroyed(this.destroyRef))
-      .subscribe({
-        next: (related) => {
-          this.zone.run(() => {
-            this.relatedPosts = (related ?? []).map((p) => ({
-              ...p,
-              imageUrl:
-                p.imageUrl && /^https?:\/\//i.test(p.imageUrl)
-                  ? this.sanity.optimizeImageUrl(p.imageUrl, { w: 600, h: 338 })
-                  : undefined,
-            }));
-            this.cdr.markForCheck();
-          });
-        },
-        error: () => {},
-      });
+  private loadPostPageState(slug: string): Observable<BlogPostPageState> {
+    this.preparePostLoad();
+
+    if (!slug) {
+      return of(EMPTY_BLOG_POST_PAGE_STATE);
+    }
+
+    const transferredState = this.takeTransferredPostPageState(slug);
+    if (transferredState) {
+      return of(transferredState);
+    }
+
+    const cachedState = BLOG_POST_PAGE_CACHE.get(slug);
+    if (cachedState) {
+      return of(cachedState);
+    }
+
+    return this.sanity.getPost(slug).pipe(
+      switchMap((post) => {
+        if (!post) {
+          return of(
+            this.persistPostPageState(slug, EMPTY_BLOG_POST_PAGE_STATE),
+          );
+        }
+
+        const bodyHtml = this.sanity.portableTextToHtml(post.body);
+        const preparedPost = this.preparePostViewModel(post);
+        return this.sanity.getRelatedPosts(post.slug.current, post.tags ?? [], 3).pipe(
+          map((related) =>
+            this.persistPostPageState(slug, {
+              post: preparedPost,
+              bodyHtml,
+              relatedPosts: this.normalizeRelatedPosts(related),
+            }),
+          ),
+          catchError(() =>
+            of(
+              this.persistPostPageState(slug, {
+                post: preparedPost,
+                bodyHtml,
+                relatedPosts: [],
+              }),
+            ),
+          ),
+        );
+      }),
+    );
   }
 
-  private applySeo(post: Post): void {
+  private preparePostLoad(): void {
+    this.loading = true;
+    this.notFound = false;
+    this.post = undefined;
+    this.bodyHtml = undefined;
+    this.relatedPosts = [];
+    this.linkCopied = false;
+    this.tocItems = [];
+    this.tocSectionIds = [];
+    this.activeTocId = '';
+    this.clearJsonLd();
+    this.cdr.markForCheck();
+  }
+
+  private takeTransferredPostPageState(
+    slug: string,
+  ): BlogPostPageState | null {
+    if (!this.isBrowser) {
+      return null;
+    }
+
+    const key = this.getPostPageStateKey(slug);
+    if (!this.transferState.hasKey(key)) {
+      return null;
+    }
+
+    const state = this.transferState.get(key, EMPTY_BLOG_POST_PAGE_STATE);
+    this.transferState.remove(key);
+    BLOG_POST_PAGE_CACHE.set(slug, state);
+    return state;
+  }
+
+  private persistPostPageState(
+    slug: string,
+    state: BlogPostPageState,
+  ): BlogPostPageState {
+    BLOG_POST_PAGE_CACHE.set(slug, state);
+
+    if (!this.isBrowser) {
+      this.transferState.set(this.getPostPageStateKey(slug), state);
+    }
+
+    return state;
+  }
+
+  private getPostPageStateKey(slug: string) {
+    return makeStateKey<BlogPostPageState>(
+      `${BLOG_POST_TRANSFER_STATE_PREFIX}${slug}`,
+    );
+  }
+
+  private preparePostViewModel(post: Post): BlogPostViewModel {
+    const { body: _, ...postWithoutBody } = post;
+    const normalizedImageUrl =
+      post.imageUrl && /^https?:\/\//i.test(post.imageUrl)
+        ? post.imageUrl
+        : undefined;
+    const socialImageUrl = post.ogImageUrl || normalizedImageUrl;
+
+    return {
+      ...postWithoutBody,
+      author: {
+        ...post.author,
+        imageUrl: this.sanity.optimizeAuthorImageUrl(post.author),
+      },
+      imageUrl: this.sanity.optimizeImageUrl(normalizedImageUrl, {
+        w: 1200,
+        h: 675,
+      }),
+      ogImageUrl: this.sanity.optimizeImageUrl(socialImageUrl, {
+        w: 1200,
+        h: 630,
+      }),
+    };
+  }
+
+  private normalizeRelatedPosts(related: PostSummary[] = []): PostSummary[] {
+    return related.map((relatedPost) => ({
+      ...relatedPost,
+      imageUrl:
+        relatedPost.imageUrl && /^https?:\/\//i.test(relatedPost.imageUrl)
+          ? this.sanity.optimizeImageUrl(relatedPost.imageUrl, {
+              w: 600,
+              h: 338,
+            })
+          : undefined,
+    }));
+  }
+
+  private applyLoadedPostPage(pageState: BlogPostPageState): void {
+    const post = pageState.post;
+    if (!post) {
+      return;
+    }
+
+    this.post = post;
+    const safeBodyHtml =
+      this.sanitizer.sanitize(SecurityContext.HTML, pageState.bodyHtml) ?? '';
+    this.bodyHtml = this.sanitizer.bypassSecurityTrustHtml(safeBodyHtml);
+    this.relatedPosts = pageState.relatedPosts;
+    this.loading = false;
+    this.notFound = false;
+    this.cdr.markForCheck();
+
+    this.applySeo(post);
+    this.applyJsonLd(post);
+    this.setCanonicalPath(`/blog/${post.slug.current}`);
+
+    if (this.isBrowser) {
+      window.scrollTo({ top: 0, behavior: 'auto' });
+    }
+  }
+
+  private applySeo(post: BlogPostViewModel): void {
     const description = (post.seoDescription || post.excerpt || '').slice(
       0,
       160,
@@ -235,7 +362,6 @@ export class BlogPostComponent implements OnInit, OnDestroy {
       'O artigo que você procurou não foi encontrado.',
       '/404',
     );
-    this.metaService.updateTag({ name: 'robots', content: 'noindex, follow' });
   }
 
   private handlePostError(): void {
@@ -268,6 +394,7 @@ export class BlogPostComponent implements OnInit, OnDestroy {
     const url = `${this.siteOrigin}${path}`;
     this.titleService.setTitle(title);
     this.metaService.updateTag({ name: 'description', content: description });
+    this.metaService.updateTag({ name: 'robots', content: 'noindex, follow' });
     this.metaService.updateTag({ property: 'og:type', content: 'website' });
     this.metaService.updateTag({ property: 'og:title', content: title });
     this.metaService.updateTag({
@@ -300,7 +427,7 @@ export class BlogPostComponent implements OnInit, OnDestroy {
     this.setCanonicalPath(path);
   }
 
-  private applyJsonLd(post: Post): void {
+  private applyJsonLd(post: BlogPostViewModel): void {
     this.clearJsonLd();
     const url = `${this.siteOrigin}/blog/${post.slug.current}`;
     const description = post.seoDescription || post.excerpt || '';

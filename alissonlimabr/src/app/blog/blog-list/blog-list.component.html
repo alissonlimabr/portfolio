@@ -45,18 +45,19 @@
   @if (!loading && !error && posts.length > 0) {
     <div class="blog-toolbar">
       <input
-        #searchInput
         class="blog-search"
         type="search"
+        name="blog-search"
         placeholder="Buscar artigos por título, resumo, tag ou categoria..."
-        [value]="searchTerm"
-        (search)="onSearch(searchInput.value)"
+        [(ngModel)]="searchInputValue"
+        (search)="submitSearch(searchInputValue)"
+        (keyup.enter)="submitSearch(searchInputValue)"
         aria-label="Buscar artigos"
       />
       <button
         type="button"
         class="blog-search-btn"
-        (click)="onSearch(searchInput.value)"
+        (click)="submitSearch(searchInputValue)"
         aria-label="Buscar"
       >
         <app-icon name="search" [size]="18" />
