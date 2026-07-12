@@ -14,7 +14,7 @@ import { DOCUMENT, isPlatformBrowser } from '@angular/common';
 export interface ContentHeading {
   id: string;
   text: string;
-  level: 2 | 3;
+  level: 2 | 3 | 4;
 }
 
 @Directive({
@@ -66,7 +66,7 @@ export class ContentHeadingsDirective implements OnDestroy {
   private extractHeadings(): void {
     const container: HTMLElement = this.el.nativeElement;
     const headings = Array.from(
-      container.querySelectorAll<HTMLHeadingElement>('h2, h3')
+      container.querySelectorAll<HTMLHeadingElement>('h2, h3, h4')
     );
 
     if (headings.length < 2) {
@@ -76,22 +76,35 @@ export class ContentHeadingsDirective implements OnDestroy {
 
     const items = headings.map<ContentHeading>((heading, index) => {
       const text = heading.textContent?.trim() ?? '';
-      const id = `toc-${index}-${text
-        .toLowerCase()
-        .normalize('NFD')
-        .replace(/[\u0300-\u036f]/g, '')
-        .replace(/[^a-z0-9]+/g, '-')
-        .replace(/-$/, '')
-        .slice(0, 50)}`;
+      const id = heading.id || this.buildHeadingId(text, index);
 
       this.renderer.setAttribute(heading, 'id', id);
       return {
         id,
         text,
-        level: Number.parseInt(heading.tagName[1], 10) as 2 | 3,
+        level: this.getHeadingLevel(heading),
       };
     });
 
     this.contentHeadingsChange.emit(items);
+  }
+
+  private buildHeadingId(text: string, index: number): string {
+    return `toc-${index}-${text
+      .toLowerCase()
+      .normalize('NFD')
+      .replace(/[\u0300-\u036f]/g, '')
+      .replace(/[^a-z0-9]+/g, '-')
+      .replace(/-$/, '')
+      .slice(0, 50)}`;
+  }
+
+  private getHeadingLevel(heading: HTMLHeadingElement): 2 | 3 | 4 {
+    const parsedLevel = Number.parseInt(heading.tagName[1], 10);
+    if (parsedLevel === 4) {
+      return 4;
+    }
+
+    return parsedLevel === 3 ? 3 : 2;
   }
 }

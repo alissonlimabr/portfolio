@@ -126,6 +126,11 @@
     padding-left: 26px;
     font-size: 13px;
   }
+
+  &.toc-item--h4 a {
+    padding-left: 38px;
+    font-size: 12px;
+  }
 }
 
 @mixin external-toc-rail {

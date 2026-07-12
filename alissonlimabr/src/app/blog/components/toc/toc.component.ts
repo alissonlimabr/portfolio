@@ -13,7 +13,7 @@ const TOC_OPEN_STORAGE_KEY = 'blog-toc-open';
 export interface TocItem {
   id: string;
   text: string;
-  level: 2 | 3;
+  level: 2 | 3 | 4;
 }
 
 @Component({
