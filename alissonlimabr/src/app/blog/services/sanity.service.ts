@@ -158,14 +158,27 @@ export class SanityService {
           { "name": "Alisson Lima", "url": "https://www.alissonlimadev.com" }
         ),
         publishedAt, tags, featured,
-        "updatedAt": _updatedAt,
+        updatedAt,
+        "systemCreatedAt": _createdAt,
+        "systemUpdatedAt": _updatedAt,
         seoDescription,
         "estimatedReadingTime": round(length(pt::text(body)) / 5 / 180),
         "imageUrl": mainImage.asset->url,
         "imageAlt": mainImage.alt,
         "ogImageUrl": ogImage.asset->url,
         "categories": categories[]->{ _id, title, slug, description, color },
-        body[] { ..., _type == "image" => { ..., "url": asset->url } }
+        body[] {
+          ...,
+          markDefs[] {
+            ...,
+            _type == "internalLink" => {
+              ...,
+              "slug": reference->slug,
+              "documentType": reference->_type
+            }
+          },
+          _type == "image" => { ..., "url": asset->url }
+        }
       }
     `;
     return this.query<Post>(groq, { slug });
@@ -403,6 +416,14 @@ export class SanityService {
   ): string {
     const style = block.style || 'normal';
 
+    if (this.isDividerTextBlock(block)) {
+      return this.renderDividerBlock({
+        _type: 'divider',
+        _key: block._key,
+        style: 'line',
+      });
+    }
+
     if (style === 'code') {
       const text = this.escapeHtml(this.extractPlainText(block.children));
       return text ? this.renderCodeBlockShell(text, 'text') : '';
@@ -472,7 +493,17 @@ export class SanityService {
     defs: PortableTextMark[],
   ): string {
     const def = defs.find((definition) => definition._key === mark);
-    if (def?._type !== 'link' || !def.href) {
+
+    if (!def) {
+      return text;
+    }
+
+    if (def._type === 'internalLink') {
+      const safeHref = this.safeUrl(this.resolveInternalLinkHref(def));
+      return safeHref ? `<a href="${safeHref}">${text}</a>` : text;
+    }
+
+    if (def._type !== 'link' || !def.href) {
       return text;
     }
 
@@ -484,6 +515,22 @@ export class SanityService {
     const attrs =
       def.blank !== false ? ' target="_blank" rel="noopener noreferrer"' : '';
     return `<a href="${safeHref}"${attrs}>${text}</a>`;
+  }
+
+  private resolveInternalLinkHref(def: PortableTextMark): string | null {
+    const slug = def.slug?.current?.trim();
+    if (!slug) {
+      return null;
+    }
+
+    switch (def.documentType) {
+      case 'post':
+        return `/blog/${slug}`;
+      case 'category':
+        return `/blog/categoria/${slug}`;
+      default:
+        return null;
+    }
   }
 
   private renderList(
@@ -573,6 +620,20 @@ export class SanityService {
       .join('');
   }
 
+  private isDividerTextBlock(block: PortableTextBlock): boolean {
+    if (block._type !== 'block' || (block.style && block.style !== 'normal')) {
+      return false;
+    }
+
+    const hasMarks = (block.children || []).some((child) => child.marks?.length);
+    if (hasMarks) {
+      return false;
+    }
+
+    const text = this.extractPlainText(block.children).trim();
+    return /^(?:-{3,}|\*{3,}|_{3,})$/.test(text);
+  }
+
   private extractYouTubeId(url: string): string | null {
     const match = url.match(
       /(?:youtube\.com\/watch\?v=|youtu\.be\/|youtube\.com\/embed\/)([a-zA-Z0-9_-]{11})/,
@@ -580,7 +641,7 @@ export class SanityService {
     return match ? match[1] : null;
   }
 
-  private safeUrl(url: string | undefined): string | null {
+  private safeUrl(url: string | null | undefined): string | null {
     if (!url) return null;
     const trimmed = url.trim();
     const lower = trimmed.toLowerCase();

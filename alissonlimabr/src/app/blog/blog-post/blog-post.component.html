@@ -73,9 +73,16 @@
                 <div class="post-byline-copy">
                   <span class="post-author-name">Por {{ post.author.name }}</span>
                   <div class="post-meta">
-                    <span>{{ formatDate(post.publishedAt) }}</span>
-                    @if (post.estimatedReadingTime) {
-                      <span>· {{ post.estimatedReadingTime }} min de leitura</span>
+                    <span class="post-meta-line">
+                      <span>{{ formatDate(post.publishedAt) }}</span>
+                      @if (post.estimatedReadingTime) {
+                        <span>· {{ formatReadingTime(post.estimatedReadingTime) }}</span>
+                      }
+                    </span>
+                    @if (hasUpdatedDate(post)) {
+                      <span class="post-meta-line post-meta-line--updated">
+                        Atualizado em: {{ formatDateTime(post.updatedAt!) }}
+                      </span>
                     }
                   </div>
                 </div>

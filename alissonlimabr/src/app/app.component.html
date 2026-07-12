@@ -24,7 +24,11 @@
           <a class="link" href="/#contato">Contato</a>
         </li>
         <li (click)="closeSideNav()">
+          @if (isBlogPostRoute) {
+          <a class="link link--back" routerLink="/blog">← Blog</a>
+          } @else {
           <a class="link link--back" routerLink="/">← Portfólio</a>
+          }
         </li>
         <li class="theme-toggle">
           <button type="button" class="theme-toggle-btn" [class.active]="currentTheme() === 'light'"
@@ -74,7 +78,12 @@
 
   <mat-sidenav-content>
     <header>
-      <app-header class="header" [isBlogRoute]="isBlogRoute" (openSidenav)="sidenav.toggle()"></app-header>
+      <app-header
+        class="header"
+        [isBlogRoute]="isBlogRoute"
+        [isBlogPostRoute]="isBlogPostRoute"
+        (openSidenav)="sidenav.toggle()"
+      ></app-header>
     </header>
     <main>
       <router-outlet></router-outlet>

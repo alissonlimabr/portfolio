@@ -247,9 +247,11 @@ export class BlogPostComponent implements OnInit, OnDestroy {
         ? post.imageUrl
         : undefined;
     const socialImageUrl = post.ogImageUrl || normalizedImageUrl;
+    const resolvedUpdatedAt = this.resolveUpdatedAt(post);
 
     return {
       ...postWithoutBody,
+      updatedAt: resolvedUpdatedAt,
       author: {
         ...post.author,
         imageUrl: this.sanity.optimizeAuthorImageUrl(post.author),
@@ -347,6 +349,8 @@ export class BlogPostComponent implements OnInit, OnDestroy {
         property: 'article:modified_time',
         content: post.updatedAt,
       });
+    } else {
+      this.metaService.removeTag("property='article:modified_time'");
     }
   }
 
@@ -554,11 +558,96 @@ export class BlogPostComponent implements OnInit, OnDestroy {
     }, 1800);
   }
 
+  hasUpdatedDate(post: BlogPostViewModel): boolean {
+    return Boolean(post.updatedAt);
+  }
+
   formatDate(dateStr: string): string {
     return new Date(dateStr).toLocaleDateString('pt-BR', {
-      day: '2-digit',
+      day: 'numeric',
       month: 'long',
       year: 'numeric',
     });
+  }
+
+  formatDateTime(dateStr: string): string {
+    return new Date(dateStr).toLocaleString('pt-BR', {
+      day: 'numeric',
+      month: 'long',
+      year: 'numeric',
+      hour: '2-digit',
+      minute: '2-digit',
+    });
+  }
+
+  formatReadingTime(minutes: number): string {
+    return `${minutes} ${minutes === 1 ? 'minuto' : 'minutos'} de leitura`;
+  }
+
+  private getMeaningfulUpdatedAt(
+    updatedAt: string | undefined,
+    publishedAt: string,
+  ): string | undefined {
+    if (!updatedAt) {
+      return undefined;
+    }
+
+    const updatedTime = Date.parse(updatedAt);
+    const publishedTime = Date.parse(publishedAt);
+
+    if (
+      Number.isNaN(updatedTime) ||
+      Number.isNaN(publishedTime) ||
+      updatedTime <= publishedTime
+    ) {
+      return undefined;
+    }
+
+    return updatedAt;
+  }
+
+  private resolveUpdatedAt(post: Post): string | undefined {
+    const editorialUpdatedAt = this.getMeaningfulUpdatedAt(
+      post.updatedAt,
+      post.publishedAt,
+    );
+
+    if (editorialUpdatedAt) {
+      return editorialUpdatedAt;
+    }
+
+    return this.getFallbackSystemUpdatedAt(
+      post.systemCreatedAt,
+      post.systemUpdatedAt,
+      post.publishedAt,
+    );
+  }
+
+  private getFallbackSystemUpdatedAt(
+    createdAt: string | undefined,
+    updatedAt: string | undefined,
+    publishedAt: string,
+  ): string | undefined {
+    const meaningfulSystemUpdatedAt = this.getMeaningfulUpdatedAt(
+      updatedAt,
+      publishedAt,
+    );
+
+    if (!meaningfulSystemUpdatedAt || !createdAt) {
+      return undefined;
+    }
+
+    const createdTime = Date.parse(createdAt);
+    const updatedTime = Date.parse(meaningfulSystemUpdatedAt);
+
+    if (
+      Number.isNaN(createdTime) ||
+      Number.isNaN(updatedTime) ||
+      updatedTime - createdTime < 5 * 60 * 1000
+    ) {
+      return undefined;
+    }
+
+    return meaningfulSystemUpdatedAt;
   }
 }

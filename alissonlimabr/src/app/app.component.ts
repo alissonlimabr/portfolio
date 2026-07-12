@@ -60,12 +60,14 @@ export class AppComponent implements OnInit {
 
   opened?: boolean;
   isBlogRoute = false;
+  isBlogPostRoute = false;
 
   private readonly readingPrefs = inject(ReadingPreferencesService);
   readonly currentTheme = computed(() => this.readingPrefs.theme());
 
   ngOnInit(): void {
     this.isBlogRoute = this.router.url.startsWith('/blog');
+    this.isBlogPostRoute = this.isBlogPostUrl(this.router.url);
 
     if (!isPlatformBrowser(this.platformId)) {
       return;
@@ -83,7 +85,9 @@ export class AppComponent implements OnInit {
       )
       .subscribe((event) => {
         const onBlog = event.urlAfterRedirects.startsWith('/blog');
+        const onBlogPost = this.isBlogPostUrl(event.urlAfterRedirects);
         this.isBlogRoute = onBlog;
+        this.isBlogPostRoute = onBlogPost;
 
         if (onBlog) {
           this.readingPrefs.applyBodyClasses();
@@ -106,5 +110,18 @@ export class AppComponent implements OnInit {
     const next: 'dark' | 'light' =
       this.currentTheme() === 'dark' ? 'light' : 'dark';
     this.readingPrefs.setTheme(next);
+  }
+
+  private isBlogPostUrl(url: string): boolean {
+    const normalizedUrl = url.split('?')[0].split('#')[0];
+
+    if (!normalizedUrl.startsWith('/blog/')) {
+      return false;
+    }
+
+    return !(
+      normalizedUrl === '/blog/categorias' ||
+      normalizedUrl.startsWith('/blog/categoria/')
+    );
   }
 }
