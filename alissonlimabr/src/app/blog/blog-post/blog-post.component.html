@@ -46,9 +46,9 @@
                 <div class="blog-categories-row">
                   @for (cat of post.categories!; track cat._id) {
                     <a
-                      class="blog-category-badge category--{{ cat.slug.current }}"
+                      class="blog-category-badge"
                       [routerLink]="['/blog/categoria', cat.slug.current]"
-                      [style.--cat-color]="cat.color || null"
+                      [style.--cat-color]="resolveCategoryColor(cat)"
                     >
                       {{ cat.title }}
                     </a>

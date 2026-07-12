@@ -1,6 +1,7 @@
 <section
-  class="blog-hero {{ currentCategory ? 'blog-hero--category category--' + currentCategory.slug.current : '' }}"
-  [style.--cat-color]="currentCategory?.color || null"
+  class="blog-hero"
+  [class.blog-hero--category]="!!currentCategory"
+  [style.--cat-color]="resolveCategoryColor(currentCategory)"
 >
   <div class="blog-hero-inner">
     @if (currentCategory) {
@@ -30,10 +31,10 @@
       </a>
       @for (cat of categories; track cat._id) {
         <a
-          class="blog-category-filter category--{{ cat.slug.current }}"
+          class="blog-category-filter"
           [routerLink]="['/blog/categoria', cat.slug.current]"
           [class.active]="currentCategory?._id === cat._id"
-          [style.--cat-color]="cat.color || null"
+          [style.--cat-color]="resolveCategoryColor(cat)"
         >
           {{ cat.title }}
         </a>
@@ -123,8 +124,8 @@
                 <div class="blog-categories-row">
                   @for (cat of post.categories!; track cat._id) {
                     <span
-                      class="blog-category-badge category--{{ cat.slug.current }}"
-                      [style.--cat-color]="cat.color || null"
+                      class="blog-category-badge"
+                      [style.--cat-color]="resolveCategoryColor(cat)"
                     >
                       {{ cat.title }}
                     </span>

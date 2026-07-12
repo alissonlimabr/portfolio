@@ -39,7 +39,7 @@
   }
 
   h1 {
-    font-size: 44px;
+    font-size: 40px;
     font-weight: 800;
     color: var(--blog-heading);
     line-height: 1.15;
@@ -47,11 +47,11 @@
     margin: 0 0 20px;
 
     @include responsive(tablet) {
-      font-size: 32px;
+      font-size: 30px;
       letter-spacing: -0.6px;
     }
     @include responsive(mobilePlus) {
-      font-size: 24px;
+      font-size: 22px;
       letter-spacing: -0.4px;
     }
   }
@@ -293,7 +293,9 @@
   h1,
   h2,
   h3,
-  h4 {
+  h4,
+  h5,
+  h6 {
     color: var(--blog-heading);
     font-weight: 700;
     line-height: 1.25;
@@ -305,46 +307,22 @@
   }
 
   h1 {
-    font-size: 30px;
+    font-size: 1.65em;
   }
   h2 {
-    font-size: 26px;
+    font-size: 1.46em;
   }
   h3 {
-    font-size: 22px;
+    font-size: 1.28em;
   }
   h4 {
-    font-size: 18px;
+    font-size: 1.16em;
   }
-
-  @include responsive(tabletplus) {
-    h1 {
-      font-size: 26px;
-    }
-    h2 {
-      font-size: 22px;
-    }
-    h3 {
-      font-size: 19px;
-    }
-    h4 {
-      font-size: 17px;
-    }
+  h5 {
+    font-size: 1.08em;
   }
-
-  @include responsive(mobilePlus) {
-    h1 {
-      font-size: 22px;
-    }
-    h2 {
-      font-size: 19px;
-    }
-    h3 {
-      font-size: 17px;
-    }
-    h4 {
-      font-size: 15px;
-    }
+  h6 {
+    font-size: 1.03em;
   }
 
   a:not(.blog-category-badge):not(.related-card):not(.back-link):not(.code-copy-btn):not(.post-share-btn) {

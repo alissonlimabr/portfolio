@@ -19,6 +19,7 @@ import { DomSanitizer, Meta, SafeHtml, Title } from '@angular/platform-browser';
 import { switchMap } from 'rxjs';
 import { SanityService } from '../services/sanity.service';
 import { Post, PostSummary } from '../models/post.model';
+import { resolveCategoryColor } from '../utils/category-color.util';
 import { ReadingPreferencesComponent } from '../components/reading-preferences/reading-preferences.component';
 import { TocComponent, TocItem } from '../components/toc/toc.component';
 import { IconComponent } from '../../shared/icon.component';
@@ -27,6 +28,7 @@ import { CodeBlockEnhancerDirective } from '../../shared/directives/code-block-e
 import { ContentHeadingsDirective } from '../../shared/directives/content-headings.directive';
 import { CopyToClipboardDirective } from '../../shared/directives/copy-to-clipboard.directive';
 import { ScrollProgressDirective } from '../../shared/directives/scroll-progress.directive';
+import { SITE_BRAND, SITE_ORIGIN } from '../../shared/constants/site.constants';
 
 @Component({
   selector: 'app-blog-post',
@@ -51,6 +53,7 @@ export class BlogPostComponent implements OnInit, OnDestroy {
   private readonly destroyRef = inject(DestroyRef);
   private readonly isBrowser = isPlatformBrowser(inject(PLATFORM_ID));
   private readonly router = inject(Router);
+  readonly resolveCategoryColor = resolveCategoryColor;
 
   post?: Post;
   bodyHtml?: SafeHtml;
@@ -64,7 +67,8 @@ export class BlogPostComponent implements OnInit, OnDestroy {
 
   private jsonLdScript?: HTMLScriptElement;
   private linkCopiedTimer: number | null = null;
-  private readonly siteOrigin = 'https://www.alissonlimadev.com';
+  private readonly siteOrigin = SITE_ORIGIN;
+  private readonly siteBrand = SITE_BRAND;
   private readonly defaultOgImageUrl = `${this.siteOrigin}/assets/img/og-image.webp`;
 
   constructor(
@@ -177,7 +181,7 @@ export class BlogPostComponent implements OnInit, OnDestroy {
       160,
     );
     const imageUrl = post.ogImageUrl || post.imageUrl || this.defaultOgImageUrl;
-    const title = `${post.title} | Alisson Lima Dev`;
+    const title = `${post.title} | ${this.siteBrand}`;
     const url = `${this.siteOrigin}/blog/${post.slug.current}`;
 
     this.titleService.setTitle(title);
@@ -227,7 +231,7 @@ export class BlogPostComponent implements OnInit, OnDestroy {
 
     this.resetPostState();
     this.applyFallbackSeo(
-      'Artigo não encontrado | Alisson Lima Dev',
+      `Artigo não encontrado | ${this.siteBrand}`,
       'O artigo que você procurou não foi encontrado.',
       '/404',
     );
@@ -237,7 +241,7 @@ export class BlogPostComponent implements OnInit, OnDestroy {
   private handlePostError(): void {
     this.resetPostState();
     this.applyFallbackSeo(
-      'Blog | Alisson Lima Dev',
+      `Blog | ${this.siteBrand}`,
       'Não foi possível carregar este artigo agora. Tente novamente em instantes.',
       '/blog',
     );

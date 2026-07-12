@@ -17,7 +17,9 @@ import { Observable } from 'rxjs';
 import { Meta, Title } from '@angular/platform-browser';
 import { SanityService } from '../services/sanity.service';
 import { Category, PostSummary } from '../models/post.model';
+import { resolveCategoryColor } from '../utils/category-color.util';
 import { IconComponent } from '../../shared/icon.component';
+import { SITE_BRAND, SITE_ORIGIN } from '../../shared/constants/site.constants';
 @Component({
   selector: 'app-blog-list',
   standalone: true,
@@ -38,8 +40,10 @@ export class BlogListComponent implements OnInit {
   private readonly metaService = inject(Meta);
   private readonly document = inject(DOCUMENT);
   private readonly isBrowser = isPlatformBrowser(inject(PLATFORM_ID));
-  private readonly siteOrigin = 'https://www.alissonlimadev.com';
+  private readonly siteOrigin = SITE_ORIGIN;
+  private readonly siteBrand = SITE_BRAND;
   private readonly defaultOgImageUrl = `${this.siteOrigin}/assets/img/og-image.webp`;
+  readonly resolveCategoryColor = resolveCategoryColor;
 
   posts: PostSummary[] = [];
   categories: Category[] = [];
@@ -87,7 +91,7 @@ export class BlogListComponent implements OnInit {
 
     if (categorySlug) {
       this.applySeo(
-        'Categoria | Blog | Alisson Lima Dev',
+        `Categoria | Blog | ${this.siteBrand}`,
         'Artigos de desenvolvimento filtrados por categoria.',
         `/blog/categoria/${categorySlug}`,
       );
@@ -104,7 +108,7 @@ export class BlogListComponent implements OnInit {
 
               this.currentCategory = cat;
               this.applySeo(
-                `${cat.title} | Blog | Alisson Lima Dev`,
+                `${cat.title} | Blog | ${this.siteBrand}`,
                 (
                   cat.description ||
                   `Artigos da categoria ${cat.title} no blog de Alisson Lima.`
@@ -119,7 +123,7 @@ export class BlogListComponent implements OnInit {
         });
     } else {
       this.applySeo(
-        'Blog | Alisson Lima Dev',
+        `Blog | ${this.siteBrand}`,
         'Artigos sobre desenvolvimento web, APIs REST, integrações e carreira em tecnologia.',
         '/blog',
       );
@@ -188,7 +192,7 @@ export class BlogListComponent implements OnInit {
     this.posts = [];
     this.currentCategory = undefined;
     this.applySeo(
-      'Categoria não encontrada | alissonlimadev',
+      `Categoria não encontrada | ${this.siteBrand}`,
       'A categoria solicitada não foi encontrada.',
       '/404',
     );
