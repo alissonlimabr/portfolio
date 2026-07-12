@@ -579,8 +579,12 @@ body.blog-theme-light {
     }
 
     ul,
-    ol li::marker {
-      color: var(--blog-accent);
+    ol {
+      color: var(--blog-text);
+
+      li::marker {
+        color: var(--blog-text);
+      }
     }
     hr {
       background: var(--blog-border);

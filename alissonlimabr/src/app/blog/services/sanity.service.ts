@@ -10,6 +10,7 @@ import {
   PostSummary,
   PortableTextBlock,
   PortableTextChild,
+  PortableTextMark,
 } from '../models/post.model';
 
 export interface ImageOptions {
@@ -19,6 +20,23 @@ export interface ImageOptions {
   q?: number;
   rect?: string;
 }
+
+const CALLOUT_ICONS = {
+  tip: '💡',
+  info: 'ℹ️',
+  warning: '⚠️',
+  danger: '🚫',
+} as const;
+
+const TEXT_BLOCK_TAGS: Record<string, string> = {
+  h1: 'h1',
+  h2: 'h2',
+  h3: 'h3',
+  h4: 'h4',
+  h5: 'h5',
+  h6: 'h6',
+  blockquote: 'blockquote',
+};
 
 @Injectable({ providedIn: 'root' })
 export class SanityService {
@@ -229,130 +247,314 @@ export class SanityService {
 
   portableTextToHtml(blocks: PortableTextBlock[]): string {
     if (!Array.isArray(blocks)) return '';
-    return blocks
-      .map((block) => {
-        if (block._type === 'image') {
-          const url = this.safeUrl(block['url']);
-          if (!url) return '';
-          const alt = this.escapeAttr(block.alt || '');
-          const caption = block['caption']
-            ? `<figcaption>${this.escapeHtml(block['caption'])}</figcaption>`
-            : '';
-          return `<figure><img src="${url}" alt="${alt}" loading="lazy" />${caption}</figure>`;
+    const html: string[] = [];
+    let index = 0;
+
+    while (index < blocks.length) {
+      const block = blocks[index];
+
+      if (this.isListBlock(block)) {
+        const renderedList = this.renderList(blocks, index);
+        if (renderedList.html) {
+          html.push(renderedList.html);
         }
+        index = renderedList.nextIndex;
+        continue;
+      }
 
-        // codeBlock = legacy schema; code = @sanity/code-input (new)
-        if (block._type === 'codeBlock' || block._type === 'code') {
-          const raw = block as unknown as {
-            code?: string;
-            language?: string;
-            filename?: string;
-          };
-          const lang =
-            (raw.language || 'text')
-              .replace(/[^a-z0-9_+-]/gi, '')
-              .toLowerCase() || 'text';
-          const code = this.escapeHtml(raw.code || '');
-          const filename = raw.filename ? this.escapeHtml(raw.filename) : '';
-          const header = filename
-            ? `<div class="code-block-header"><span class="code-block-filename">${filename}</span><span class="code-block-lang">${this.escapeHtml(lang)}</span></div>`
-            : '';
-          return `<div class="code-block">${header}<pre class="language-${lang}"><code class="language-${lang}">${code}</code></pre></div>`;
+      const renderedBlock = this.renderBlock(block);
+      if (renderedBlock) {
+        html.push(renderedBlock);
+      }
+      index += 1;
+    }
+
+    return html.join('\n');
+  }
+
+  private renderBlock(block: PortableTextBlock): string {
+    switch (block._type) {
+      case 'image':
+        return this.renderImageBlock(block);
+      // codeBlock = legacy schema; code = @sanity/code-input (new)
+      case 'codeBlock':
+      case 'code':
+        return this.renderCodeBlock(block);
+      case 'callout':
+        return this.renderCalloutBlock(block);
+      case 'divider':
+        return this.renderDividerBlock(block);
+      case 'markdownBlock':
+        return this.renderMarkdownBlock(block);
+      case 'youtube':
+        return this.renderYoutubeBlock(block);
+      case 'block':
+        return this.renderTextBlock(block);
+      default:
+        return '';
+    }
+  }
+
+  private renderImageBlock(block: PortableTextBlock): string {
+    const url = this.safeUrl(block.url);
+    if (!url) return '';
+    const alt = this.escapeAttr(block.alt || '');
+    const caption = this.renderCaption(block.caption);
+    return `<figure><img src="${url}" alt="${alt}" loading="lazy" />${caption}</figure>`;
+  }
+
+  private renderCodeBlock(block: PortableTextBlock): string {
+    const raw = block as PortableTextBlock & {
+      code?: string;
+      language?: string;
+      filename?: string;
+    };
+    const lang = this.normalizeCodeLanguage(raw.language);
+    const code = this.escapeHtml(raw.code || '');
+    const header = raw.filename
+      ? this.renderCodeBlockHeader(raw.filename, lang)
+      : '';
+    return `<div class="code-block">${header}<pre class="language-${lang}"><code class="language-${lang}">${code}</code></pre></div>`;
+  }
+
+  private renderCodeBlockHeader(filename: string, language: string): string {
+    const safeFilename = this.escapeHtml(filename);
+    const safeLanguage = this.escapeHtml(language);
+    return `<div class="code-block-header"><span class="code-block-filename">${safeFilename}</span><span class="code-block-lang">${safeLanguage}</span></div>`;
+  }
+
+  private normalizeCodeLanguage(language?: string): string {
+    return (
+      (language || 'text').replace(/[^a-z0-9_+-]/gi, '').toLowerCase() ||
+      'text'
+    );
+  }
+
+  private renderCalloutBlock(block: PortableTextBlock): string {
+    const raw = block as PortableTextBlock & { type?: string; text?: string };
+    const type = raw.type || 'info';
+    const icon = this.getCalloutIcon(type);
+    const text = this.escapeHtml(raw.text || '');
+    return `<div class="callout callout--${type}"><span class="callout-icon">${icon}</span><div class="callout-body">${text}</div></div>`;
+  }
+
+  private getCalloutIcon(type: string): string {
+    if (type in CALLOUT_ICONS) {
+      return CALLOUT_ICONS[type as keyof typeof CALLOUT_ICONS];
+    }
+    return CALLOUT_ICONS.info;
+  }
+
+  private renderDividerBlock(block: PortableTextBlock): string {
+    const style = block.style || 'line';
+    return style === 'space'
+      ? '<div class="divider divider--space"></div>'
+      : '<hr class="divider" />';
+  }
+
+  private renderMarkdownBlock(block: PortableTextBlock): string {
+    const markdown =
+      (block as PortableTextBlock & { markdown?: string }).markdown || '';
+    if (!markdown.trim()) return '';
+    const html = marked.parse(markdown, {
+      async: false,
+      gfm: true,
+      breaks: false,
+    }) as string;
+    return `<div class="markdown-block">${html}</div>`;
+  }
+
+  private renderYoutubeBlock(block: PortableTextBlock): string {
+    const raw = block as PortableTextBlock & { url?: string; caption?: string };
+    const videoId = this.extractYouTubeId(raw.url || '');
+    if (!videoId) return '';
+    const caption = this.renderCaption(raw.caption);
+    const title = raw.caption ? this.escapeAttr(raw.caption) : 'YouTube video';
+    return `<figure class="video-embed"><div class="video-wrapper"><iframe src="https://www.youtube-nocookie.com/embed/${videoId}" loading="lazy" allowfullscreen title="${title}"></iframe></div>${caption}</figure>`;
+  }
+
+  private renderCaption(caption?: string): string {
+    return caption
+      ? `<figcaption>${this.escapeHtml(caption)}</figcaption>`
+      : '';
+  }
+
+  private renderTextBlock(
+    block: PortableTextBlock,
+    unwrapNormal = false,
+  ): string {
+    const style = block.style || 'normal';
+
+    if (style === 'code') {
+      const text = this.escapeHtml(this.extractPlainText(block.children));
+      return text
+        ? `<pre class="language-text"><code class="language-text">${text}</code></pre>`
+        : '';
+    }
+
+    const children = this.renderTextChildren(block);
+    if (!children) return '';
+
+    const tag = TEXT_BLOCK_TAGS[style];
+    if (tag) {
+      return `<${tag}>${children}</${tag}>`;
+    }
+
+    return unwrapNormal ? children : `<p>${children}</p>`;
+  }
+
+  private renderTextChildren(block: PortableTextBlock): string {
+    const defs = block.markDefs || [];
+
+    return (block.children || [])
+      .map((child) => this.renderTextChild(child, defs))
+      .join('');
+  }
+
+  private renderTextChild(
+    child: PortableTextChild,
+    defs: PortableTextMark[],
+  ): string {
+    if (child._type === 'hardBreak') {
+      return '<br />';
+    }
+
+    const text = this.escapeHtml(child.text || '').replace(/\n/g, '<br />');
+    return (child.marks || []).reduce(
+      (currentText, mark) => this.applyMark(currentText, mark, defs),
+      text,
+    );
+  }
+
+  private applyMark(
+    text: string,
+    mark: string,
+    defs: PortableTextMark[],
+  ): string {
+    switch (mark) {
+      case 'strong':
+        return `<strong>${text}</strong>`;
+      case 'em':
+        return `<em>${text}</em>`;
+      case 'code':
+        return `<code>${text}</code>`;
+      case 'underline':
+        return `<u>${text}</u>`;
+      case 'strike-through':
+      case 'strike':
+        return `<del>${text}</del>`;
+      case 'highlight':
+        return `<mark>${text}</mark>`;
+      default:
+        return this.applyLinkMark(text, mark, defs);
+    }
+  }
+
+  private applyLinkMark(
+    text: string,
+    mark: string,
+    defs: PortableTextMark[],
+  ): string {
+    const def = defs.find((definition) => definition._key === mark);
+    if (def?._type !== 'link' || !def.href) {
+      return text;
+    }
+
+    const safeHref = this.safeUrl(def.href);
+    if (!safeHref) {
+      return text;
+    }
+
+    const attrs =
+      def.blank !== false ? ' target="_blank" rel="noopener noreferrer"' : '';
+    return `<a href="${safeHref}"${attrs}>${text}</a>`;
+  }
+
+  private renderList(
+    blocks: PortableTextBlock[],
+    startIndex: number,
+  ): { html: string; nextIndex: number } {
+    return this.renderListLevel(
+      blocks,
+      startIndex,
+      this.normalizeListLevel(blocks[startIndex]?.level),
+    );
+  }
+
+  private renderListLevel(
+    blocks: PortableTextBlock[],
+    startIndex: number,
+    level: number,
+  ): { html: string; nextIndex: number } {
+    const firstBlock = blocks[startIndex];
+
+    if (!this.isListBlock(firstBlock)) {
+      return { html: '', nextIndex: startIndex + 1 };
+    }
+
+    const listTag = this.getListTag(firstBlock.listItem);
+    const items: string[] = [];
+    let index = startIndex;
+
+    while (index < blocks.length) {
+      const block = blocks[index];
+
+      if (!this.isListBlock(block)) break;
+
+      const blockLevel = this.normalizeListLevel(block.level);
+      if (blockLevel < level) break;
+      if (blockLevel > level) break;
+      if (this.getListTag(block.listItem) !== listTag) break;
+
+      index += 1;
+
+      let nestedHtml = '';
+      while (
+        index < blocks.length &&
+        this.isListBlock(blocks[index]) &&
+        this.normalizeListLevel(blocks[index].level) > level
+      ) {
+        const nested = this.renderListLevel(
+          blocks,
+          index,
+          this.normalizeListLevel(blocks[index].level),
+        );
+        nestedHtml += nested.html;
+        index = nested.nextIndex;
+      }
+
+      const content = this.renderTextBlock(block, true);
+      items.push(`<li>${content}${nestedHtml}</li>`);
+    }
+
+    return items.length
+      ? { html: `<${listTag}>${items.join('')}</${listTag}>`, nextIndex: index }
+      : { html: '', nextIndex: startIndex + 1 };
+  }
+
+  private isListBlock(
+    block: PortableTextBlock | undefined,
+  ): block is PortableTextBlock & { listItem: string } {
+    return block?._type === 'block' && typeof block.listItem === 'string';
+  }
+
+  private getListTag(listItem: string): 'ul' | 'ol' {
+    return listItem === 'number' ? 'ol' : 'ul';
+  }
+
+  private normalizeListLevel(level?: number): number {
+    return typeof level === 'number' && level > 0 ? Math.floor(level) : 1;
+  }
+
+  private extractPlainText(children: PortableTextChild[] = []): string {
+    return children
+      .map((child) => {
+        if (child._type === 'hardBreak') {
+          return '\n';
         }
-
-        if (block._type === 'callout') {
-          const raw = block as unknown as { type?: string; text?: string };
-          const icons: Record<string, string> = {
-            tip: '💡',
-            info: 'ℹ️',
-            warning: '⚠️',
-            danger: '🚫',
-          };
-          const type = raw.type || 'info';
-          const text = this.escapeHtml(raw.text || '');
-          const icon = icons[type] ?? 'ℹ️';
-          return `<div class="callout callout--${type}"><span class="callout-icon">${icon}</span><div class="callout-body">${text}</div></div>`;
-        }
-
-        if (block._type === 'divider') {
-          const style =
-            (block as unknown as { style?: string }).style || 'line';
-          return style === 'space'
-            ? '<div class="divider divider--space"></div>'
-            : '<hr class="divider" />';
-        }
-
-        if (block._type === 'markdownBlock') {
-          const md = (block as unknown as { markdown?: string }).markdown || '';
-          if (!md.trim()) return '';
-          // marked.parse com gfm + breaks; sync mode (string)
-          const html = marked.parse(md, {
-            async: false,
-            gfm: true,
-            breaks: false,
-          }) as string;
-          return `<div class="markdown-block">${html}</div>`;
-        }
-
-        if (block._type === 'youtube') {
-          const raw = block as unknown as { url?: string; caption?: string };
-          const videoId = this.extractYouTubeId(raw.url || '');
-          if (!videoId) return '';
-          const caption = raw.caption
-            ? `<figcaption>${this.escapeHtml(raw.caption)}</figcaption>`
-            : '';
-          return `<figure class="video-embed"><div class="video-wrapper"><iframe src="https://www.youtube-nocookie.com/embed/${videoId}" loading="lazy" allowfullscreen title="${caption ? this.escapeAttr(raw.caption!) : 'YouTube video'}"></iframe></div>${caption}</figure>`;
-        }
-
-        if (block._type !== 'block') return '';
-
-        const defs = block.markDefs || [];
-        const children = (block.children || [])
-          .map((child: PortableTextChild) => {
-            let text = this.escapeHtml(child.text || '');
-            (child.marks || []).forEach((mark) => {
-              if (mark === 'strong') text = `<strong>${text}</strong>`;
-              else if (mark === 'em') text = `<em>${text}</em>`;
-              else if (mark === 'code') text = `<code>${text}</code>`;
-              else if (mark === 'underline') text = `<u>${text}</u>`;
-              else if (mark === 'strike-through') text = `<del>${text}</del>`;
-              else if (mark === 'highlight') text = `<mark>${text}</mark>`;
-              else {
-                const def = defs.find((d) => d._key === mark);
-                if (def?._type === 'link' && def.href) {
-                  const safeHref = this.safeUrl(def.href);
-                  if (safeHref) {
-                    const external = def['blank'] !== false;
-                    const attrs = external
-                      ? ' target="_blank" rel="noopener noreferrer"'
-                      : '';
-                    text = `<a href="${safeHref}"${attrs}>${text}</a>`;
-                  }
-                }
-              }
-            });
-            return text;
-          })
-          .join('');
-
-        switch (block.style) {
-          case 'h1':
-            return `<h1>${children}</h1>`;
-          case 'h2':
-            return `<h2>${children}</h2>`;
-          case 'h3':
-            return `<h3>${children}</h3>`;
-          case 'h4':
-            return `<h4>${children}</h4>`;
-          case 'blockquote':
-            return `<blockquote>${children}</blockquote>`;
-          case 'code':
-            return `<pre class="language-typescript"><code class="language-typescript">${children}</code></pre>`;
-          default:
-            return children ? `<p>${children}</p>` : '';
-        }
+        return child.text || '';
       })
-      .join('\n');
+      .join('');
   }
 
   private extractYouTubeId(url: string): string | null {

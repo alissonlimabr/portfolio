@@ -3,19 +3,22 @@ export interface PortableTextMark {
   _type: string;
   href?: string;
   blank?: boolean;
+  slug?: { current: string };
 }
 
 export interface PortableTextChild {
   _type: string;
   _key: string;
   text: string;
-  marks: string[];
+  marks?: string[];
 }
 
 export interface PortableTextBlock {
   _type: string;
   _key: string;
   style?: string;
+  listItem?: string;
+  level?: number;
   children?: PortableTextChild[];
   markDefs?: PortableTextMark[];
   url?: string;
