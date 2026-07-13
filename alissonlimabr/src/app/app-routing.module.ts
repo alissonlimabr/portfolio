@@ -6,23 +6,25 @@ const routes: Routes = [
   { path: '', component: HomeComponent },
   {
     path: 'blog',
-    loadChildren: () =>
-      import('./blog/blog.routes').then(m => m.BLOG_ROUTES),
+    loadChildren: () => import('./blog/blog.routes').then((m) => m.BLOG_ROUTES),
   },
   {
     path: '404',
     loadComponent: () =>
       import('./not-found/not-found.component').then(
-        m => m.NotFoundComponent,
+        (m) => m.NotFoundComponent,
       ),
   },
   { path: '**', redirectTo: '404' },
 ];
 
 @NgModule({
-  imports: [RouterModule.forRoot(routes, {
-    initialNavigation: 'enabledBlocking'
-})],
+  imports: [
+    RouterModule.forRoot(routes, {
+      initialNavigation: 'enabledBlocking',
+      scrollPositionRestoration: 'enabled',
+    }),
+  ],
   exports: [RouterModule],
 })
 export class AppRoutingModule {}

@@ -78,12 +78,8 @@
 
   <mat-sidenav-content>
     <header>
-      <app-header
-        class="header"
-        [isBlogRoute]="isBlogRoute"
-        [isBlogPostRoute]="isBlogPostRoute"
-        (openSidenav)="sidenav.toggle()"
-      ></app-header>
+      <app-header class="header" [isBlogRoute]="isBlogRoute" [isBlogPostRoute]="isBlogPostRoute"
+        (openSidenav)="sidenav.toggle()"></app-header>
     </header>
     <main>
       <router-outlet></router-outlet>
@@ -91,6 +87,11 @@
     <footer>
       <app-footer></app-footer>
     </footer>
+    @if (showScrollTopButton()) {
+    <button class="scroll-top-button" type="button" aria-label="Voltar ao topo" (click)="scrollToTop()">
+      <fa-icon [icon]="faChevronUp"></fa-icon>
+    </button>
+    }
     <app-json-ld></app-json-ld>
   </mat-sidenav-content>
 </mat-sidenav-container>
