@@ -53,7 +53,7 @@
         <div class="hero-avatar-deco hero-avatar-deco--ring"></div>
         <div class="hero-avatar-deco hero-avatar-deco--grid"></div>
         <a class="avatar" href="https://www.linkedin.com/in/alissonlimadev/" target="_blank" rel="noopener noreferrer">
-          <img src="assets/img/profile.webp" alt="Avatar Alisson Lima" height="300" width="300" loading="lazy" />
+          <img ngSrc="assets/img/profile.webp" alt="Avatar Alisson Lima" height="300" width="300" priority />
         </a>
         <span class="hero-avatar-badge">
           <span class="hero-avatar-badge-dot"></span>
@@ -278,7 +278,7 @@
       </p>
     </div>
 
-    @if (postsLoading) {
+    @if (postsLoading()) {
     <div class="blog-grid">
       @for (_ of [1, 2, 3]; track $index) {
       <div class="blog-card-skeleton">
@@ -294,7 +294,7 @@
     </div>
     } @else {
     <div class="blog-grid">
-      @for (post of recentPosts; track post._id) {
+      @for (post of recentPosts(); track post._id) {
       <a class="blog-card" [routerLink]="['/blog', post.slug.current]" appSpotlight>
         @if (post.imageUrl) {
         <div class="blog-card-image">
