@@ -8,13 +8,14 @@ import {
   signal,
 } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { DOCUMENT, ViewportScroller, isPlatformBrowser } from '@angular/common';
 import {
   NavigationEnd,
   Router,
   RouterLink,
   RouterOutlet,
+  Scroll,
 } from '@angular/router';
-import { isPlatformBrowser } from '@angular/common';
 import { fromEvent } from 'rxjs';
 import { filter, startWith } from 'rxjs/operators';
 import { ReadingPreferencesService } from './blog/services/reading-preferences.service';
@@ -58,6 +59,9 @@ export class AppComponent implements OnInit {
   private readonly destroyRef = inject(DestroyRef);
   private readonly router = inject(Router);
   private readonly platformId = inject(PLATFORM_ID);
+  private readonly document = inject(DOCUMENT);
+  private readonly viewportScroller = inject(ViewportScroller);
+  private readonly anchorScrollOffset = 50;
 
   title = 'alissonlimabr';
 
@@ -113,6 +117,25 @@ export class AppComponent implements OnInit {
           pageName: event.urlAfterRedirects,
         });
       });
+
+    this.router.events
+      .pipe(
+        filter((event): event is Scroll => event instanceof Scroll),
+        takeUntilDestroyed(this.destroyRef),
+      )
+      .subscribe((event) => {
+        if (event.position) {
+          this.viewportScroller.scrollToPosition(event.position);
+          return;
+        }
+
+        if (event.anchor) {
+          this.scrollToAnchor(event.anchor);
+          return;
+        }
+
+        this.viewportScroller.scrollToPosition([0, 0]);
+      });
   }
 
   closeSideNav(): void {
@@ -164,5 +187,33 @@ export class AppComponent implements OnInit {
 
   private isPortfolioHomeUrl(url: string): boolean {
     return url.split('?')[0].split('#')[0] === '/';
+  }
+
+  private scrollToAnchor(anchor: string, retries = 2): void {
+    if (!isPlatformBrowser(this.platformId)) {
+      return;
+    }
+
+    const view = this.document.defaultView;
+    if (!view) {
+      return;
+    }
+
+    const element = this.document.getElementById(anchor);
+    if (!element) {
+      if (retries > 0) {
+        view.requestAnimationFrame(() =>
+          this.scrollToAnchor(anchor, retries - 1),
+        );
+      }
+      return;
+    }
+
+    const top =
+      element.getBoundingClientRect().top +
+      view.scrollY -
+      this.anchorScrollOffset;
+
+    view.scrollTo({ top, behavior: 'smooth' });
   }
 }

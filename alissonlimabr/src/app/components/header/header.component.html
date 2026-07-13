@@ -51,28 +51,31 @@
       } @else {
       <ul>
         <li>
-          <a class="link" href="/#perfil" [class.link--section-active]="isPortfolioLinkActive('perfil')">Perfil</a>
+          <a class="link" routerLink="/" fragment="perfil"
+            [class.link--section-active]="isPortfolioLinkActive('perfil')">Perfil</a>
         </li>
         <li>
-          <a class="link" href="/#sobre" [class.link--section-active]="isPortfolioLinkActive('sobre')">Sobre mim</a>
+          <a class="link" routerLink="/" fragment="sobre"
+            [class.link--section-active]="isPortfolioLinkActive('sobre')">Sobre mim</a>
         </li>
         <li>
-          <a class="link" href="/#habilidades"
+          <a class="link" routerLink="/" fragment="habilidades"
             [class.link--section-active]="isPortfolioLinkActive('habilidades')">Habilidades</a>
         </li>
         <li>
-          <a class="link" href="/#trabalhos"
+          <a class="link" routerLink="/" fragment="trabalhos"
             [class.link--section-active]="isPortfolioLinkActive('trabalhos')">Trabalhos</a>
         </li>
         <li>
-          <a class="link" href="/#projetos"
+          <a class="link" routerLink="/" fragment="projetos"
             [class.link--section-active]="isPortfolioLinkActive('projetos')">Projetos</a>
         </li>
         <li>
           <a class="link" routerLink="/blog" [class.link--section-active]="isPortfolioLinkActive('blog')">Blog</a>
         </li>
         <li>
-          <a class="link" href="/#contato" [class.link--section-active]="isPortfolioLinkActive('contato')">Contato</a>
+          <a class="link" routerLink="/" fragment="contato"
+            [class.link--section-active]="isPortfolioLinkActive('contato')">Contato</a>
         </li>
       </ul>
       }
