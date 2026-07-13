@@ -1,4 +1,5 @@
 @use "palette" as tokens;
+@use "variables-mixins" as *;
 
 // ── Preferências de leitura — tamanho da fonte ───────────────────────────
 body.blog-font-sm {
@@ -84,19 +85,17 @@ body.blog-width-wide {
   .blog-post .post-head-inner {
     max-width: tokens.$prose-wide-max-width !important;
   }
+}
 
-  .blog-post .post-body .post-content-inner {
-    > p,
-    > ul,
-    > ol,
-    > blockquote,
-    > h2,
-    > h3,
-    > h4,
-    > h5,
-    > h6 {
-      max-width: 80ch;
-      margin-inline: auto;
+@include responsive(mobilePlus) {
+  body.blog-width-narrow,
+  body.blog-width-normal,
+  body.blog-width-wide {
+    --blog-prose-width: 100%;
+
+    .blog-post .post-content-inner,
+    .blog-post .post-head-inner {
+      max-width: 100% !important;
     }
   }
 }
