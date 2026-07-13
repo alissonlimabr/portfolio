@@ -41,7 +41,11 @@
           </a>
         </li>
         <li>
+          @if (isBlogPostRoute) {
+          <a class="link link--back" routerLink="/blog">← Blog</a>
+          } @else {
           <a class="link link--back" routerLink="/">← Portfólio</a>
+          }
         </li>
       </ul>
       } @else {

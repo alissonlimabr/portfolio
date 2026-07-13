@@ -1,6 +1,7 @@
 <section
-  class="blog-hero {{ currentCategory ? 'blog-hero--category category--' + currentCategory.slug.current : '' }}"
-  [style.--cat-color]="currentCategory?.color || null"
+  class="blog-hero"
+  [class.blog-hero--category]="!!currentCategory"
+  [style.--cat-color]="resolveCategoryColor(currentCategory)"
 >
   <div class="blog-hero-inner">
     @if (currentCategory) {
@@ -30,10 +31,10 @@
       </a>
       @for (cat of categories; track cat._id) {
         <a
-          class="blog-category-filter category--{{ cat.slug.current }}"
+          class="blog-category-filter"
           [routerLink]="['/blog/categoria', cat.slug.current]"
           [class.active]="currentCategory?._id === cat._id"
-          [style.--cat-color]="cat.color || null"
+          [style.--cat-color]="resolveCategoryColor(cat)"
         >
           {{ cat.title }}
         </a>
@@ -44,18 +45,19 @@
   @if (!loading && !error && posts.length > 0) {
     <div class="blog-toolbar">
       <input
-        #searchInput
         class="blog-search"
         type="search"
+        name="blog-search"
         placeholder="Buscar artigos por título, resumo, tag ou categoria..."
-        [value]="searchTerm"
-        (search)="onSearch(searchInput.value)"
+        [(ngModel)]="searchInputValue"
+        (search)="submitSearch(searchInputValue)"
+        (keyup.enter)="submitSearch(searchInputValue)"
         aria-label="Buscar artigos"
       />
       <button
         type="button"
         class="blog-search-btn"
-        (click)="onSearch(searchInput.value)"
+        (click)="submitSearch(searchInputValue)"
         aria-label="Buscar"
       >
         <app-icon name="search" [size]="18" />
@@ -84,7 +86,7 @@
     </div>
   }
 
-  @if (!loading && !error && posts.length === 0) {
+  @if (!loading && !error && !notFound && posts.length === 0) {
     <div class="blog-state-msg">
       <p>
         @if (currentCategory) {
@@ -96,13 +98,19 @@
     </div>
   }
 
-  @if (!loading && !error && posts.length > 0 && filteredPosts.length === 0) {
+  @if (notFound) {
+    <div class="blog-state-msg">
+      <p>Categoria não encontrada.</p>
+    </div>
+  }
+
+  @if (!loading && !error && !notFound && posts.length > 0 && filteredPosts.length === 0) {
     <div class="blog-state-msg">
       <p>Nenhum artigo encontrado para "{{ searchTerm }}".</p>
     </div>
   }
 
-  @if (!loading && !error && pagedPosts.length > 0) {
+  @if (!loading && !error && !notFound && pagedPosts.length > 0) {
     <div class="blog-list">
       @for (post of pagedPosts; track post._id) {
         <a class="blog-card" [routerLink]="['/blog', post.slug.current]">
@@ -117,8 +125,8 @@
                 <div class="blog-categories-row">
                   @for (cat of post.categories!; track cat._id) {
                     <span
-                      class="blog-category-badge category--{{ cat.slug.current }}"
-                      [style.--cat-color]="cat.color || null"
+                      class="blog-category-badge"
+                      [style.--cat-color]="resolveCategoryColor(cat)"
                     >
                       {{ cat.title }}
                     </span>

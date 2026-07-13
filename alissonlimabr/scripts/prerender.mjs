@@ -53,6 +53,9 @@ for (const route of routes) {
       : join(browserPath, route.slice(1), 'index.html');
     await mkdir(dirname(destination), { recursive: true });
     await writeFile(destination, html, 'utf8');
+    if (route === '/404') {
+      await writeFile(join(browserPath, '404.html'), html, 'utf8');
+    }
     console.log(`[prerender] rendered ${route}`);
   } catch (err) {
     console.error(`[prerender] Failed to render ${route}:`, err);

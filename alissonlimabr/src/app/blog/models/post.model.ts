@@ -4,6 +4,7 @@ export interface PortableTextMark {
   href?: string;
   blank?: boolean;
   slug?: { current: string };
+  documentType?: 'post' | 'category';
 }
 
 export interface PortableTextChild {
@@ -66,4 +67,6 @@ export interface Post extends PostSummary {
   seoDescription?: string;
   ogImageUrl?: string;
   updatedAt?: string;
+  systemCreatedAt?: string;
+  systemUpdatedAt?: string;
 }

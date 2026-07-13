@@ -38,6 +38,37 @@ const TEXT_BLOCK_TAGS: Record<string, string> = {
   blockquote: 'blockquote',
 };
 
+const BLOG_LAYOUT_WIDTHS = {
+  proseNarrow: 580,
+  proseDefault: 760,
+  proseWide: 980,
+  containerWide: 1440,
+} as const;
+
+const PORTABLE_TEXT_IMAGE_WIDTHS = {
+  narrow: BLOG_LAYOUT_WIDTHS.proseNarrow,
+  default: BLOG_LAYOUT_WIDTHS.proseDefault,
+  wide: BLOG_LAYOUT_WIDTHS.proseWide,
+  retina: 1520,
+} as const;
+
+const PORTABLE_TEXT_IMAGE_BREAKPOINTS = {
+  mobileMaxViewport: 767,
+  wideLayoutMaxViewport: BLOG_LAYOUT_WIDTHS.containerWide - 1,
+} as const;
+
+const PORTABLE_TEXT_IMAGE_CANDIDATE_WIDTHS = [
+  PORTABLE_TEXT_IMAGE_WIDTHS.narrow,
+  PORTABLE_TEXT_IMAGE_WIDTHS.default,
+  PORTABLE_TEXT_IMAGE_WIDTHS.wide,
+  PORTABLE_TEXT_IMAGE_WIDTHS.retina,
+] as const;
+const PORTABLE_TEXT_IMAGE_SIZES = [
+  `(max-width: ${PORTABLE_TEXT_IMAGE_BREAKPOINTS.mobileMaxViewport}px) 100vw`,
+  `(max-width: ${PORTABLE_TEXT_IMAGE_BREAKPOINTS.wideLayoutMaxViewport}px) ${PORTABLE_TEXT_IMAGE_WIDTHS.default}px`,
+  `${PORTABLE_TEXT_IMAGE_WIDTHS.wide}px`,
+].join(', ');
+
 @Injectable({ providedIn: 'root' })
 export class SanityService {
   constructor(private http: HttpClient) {}
@@ -67,7 +98,7 @@ export class SanityService {
     url: string | undefined,
     opts: ImageOptions = {},
   ): string | undefined {
-    if (!url || !/^https?:\/\/cdn\.sanity\.io\//i.test(url)) return url;
+    if (!url || !this.isSanityCdnUrl(url)) return url;
     const { w, h, fit = 'crop', q = 75, rect } = opts;
     const params: string[] = ['auto=format', `q=${q}`];
     if (rect) params.push(`rect=${rect}`);
@@ -158,14 +189,27 @@ export class SanityService {
           { "name": "Alisson Lima", "url": "https://www.alissonlimadev.com" }
         ),
         publishedAt, tags, featured,
-        "updatedAt": _updatedAt,
+        updatedAt,
+        "systemCreatedAt": _createdAt,
+        "systemUpdatedAt": _updatedAt,
         seoDescription,
         "estimatedReadingTime": round(length(pt::text(body)) / 5 / 180),
         "imageUrl": mainImage.asset->url,
         "imageAlt": mainImage.alt,
         "ogImageUrl": ogImage.asset->url,
         "categories": categories[]->{ _id, title, slug, description, color },
-        body[] { ..., _type == "image" => { ..., "url": asset->url } }
+        body[] {
+          ...,
+          markDefs[] {
+            ...,
+            _type == "internalLink" => {
+              ...,
+              "slug": reference->slug,
+              "documentType": reference->_type
+            }
+          },
+          _type == "image" => { ..., "url": asset->url }
+        }
       }
     `;
     return this.query<Post>(groq, { slug });
@@ -296,11 +340,141 @@ export class SanityService {
   }
 
   private renderImageBlock(block: PortableTextBlock): string {
-    const url = this.safeUrl(block.url);
-    if (!url) return '';
+    const imageAttrs = this.buildPortableTextImageAttrs(block.url);
+    if (!imageAttrs) return '';
     const alt = this.escapeAttr(block.alt || '');
     const caption = this.renderCaption(block.caption);
-    return `<figure><img src="${url}" alt="${alt}" loading="lazy" />${caption}</figure>`;
+    return `<figure><img ${imageAttrs} alt="${alt}" />${caption}</figure>`;
+  }
+
+  private buildPortableTextImageAttrs(url: string | undefined): string | null {
+    const safeOriginalUrl = this.safeUrl(url);
+    if (!safeOriginalUrl || !url) {
+      return null;
+    }
+
+    if (!this.isSanityCdnUrl(url)) {
+      return `src="${safeOriginalUrl}"`;
+    }
+
+    const dimensions = this.parseSanityAssetDimensions(url);
+    const srcset = this.buildPortableTextImageSrcset(url, dimensions?.width);
+    const fallbackWidth = this.pickPortableTextFallbackWidth(
+      dimensions?.width,
+      srcset.widths,
+    );
+    const fallbackSrc = this.safeUrl(
+      this.optimizeImageUrl(url, {
+        w: fallbackWidth,
+        fit: 'max',
+        q: 75,
+      }) ?? url,
+    );
+
+    if (!fallbackSrc) {
+      return null;
+    }
+
+    const attrs = [`src="${fallbackSrc}"`];
+
+    if (srcset.value) {
+      attrs.push(`srcset="${srcset.value}"`);
+      attrs.push(`sizes="${this.escapeAttr(PORTABLE_TEXT_IMAGE_SIZES)}"`);
+    } else if (safeOriginalUrl !== fallbackSrc) {
+      attrs.push(`srcset="${safeOriginalUrl}"`);
+    }
+
+    if (dimensions) {
+      attrs.push(`width="${dimensions.width}"`);
+      attrs.push(`height="${dimensions.height}"`);
+    }
+
+    return attrs.join(' ');
+  }
+
+  private buildPortableTextImageSrcset(
+    url: string,
+    originalWidth: number | undefined,
+  ): { value: string; widths: number[] } {
+    const widths = this.getPortableTextImageWidths(originalWidth);
+    const candidates = widths
+      .map((width) => {
+        const candidateUrl = this.safeUrl(
+          this.optimizeImageUrl(url, {
+            w: width,
+            fit: 'max',
+            q: 75,
+          }),
+        );
+
+        return candidateUrl ? `${candidateUrl} ${width}w` : null;
+      })
+      .filter((candidate): candidate is string => !!candidate);
+
+    return {
+      value: candidates.join(', '),
+      widths,
+    };
+  }
+
+  private getPortableTextImageWidths(
+    originalWidth: number | undefined,
+  ): number[] {
+    if (!originalWidth || originalWidth <= 0) {
+      return [...PORTABLE_TEXT_IMAGE_CANDIDATE_WIDTHS];
+    }
+
+    const widths = PORTABLE_TEXT_IMAGE_CANDIDATE_WIDTHS.filter(
+      (width) => width < originalWidth,
+    );
+    const largestUsefulWidth = Math.min(
+      originalWidth,
+      PORTABLE_TEXT_IMAGE_CANDIDATE_WIDTHS.at(-1) ?? originalWidth,
+    );
+
+    return [...new Set([...widths, largestUsefulWidth])].sort((a, b) => a - b);
+  }
+
+  private pickPortableTextFallbackWidth(
+    originalWidth: number | undefined,
+    widths: number[],
+  ): number {
+    if (widths.length === 0) {
+      return originalWidth && originalWidth > 0
+        ? originalWidth
+        : PORTABLE_TEXT_IMAGE_WIDTHS.default;
+    }
+
+    if (widths.includes(PORTABLE_TEXT_IMAGE_WIDTHS.wide)) {
+      return PORTABLE_TEXT_IMAGE_WIDTHS.wide;
+    }
+
+    return widths.at(-1) ?? PORTABLE_TEXT_IMAGE_WIDTHS.default;
+  }
+
+  private parseSanityAssetDimensions(
+    url: string | undefined,
+  ): { width: number; height: number } | null {
+    if (!url) {
+      return null;
+    }
+
+    const match = url.match(/-(\d+)x(\d+)\.[a-z0-9]+(?:\?|$)/i);
+    if (!match) {
+      return null;
+    }
+
+    const width = Number(match[1]);
+    const height = Number(match[2]);
+    if (!Number.isFinite(width) || !Number.isFinite(height)) {
+      return null;
+    }
+
+    return { width, height };
+  }
+
+  private isSanityCdnUrl(url: string | undefined): boolean {
+    return !!url && /^https?:\/\/cdn\.sanity\.io\//i.test(url);
   }
 
   private renderCodeBlock(block: PortableTextBlock): string {
@@ -311,22 +485,35 @@ export class SanityService {
     };
     const lang = this.normalizeCodeLanguage(raw.language);
     const code = this.escapeHtml(raw.code || '');
-    const header = raw.filename
-      ? this.renderCodeBlockHeader(raw.filename, lang)
-      : '';
-    return `<div class="code-block">${header}<pre class="language-${lang}"><code class="language-${lang}">${code}</code></pre></div>`;
+    return this.renderCodeBlockShell(code, lang, raw.filename);
   }
 
-  private renderCodeBlockHeader(filename: string, language: string): string {
-    const safeFilename = this.escapeHtml(filename);
+  private renderCodeBlockShell(
+    code: string,
+    language: string,
+    filename?: string,
+  ): string {
+    const header = this.renderCodeBlockHeader(filename, language);
+    return `<div class="code-block">${header}<pre class="language-${language}"><code class="language-${language}">${code}</code></pre></div>`;
+  }
+
+  private renderCodeBlockHeader(
+    filename: string | undefined,
+    language: string,
+  ): string {
+    const filenameMarkup = filename
+      ? `<span class="code-block-filename">${this.escapeHtml(filename)}</span>`
+      : '';
     const safeLanguage = this.escapeHtml(language);
-    return `<div class="code-block-header"><span class="code-block-filename">${safeFilename}</span><span class="code-block-lang">${safeLanguage}</span></div>`;
+    const headerClass = filename
+      ? 'code-block-header'
+      : 'code-block-header code-block-header--compact';
+    return `<div class="${headerClass}">${filenameMarkup}<div class="code-block-actions"><span class="code-block-lang">${safeLanguage}</span></div></div>`;
   }
 
   private normalizeCodeLanguage(language?: string): string {
     return (
-      (language || 'text').replace(/[^a-z0-9_+-]/gi, '').toLowerCase() ||
-      'text'
+      (language || 'text').replace(/[^a-z0-9_+-]/gi, '').toLowerCase() || 'text'
     );
   }
 
@@ -368,9 +555,11 @@ export class SanityService {
     const raw = block as PortableTextBlock & { url?: string; caption?: string };
     const videoId = this.extractYouTubeId(raw.url || '');
     if (!videoId) return '';
+    const href = this.safeUrl(`https://www.youtube.com/watch?v=${videoId}`);
+    if (!href) return '';
     const caption = this.renderCaption(raw.caption);
     const title = raw.caption ? this.escapeAttr(raw.caption) : 'YouTube video';
-    return `<figure class="video-embed"><div class="video-wrapper"><iframe src="https://www.youtube-nocookie.com/embed/${videoId}" loading="lazy" allowfullscreen title="${title}"></iframe></div>${caption}</figure>`;
+    return `<figure class="video-embed"><a class="video-embed-link" href="${href}" target="_blank" rel="noopener noreferrer" title="${title}">Assistir no YouTube</a>${caption}</figure>`;
   }
 
   private renderCaption(caption?: string): string {
@@ -385,11 +574,17 @@ export class SanityService {
   ): string {
     const style = block.style || 'normal';
 
+    if (this.isDividerTextBlock(block)) {
+      return this.renderDividerBlock({
+        _type: 'divider',
+        _key: block._key,
+        style: 'line',
+      });
+    }
+
     if (style === 'code') {
       const text = this.escapeHtml(this.extractPlainText(block.children));
-      return text
-        ? `<pre class="language-text"><code class="language-text">${text}</code></pre>`
-        : '';
+      return text ? this.renderCodeBlockShell(text, 'text') : '';
     }
 
     const children = this.renderTextChildren(block);
@@ -456,7 +651,17 @@ export class SanityService {
     defs: PortableTextMark[],
   ): string {
     const def = defs.find((definition) => definition._key === mark);
-    if (def?._type !== 'link' || !def.href) {
+
+    if (!def) {
+      return text;
+    }
+
+    if (def._type === 'internalLink') {
+      const safeHref = this.safeUrl(this.resolveInternalLinkHref(def));
+      return safeHref ? `<a href="${safeHref}">${text}</a>` : text;
+    }
+
+    if (def._type !== 'link' || !def.href) {
       return text;
     }
 
@@ -468,6 +673,22 @@ export class SanityService {
     const attrs =
       def.blank !== false ? ' target="_blank" rel="noopener noreferrer"' : '';
     return `<a href="${safeHref}"${attrs}>${text}</a>`;
+  }
+
+  private resolveInternalLinkHref(def: PortableTextMark): string | null {
+    const slug = def.slug?.current?.trim();
+    if (!slug) {
+      return null;
+    }
+
+    switch (def.documentType) {
+      case 'post':
+        return `/blog/${slug}`;
+      case 'category':
+        return `/blog/categoria/${slug}`;
+      default:
+        return null;
+    }
   }
 
   private renderList(
@@ -557,6 +778,22 @@ export class SanityService {
       .join('');
   }
 
+  private isDividerTextBlock(block: PortableTextBlock): boolean {
+    if (block._type !== 'block' || (block.style && block.style !== 'normal')) {
+      return false;
+    }
+
+    const hasMarks = (block.children || []).some(
+      (child) => child.marks?.length,
+    );
+    if (hasMarks) {
+      return false;
+    }
+
+    const text = this.extractPlainText(block.children).trim();
+    return /^(?:-{3,}|\*{3,}|_{3,})$/.test(text);
+  }
+
   private extractYouTubeId(url: string): string | null {
     const match = url.match(
       /(?:youtube\.com\/watch\?v=|youtu\.be\/|youtube\.com\/embed\/)([a-zA-Z0-9_-]{11})/,
@@ -564,7 +801,7 @@ export class SanityService {
     return match ? match[1] : null;
   }
 
-  private safeUrl(url: string | undefined): string | null {
+  private safeUrl(url: string | null | undefined): string | null {
     if (!url) return null;
     const trimmed = url.trim();
     const lower = trimmed.toLowerCase();

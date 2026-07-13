@@ -39,7 +39,7 @@
   }
 
   h1 {
-    font-size: 44px;
+    font-size: 40px;
     font-weight: 800;
     color: var(--blog-heading);
     line-height: 1.15;
@@ -47,11 +47,11 @@
     margin: 0 0 20px;
 
     @include responsive(tablet) {
-      font-size: 32px;
+      font-size: 30px;
       letter-spacing: -0.6px;
     }
     @include responsive(mobilePlus) {
-      font-size: 24px;
+      font-size: 22px;
       letter-spacing: -0.4px;
     }
   }
@@ -77,11 +77,27 @@
 }
 .post-meta {
   display: flex;
-  flex-wrap: wrap;
-  gap: 8px;
-  font-size: 13px;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 2px;
+  font-size: 12px;
+  line-height: 1.45;
   color: var(--blog-text-muted);
   margin: 0;
+
+  @include responsive(mobilePlus) {
+    font-size: 11px;
+  }
+}
+
+.post-meta-line {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.post-meta-line--updated {
+  color: var(--blog-text-muted);
 }
 
 .post-byline {
@@ -293,7 +309,9 @@
   h1,
   h2,
   h3,
-  h4 {
+  h4,
+  h5,
+  h6 {
     color: var(--blog-heading);
     font-weight: 700;
     line-height: 1.25;
@@ -305,46 +323,22 @@
   }
 
   h1 {
-    font-size: 30px;
+    font-size: 1.65em;
   }
   h2 {
-    font-size: 26px;
+    font-size: 1.46em;
   }
   h3 {
-    font-size: 22px;
+    font-size: 1.28em;
   }
   h4 {
-    font-size: 18px;
+    font-size: 1.16em;
   }
-
-  @include responsive(tabletplus) {
-    h1 {
-      font-size: 26px;
-    }
-    h2 {
-      font-size: 22px;
-    }
-    h3 {
-      font-size: 19px;
-    }
-    h4 {
-      font-size: 17px;
-    }
+  h5 {
+    font-size: 1.08em;
   }
-
-  @include responsive(mobilePlus) {
-    h1 {
-      font-size: 22px;
-    }
-    h2 {
-      font-size: 19px;
-    }
-    h3 {
-      font-size: 17px;
-    }
-    h4 {
-      font-size: 15px;
-    }
+  h6 {
+    font-size: 1.03em;
   }
 
   a:not(.blog-category-badge):not(.related-card):not(.back-link):not(.code-copy-btn):not(.post-share-btn) {
@@ -407,15 +401,31 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
+    gap: 12px;
     padding: 10px 14px;
     background: var(--blog-surface);
     border-bottom: 1px solid var(--blog-border);
     font-family: "Fira Code", "Courier New", monospace;
     font-size: 12px;
 
+    &.code-block-header--compact {
+      justify-content: flex-end;
+    }
+
+    .code-block-actions {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      flex-shrink: 0;
+    }
+
     .code-block-filename {
       color: var(--blog-text);
       font-weight: 600;
+      min-width: 0;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
     }
 
     .code-block-lang {
@@ -424,6 +434,46 @@
       letter-spacing: 1px;
       font-size: 10px;
       font-weight: 700;
+    }
+  }
+
+  .code-copy-btn {
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    padding: 4px 10px;
+    background: rgba(tokens.$purple-900, 0.85);
+    border: 1px solid rgba(tokens.$purple-500, 0.3);
+    border-radius: 5px;
+    color: tokens.$gray-200;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.4px;
+    line-height: 1.1;
+    font-family: "Fira Code", "Courier New", monospace;
+    cursor: pointer;
+    transition:
+      opacity 0.2s,
+      background 0.2s,
+      color 0.2s,
+      border-color 0.2s;
+
+    &:hover {
+      background: tokens.$purple-500;
+      color: tokens.$white;
+      border-color: tokens.$purple-500;
+    }
+
+    &.copied {
+      background: tokens.$success;
+      color: tokens.$white;
+      border-color: tokens.$success;
+    }
+
+    &.failed {
+      background: tokens.$error;
+      color: tokens.$white;
+      border-color: tokens.$error;
     }
   }
 
@@ -449,53 +499,20 @@
       line-height: 1.6;
     }
 
-    .code-copy-btn {
+    > .code-copy-btn {
       position: absolute;
       top: 8px;
       right: 8px;
-      padding: 4px 10px;
-      background: rgba(tokens.$purple-900, 0.85);
-      border: 1px solid rgba(tokens.$purple-500, 0.3);
-      border-radius: 5px;
-      color: tokens.$gray-200;
-      font-size: 11px;
-      font-weight: 600;
-      letter-spacing: 0.4px;
-      font-family: inherit;
-      cursor: pointer;
       opacity: 0.55;
-      transition:
-        opacity 0.2s,
-        background 0.2s,
-        color 0.2s,
-        border-color 0.2s;
-
-      &:hover {
-        background: tokens.$purple-500;
-        color: tokens.$white;
-        border-color: tokens.$purple-500;
-      }
-
-      &.copied {
-        background: tokens.$success;
-        color: tokens.$white;
-        border-color: tokens.$success;
-      }
-
-      &.failed {
-        background: tokens.$error;
-        color: tokens.$white;
-        border-color: tokens.$error;
-      }
     }
 
-    &:hover .code-copy-btn,
-    &:focus-within .code-copy-btn {
+    &:hover > .code-copy-btn,
+    &:focus-within > .code-copy-btn {
       opacity: 1;
     }
 
     @include responsive(mobile) {
-      .code-copy-btn {
+      > .code-copy-btn {
         opacity: 1;
       }
     }
@@ -765,29 +782,39 @@
     margin: 1.8em 0;
     text-align: center;
 
-    .video-wrapper {
-      position: relative;
-      padding-bottom: 56.25%;
-      height: 0;
-      overflow: hidden;
-      border-radius: 8px;
-      background: var(--blog-code-bg);
-
-      iframe {
-        position: absolute;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        border: 0;
-      }
-    }
-
     figcaption {
       margin-top: 8px;
       font-size: 13px;
       color: var(--blog-text-muted);
       font-style: italic;
+    }
+  }
+
+  .video-embed-link {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 72px;
+    width: min(100%, 520px);
+    padding: 18px 20px;
+    border: 1px solid var(--blog-border);
+    border-radius: 8px;
+    background: var(--blog-code-bg);
+    color: var(--blog-link);
+    font-weight: 600;
+    text-align: center;
+    text-decoration: none;
+    text-underline-offset: 3px;
+    transition:
+      border-color 0.2s ease,
+      color 0.2s ease,
+      transform 0.2s ease;
+
+    &:hover {
+      color: var(--blog-link-hover);
+      border-color: var(--blog-link);
+      transform: translateY(-1px);
+      text-decoration: underline;
     }
   }
 }

@@ -5,6 +5,7 @@ import {
   OnInit,
   PLATFORM_ID,
   inject,
+  signal,
 } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import {
@@ -14,10 +15,16 @@ import {
   RouterOutlet,
 } from '@angular/router';
 import { isPlatformBrowser } from '@angular/common';
-import { filter } from 'rxjs/operators';
+import { fromEvent } from 'rxjs';
+import { filter, startWith } from 'rxjs/operators';
 import { ReadingPreferencesService } from './blog/services/reading-preferences.service';
 
-import { faBars, faCode, faXmark } from '@fortawesome/free-solid-svg-icons';
+import {
+  faBars,
+  faChevronUp,
+  faCode,
+  faXmark,
+} from '@fortawesome/free-solid-svg-icons';
 import {
   MatSidenav,
   MatSidenavContainer,
@@ -57,15 +64,19 @@ export class AppComponent implements OnInit {
   faBars = faBars;
   faXmark = faXmark;
   faCode = faCode;
+  faChevronUp = faChevronUp;
 
   opened?: boolean;
   isBlogRoute = false;
+  isBlogPostRoute = false;
+  isPortfolioHomeRoute = false;
+  readonly showScrollTopButton = signal(false);
 
   private readonly readingPrefs = inject(ReadingPreferencesService);
   readonly currentTheme = computed(() => this.readingPrefs.theme());
 
   ngOnInit(): void {
-    this.isBlogRoute = this.router.url.startsWith('/blog');
+    this.updateRouteContext(this.router.url);
 
     if (!isPlatformBrowser(this.platformId)) {
       return;
@@ -73,6 +84,12 @@ export class AppComponent implements OnInit {
 
     const win = window as any;
     win.dataLayer = win.dataLayer || [];
+
+    fromEvent(window, 'scroll')
+      .pipe(startWith(null), takeUntilDestroyed(this.destroyRef))
+      .subscribe(() => {
+        this.updateScrollTopButtonVisibility();
+      });
 
     this.router.events
       .pipe(
@@ -82,10 +99,10 @@ export class AppComponent implements OnInit {
         takeUntilDestroyed(this.destroyRef),
       )
       .subscribe((event) => {
-        const onBlog = event.urlAfterRedirects.startsWith('/blog');
-        this.isBlogRoute = onBlog;
+        this.updateRouteContext(event.urlAfterRedirects);
+        this.updateScrollTopButtonVisibility();
 
-        if (onBlog) {
+        if (this.isBlogRoute) {
           this.readingPrefs.applyBodyClasses();
         } else {
           this.readingPrefs.removeBlogClasses();
@@ -102,9 +119,50 @@ export class AppComponent implements OnInit {
     this.opened = false;
   }
 
+  scrollToTop(): void {
+    if (!isPlatformBrowser(this.platformId)) {
+      return;
+    }
+
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+
   toggleTheme(): void {
     const next: 'dark' | 'light' =
       this.currentTheme() === 'dark' ? 'light' : 'dark';
     this.readingPrefs.setTheme(next);
+  }
+
+  private updateRouteContext(url: string): void {
+    this.isBlogRoute = url.startsWith('/blog');
+    this.isBlogPostRoute = this.isBlogPostUrl(url);
+    this.isPortfolioHomeRoute = this.isPortfolioHomeUrl(url);
+  }
+
+  private updateScrollTopButtonVisibility(): void {
+    if (!isPlatformBrowser(this.platformId)) {
+      return;
+    }
+
+    this.showScrollTopButton.set(
+      window.scrollY > 560 && this.isPortfolioHomeRoute,
+    );
+  }
+
+  private isBlogPostUrl(url: string): boolean {
+    const normalizedUrl = url.split('?')[0].split('#')[0];
+
+    if (!normalizedUrl.startsWith('/blog/')) {
+      return false;
+    }
+
+    return !(
+      normalizedUrl === '/blog/categorias' ||
+      normalizedUrl.startsWith('/blog/categoria/')
+    );
+  }
+
+  private isPortfolioHomeUrl(url: string): boolean {
+    return url.split('?')[0].split('#')[0] === '/';
   }
 }

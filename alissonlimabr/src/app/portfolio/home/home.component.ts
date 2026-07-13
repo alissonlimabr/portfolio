@@ -1,14 +1,9 @@
 import { animate, style, transition, trigger } from '@angular/animations';
-import { CommonModule } from '@angular/common';
-import {
-  Component,
-  DestroyRef,
-  OnInit,
-  ViewEncapsulation,
-  inject,
-} from '@angular/core';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { CommonModule, NgOptimizedImage } from '@angular/common';
+import { Component, ViewEncapsulation, computed, inject } from '@angular/core';
+import { toSignal } from '@angular/core/rxjs-interop';
 import { RouterLink } from '@angular/router';
+import { catchError, map, of } from 'rxjs';
 import { MagneticDirective } from '../../shared/directives/magnetic.directive';
 import { SpotlightDirective } from '../../shared/directives/spotlight.directive';
 import { SanityService } from '../../blog/services/sanity.service';
@@ -76,6 +71,7 @@ const MONTH_INDEX: Record<string, number> = {
   standalone: true,
   imports: [
     CommonModule,
+    NgOptimizedImage,
 
     // FontAwesome
     FontAwesomeModule,
@@ -113,7 +109,7 @@ const MONTH_INDEX: Record<string, number> = {
     ]),
   ],
 })
-export class HomeComponent implements OnInit {
+export class HomeComponent {
   faBars = faBars;
   faXmark = faXmark;
   faCode = faCode;
@@ -134,26 +130,17 @@ export class HomeComponent implements OnInit {
   isCareerExpanded = false;
 
   sanityService = inject(SanityService);
-  recentPosts: PostSummary[] = [];
-  postsLoading = true;
-  private readonly destroyRef = inject(DestroyRef);
+  private readonly recentPostsResponse = toSignal(
+    this.sanityService.getPosts().pipe(
+      map((posts) => posts.slice(0, 3)),
+      catchError(() => of([] as PostSummary[])),
+    ),
+    { initialValue: null },
+  );
+  readonly recentPosts = computed(() => this.recentPostsResponse() ?? []);
+  readonly postsLoading = computed(() => this.recentPostsResponse() === null);
 
   projects: Project[] = PROJECTS;
-
-  async ngOnInit(): Promise<void> {
-    this.sanityService
-      .getPosts()
-      .pipe(takeUntilDestroyed(this.destroyRef))
-      .subscribe({
-        next: (posts) => {
-          this.recentPosts = posts.slice(0, 3);
-          this.postsLoading = false;
-        },
-        error: () => {
-          this.postsLoading = false;
-        },
-      });
-  }
 
   get visibleJobs(): Job[] {
     return this.isCareerExpanded

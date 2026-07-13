@@ -13,6 +13,8 @@ import { RouterLink } from '@angular/router';
 import { Meta, Title } from '@angular/platform-browser';
 import { SanityService } from '../services/sanity.service';
 import { Category } from '../models/post.model';
+import { resolveCategoryColor } from '../utils/category-color.util';
+import { SITE_BRAND, SITE_ORIGIN } from '../../shared/constants/site.constants';
 
 @Component({
   selector: 'app-blog-categories',
@@ -30,8 +32,10 @@ export class BlogCategoriesComponent implements OnInit {
   private readonly titleService = inject(Title);
   private readonly metaService = inject(Meta);
   private readonly document = inject(DOCUMENT);
-  private readonly siteOrigin = 'https://www.alissonlimadev.com';
+  private readonly siteOrigin = SITE_ORIGIN;
+  private readonly siteBrand = SITE_BRAND;
   private readonly defaultOgImageUrl = `${this.siteOrigin}/assets/img/og-image.webp`;
+  readonly resolveCategoryColor = resolveCategoryColor;
 
   categories: Category[] = [];
   loading = true;
@@ -39,8 +43,8 @@ export class BlogCategoriesComponent implements OnInit {
 
   ngOnInit(): void {
     this.applySeo(
-      'Categorias | Blog | Alisson Lima Dev',
-      'Categorias do blog com conteúdos sobre desenvolvimento web, APIs e integrações.',
+      `Categorias | Blog | ${this.siteBrand}`,
+      'Categorias do blog com conteúdos sobre tecnologia, desenvolvimento, carreira e mais.',
       '/blog/categorias',
     );
 
@@ -71,6 +75,7 @@ export class BlogCategoriesComponent implements OnInit {
     const url = `${this.siteOrigin}${path}`;
     this.titleService.setTitle(title);
     this.metaService.updateTag({ name: 'description', content: description });
+    this.metaService.updateTag({ name: 'robots', content: 'index, follow' });
     this.metaService.updateTag({ property: 'og:type', content: 'website' });
     this.metaService.updateTag({ property: 'og:title', content: title });
     this.metaService.updateTag({

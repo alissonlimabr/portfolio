@@ -1,0 +1,247 @@
+@use "src/assets/scss/palette" as tokens;
+@use "src/assets/scss/variables-mixins" as *;
+
+.not-found-shell {
+  min-height: calc(100vh - 180px);
+  padding: 64px 24px 96px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background:
+    radial-gradient(
+      circle at 20% 0%,
+      rgba(tokens.$accent-pink, 0.12) 0%,
+      transparent 36%
+    ),
+    radial-gradient(
+      circle at 85% 15%,
+      rgba(tokens.$purple-400, 0.16) 0%,
+      transparent 42%
+    ),
+    linear-gradient(180deg, tokens.$background-color 0%, tokens.$gray-900 100%);
+
+  @include responsive(tablet) {
+    min-height: calc(100vh - 160px);
+    padding: 48px 20px 72px;
+  }
+
+  @include responsive(mobilePlus) {
+    min-height: calc(100vh - 140px);
+    padding: 32px 16px 56px;
+  }
+}
+
+.not-found-grid {
+  width: min(1100px, 100%);
+  display: grid;
+  grid-template-columns: minmax(0, 1.5fr) minmax(280px, 0.9fr);
+  gap: 24px;
+
+  @include responsive(tablet) {
+    grid-template-columns: 1fr;
+  }
+}
+
+.not-found-copy,
+.not-found-panel {
+  position: relative;
+  overflow: hidden;
+  border-radius: 8px;
+  border: 1px solid rgba(tokens.$purple-400, 0.18);
+  background: rgba(tokens.$surface, 0.72);
+  backdrop-filter: blur(14px);
+  box-shadow:
+    0 18px 52px rgba(0, 0, 0, 0.28),
+    inset 0 1px 0 rgba(255, 255, 255, 0.02);
+}
+
+.not-found-copy {
+  padding: 44px 40px;
+
+  &::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background:
+      linear-gradient(
+        135deg,
+        rgba(tokens.$purple-400, 0.06) 0%,
+        transparent 38%
+      ),
+      repeating-linear-gradient(
+        90deg,
+        transparent 0,
+        transparent 110px,
+        rgba(tokens.$purple-400, 0.04) 110px,
+        rgba(tokens.$purple-400, 0.04) 111px
+      );
+    pointer-events: none;
+  }
+
+  > * {
+    position: relative;
+    z-index: 1;
+  }
+
+  @include responsive(tablet) {
+    padding: 34px 30px;
+  }
+
+  @include responsive(mobilePlus) {
+    padding: 26px 20px;
+  }
+
+  h1 {
+    margin: 0 0 14px;
+    color: tokens.$white;
+    font-size: 52px;
+    line-height: 1;
+    letter-spacing: -1.8px;
+
+    @include responsive(tablet) {
+      font-size: 42px;
+    }
+
+    @include responsive(mobilePlus) {
+      font-size: 30px;
+      line-height: 1.08;
+      letter-spacing: -1px;
+    }
+  }
+
+  p {
+    max-width: 56ch;
+    margin: 0;
+    color: tokens.$gray-300;
+    font-size: 17px;
+    line-height: 1.7;
+
+    @include responsive(mobilePlus) {
+      font-size: 15px;
+    }
+  }
+}
+
+.not-found-code {
+  display: inline-flex;
+  margin-bottom: 18px;
+  padding: 8px 14px;
+  border: 1px solid rgba(tokens.$accent-pink, 0.32);
+  border-radius: 4px;
+  background: rgba(tokens.$accent-pink, 0.08);
+  color: tokens.$accent-pink;
+  font-family: "Fira Code", "Courier New", monospace;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: none;
+}
+
+.not-found-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-top: 28px;
+}
+
+.not-found-link {
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  min-width: 180px;
+  padding: 13px 18px;
+  border-radius: 6px;
+  border: 1px solid rgba(tokens.$purple-400, 0.28);
+  color: tokens.$gray-100;
+  text-decoration: none;
+  transition:
+    transform 0.2s,
+    border-color 0.2s,
+    box-shadow 0.2s,
+    color 0.2s;
+
+  &:hover {
+    transform: translateY(-2px);
+    border-color: tokens.$purple-400;
+    box-shadow: 0 8px 24px rgba(tokens.$purple-400, 0.18);
+    color: tokens.$white;
+  }
+
+  &--primary {
+    background: linear-gradient(
+      135deg,
+      tokens.$purple-400 0%,
+      tokens.$accent-pink 100%
+    );
+    border-color: transparent;
+    color: tokens.$background-color;
+    font-weight: 700;
+
+    &:hover {
+      border-color: transparent;
+      box-shadow: 0 10px 28px rgba(tokens.$accent-pink, 0.22);
+      color: tokens.$background-color;
+    }
+  }
+
+  @include responsive(mobilePlus) {
+    width: 100%;
+    min-width: 0;
+  }
+}
+
+.not-found-panel {
+  padding: 28px 24px;
+  align-self: stretch;
+
+  &::after {
+    content: "";
+    position: absolute;
+    inset: auto 0 0;
+    height: 2px;
+    background: linear-gradient(
+      90deg,
+      transparent 0%,
+      tokens.$purple-400 50%,
+      transparent 100%
+    );
+    box-shadow: 0 0 12px rgba(tokens.$purple-400, 0.35);
+  }
+
+  @include responsive(mobilePlus) {
+    padding: 22px 18px;
+  }
+
+  ul {
+    margin: 18px 0 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  li + li {
+    margin-top: 12px;
+  }
+
+  a {
+    color: tokens.$gray-100;
+    text-decoration: none;
+    border-bottom: 1px solid transparent;
+    transition:
+      color 0.2s,
+      border-color 0.2s;
+
+    &:hover {
+      color: tokens.$purple-300;
+      border-color: rgba(tokens.$purple-300, 0.45);
+    }
+  }
+}
+
+.not-found-panel-label {
+  margin: 0;
+  color: tokens.$gray-400;
+  font-family: "Fira Code", "Courier New", monospace;
+  font-size: 12px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+}

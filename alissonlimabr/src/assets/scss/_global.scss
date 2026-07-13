@@ -277,23 +277,3 @@ mat-sidenav-content {
   }
 }
 
-// Cor padrão por slug de categoria; [style.--cat-color] do Sanity tem precedência.
-.category--desenvolvimento {
-  --cat-color: #{tokens.$category-desenvolvimento};
-}
-.category--backend {
-  --cat-color: #{tokens.$category-backend};
-}
-.category--frontend {
-  --cat-color: #{tokens.$category-frontend};
-}
-.category--devops,
-.category--devops-cloud {
-  --cat-color: #{tokens.$category-devops};
-}
-.category--carreira {
-  --cat-color: #{tokens.$category-carreira};
-}
-.category--tutoriais {
-  --cat-color: #{tokens.$category-tutoriais};
-}

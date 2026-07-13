@@ -5,22 +5,33 @@ import {
   DestroyRef,
   NgZone,
   OnInit,
+  PLATFORM_ID,
   ViewEncapsulation,
   inject,
 } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { DOCUMENT } from '@angular/common';
-import { ActivatedRoute, RouterLink } from '@angular/router';
+import { DOCUMENT, isPlatformBrowser } from '@angular/common';
+import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { MatCard, MatCardContent } from '@angular/material/card';
-import { Observable } from 'rxjs';
+import { FormsModule } from '@angular/forms';
 import { Meta, Title } from '@angular/platform-browser';
+import { Observable, distinctUntilChanged, map, of, switchMap } from 'rxjs';
 import { SanityService } from '../services/sanity.service';
 import { Category, PostSummary } from '../models/post.model';
+import { resolveCategoryColor } from '../utils/category-color.util';
 import { IconComponent } from '../../shared/icon.component';
+import { SITE_BRAND, SITE_ORIGIN } from '../../shared/constants/site.constants';
+
+interface BlogListRouteData {
+  posts: PostSummary[];
+  category?: Category;
+  notFound: boolean;
+}
+
 @Component({
   selector: 'app-blog-list',
   standalone: true,
-  imports: [RouterLink, MatCard, MatCardContent, IconComponent],
+  imports: [RouterLink, MatCard, MatCardContent, IconComponent, FormsModule],
   templateUrl: './blog-list.component.html',
   styleUrl: './blog-list.component.scss',
   encapsulation: ViewEncapsulation.None,
@@ -30,20 +41,27 @@ export class BlogListComponent implements OnInit {
   private readonly destroyRef = inject(DestroyRef);
   private readonly sanity = inject(SanityService);
   private readonly route = inject(ActivatedRoute);
+  private readonly router = inject(Router);
   private readonly zone = inject(NgZone);
   private readonly cdr = inject(ChangeDetectorRef);
   private readonly titleService = inject(Title);
   private readonly metaService = inject(Meta);
   private readonly document = inject(DOCUMENT);
-  private readonly siteOrigin = 'https://www.alissonlimadev.com';
+  private readonly isBrowser = isPlatformBrowser(inject(PLATFORM_ID));
+  private readonly siteOrigin = SITE_ORIGIN;
+  private readonly siteBrand = SITE_BRAND;
   private readonly defaultOgImageUrl = `${this.siteOrigin}/assets/img/og-image.webp`;
+  private requestedPage = 1;
+  readonly resolveCategoryColor = resolveCategoryColor;
 
   posts: PostSummary[] = [];
   categories: Category[] = [];
   currentCategory?: Category;
   loading = true;
   error = false;
+  notFound = false;
   searchTerm = '';
+  searchInputValue = '';
   currentPage = 1;
   readonly pageSize = 6;
 
@@ -64,58 +82,120 @@ export class BlogListComponent implements OnInit {
       });
 
     this.route.paramMap
+      .pipe(
+        map((params) => params.get('slug')),
+        distinctUntilChanged(),
+        switchMap((slug) => this.loadForRoute(slug)),
+        takeUntilDestroyed(this.destroyRef),
+      )
+      .subscribe({
+        next: (result) => {
+          this.zone.run(() => {
+            if (result.notFound) {
+              this.handleCategoryNotFound();
+              return;
+            }
+
+            this.currentCategory = result.category;
+            if (result.category) {
+              this.applySeo(
+                `${result.category.title} | Blog | ${this.siteBrand}`,
+                (
+                  result.category.description ||
+                  `Artigos da categoria ${result.category.title} no blog de Alisson Lima.`
+                ).slice(0, 160),
+                `/blog/categoria/${result.category.slug.current}`,
+              );
+            }
+
+            this.posts = this.normalizePosts(result.posts);
+            this.loading = false;
+            this.syncPaginationWithResults(true);
+            this.cdr.markForCheck();
+          });
+        },
+        error: () => {
+          this.zone.run(() => {
+            this.error = true;
+            this.loading = false;
+            this.cdr.markForCheck();
+          });
+        },
+      });
+
+    this.route.queryParamMap
       .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe((params) => {
-        const slug = params.get('slug');
-        this.searchTerm = '';
-        this.currentPage = 1;
-        this.loadForRoute(slug);
+        const term = (params.get('q') ?? '').trim();
+        this.requestedPage = this.parsePageParam(params.get('page'));
+        this.searchTerm = term;
+        this.searchInputValue = term;
+        this.currentPage = this.loading
+          ? this.requestedPage
+          : this.clampPage(this.requestedPage);
+        if (!this.loading) {
+          this.syncPaginationWithResults(true);
+        }
+        this.cdr.markForCheck();
       });
   }
 
-  private loadForRoute(categorySlug: string | null): void {
+  private loadForRoute(categorySlug: string | null): Observable<BlogListRouteData> {
+    this.prepareRouteLoad(categorySlug);
+
+    if (!categorySlug) {
+      return this.sanity.getPosts().pipe(
+        map(
+          (posts): BlogListRouteData => ({
+            posts,
+            notFound: false,
+          }),
+        ),
+      );
+    }
+
+    return this.sanity.getCategoryBySlug(categorySlug).pipe(
+      switchMap((category) => {
+        if (!category) {
+          return of<BlogListRouteData>({
+            posts: [],
+            notFound: true,
+          });
+        }
+
+        return this.sanity.getPostsByCategory(categorySlug).pipe(
+          map(
+            (posts): BlogListRouteData => ({
+              posts,
+              category,
+              notFound: false,
+            }),
+          ),
+        );
+      }),
+    );
+  }
+
+  private prepareRouteLoad(categorySlug: string | null): void {
     this.loading = true;
     this.error = false;
+    this.notFound = false;
     this.currentCategory = undefined;
     this.posts = [];
     this.cdr.markForCheck();
 
     if (categorySlug) {
       this.applySeo(
-        'Categoria | Blog | Alisson Lima Dev',
+        `Categoria | Blog | ${this.siteBrand}`,
         'Artigos de desenvolvimento filtrados por categoria.',
         `/blog/categoria/${categorySlug}`,
       );
-      this.sanity
-        .getCategoryBySlug(categorySlug)
-        .pipe(takeUntilDestroyed(this.destroyRef))
-        .subscribe({
-          next: (cat) => {
-            this.zone.run(() => {
-              this.currentCategory = cat ?? undefined;
-              if (cat) {
-                this.applySeo(
-                  `${cat.title} | Blog | Alisson Lima Dev`,
-                  (
-                    cat.description ||
-                    `Artigos da categoria ${cat.title} no blog de Alisson Lima.`
-                  ).slice(0, 160),
-                  `/blog/categoria/${categorySlug}`,
-                );
-              }
-              this.cdr.markForCheck();
-            });
-          },
-          error: () => {},
-        });
-      this.fetchPosts(this.sanity.getPostsByCategory(categorySlug));
     } else {
       this.applySeo(
-        'Blog | Alisson Lima Dev',
+        `Blog | ${this.siteBrand}`,
         'Artigos sobre desenvolvimento web, APIs REST, integrações e carreira em tecnologia.',
         '/blog',
       );
-      this.fetchPosts(this.sanity.getPosts());
     }
   }
 
@@ -123,6 +203,7 @@ export class BlogListComponent implements OnInit {
     const url = `${this.siteOrigin}${path}`;
     this.titleService.setTitle(title);
     this.metaService.updateTag({ name: 'description', content: description });
+    this.metaService.updateTag({ name: 'robots', content: 'index, follow' });
     this.metaService.updateTag({ property: 'og:type', content: 'website' });
     this.metaService.updateTag({ property: 'og:title', content: title });
     this.metaService.updateTag({
@@ -167,28 +248,70 @@ export class BlogListComponent implements OnInit {
     link.href = `${this.siteOrigin}${path}`;
   }
 
-  private fetchPosts(source$: Observable<PostSummary[]>): void {
-    source$.pipe(takeUntilDestroyed(this.destroyRef)).subscribe({
-      next: (posts) => {
-        this.zone.run(() => {
-          this.posts = (posts ?? []).map((p) => ({
-            ...p,
-            imageUrl:
-              p.imageUrl && /^https?:\/\//i.test(p.imageUrl)
-                ? this.sanity.optimizeImageUrl(p.imageUrl, { w: 600, h: 338 })
-                : undefined,
-          }));
-          this.loading = false;
-          this.cdr.markForCheck();
-        });
-      },
-      error: () => {
-        this.zone.run(() => {
-          this.error = true;
-          this.loading = false;
-          this.cdr.markForCheck();
-        });
-      },
+  private normalizePosts(posts: PostSummary[] = []): PostSummary[] {
+    return posts.map((post) => ({
+      ...post,
+      imageUrl:
+        post.imageUrl && /^https?:\/\//i.test(post.imageUrl)
+          ? this.sanity.optimizeImageUrl(post.imageUrl, { w: 600, h: 338 })
+          : undefined,
+    }));
+  }
+
+  private handleCategoryNotFound(): void {
+    if (this.isBrowser) {
+      void this.router.navigate(['/404'], { replaceUrl: true });
+      return;
+    }
+
+    this.notFound = true;
+    this.loading = false;
+    this.error = false;
+    this.posts = [];
+    this.currentCategory = undefined;
+    this.applySeo(
+      `Categoria não encontrada | ${this.siteBrand}`,
+      'A categoria solicitada não foi encontrada.',
+      '/404',
+    );
+    this.metaService.updateTag({ name: 'robots', content: 'noindex, follow' });
+    this.cdr.markForCheck();
+  }
+
+  private parsePageParam(value: string | null): number {
+    if (!value) {
+      return 1;
+    }
+
+    const parsed = Number.parseInt(value, 10);
+    return Number.isFinite(parsed) && parsed > 0 ? parsed : 1;
+  }
+
+  private clampPage(page: number): number {
+    return Math.min(Math.max(page, 1), this.totalPages);
+  }
+
+  private syncPaginationWithResults(replaceUrl: boolean): void {
+    const nextPage = this.clampPage(this.requestedPage);
+    this.currentPage = nextPage;
+
+    const normalizedPage = nextPage > 1 ? String(nextPage) : null;
+    const currentPageParam = this.route.snapshot.queryParamMap.get('page');
+
+    if (currentPageParam !== normalizedPage) {
+      this.updateQueryParams({ page: normalizedPage }, replaceUrl);
+    }
+  }
+
+  private updateQueryParams(
+    queryParams: Record<string, string | null>,
+    replaceUrl: boolean,
+  ): void {
+    void this.router.navigate([], {
+      relativeTo: this.route,
+      queryParams,
+      queryParamsHandling: 'merge',
+      replaceUrl,
     });
   }
 
@@ -227,15 +350,29 @@ export class BlogListComponent implements OnInit {
     return pages;
   }
 
-  onSearch(term: string): void {
-    this.searchTerm = term;
-    this.currentPage = 1;
+  submitSearch(term: string): void {
+    const normalizedTerm = term.trim();
+    this.updateQueryParams(
+      {
+        q: normalizedTerm || null,
+        page: null,
+      },
+      false,
+    );
   }
 
   goToPage(page: number): void {
-    if (page < 1 || page > this.totalPages) return;
-    this.currentPage = page;
-    window.scrollTo({ top: 0, behavior: 'smooth' });
+    const nextPage = this.clampPage(page);
+    if (nextPage === this.currentPage) return;
+
+    this.updateQueryParams(
+      { page: nextPage > 1 ? String(nextPage) : null },
+      false,
+    );
+
+    if (this.isBrowser) {
+      this.document.defaultView?.scrollTo({ top: 0, behavior: 'smooth' });
+    }
   }
 
   formatDate(dateStr: string): string {

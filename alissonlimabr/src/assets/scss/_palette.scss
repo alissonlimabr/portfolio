@@ -4,7 +4,7 @@
 $container-max-width: 1280px;
 $container-wide-max-width: 1440px;
 $prose-max-width: 760px;
-$prose-wide-max-width: 1080px;
+$prose-wide-max-width: 980px;
 
 // Fundo e superfícies
 $background-color: #0a0814;
@@ -102,12 +102,3 @@ $blog-light-callout-danger: #dc2626;
 $success: #16a34a;
 $error: #b91c1c;
 $green-400: #4ade80;
-
-// Cores das categorias do blog
-// Manter em sincronia com o campo "color" cadastrado no Sanity.
-$category-desenvolvimento: #a855f7;
-$category-backend: #f59e0b;
-$category-frontend: #06b6d4;
-$category-devops: #3b82f6;
-$category-carreira: #10b981;
-$category-tutoriais: #ec4899;

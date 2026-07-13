@@ -34,9 +34,9 @@
     <div class="categories-grid">
       @for (cat of categories; track cat._id) {
         <a
-          class="category-card category--{{ cat.slug.current }}"
+          class="category-card"
           [routerLink]="['/blog/categoria', cat.slug.current]"
-          [style.--cat-color]="cat.color || null"
+          [style.--cat-color]="resolveCategoryColor(cat)"
         >
           <div class="category-card-header">
             <h2>{{ cat.title }}</h2>

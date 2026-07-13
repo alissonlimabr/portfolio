@@ -80,16 +80,19 @@ try {
   process.exit(1);
 }
 
-const routes = new Set([
+const prerenderRoutes = new Set([
   '/',
+  '/404',
   '/blog',
   '/blog/categorias',
   ...posts.map(slug => `/blog/${slug}`),
   ...categories.map(slug => `/blog/categoria/${slug}`),
 ]);
 
-const sortedRoutes = Array.from(routes).sort((a, b) => a.localeCompare(b));
-writeFileSync(routesTarget, `${sortedRoutes.join('\n')}\n`, 'utf8');
+const sortedPrerenderRoutes = Array.from(prerenderRoutes).sort((a, b) =>
+  a.localeCompare(b),
+);
+writeFileSync(routesTarget, `${sortedPrerenderRoutes.join('\n')}\n`, 'utf8');
 
 const escapeXml = (str) =>
   String(str ?? '')
@@ -115,7 +118,9 @@ const getSitemapHints = (route) => {
   return { changefreq: 'monthly', priority: '0.6' };
 };
 
-const sitemapEntries = sortedRoutes
+const sitemapRoutes = sortedPrerenderRoutes.filter(route => route !== '/404');
+
+const sitemapEntries = sitemapRoutes
   .map((route) => {
     const { changefreq, priority } = getSitemapHints(route);
     return `  <url>
@@ -133,5 +138,9 @@ ${sitemapEntries}
 `;
 
 writeFileSync(sitemapTarget, sitemap, 'utf8');
-console.log(`[generate-routes] routes.txt generated with ${routes.size} routes.`);
-console.log(`[generate-routes] sitemap.xml generated with ${routes.size} URLs.`);
+console.log(
+  `[generate-routes] routes.txt generated with ${prerenderRoutes.size} routes.`,
+);
+console.log(
+  `[generate-routes] sitemap.xml generated with ${sitemapRoutes.length} URLs.`,
+);

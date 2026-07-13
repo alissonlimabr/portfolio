@@ -6,6 +6,12 @@
   gap: 7px;
 }
 
+.rp-group--width {
+  @include responsive(mobilePlus) {
+    display: none;
+  }
+}
+
 .rp-label {
   font-size: 10px;
   font-weight: 700;

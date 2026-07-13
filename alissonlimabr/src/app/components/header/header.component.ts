@@ -34,6 +34,7 @@ import { ActiveSectionDirective } from '../../shared/directives/active-section.d
 export class HeaderComponent {
   @Output() openSidenav = new EventEmitter<void>();
   @Input() isBlogRoute = false;
+  @Input() isBlogPostRoute = false;
 
   readonly faCode = faCode;
   readonly faBars = faBars;
