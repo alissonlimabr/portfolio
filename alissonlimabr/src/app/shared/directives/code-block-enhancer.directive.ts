@@ -160,6 +160,12 @@ export class CodeBlockEnhancerDirective implements OnInit, OnDestroy {
     this.renderer.setAttribute(button, 'class', 'code-copy-btn');
     this.renderer.setAttribute(button, 'aria-label', 'Copiar código');
     this.renderer.setProperty(button, 'textContent', 'Copiar');
+    const headerActions = buttonOwner.querySelector('.code-block-actions');
+    if (headerActions) {
+      this.renderer.appendChild(headerActions, button);
+      return;
+    }
+
     this.renderer.appendChild(pre, button);
   }
 
