@@ -124,6 +124,10 @@ mat-sidenav-content {
   overflow: initial !important;
 }
 
+main:focus {
+  outline: none;
+}
+
 // ── Nav ──────────────────────────────────────────────────────────────────────
 .logo {
   display: flex;
@@ -251,6 +255,26 @@ mat-sidenav-content {
   @include responsive(mobile) {
     font-size: 18px;
   }
+
+  @include responsive(tabletplus) {
+    border-radius: 14px;
+    padding: 10px 14px;
+  }
+}
+
+@include responsive(tabletplus) {
+  mat-sidenav .link {
+    &.link--active {
+      color: tokens.$purple-200;
+      background: rgba(tokens.$purple-400, 0.1);
+      box-shadow: inset 0 0 0 1px rgba(tokens.$purple-400, 0.18);
+    }
+
+    &.link--back {
+      background: transparent;
+      box-shadow: none;
+    }
+  }
 }
 
 .theme-toggle-btn {
@@ -276,4 +300,3 @@ mat-sidenav-content {
     filter: drop-shadow(0 0 6px rgba(tokens.$accent-pink, 0.5));
   }
 }
-

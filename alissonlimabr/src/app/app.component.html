@@ -12,16 +12,17 @@
       @if (isBlogRoute) {
       <ul>
         <li (click)="closeSideNav()">
-          <a class="link" routerLink="/blog">Posts</a>
+          <a class="link" routerLink="/blog" routerLinkActive="link--active"
+            [routerLinkActiveOptions]="{ exact: true }">Posts</a>
         </li>
         <li (click)="closeSideNav()">
-          <a class="link" routerLink="/blog/categorias">Categorias</a>
+          <a class="link" routerLink="/blog/categorias" routerLinkActive="link--active">Categorias</a>
         </li>
         <li (click)="closeSideNav()">
-          <a class="link" href="/#sobre">Sobre</a>
+          <a class="link" routerLink="/" fragment="sobre">Sobre</a>
         </li>
         <li (click)="closeSideNav()">
-          <a class="link" href="/#contato">Contato</a>
+          <a class="link" routerLink="/" fragment="contato">Contato</a>
         </li>
         <li (click)="closeSideNav()">
           @if (isBlogPostRoute) {
@@ -51,25 +52,25 @@
       } @else {
       <ul>
         <li (click)="closeSideNav()">
-          <a class="link" href="/#perfil">Perfil</a>
+          <a class="link" routerLink="/" fragment="perfil">Perfil</a>
         </li>
         <li (click)="closeSideNav()">
-          <a class="link" href="/#sobre">Sobre mim</a>
+          <a class="link" routerLink="/" fragment="sobre">Sobre mim</a>
         </li>
         <li (click)="closeSideNav()">
-          <a class="link" href="/#habilidades">Habilidades</a>
+          <a class="link" routerLink="/" fragment="habilidades">Habilidades</a>
         </li>
         <li (click)="closeSideNav()">
-          <a class="link" href="/#trabalhos">Trabalhos</a>
+          <a class="link" routerLink="/" fragment="trabalhos">Trabalhos</a>
         </li>
         <li (click)="closeSideNav()">
-          <a class="link" href="/#projetos">Projetos</a>
+          <a class="link" routerLink="/" fragment="projetos">Projetos</a>
         </li>
         <li (click)="closeSideNav()">
           <a class="link" routerLink="/blog">Blog</a>
         </li>
         <li (click)="closeSideNav()">
-          <a class="link" href="/#contato">Contato</a>
+          <a class="link" routerLink="/" fragment="contato">Contato</a>
         </li>
       </ul>
       }
@@ -81,7 +82,7 @@
       <app-header class="header" [isBlogRoute]="isBlogRoute" [isBlogPostRoute]="isBlogPostRoute"
         (openSidenav)="sidenav.toggle()"></app-header>
     </header>
-    <main>
+    <main #primaryContent tabindex="-1">
       <router-outlet></router-outlet>
     </main>
     <footer>
