@@ -12,10 +12,11 @@
       @if (isBlogRoute) {
       <ul>
         <li (click)="closeSideNav()">
-          <a class="link" routerLink="/blog">Posts</a>
+          <a class="link" routerLink="/blog" routerLinkActive="link--active"
+            [routerLinkActiveOptions]="{ exact: true }">Posts</a>
         </li>
         <li (click)="closeSideNav()">
-          <a class="link" routerLink="/blog/categorias">Categorias</a>
+          <a class="link" routerLink="/blog/categorias" routerLinkActive="link--active">Categorias</a>
         </li>
         <li (click)="closeSideNav()">
           <a class="link" routerLink="/" fragment="sobre">Sobre</a>
@@ -81,7 +82,7 @@
       <app-header class="header" [isBlogRoute]="isBlogRoute" [isBlogPostRoute]="isBlogPostRoute"
         (openSidenav)="sidenav.toggle()"></app-header>
     </header>
-    <main>
+    <main #primaryContent tabindex="-1">
       <router-outlet></router-outlet>
     </main>
     <footer>

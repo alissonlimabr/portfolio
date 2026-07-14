@@ -25,8 +25,9 @@
 }
 
 html {
+  --app-scroll-offset: 50px;
   font-family: Roboto, sans-serif;
-  scroll-padding-top: 50px;
+  scroll-padding-top: var(--app-scroll-offset);
 }
 
 body {

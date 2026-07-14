@@ -2,10 +2,12 @@ import {
   Component,
   computed,
   DestroyRef,
+  ElementRef,
   OnInit,
   PLATFORM_ID,
   inject,
   signal,
+  viewChild,
 } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { DOCUMENT, ViewportScroller, isPlatformBrowser } from '@angular/common';
@@ -13,6 +15,7 @@ import {
   NavigationEnd,
   Router,
   RouterLink,
+  RouterLinkActive,
   RouterOutlet,
   Scroll,
 } from '@angular/router';
@@ -52,6 +55,7 @@ import { IconComponent } from './shared/icon.component';
     IconComponent,
     RouterOutlet,
     RouterLink,
+    RouterLinkActive,
   ],
   styleUrls: ['./app.component.scss'],
 })
@@ -61,7 +65,10 @@ export class AppComponent implements OnInit {
   private readonly platformId = inject(PLATFORM_ID);
   private readonly document = inject(DOCUMENT);
   private readonly viewportScroller = inject(ViewportScroller);
-  private readonly anchorScrollOffset = 50;
+  private lastNavigationPath = '';
+  private lastScrollHandledPath = '';
+  readonly primaryContent =
+    viewChild<ElementRef<HTMLElement>>('primaryContent');
 
   title = 'alissonlimabr';
 
@@ -81,6 +88,8 @@ export class AppComponent implements OnInit {
 
   ngOnInit(): void {
     this.updateRouteContext(this.router.url);
+    this.lastNavigationPath = this.normalizePath(this.router.url);
+    this.lastScrollHandledPath = this.lastNavigationPath;
 
     if (!isPlatformBrowser(this.platformId)) {
       return;
@@ -103,6 +112,11 @@ export class AppComponent implements OnInit {
         takeUntilDestroyed(this.destroyRef),
       )
       .subscribe((event) => {
+        const nextPath = this.normalizePath(event.urlAfterRedirects);
+        const shouldFocusMain =
+          nextPath !== this.lastNavigationPath &&
+          !this.extractFragment(event.urlAfterRedirects);
+
         this.updateRouteContext(event.urlAfterRedirects);
         this.updateScrollTopButtonVisibility();
 
@@ -116,6 +130,12 @@ export class AppComponent implements OnInit {
           event: 'page',
           pageName: event.urlAfterRedirects,
         });
+
+        if (shouldFocusMain) {
+          this.focusPrimaryContent();
+        }
+
+        this.lastNavigationPath = nextPath;
       });
 
     this.router.events
@@ -124,17 +144,25 @@ export class AppComponent implements OnInit {
         takeUntilDestroyed(this.destroyRef),
       )
       .subscribe((event) => {
+        const currentPath = this.getScrollTargetPath(event);
+
         if (event.position) {
           this.viewportScroller.scrollToPosition(event.position);
+          this.lastScrollHandledPath = currentPath;
           return;
         }
 
         if (event.anchor) {
           this.scrollToAnchor(event.anchor);
+          this.lastScrollHandledPath = currentPath;
           return;
         }
 
-        this.viewportScroller.scrollToPosition([0, 0]);
+        if (currentPath !== this.lastScrollHandledPath) {
+          this.viewportScroller.scrollToPosition([0, 0]);
+        }
+
+        this.lastScrollHandledPath = currentPath;
       });
   }
 
@@ -212,8 +240,57 @@ export class AppComponent implements OnInit {
     const top =
       element.getBoundingClientRect().top +
       view.scrollY -
-      this.anchorScrollOffset;
+      this.getAnchorScrollOffset();
 
     view.scrollTo({ top, behavior: 'smooth' });
+  }
+
+  private focusPrimaryContent(): void {
+    const content = this.primaryContent()?.nativeElement;
+    if (!content) {
+      return;
+    }
+
+    const view = this.document.defaultView;
+    if (!view) {
+      return;
+    }
+
+    view.requestAnimationFrame(() => {
+      content.focus({ preventScroll: true });
+    });
+  }
+
+  private getAnchorScrollOffset(): number {
+    const view = this.document.defaultView;
+    if (!view) {
+      return 50;
+    }
+
+    const rawValue = view
+      .getComputedStyle(this.document.documentElement)
+      .getPropertyValue('--app-scroll-offset')
+      .trim();
+    const parsedValue = Number.parseFloat(rawValue);
+
+    return Number.isFinite(parsedValue) ? parsedValue : 50;
+  }
+
+  private getScrollTargetPath(event: Scroll): string {
+    const targetUrl =
+      'urlAfterRedirects' in event.routerEvent
+        ? event.routerEvent.urlAfterRedirects
+        : event.routerEvent.url;
+
+    return this.normalizePath(targetUrl);
+  }
+
+  private extractFragment(url: string): string {
+    const [, fragment = ''] = url.split('#');
+    return fragment;
+  }
+
+  private normalizePath(url: string): string {
+    return url.split('?')[0].split('#')[0] || '/';
   }
 }
