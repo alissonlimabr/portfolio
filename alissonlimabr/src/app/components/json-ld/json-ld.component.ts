@@ -65,11 +65,8 @@ export class JsonLdComponent implements OnInit {
         'https://www.linkedin.com/in/alissonlimadev/',
         'https://github.com/alissonlimabr',
         'https://www.youtube.com/@alisson_ml',
-        'https://www.instagram.com/alisson_ml/'
-      ],
-      skills: [
-        'HTML5', 'CSS3', 'Java', 'Django', 'Python', 'JavaScript', 'Typescript',
-        'Angular', 'Spring', 'AWS', 'Azure', 'Docker', 'SASS', 'MySQL', 'Git', 'Figma'
+        'https://www.instagram.com/alisson_ml/',
+        'https://integra.ifac.edu.br/p/alisson-mendonca-de-lima'
       ],
       knowsAbout: [
         'Portfólio dev', 'Desenvolvedor Acre', 'Full Stack', 'Java', 'Angular',
@@ -79,6 +76,7 @@ export class JsonLdComponent implements OnInit {
         {
           '@type': 'Occupation',
           name: 'Software Developer',
+          skills: ['Python', 'Django', 'PostgreSQL', 'Docker', 'WordPress', 'Elementor', 'Figma', 'Git'],
           description: 'Desenvolvimento e integração de sistemas utilizando Python, Django, PostgreSQL, Docker, Wordpress, Elementor, Figma, Git.',
           startDate: '2025-04',
           employer: {
@@ -89,6 +87,7 @@ export class JsonLdComponent implements OnInit {
         {
           '@type': 'Occupation',
           name: 'Desenvolvedor Full Stack',
+          skills: ['Angular', 'Spring Boot', 'Java', 'Oracle', 'Docker', 'Nginx', 'Strapi', 'APIs REST', 'XML/XSLT', 'Web Services'],
           description: 'APIs REST, XML/XSLT, Web Services, Angular, Spring Boot, Oracle, Docker, Nginx, Strapi.',
           startDate: '2024-08',
           endDate: '2025-04',
@@ -97,6 +96,7 @@ export class JsonLdComponent implements OnInit {
         {
           '@type': 'Occupation',
           name: 'Desenvolvedor Full Stack',
+          skills: ['Angular', 'Spring Boot', 'AWS', 'Azure', 'Kubernetes', 'Docker'],
           description: 'Projetos freelancer com Angular, Spring Boot, AWS, Azure/Kubernetes, Docker.',
           startDate: '2024-01',
           endDate: '2024-07',
@@ -105,6 +105,7 @@ export class JsonLdComponent implements OnInit {
         {
           '@type': 'Occupation',
           name: 'Desenvolvedor Full Stack Jr.',
+          skills: ['Azure DevOps', 'Docker', 'Java', 'SQL Server', 'PHP'],
           description: 'Manutenção e migração de sistemas da Caixa Econômica Federal, Azure DevOps, Docker, Java, SQL Server, PHP.',
           startDate: '2023-09',
           endDate: '2023-11',
@@ -113,6 +114,7 @@ export class JsonLdComponent implements OnInit {
         {
           '@type': 'Occupation',
           name: 'Bolsista em Desenvolvimento Web Full Stack',
+          skills: ['Java', 'Angular', 'Spring Boot', 'AWS', 'CI/CD'],
           description: 'Desenvolvimento de sistemas para Motorola e Instituto Eldorado, Java, Angular, Spring Boot, AWS, CI/CD.',
           startDate: '2022-03',
           endDate: '2022-10',

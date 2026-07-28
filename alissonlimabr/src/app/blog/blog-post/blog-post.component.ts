@@ -446,12 +446,16 @@ export class BlogPostComponent implements OnInit, OnDestroy {
       dateModified: post.updatedAt || post.publishedAt,
       author: {
         '@type': 'Person',
+        ...(post.author.url === this.siteOrigin
+          ? { '@id': `${this.siteOrigin}/#sobre` }
+          : {}),
         name: post.author.name,
         ...(post.author.url ? { url: post.author.url } : {}),
         ...(post.author.imageUrl ? { image: post.author.imageUrl } : {}),
       },
       publisher: {
         '@type': 'Person',
+        '@id': `${this.siteOrigin}/#sobre`,
         name: 'Alisson Lima',
         url: this.siteOrigin,
       },

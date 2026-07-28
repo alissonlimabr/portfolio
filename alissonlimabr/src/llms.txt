@@ -2,6 +2,10 @@
 
 Índice técnico das URLs canônicas do site para navegação de agentes de IA.
 
+## Identidade profissional
+
+- [Perfil institucional no IFAC](https://integra.ifac.edu.br/p/alisson-mendonca-de-lima): referência pública da identidade profissional deste portfólio.
+
 ## Páginas principais
 
 - [Home](https://www.alissonlimadev.com/): visão geral do portfólio.
