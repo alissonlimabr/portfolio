@@ -25,7 +25,7 @@ import { ReadingPreferencesService } from './blog/services/reading-preferences.s
 
 import {
   faBars,
-  faChevronUp,
+  faArrowUp,
   faCode,
   faXmark,
 } from '@fortawesome/free-solid-svg-icons';
@@ -75,7 +75,7 @@ export class AppComponent implements OnInit {
   faBars = faBars;
   faXmark = faXmark;
   faCode = faCode;
-  faChevronUp = faChevronUp;
+  faArrowUp = faArrowUp;
 
   opened?: boolean;
   isBlogRoute = false;
