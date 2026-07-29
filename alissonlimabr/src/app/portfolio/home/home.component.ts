@@ -10,6 +10,7 @@ import { ImageLoadStateDirective } from '../../shared/directives/image-load-stat
 import { SwipeDirective } from '../../shared/directives/swipe.directive';
 import { SanityService } from '../../blog/services/sanity.service';
 import { PostSummary } from '../../blog/models/post.model';
+import { resolveCategoryColor } from '../../blog/utils/category-color.util';
 import { SITE_DEFAULT_OG_IMAGE_PATH } from '../../shared/constants/site.constants';
 
 import {
@@ -125,6 +126,7 @@ export class HomeComponent {
   faChevronRight = faChevronRight;
   faChevronLeft = faChevronLeft;
   faHandPointer = faHandPointer;
+  readonly resolveCategoryColor = resolveCategoryColor;
 
   mySkills = MY_SKILLS;
   socialMedia = SOCIAL_MEDIA;
