@@ -26,6 +26,7 @@ export class SwipeDirective implements AfterViewInit, OnDestroy {
 
   private pointerId: number | null = null;
   private pointerStartX = 0;
+  private pointerStartY = 0;
   private pointerStartScrollLeft = 0;
   private pointerDeltaX = 0;
   private dragged = false;
@@ -90,10 +91,11 @@ export class SwipeDirective implements AfterViewInit, OnDestroy {
 
     this.pointerId = event.pointerId;
     this.pointerStartX = event.clientX;
+    this.pointerStartY = event.clientY;
     this.pointerStartScrollLeft = this.element.scrollLeft;
     this.pointerDeltaX = 0;
     this.dragged = false;
-    this.element.setPointerCapture?.(event.pointerId);
+    this.suppressNextClick = false;
   }
 
   @HostListener('pointermove', ['$event'])
@@ -103,11 +105,18 @@ export class SwipeDirective implements AfterViewInit, OnDestroy {
     }
 
     this.pointerDeltaX = event.clientX - this.pointerStartX;
-    if (Math.abs(this.pointerDeltaX) < 5) {
+    const pointerDeltaY = event.clientY - this.pointerStartY;
+    if (
+      Math.abs(this.pointerDeltaX) < 10 ||
+      Math.abs(this.pointerDeltaX) <= Math.abs(pointerDeltaY)
+    ) {
       return;
     }
 
     event.preventDefault();
+    if (!this.dragged) {
+      this.element.setPointerCapture?.(event.pointerId);
+    }
     this.dragged = true;
     this.renderer.addClass(this.element, 'is-dragging');
     this.element.scrollLeft = this.clampScrollLeft(
@@ -124,9 +133,7 @@ export class SwipeDirective implements AfterViewInit, OnDestroy {
 
     if (this.dragged && event.type === 'pointerup') {
       this.suppressNextClick = true;
-      this.pointerDeltaX < 0
-        ? this.swipeLeft.emit()
-        : this.swipeRight.emit();
+      this.pointerDeltaX < 0 ? this.swipeLeft.emit() : this.swipeRight.emit();
       this.element.ownerDocument.defaultView?.setTimeout(() => {
         this.suppressNextClick = false;
       });

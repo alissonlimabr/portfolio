@@ -70,4 +70,41 @@ describe('SwipeDirective', () => {
   it('is keyboard focusable', () => {
     expect(rail.getAttribute('tabindex')).toBe('0');
   });
+
+  it('does not block a card click when the pointer did not drag', () => {
+    const directive =
+      fixture.debugElement.children[0].injector.get(SwipeDirective);
+    const setPointerCapture = spyOn(rail, 'setPointerCapture');
+    const click = new MouseEvent('click', { bubbles: true, cancelable: true });
+
+    directive.onPointerDown(
+      new PointerEvent('pointerdown', {
+        button: 0,
+        clientX: 120,
+        clientY: 40,
+        pointerId: 1,
+        pointerType: 'mouse',
+      }),
+    );
+    directive.onPointerMove(
+      new PointerEvent('pointermove', {
+        clientX: 126,
+        clientY: 42,
+        pointerId: 1,
+        pointerType: 'mouse',
+      }),
+    );
+    directive.onPointerEnd(
+      new PointerEvent('pointerup', {
+        clientX: 126,
+        clientY: 42,
+        pointerId: 1,
+        pointerType: 'mouse',
+      }),
+    );
+    directive.onClick(click);
+
+    expect(click.defaultPrevented).toBeFalse();
+    expect(setPointerCapture).not.toHaveBeenCalled();
+  });
 });
