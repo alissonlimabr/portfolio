@@ -6,6 +6,32 @@
 @use "assets/scss/dark-purple-theme";
 @use "assets/scss/blog-light-theme";
 
+body.blog-theme-switching,
+body.blog-theme-switching header,
+body.blog-theme-switching footer,
+body.blog-theme-switching .blog-post,
+body.blog-theme-switching .blog-hero,
+body.blog-theme-switching .blog-card,
+body.blog-theme-switching .related-card,
+body.blog-theme-switching .rp-mobile-panel,
+body.blog-theme-switching .rp-fab,
+body.blog-theme-switching .scroll-top-button,
+body.blog-theme-switching .post-content pre,
+body.blog-theme-switching .post-content code {
+  transition:
+    background-color 180ms ease,
+    border-color 180ms ease,
+    color 180ms ease,
+    box-shadow 180ms ease;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  body.blog-theme-switching,
+  body.blog-theme-switching * {
+    transition-duration: 0.01ms !important;
+  }
+}
+
 .image-load-shell {
   position: relative;
   isolation: isolate;
@@ -21,12 +47,7 @@
   &::before {
     content: "";
     z-index: 0;
-    background: linear-gradient(
-      90deg,
-      var(--blog-shimmer-a) 25%,
-      var(--blog-shimmer-b) 50%,
-      var(--blog-shimmer-a) 75%
-    );
+    background: linear-gradient(90deg, var(--blog-shimmer-a) 25%, var(--blog-shimmer-b) 50%, var(--blog-shimmer-a) 75%);
     background-size: 600px 100%;
     animation: blogShimmer 1.6s infinite linear;
     transition: opacity 0.2s ease;
@@ -153,11 +174,7 @@
     .blog-scroll-hint-line {
       width: 36px;
       height: 1px;
-      background: linear-gradient(
-        90deg,
-        transparent,
-        var(--color-accent-light)
-      );
+      background: linear-gradient(90deg, transparent, var(--color-accent-light));
     }
 
     fa-icon {

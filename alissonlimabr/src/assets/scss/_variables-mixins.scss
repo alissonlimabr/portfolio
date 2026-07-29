@@ -41,7 +41,7 @@
 
 // TOC lateral quando há espaço para texto padrão + coluna lateral.
 @mixin blog-toc-sidebar-desktop {
-  @media (min-width: 1360px) and (max-width: 1679px) {
+  @media (min-width: 1280px) and (max-width: 1679px) {
     @content;
   }
 }

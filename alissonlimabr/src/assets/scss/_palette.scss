@@ -3,8 +3,8 @@
 // Layout
 $container-max-width: 1280px;
 $container-wide-max-width: 1440px;
-$prose-max-width: 760px;
-$prose-wide-max-width: 980px;
+$prose-max-width: 732px;
+$prose-wide-max-width: 900px;
 
 // Fundo e superfícies
 $background-color: #0a0814;
@@ -49,20 +49,20 @@ $pink: $accent-pink;
 $cyan: $accent-cyan;
 
 // Tema escuro de leitura do blog
-$blog-dark-bg: #18151f;
-$blog-dark-surface: #211d29;
-$blog-dark-surface-elevated: #2a2533;
-$blog-dark-text: #d4cedb;
-$blog-dark-heading: #ebe6f0;
-$blog-dark-text-muted: #a9a2b4;
-$blog-dark-border: #383143;
-$blog-dark-accent: #9587bc;
-$blog-dark-accent-hover: #b2a6d0;
+$blog-dark-bg: #151515;
+$blog-dark-surface: #1d1d1f;
+$blog-dark-surface-elevated: #242428;
+$blog-dark-text: #cbd5e1;
+$blog-dark-heading: #f8fafc;
+$blog-dark-text-muted: #8f98a5;
+$blog-dark-border: #303037;
+$blog-dark-accent: #a78bfa;
+$blog-dark-accent-hover: #c4b5fd;
 $blog-dark-interactive: #a875e2;
 $blog-dark-interactive-hover: #c19aef;
-$blog-dark-link: #b6adcb;
-$blog-dark-link-hover: #d4ccde;
-$blog-dark-code-bg: #14111a;
+$blog-dark-link: #c4b5fd;
+$blog-dark-link-hover: #ddd6fe;
+$blog-dark-code-bg: #111113;
 $blog-dark-inline-code-color: #b7b9ca;
 $blog-dark-shimmer-a: #221e2a;
 $blog-dark-shimmer-b: #302a39;
@@ -76,12 +76,12 @@ $blog-dark-callout-danger: #ca8b92;
 
 // Tema claro de leitura do blog
 $blog-light-bg: $white;
-$blog-light-surface: #f8f5ff;
+$blog-light-surface: #f8fafc;
 $blog-light-surface-elevated: $white;
-$blog-light-text: #322b3d;
-$blog-light-heading: #181321;
-$blog-light-text-muted: #665c75;
-$blog-light-border: #e7e0f0;
+$blog-light-text: #334155;
+$blog-light-heading: #1e293b;
+$blog-light-text-muted: #64748b;
+$blog-light-border: #e2e8f0;
 $blog-light-accent: $purple-500;
 $blog-light-accent-strong: $purple-600;
 $blog-light-accent-hover: $purple-600;

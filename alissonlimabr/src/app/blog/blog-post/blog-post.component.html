@@ -1,41 +1,37 @@
 @if (loading) {
-  <section class="post-loading">
-    <div class="post-skeleton">
-      <div class="post-skeleton-bar"></div>
-      <div class="post-skeleton-bar post-skeleton-bar-short"></div>
-      <div class="post-skeleton-content">
-        <div class="post-skeleton-line"></div>
-        <div class="post-skeleton-line"></div>
-        <div class="post-skeleton-line"></div>
-        <div class="post-skeleton-line"></div>
-        <div class="post-skeleton-line"></div>
-      </div>
+<section class="post-loading">
+  <div class="post-skeleton">
+    <div class="post-skeleton-bar"></div>
+    <div class="post-skeleton-bar post-skeleton-bar-short"></div>
+    <div class="post-skeleton-content">
+      <div class="post-skeleton-line"></div>
+      <div class="post-skeleton-line"></div>
+      <div class="post-skeleton-line"></div>
+      <div class="post-skeleton-line"></div>
+      <div class="post-skeleton-line"></div>
     </div>
-  </section>
+  </div>
+</section>
 }
 
 @if (notFound) {
-  <section class="post-not-found">
-    <div class="container">
-      <div class="content">
-        <h2>Artigo não encontrado</h2>
-        <p>O artigo que você está procurando não existe ou foi removido.</p>
-        <a class="back-link" routerLink="/blog">← Voltar ao blog</a>
-      </div>
+<section class="post-not-found">
+  <div class="container">
+    <div class="content">
+      <h2>Artigo não encontrado</h2>
+      <p>O artigo que você está procurando não existe ou foi removido.</p>
+      <a class="back-link" routerLink="/blog">← Voltar ao blog</a>
     </div>
-  </section>
+  </div>
+</section>
 }
 
 @if (!loading && !notFound && post) {
-  <div class="reading-progress-bar" appScrollProgress></div>
-  <article
-    class="blog-post"
-    [appActiveSection]="tocSectionIds"
-    [activeSectionOffset]="100"
-    (activeSectionChange)="onActiveTocSectionChange($event)"
-  >
-    <div class="post-content">
-      <app-reading-preferences></app-reading-preferences>
+<div class="reading-progress-bar" appScrollProgress></div>
+<article class="blog-post" [appActiveSection]="tocSectionIds" [activeSectionOffset]="100"
+  (activeSectionChange)="onActiveTocSectionChange($event)">
+  <div class="post-content">
+    <div class="post-reading-layout" [class.post-reading-layout--without-toc]="tocItems.length < 2">
       <section class="post-head">
         <div class="post-content-inner">
           <div class="container">
@@ -43,204 +39,171 @@
               <a class="back-link" routerLink="/blog">← Blog</a>
 
               @if (post.categories?.length) {
-                <div class="blog-categories-row">
-                  @for (cat of post.categories!; track cat._id) {
-                    <a
-                      class="blog-category-badge"
-                      [routerLink]="['/blog/categoria', cat.slug.current]"
-                      [style.--cat-color]="resolveCategoryColor(cat)"
-                    >
-                      {{ cat.title }}
-                    </a>
-                  }
-                </div>
+              <div class="blog-categories-row">
+                @for (cat of post.categories!; track cat._id) {
+                <a class="blog-category-badge" [routerLink]="['/blog/categoria', cat.slug.current]"
+                  [style.--cat-color]="resolveCategoryColor(cat)">
+                  {{ cat.title }}
+                </a>
+                }
+              </div>
               }
 
               <h1>{{ post.title }}</h1>
 
               <div class="post-byline">
-                @if (post.author.imageUrl) {
-                  <img
-                    class="post-author-avatar"
-                    [src]="post.author.imageUrl"
-                    [alt]="post.author.imageAlt || 'Foto de ' + post.author.name"
-                  />
-                } @else {
+                <div class="post-author-row">
+                  @if (post.author.imageUrl) {
+                  <img class="post-author-avatar" [src]="post.author.imageUrl"
+                    [alt]="post.author.imageAlt || 'Foto de ' + post.author.name" />
+                  } @else {
                   <span class="post-author-avatar post-author-avatar--fallback" aria-hidden="true">
                     {{ getAuthorInitials(post.author.name) }}
                   </span>
-                }
-                <div class="post-byline-copy">
-                  <span class="post-author-name">Por {{ post.author.name }}</span>
-                  <div class="post-meta">
-                    <span class="post-meta-line">
-                      <span>{{ formatDate(post.publishedAt) }}</span>
-                      @if (post.estimatedReadingTime) {
-                        <span>· {{ formatReadingTime(post.estimatedReadingTime) }}</span>
-                      }
-                    </span>
-                    @if (hasUpdatedDate(post)) {
-                      <span class="post-meta-line post-meta-line--updated">
-                        Atualizado em: {{ formatDateTime(post.updatedAt!) }}
+                  }
+
+                  <div class="post-byline-details">
+                    <div class="post-byline-primary">
+                      <span class="post-byline-item post-author-name">
+                        Por <strong>{{ post.author.name }}</strong>
                       </span>
+                      <span class="post-meta-divider" aria-hidden="true">|</span>
+                      <time class="post-byline-item" [attr.datetime]="post.publishedAt">
+                        <fa-icon class="post-meta-icon" [icon]="faCalendarDays" [fixedWidth]="true" />
+                        {{ formatDate(post.publishedAt) }}
+                      </time>
+                      @if (post.estimatedReadingTime) {
+                      <span class="post-meta-divider" aria-hidden="true">|</span>
+                      <span class="post-byline-item">
+                        <fa-icon class="post-meta-icon" [icon]="faClock" [fixedWidth]="true" />
+                        {{ formatReadingTime(post.estimatedReadingTime) }}
+                      </span>
+                      }
+                    </div>
+
+                    @if (hasUpdatedDate(post)) {
+                    <time class="post-updated" [attr.datetime]="post.updatedAt">
+                      <fa-icon class="post-meta-icon" [icon]="faArrowsRotate" [fixedWidth]="true" />
+                      Atualizado em {{ formatDateTime(post.updatedAt!) }}
+                    </time>
                     }
                   </div>
                 </div>
+
               </div>
 
               @if (post.excerpt) {
-                <p class="post-excerpt">{{ post.excerpt }}</p>
+              <p class="post-excerpt">{{ post.excerpt }}</p>
+              }
+
+              @if (shareUrls) {
+              <div class="post-share-inline">
+                <span class="post-share-label">Compartilhar</span>
+                <div class="post-share-buttons">
+                  <a class="post-share-btn" [href]="shareUrls.twitter" target="_blank" rel="noopener noreferrer"
+                    aria-label="Compartilhar no X">
+                    <app-icon name="twitter-x" [size]="13" />
+                  </a>
+                  <a class="post-share-btn" [href]="shareUrls.linkedin" target="_blank" rel="noopener noreferrer"
+                    aria-label="Compartilhar no LinkedIn">
+                    <app-icon name="linkedin" [size]="14" />
+                  </a>
+                  <a class="post-share-btn" [href]="shareUrls.whatsapp" target="_blank" rel="noopener noreferrer"
+                    aria-label="Compartilhar no WhatsApp">
+                    <app-icon name="whatsapp" [size]="14" />
+                  </a>
+                  <button type="button" class="post-share-btn copy" [class.copied]="linkCopied"
+                    [appCopyToClipboard]="postUrl" (copySuccess)="onPostLinkCopied()"
+                    [attr.aria-label]="linkCopied ? 'Link copiado' : 'Copiar link'">
+                    @if (linkCopied) {
+                    <app-icon name="check" [size]="14" />
+                    } @else {
+                    <app-icon name="link" [size]="14" />
+                    }
+                  </button>
+                </div>
+              </div>
               }
             </div>
           </div>
         </div>
       </section>
-
-      @if (shareUrls) {
-        <section class="post-share">
-          <div class="post-content-inner">
-            <div class="post-share-inner">
-              <span class="post-share-label">Compartilhar</span>
-              <div class="post-share-buttons">
-                <a
-                  class="post-share-btn"
-                  [href]="shareUrls.twitter"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  aria-label="Compartilhar no X"
-                >
-                  <app-icon name="twitter-x" [size]="13" />
-                </a>
-                <a
-                  class="post-share-btn"
-                  [href]="shareUrls.linkedin"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  aria-label="Compartilhar no LinkedIn"
-                >
-                  <app-icon name="linkedin" [size]="14" />
-                </a>
-                <a
-                  class="post-share-btn"
-                  [href]="shareUrls.whatsapp"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  aria-label="Compartilhar no WhatsApp"
-                >
-                  <app-icon name="whatsapp" [size]="14" />
-                </a>
-                <button
-                  type="button"
-                  class="post-share-btn copy"
-                  [class.copied]="linkCopied"
-                  [appCopyToClipboard]="postUrl"
-                  (copySuccess)="onPostLinkCopied()"
-                  [attr.aria-label]="linkCopied ? 'Link copiado' : 'Copiar link'"
-                >
-                  @if (linkCopied) {
-                    <app-icon name="check" [size]="14" />
-                  } @else {
-                    <app-icon name="link" [size]="14" />
-                  }
-                </button>
-              </div>
-            </div>
-          </div>
-        </section>
-      }
 
       @if (post.imageUrl) {
-        <section class="post-cover">
-          <div class="post-content-inner">
-            <div class="post-cover-image image-load-shell" appImageLoadState>
-              <img
-                [src]="post.imageUrl"
-                [attr.srcset]="post.imageSrcSet"
-                sizes="(max-width: 767px) calc(100vw - 32px), (max-width: 1023px) calc(100vw - 40px), 820px"
-                [alt]="post.imageAlt || post.title"
-                loading="eager"
-                fetchpriority="high"
-                decoding="async"
-                width="1200"
-                height="675"
-              />
-            </div>
-          </div>
-        </section>
-      }
-
-      <div class="post-reading-layout" [class.post-reading-layout--without-toc]="tocItems.length < 2">
-        @if (tocItems.length >= 2) {
-          <app-toc [items]="tocItems" [activeId]="activeTocId" (scrollTo)="scrollToSection($event)" />
-        }
-
-        <section class="post-body">
-          <app-post-body-content
-            class="post-content-inner"
-            ngSkipHydration
-            [html]="bodyHtml"
-            (contentHeadingsChange)="onContentHeadingsChange($event)"
-          ></app-post-body-content>
-        </section>
-      </div>
-
-      @if (post.tags?.length) {
-        <section class="post-tags" aria-label="Tags do artigo">
-          <div class="post-content-inner post-tags-inner">
-            <span class="post-tags-label">Tags</span>
-            <ul class="blog-tags">
-              @for (tag of post.tags!; track tag) {
-                <li class="blog-tag">{{ tag }}</li>
-              }
-            </ul>
-          </div>
-        </section>
-      }
-
-      @if (relatedPosts.length > 0) {
-        <section class="post-related">
-          <div class="post-content-inner">
-            <div class="post-related-inner">
-              <h2 class="post-related-title">Continue lendo</h2>
-              <div class="post-related-grid">
-                @for (related of relatedPosts; track related._id) {
-                  <a class="related-card" [routerLink]="['/blog', related.slug.current]">
-                    @if (related.imageUrl) {
-                      <div class="related-card-img image-load-shell" appImageLoadState>
-                        <img
-                          [src]="related.imageUrl"
-                          [attr.srcset]="related.imageSrcSet"
-                          sizes="(max-width: 767px) calc(100vw - 32px), (max-width: 1199px) 50vw, 380px"
-                          [alt]="related.imageAlt || related.title"
-                          loading="lazy"
-                          decoding="async"
-                          width="600"
-                          height="338"
-                        />
-                      </div>
-                    }
-                    <div class="related-card-body">
-                      <h3>{{ related.title }}</h3>
-                      <div class="related-card-meta">
-                        <span>{{ formatDate(related.publishedAt) }}</span>
-                        @if (related.estimatedReadingTime) {
-                          <span>· {{ related.estimatedReadingTime }} min de leitura</span>
-                        }
-                      </div>
-                    </div>
-                  </a>
-                }
-              </div>
-            </div>
-          </div>
-        </section>
-      }
-
-      <section class="post-footer-nav">
+      <section class="post-cover">
         <div class="post-content-inner">
-          <a class="back-link" routerLink="/blog">← Voltar ao blog</a>
+          <div class="post-cover-image image-load-shell" appImageLoadState>
+            <img [src]="post.imageUrl" [attr.srcset]="post.imageSrcSet"
+              sizes="(max-width: 767px) calc(100vw - 32px), (max-width: 1023px) calc(100vw - 40px), 820px"
+              [alt]="post.imageAlt || post.title" loading="eager" fetchpriority="high" decoding="async" width="1200"
+              height="675" />
+          </div>
         </div>
       </section>
+      }
+
+      <aside class="post-reading-rail" aria-label="Ferramentas de leitura">
+        <app-reading-preferences></app-reading-preferences>
+        @if (tocItems.length >= 2) {
+        <app-toc [items]="tocItems" [activeId]="activeTocId" (scrollTo)="scrollToSection($event)" />
+        }
+      </aside>
+
+      <section class="post-body">
+        <app-post-body-content class="post-content-inner" ngSkipHydration [html]="bodyHtml"
+          (contentHeadingsChange)="onContentHeadingsChange($event)"></app-post-body-content>
+      </section>
     </div>
-  </article>
+
+    @if (post.tags?.length) {
+    <section class="post-tags" aria-label="Tags do artigo">
+      <div class="post-content-inner post-tags-inner">
+        <span class="post-tags-label">Tags</span>
+        <ul class="blog-tags">
+          @for (tag of post.tags!; track tag) {
+          <li class="blog-tag">{{ tag }}</li>
+          }
+        </ul>
+      </div>
+    </section>
+    }
+
+    @if (relatedPosts.length > 0) {
+    <section class="post-related">
+      <div class="post-related-container">
+        <div class="post-related-inner">
+          <h2 class="post-related-title">Artigos relacionados</h2>
+          <div class="post-related-grid">
+            @for (related of relatedPosts; track related._id) {
+            <a class="related-card" [routerLink]="['/blog', related.slug.current]">
+              <div class="related-card-heading">
+                @if (related.categories?.[0]?.title) {
+                <span class="related-card-kicker" [style.--cat-color]="resolveCategoryColor(related.categories![0])">
+                  {{ related.categories![0].title }}
+                </span>
+                }
+                <h3>{{ related.title }}</h3>
+              </div>
+              <p class="related-card-excerpt">{{ related.excerpt }}</p>
+              <span class="related-card-action" aria-hidden="true">
+                Ler artigo
+                <fa-icon [icon]="faArrowRight" />
+              </span>
+            </a>
+            }
+          </div>
+        </div>
+      </div>
+    </section>
+    }
+
+    <section class="post-footer-nav">
+      <div class="post-footer-nav-inner">
+        <div class="post-footer-nav-content">
+          <a class="back-link" routerLink="/blog">← Voltar ao blog</a>
+        </div>
+      </div>
+    </section>
+  </div>
+</article>
 }

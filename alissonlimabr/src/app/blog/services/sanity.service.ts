@@ -127,10 +127,7 @@ export class SanityService {
       );
   }
 
-  private hashQuery(
-    groq: string,
-    params?: Record<string, unknown>,
-  ): string {
+  private hashQuery(groq: string, params?: Record<string, unknown>): string {
     const input = `${groq}|${JSON.stringify(params ?? {})}`;
     let hash = 2166136261;
 
@@ -303,12 +300,35 @@ export class SanityService {
       }
     `;
     return this.query<PostSummary[]>(groq, { slug, tags, limit }).pipe(
-      switchMap((results) =>
-        results.length > 0
-          ? of(results)
-          : this.getRecentPostsExcluding(slug, limit),
-      ),
+      switchMap((relatedPosts) => {
+        if (relatedPosts.length >= limit) {
+          return of(relatedPosts.slice(0, limit));
+        }
+
+        return this.getRecentPostsExcluding(slug, limit).pipe(
+          map((recentPosts) =>
+            this.mergeUniquePosts(relatedPosts, recentPosts, limit),
+          ),
+        );
+      }),
     );
+  }
+
+  private mergeUniquePosts(
+    preferredPosts: PostSummary[],
+    fallbackPosts: PostSummary[],
+    limit: number,
+  ): PostSummary[] {
+    const uniquePosts = new Map<string, PostSummary>();
+
+    for (const post of [...preferredPosts, ...fallbackPosts]) {
+      uniquePosts.set(post._id, post);
+      if (uniquePosts.size === limit) {
+        break;
+      }
+    }
+
+    return Array.from(uniquePosts.values());
   }
 
   private getRecentPostsExcluding(

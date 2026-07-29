@@ -5,6 +5,18 @@
 // ============================================================
 
 body.blog-theme-dark {
+  --blog-bg: #{tokens.$blog-dark-bg};
+  --blog-surface: #{tokens.$blog-dark-surface};
+  --blog-surface-elevated: #{tokens.$blog-dark-surface-elevated};
+  --blog-text: #{tokens.$blog-dark-text};
+  --blog-heading: #{tokens.$blog-dark-heading};
+  --blog-text-muted: #{tokens.$blog-dark-text-muted};
+  --blog-border: #{tokens.$blog-dark-border};
+  --blog-accent: #{tokens.$blog-dark-accent};
+  --blog-accent-hover: #{tokens.$blog-dark-accent-hover};
+  --blog-link: #{tokens.$blog-dark-link};
+  --blog-link-hover: #{tokens.$blog-dark-link-hover};
+
   background-color: var(--blog-bg) !important;
   background-image: none !important;
 
@@ -37,7 +49,9 @@ body.blog-theme-dark {
     }
 
     .post-content {
-      a:not(.blog-category-badge):not(.related-card):not(.back-link):not(.code-copy-btn):not(.post-share-btn) {
+      a:not(.blog-category-badge):not(.related-card):not(.back-link):not(.code-copy-btn):not(.post-share-btn):not(
+          .toc-link
+        ) {
         color: var(--blog-link);
         text-decoration-color: rgba(tokens.$blog-dark-link, 0.45);
 
@@ -495,9 +509,31 @@ body.blog-theme-light {
 
   // ── Realce de sintaxe do Prism — conjunto de tokens claros ────────────
   .post-content {
+    code:not([class*="language-"]) {
+      background: rgba(tokens.$blog-light-accent, 0.08);
+      border-color: rgba(tokens.$blog-light-accent, 0.2);
+      color: tokens.$blog-light-accent-strong;
+    }
+
+    pre,
+    .code-block {
+      background: #f7f5fa;
+      border-color: #ddd6e7;
+      box-shadow: 0 8px 24px rgba(tokens.$blog-light-shadow, 0.07);
+    }
+
+    .code-block-header {
+      background: #f0ecf5;
+      border-bottom-color: #ddd6e7;
+    }
+
+    pre code,
+    .code-block code,
     pre[class*="language-"] code,
     code[class*="language-"] {
-      color: var(--blog-text);
+      background: transparent;
+      border: 0;
+      color: #30283a;
       text-shadow: none;
     }
 
@@ -555,7 +591,9 @@ body.blog-theme-light {
       color: var(--blog-accent-warm);
     }
 
-    a:not(.blog-category-badge):not(.related-card):not(.back-link):not(.code-copy-btn):not(.post-share-btn) {
+    a:not(.blog-category-badge):not(.related-card):not(.back-link):not(.code-copy-btn):not(.post-share-btn):not(
+        .toc-link
+      ) {
       color: var(--blog-link);
       text-decoration-color: rgba(tokens.$blog-light-link, 0.4);
 

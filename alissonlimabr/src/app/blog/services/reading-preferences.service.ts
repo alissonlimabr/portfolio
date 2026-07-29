@@ -31,6 +31,7 @@ export class ReadingPreferencesService {
   private readonly isBrowser = isPlatformBrowser(inject(PLATFORM_ID));
   private readonly document = inject(DOCUMENT);
   private readonly prefs = signal<ReadingPreferences>(this.load());
+  private themeTransitionTimer: number | null = null;
 
   readonly fontSize = computed(() => this.prefs().fontSize);
   readonly textWidth = computed(() => this.prefs().textWidth);
@@ -55,7 +56,32 @@ export class ReadingPreferencesService {
   }
 
   setTheme(theme: ReadingTheme): void {
+    if (theme === this.prefs().theme) {
+      return;
+    }
+
+    this.startThemeTransition();
     this.prefs.update((p) => ({ ...p, theme }));
+  }
+
+  private startThemeTransition(): void {
+    if (!this.isBrowser) {
+      return;
+    }
+
+    const view = this.document.defaultView;
+    if (!view) {
+      return;
+    }
+
+    this.document.body.classList.add('blog-theme-switching');
+    if (this.themeTransitionTimer !== null) {
+      view.clearTimeout(this.themeTransitionTimer);
+    }
+    this.themeTransitionTimer = view.setTimeout(() => {
+      this.document.body.classList.remove('blog-theme-switching');
+      this.themeTransitionTimer = null;
+    }, 240);
   }
 
   private load(): ReadingPreferences {
@@ -118,6 +144,7 @@ export class ReadingPreferencesService {
       'blog-width-wide',
       'blog-theme-dark',
       'blog-theme-light',
+      'blog-theme-switching',
     );
   }
 }

@@ -16,7 +16,14 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { DOCUMENT, isPlatformBrowser } from '@angular/common';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { DomSanitizer, Meta, SafeHtml, Title } from '@angular/platform-browser';
-import { Observable, catchError, distinctUntilChanged, map, of, switchMap } from 'rxjs';
+import {
+  Observable,
+  catchError,
+  distinctUntilChanged,
+  map,
+  of,
+  switchMap,
+} from 'rxjs';
 import { SanityService } from '../services/sanity.service';
 import { Post, PostSummary } from '../models/post.model';
 import { resolveCategoryColor } from '../utils/category-color.util';
@@ -28,6 +35,13 @@ import { CopyToClipboardDirective } from '../../shared/directives/copy-to-clipbo
 import { ScrollProgressDirective } from '../../shared/directives/scroll-progress.directive';
 import { ImageLoadStateDirective } from '../../shared/directives/image-load-state.directive';
 import { PostBodyContentComponent } from './post-body-content.component';
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
+import {
+  faArrowRight,
+  faArrowsRotate,
+  faCalendarDays,
+  faClock,
+} from '@fortawesome/free-solid-svg-icons';
 import {
   SITE_BRAND,
   SITE_DEFAULT_OG_IMAGE_PATH,
@@ -64,6 +78,7 @@ const BLOG_POST_JSON_LD_SELECTOR = 'script[data-blog-post-json-ld]';
     CopyToClipboardDirective,
     ScrollProgressDirective,
     ImageLoadStateDirective,
+    FontAwesomeModule,
   ],
   templateUrl: './blog-post.component.html',
   styleUrl: './blog-post.component.scss',
@@ -75,6 +90,10 @@ export class BlogPostComponent implements OnInit, OnDestroy {
   private readonly isBrowser = isPlatformBrowser(inject(PLATFORM_ID));
   private readonly router = inject(Router);
   readonly resolveCategoryColor = resolveCategoryColor;
+  readonly faArrowRight = faArrowRight;
+  readonly faArrowsRotate = faArrowsRotate;
+  readonly faCalendarDays = faCalendarDays;
+  readonly faClock = faClock;
 
   post?: BlogPostViewModel;
   bodyHtml?: SafeHtml;
@@ -163,24 +182,26 @@ export class BlogPostComponent implements OnInit, OnDestroy {
 
         const bodyHtml = this.sanity.portableTextToHtml(post.body);
         const preparedPost = this.preparePostViewModel(post);
-        return this.sanity.getRelatedPosts(post.slug.current, post.tags ?? [], 3).pipe(
-          map((related) =>
-            this.persistPostPageState(slug, {
-              post: preparedPost,
-              bodyHtml,
-              relatedPosts: this.normalizeRelatedPosts(related),
-            }),
-          ),
-          catchError(() =>
-            of(
+        return this.sanity
+          .getRelatedPosts(post.slug.current, post.tags ?? [], 2)
+          .pipe(
+            map((related) =>
               this.persistPostPageState(slug, {
                 post: preparedPost,
                 bodyHtml,
-                relatedPosts: [],
+                relatedPosts: this.normalizeRelatedPosts(related),
               }),
             ),
-          ),
-        );
+            catchError(() =>
+              of(
+                this.persistPostPageState(slug, {
+                  post: preparedPost,
+                  bodyHtml,
+                  relatedPosts: [],
+                }),
+              ),
+            ),
+          );
       }),
     );
   }
@@ -247,10 +268,7 @@ export class BlogPostComponent implements OnInit, OnDestroy {
 
       return {
         ...relatedPost,
-        imageSrcSet: this.sanity.buildImageSrcSet(
-          coverUrl,
-          [320, 480, 600],
-        ),
+        imageSrcSet: this.sanity.buildImageSrcSet(coverUrl, [320, 480, 600]),
         imageUrl: coverUrl
           ? this.sanity.optimizeImageUrl(coverUrl, { w: 600, h: 338 })
           : SITE_DEFAULT_OG_IMAGE_PATH,
