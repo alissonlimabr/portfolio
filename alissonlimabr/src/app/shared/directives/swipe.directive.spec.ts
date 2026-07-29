@@ -42,7 +42,15 @@ describe('SwipeDirective', () => {
     });
   });
 
-  it('converts the mouse wheel into horizontal scrolling', () => {
+  it('smoothly converts the mouse wheel into horizontal scrolling', () => {
+    let animationFrame: FrameRequestCallback | undefined;
+    const requestAnimationFrame = spyOn(
+      window,
+      'requestAnimationFrame',
+    ).and.callFake((callback: FrameRequestCallback) => {
+      animationFrame = callback;
+      return 1;
+    });
     const event = new WheelEvent('wheel', {
       cancelable: true,
       deltaY: 120,
@@ -50,8 +58,14 @@ describe('SwipeDirective', () => {
 
     rail.dispatchEvent(event);
 
-    expect(scrollPosition).toBe(120);
+    expect(requestAnimationFrame).toHaveBeenCalledTimes(1);
+    expect(scrollPosition).toBe(0);
     expect(event.defaultPrevented).toBeTrue();
+
+    animationFrame?.(0);
+
+    expect(scrollPosition).toBeGreaterThan(0);
+    expect(scrollPosition).toBeLessThan(120);
   });
 
   it('releases vertical scrolling when the rail reaches its edge', () => {

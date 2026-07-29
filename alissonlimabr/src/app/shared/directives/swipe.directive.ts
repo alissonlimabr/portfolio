@@ -32,6 +32,8 @@ export class SwipeDirective implements AfterViewInit, OnDestroy {
   private dragged = false;
   private suppressNextClick = false;
   private removeWheelListener?: () => void;
+  private wheelAnimationFrame: number | null = null;
+  private wheelTargetScrollLeft: number | null = null;
 
   ngAfterViewInit(): void {
     if (!this.isBrowser) {
@@ -50,6 +52,7 @@ export class SwipeDirective implements AfterViewInit, OnDestroy {
 
   ngOnDestroy(): void {
     this.removeWheelListener?.();
+    this.cancelWheelAnimation();
   }
 
   onWheel(event: WheelEvent): void {
@@ -68,14 +71,37 @@ export class SwipeDirective implements AfterViewInit, OnDestroy {
           ? this.element.clientWidth
           : 1;
     const delta = rawDelta * deltaMultiplier;
-    if (Math.abs(delta) < 1 || !this.canScroll(delta)) {
+    if (Math.abs(delta) < 1) {
+      return;
+    }
+
+    if (this.isPrecisionWheel(event)) {
+      const target = this.clampScrollLeft(this.element.scrollLeft + delta);
+      if (Math.abs(target - this.element.scrollLeft) < 1) {
+        return;
+      }
+
+      event.preventDefault();
+      this.cancelWheelAnimation();
+      this.element.scrollLeft = target;
+      return;
+    }
+
+    const start = this.wheelTargetScrollLeft ?? this.element.scrollLeft;
+    const target = this.clampScrollLeft(start + delta);
+    if (Math.abs(target - start) < 1) {
       return;
     }
 
     event.preventDefault();
-    this.element.scrollLeft = this.clampScrollLeft(
-      this.element.scrollLeft + delta,
-    );
+    if (this.prefersReducedMotion()) {
+      this.cancelWheelAnimation();
+      this.element.scrollLeft = target;
+      return;
+    }
+
+    this.wheelTargetScrollLeft = target;
+    this.scheduleWheelAnimation();
   }
 
   @HostListener('pointerdown', ['$event'])
@@ -89,6 +115,7 @@ export class SwipeDirective implements AfterViewInit, OnDestroy {
       return;
     }
 
+    this.cancelWheelAnimation();
     this.pointerId = event.pointerId;
     this.pointerStartX = event.clientX;
     this.pointerStartY = event.clientY;
@@ -183,13 +210,77 @@ export class SwipeDirective implements AfterViewInit, OnDestroy {
     }
 
     event.preventDefault();
-    const reduceMotion = this.element.ownerDocument.defaultView?.matchMedia(
-      '(prefers-reduced-motion: reduce)',
-    ).matches;
     this.element.scrollBy({
       left: delta,
-      behavior: reduceMotion ? 'auto' : 'smooth',
+      behavior: this.getScrollBehavior(),
     });
+  }
+
+  private getScrollBehavior(): ScrollBehavior {
+    return this.prefersReducedMotion() ? 'auto' : 'smooth';
+  }
+
+  private prefersReducedMotion(): boolean {
+    const mediaQuery = this.element.ownerDocument.defaultView?.matchMedia(
+      '(prefers-reduced-motion: reduce)',
+    );
+
+    return mediaQuery?.matches ?? false;
+  }
+
+  private isPrecisionWheel(event: WheelEvent): boolean {
+    return (
+      event.deltaMode === WheelEvent.DOM_DELTA_PIXEL &&
+      Math.abs(event.deltaX) < 40 &&
+      Math.abs(event.deltaY) < 40
+    );
+  }
+
+  private scheduleWheelAnimation(): void {
+    if (this.wheelAnimationFrame !== null) {
+      return;
+    }
+
+    const view = this.element.ownerDocument.defaultView;
+    const target = this.wheelTargetScrollLeft;
+    if (!view || target === null) {
+      return;
+    }
+
+    this.wheelAnimationFrame = view.requestAnimationFrame(() => {
+      this.wheelAnimationFrame = null;
+      this.animateWheelScroll();
+    });
+  }
+
+  private animateWheelScroll(): void {
+    const target = this.wheelTargetScrollLeft;
+    if (target === null) {
+      return;
+    }
+
+    const distance = target - this.element.scrollLeft;
+    if (Math.abs(distance) < 0.5) {
+      this.element.scrollLeft = target;
+      this.wheelTargetScrollLeft = null;
+      return;
+    }
+
+    this.element.scrollLeft = this.clampScrollLeft(
+      this.element.scrollLeft + distance * 0.3,
+    );
+    this.scheduleWheelAnimation();
+  }
+
+  private cancelWheelAnimation(): void {
+    if (this.wheelAnimationFrame !== null) {
+      this.element.ownerDocument.defaultView?.cancelAnimationFrame(
+        this.wheelAnimationFrame,
+      );
+    }
+
+    this.wheelAnimationFrame = null;
+    this.wheelTargetScrollLeft = null;
   }
 
   private hasHorizontalOverflow(): boolean {
