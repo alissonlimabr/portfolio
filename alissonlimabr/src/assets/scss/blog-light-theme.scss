@@ -20,6 +20,14 @@ body.blog-theme-dark {
   background-color: var(--blog-bg) !important;
   background-image: none !important;
 
+  footer {
+    background-color: rgba(tokens.$blog-dark-bg, 0.96);
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
+    border-top-color: rgba(tokens.$blog-dark-border, 0.9);
+    box-shadow: none;
+  }
+
   .blog-post {
     --blog-bg: #{tokens.$blog-dark-bg};
     --blog-surface: #{tokens.$blog-dark-surface};
@@ -206,27 +214,6 @@ body.blog-theme-dark.blog-post-page {
     }
   }
 
-  footer {
-    background-color: tokens.$blog-dark-bg;
-    border-top-color: tokens.$blog-dark-border;
-    color: tokens.$blog-dark-text-muted;
-
-    .footer-copyright p {
-      color: tokens.$blog-dark-text-muted !important;
-
-      a {
-        color: tokens.$blog-dark-interactive !important;
-
-        &:hover {
-          color: tokens.$blog-dark-interactive-hover !important;
-        }
-      }
-    }
-
-    .footer-copyright .logo .logo-dev {
-      color: tokens.$blog-dark-interactive !important;
-    }
-  }
 }
 
 // ============================================================
@@ -394,8 +381,12 @@ body.blog-theme-light {
   // ── Footer ────────────────────────────────────────────────────────────
   footer {
     background-color: var(--blog-bg) !important;
+    background-image: none !important;
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
     border-top-color: var(--blog-border) !important;
     color: var(--blog-text-muted) !important;
+    box-shadow: none;
 
     a {
       color: var(--blog-text-muted) !important;
