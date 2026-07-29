@@ -326,7 +326,7 @@
   display: inline-flex;
   position: fixed;
   right: 50px;
-  bottom: 120px;
+  bottom: 50px;
   z-index: 210;
   align-items: center;
   justify-content: center;
@@ -334,7 +334,7 @@
   height: 48px;
   padding: 0;
   border: 1px solid rgba(tokens.$purple-400, 0.3);
-  border-radius: 50%;
+  border-radius: 12px;
   background: var(--blog-surface, tokens.$surface);
   box-shadow: 0 10px 24px rgba(0, 0, 0, 0.28);
   color: var(--blog-accent, tokens.$purple-400);
@@ -387,11 +387,11 @@
 
   @include reading-preferences-floating {
     right: 16px;
-    bottom: 65px;
+    bottom: 60px;
   }
 
   @include responsive(mobilePlus) {
-    bottom: 100px;
+    bottom: 50px;
     right: 16px;
   }
 }
