@@ -54,6 +54,7 @@ export interface PostSummary {
   excerpt: string;
   publishedAt: string;
   imageUrl?: string;
+  imageSrcSet?: string;
   imageAlt?: string;
   estimatedReadingTime?: number;
   tags?: string[];

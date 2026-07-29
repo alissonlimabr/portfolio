@@ -20,7 +20,13 @@ import { SanityService } from '../services/sanity.service';
 import { Category, PostSummary } from '../models/post.model';
 import { resolveCategoryColor } from '../utils/category-color.util';
 import { IconComponent } from '../../shared/icon.component';
-import { SITE_BRAND, SITE_ORIGIN } from '../../shared/constants/site.constants';
+import { ImageLoadStateDirective } from '../../shared/directives/image-load-state.directive';
+import {
+  SITE_BRAND,
+  SITE_DEFAULT_OG_IMAGE_PATH,
+  SITE_DEFAULT_OG_IMAGE_URL,
+  SITE_ORIGIN,
+} from '../../shared/constants/site.constants';
 
 interface BlogListRouteData {
   posts: PostSummary[];
@@ -31,7 +37,14 @@ interface BlogListRouteData {
 @Component({
   selector: 'app-blog-list',
   standalone: true,
-  imports: [RouterLink, MatCard, MatCardContent, IconComponent, FormsModule],
+  imports: [
+    RouterLink,
+    MatCard,
+    MatCardContent,
+    IconComponent,
+    ImageLoadStateDirective,
+    FormsModule,
+  ],
   templateUrl: './blog-list.component.html',
   styleUrl: './blog-list.component.scss',
   encapsulation: ViewEncapsulation.None,
@@ -50,7 +63,7 @@ export class BlogListComponent implements OnInit {
   private readonly isBrowser = isPlatformBrowser(inject(PLATFORM_ID));
   private readonly siteOrigin = SITE_ORIGIN;
   private readonly siteBrand = SITE_BRAND;
-  private readonly defaultOgImageUrl = `${this.siteOrigin}/assets/img/og-image.webp`;
+  private readonly defaultOgImageUrl = SITE_DEFAULT_OG_IMAGE_URL;
   private requestedPage = 1;
   readonly resolveCategoryColor = resolveCategoryColor;
 
@@ -249,13 +262,23 @@ export class BlogListComponent implements OnInit {
   }
 
   private normalizePosts(posts: PostSummary[] = []): PostSummary[] {
-    return posts.map((post) => ({
-      ...post,
-      imageUrl:
+    return posts.map((post) => {
+      const coverUrl =
         post.imageUrl && /^https?:\/\//i.test(post.imageUrl)
-          ? this.sanity.optimizeImageUrl(post.imageUrl, { w: 600, h: 338 })
-          : undefined,
-    }));
+          ? post.imageUrl
+          : undefined;
+
+      return {
+        ...post,
+        imageSrcSet: this.sanity.buildImageSrcSet(
+          coverUrl,
+          [320, 480, 600],
+        ),
+        imageUrl: coverUrl
+          ? this.sanity.optimizeImageUrl(coverUrl, { w: 600, h: 338 })
+          : SITE_DEFAULT_OG_IMAGE_PATH,
+      };
+    });
   }
 
   private handleCategoryNotFound(): void {

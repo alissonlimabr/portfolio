@@ -28,7 +28,8 @@ export class ReadingPreferencesComponent {
     this.open.update((value) => !value);
   }
 
-  toggleCollapsed(): void {
+  toggleCollapsed(event: MouseEvent): void {
+    event.stopPropagation();
     this.collapsed.update((value) => {
       const next = !value;
       this.persistCollapsed(next);
@@ -39,19 +40,21 @@ export class ReadingPreferencesComponent {
   @HostListener('document:keydown.escape')
   onEscape(): void {
     this.open.set(false);
+    this.collapsed.set(true);
   }
 
   @HostListener('document:click', ['$event'])
   onClickOutside(event: MouseEvent): void {
-    if (this.open() && !this.el.nativeElement.contains(event.target)) {
+    if (!this.el.nativeElement.contains(event.target)) {
       this.open.set(false);
+      this.collapsed.set(true);
     }
   }
 
   private loadCollapsed(): boolean {
-    if (!this.hasStorage) return false;
+    if (!this.hasStorage) return true;
     try {
-      return localStorage.getItem('blog-rp-collapsed') === 'true';
+      return localStorage.getItem('blog-rp-collapsed') !== 'false';
     } catch {
       return false;
     }

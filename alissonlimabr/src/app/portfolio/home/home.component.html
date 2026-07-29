@@ -52,7 +52,9 @@
       <div class="hero-avatar-wrap">
         <div class="hero-avatar-deco hero-avatar-deco--ring"></div>
         <div class="hero-avatar-deco hero-avatar-deco--grid"></div>
-        <a class="avatar" href="https://www.linkedin.com/in/alissonlimadev/" target="_blank" rel="noopener noreferrer">
+        <a class="avatar" appImageLoadState href="https://www.linkedin.com/in/alissonlimadev/" target="_blank"
+          rel="noopener noreferrer">
+          <span class="avatar-placeholder" aria-hidden="true"></span>
           <img ngSrc="assets/img/profile.webp" alt="Avatar Alisson Lima" height="300" width="300" priority />
         </a>
         <span class="hero-avatar-badge">
@@ -280,7 +282,7 @@
 
     @if (postsLoading()) {
     <div class="blog-grid">
-      @for (_ of [1, 2, 3]; track $index) {
+      @for (_ of [1, 2, 3, 4]; track $index) {
       <div class="blog-card-skeleton">
         <div class="blog-card-skeleton-img"></div>
         <div class="blog-card-skeleton-body">
@@ -293,28 +295,38 @@
       }
     </div>
     } @else {
-    <div class="blog-grid">
-      @for (post of recentPosts(); track post._id) {
-      <a class="blog-card" [routerLink]="['/blog', post.slug.current]" appSpotlight>
-        @if (post.imageUrl) {
-        <div class="blog-card-image">
-          <img [src]="sanityService.optimizeImageUrl(post.imageUrl, { w: 400, h: 225, fit: 'crop' })" [alt]="post.title"
-            loading="lazy" />
-        </div>
-        }
-        <div class="blog-card-content">
-          <div class="blog-card-meta">
-            <span class="blog-card-date">{{ post.publishedAt | date: 'dd MMM yyyy' }}</span>
-            <span class="blog-card-read-time">{{ post.estimatedReadingTime }} min de leitura</span>
+    <div class="blog-carousel">
+      <div class="blog-grid" appSwipe role="region" aria-roledescription="carrossel" aria-label="Últimos posts do blog">
+        @for (post of recentPosts(); track post._id) {
+        <a class="blog-card" [routerLink]="['/blog', post.slug.current]" appSpotlight>
+          @if (post.imageUrl) {
+          <div class="blog-card-image image-load-shell" appImageLoadState>
+            <img [src]="post.imageUrl" [attr.srcset]="post.imageSrcSet"
+              sizes="(max-width: 660px) 96px, (max-width: 860px) 50vw, 400px" [alt]="post.imageAlt || post.title"
+              loading="lazy" decoding="async" width="600" height="338" />
           </div>
-          <h3 class="blog-card-title">{{ post.title }}</h3>
-          <p class="blog-card-excerpt">{{ post.excerpt }}</p>
-          <span class="blog-card-link">
-            <span>Ler mais</span>
-            <fa-icon [icon]="faArrowUpRightFromSquare"></fa-icon>
-          </span>
-        </div>
-      </a>
+          }
+          <div class="blog-card-content">
+            <div class="blog-card-meta">
+              <span class="blog-card-date">{{ post.publishedAt | date: 'dd MMM yyyy' }}</span>
+              <span class="blog-card-read-time">{{ post.estimatedReadingTime }} min de leitura</span>
+            </div>
+            <h3 class="blog-card-title">{{ post.title }}</h3>
+            <p class="blog-card-excerpt">{{ post.excerpt }}</p>
+            <span class="blog-card-link">
+              <span>Ler mais</span>
+              <fa-icon [icon]="faArrowUpRightFromSquare"></fa-icon>
+            </span>
+          </div>
+        </a>
+        }
+      </div>
+      @if (hasScrollableRecentPosts()) {
+      <div class="blog-scroll-hint" aria-hidden="true">
+        <span class="blog-scroll-hint-line"></span>
+        <span class="blog-scroll-hint-text">Arraste ou role</span>
+        <fa-icon [icon]="faArrowsLeftRight"></fa-icon>
+      </div>
       }
     </div>
     }

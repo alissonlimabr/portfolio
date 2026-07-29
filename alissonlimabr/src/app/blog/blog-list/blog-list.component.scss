@@ -125,6 +125,7 @@ mat-card {
   }
 
   h1 {
+    font-family: "Space Grotesk", "Inter", sans-serif;
     font-size: 40px;
     font-weight: 700;
     color: var(--blog-text);
@@ -143,6 +144,7 @@ mat-card {
   }
 
   p {
+    font-family: "Inter", "Roboto", sans-serif;
     font-size: 16px;
     color: var(--blog-text-muted);
     font-weight: 300;
@@ -161,6 +163,7 @@ mat-card {
   gap: 28px;
   padding: 48px 24px 80px;
   min-height: 50vh;
+  font-family: "Inter", "Roboto", sans-serif;
 
   @include responsive(mobilePlus) {
     padding: 32px 16px 56px;
@@ -169,22 +172,27 @@ mat-card {
 }
 
 .blog-toolbar {
+  position: relative;
   display: flex;
   align-items: stretch;
-  gap: 8px;
   width: 100%;
-  max-width: 600px;
+  max-width: 640px;
 }
 
 .blog-search-btn {
+  position: absolute;
+  z-index: 1;
+  top: 5px;
+  right: 5px;
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 46px;
+  width: 42px;
+  height: 42px;
   flex-shrink: 0;
   background: linear-gradient(135deg, tokens.$purple-400 0%, tokens.$accent-pink 100%);
   border: 1px solid transparent;
-  border-radius: 4px;
+  border-radius: 50%;
   color: tokens.$background-color;
   cursor: pointer;
   transition: 0.2s;
@@ -201,15 +209,17 @@ mat-card {
 }
 
 .blog-search {
-  flex: 1;
+  width: 100%;
+  height: 52px;
   min-width: 0;
-  padding: 12px 18px;
+  padding: 14px 58px 14px 20px;
   background: var(--blog-surface);
   border: 1px solid var(--blog-border);
-  border-radius: 4px;
+  border-radius: 999px;
   color: var(--blog-text);
-  font-size: 15px;
-  font-family: "Fira Code", "Courier New", monospace;
+  font-size: 16px;
+  font-family: "Inter", "Roboto", sans-serif;
+  line-height: 1.4;
   transition: 0.2s;
 
   &::placeholder {
@@ -328,7 +338,8 @@ mat-card {
   }
 
   h3 {
-    font-size: 18px;
+    font-family: "Space Grotesk", "Inter", sans-serif;
+    font-size: 20px;
     color: var(--blog-text);
     font-weight: 700;
     line-height: 1.35;
@@ -341,7 +352,7 @@ mat-card {
   display: block;
   background: var(--blog-surface);
   border: 1px solid var(--blog-border);
-  border-radius: 15px;
+  border-radius: 8px;
   overflow: hidden;
   box-shadow: 0 4px 14px rgba(0, 0, 0, 0.4);
   transition: 0.3s;
@@ -382,10 +393,10 @@ mat-card {
   }
 
   .blog-card-excerpt {
-    font-size: 14px;
+    font-size: 15px;
     color: var(--blog-text-muted);
-    line-height: 1.55;
-    font-weight: 300;
+    line-height: 1.6;
+    font-weight: 400;
     display: -webkit-box;
     -webkit-line-clamp: 3;
     -webkit-box-orient: vertical;
@@ -402,23 +413,6 @@ mat-card {
     padding-top: 10px;
     border-top: 1px solid var(--blog-border);
   }
-}
-
-.blog-tags {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 6px;
-}
-
-.blog-tag {
-  font-size: 10px;
-  font-weight: 600;
-  text-transform: uppercase;
-  letter-spacing: 0.6px;
-  padding: 3px 10px;
-  border-radius: 20px;
-  color: tokens.$purple-400;
-  border: 1px solid rgba(tokens.$purple-500, 0.4);
 }
 
 .blog-categories {
@@ -509,7 +503,7 @@ mat-card {
 .blog-skeleton {
   background-color: var(--blog-surface);
   border: 2px solid var(--blog-border);
-  border-radius: 15px 0 15px 0;
+  border-radius: 8px;
   overflow: hidden;
   display: flex;
   flex-direction: column;

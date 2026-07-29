@@ -2,10 +2,12 @@
 @use "src/assets/scss/variables-mixins" as *;
 
 .footer {
+  position: relative;
+  z-index: 1;
   display: flex;
   justify-content: center;
   height: 100%;
-  padding: 0 20px;
+  padding: 0 16px;
 
   @include responsive(mobilePlus) {
     padding: 0;
@@ -17,6 +19,7 @@
   flex-wrap: wrap-reverse;
   justify-content: space-between;
   align-items: center;
+  min-height: 28px;
   width: 100%;
   max-width: tokens.$container-wide-max-width;
 
@@ -28,18 +31,24 @@
   p {
     display: flex;
     flex-wrap: wrap;
-    font-size: 16px;
-    color: white;
-    gap: 10px;
+    color: tokens.$gray-100;
+    font-size: 14px;
+    line-height: 1.45;
+    gap: 8px;
 
     a {
-      color: tokens.$purple-400;
-      text-decoration: none;
+      color: tokens.$purple-300;
+      text-decoration: underline;
+      text-decoration-color: rgba(tokens.$purple-300, 0.35);
+      text-underline-offset: 3px;
       font-weight: 700;
-      transition: 0.3s;
+      transition:
+        color 0.2s ease,
+        text-decoration-color 0.2s ease;
 
       &:hover {
-        color: tokens.$purple-500;
+        color: tokens.$purple-200;
+        text-decoration-color: currentColor;
       }
     }
 
@@ -53,15 +62,19 @@
   .logo {
     display: flex;
     align-items: center;
-    gap: 10px;
+    color: tokens.$gray-100;
+    gap: 8px;
+    opacity: 0.9;
 
     .logo-dev {
       color: tokens.$purple-300;
     }
 
     p {
-      font-size: 16px;
+      font-size: 14px;
+      font-weight: 500;
       gap: 0;
+      letter-spacing: 0.035em;
 
       @include responsive(mobile) {
         font-size: 12px;
@@ -69,7 +82,8 @@
     }
 
     fa-icon {
-      font-size: 25px;
+      color: tokens.$purple-300;
+      font-size: 19px;
 
       @include responsive(mobile) {
         font-size: 20px;

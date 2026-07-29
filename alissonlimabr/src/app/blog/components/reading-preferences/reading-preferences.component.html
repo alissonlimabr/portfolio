@@ -1,14 +1,17 @@
-<!-- Desktop: panel fixed on right side, collapsible -->
+<!-- Desktop: inline disclosure inside the article reading rail -->
 <aside class="rp-desktop" [class.rp-desktop--collapsed]="collapsed()" aria-label="Preferências de leitura">
-  <button type="button" class="rp-desktop-header" (click)="toggleCollapsed()" [attr.aria-expanded]="!collapsed()"
+  <button type="button" class="rp-desktop-header" (click)="toggleCollapsed($event)" [attr.aria-expanded]="!collapsed()"
     aria-controls="rp-desktop-body">
-    <app-icon name="sliders" [size]="13" />
-    <span>Leitura</span>
+    <app-icon name="sliders" [size]="14" class="rp-desktop-icon" />
+    <span class="rp-desktop-copy">
+      <span class="rp-desktop-title">Preferências de leitura</span>
+      <span class="rp-desktop-summary">Fonte, largura e tema</span>
+    </span>
     <app-icon name="chevron-down" [size]="12" class="rp-chevron" />
   </button>
 
-  <div class="rp-desktop-body" id="rp-desktop-body" [attr.aria-hidden]="collapsed()"
-    [attr.inert]="collapsed() ? '' : null">
+  <div class="rp-desktop-body" id="rp-desktop-body" role="region" aria-label="Opções de leitura"
+    [attr.aria-hidden]="collapsed()" [attr.inert]="collapsed() ? '' : null">
     <div class="rp-desktop-body-inner">
       <div class="rp-group">
         <span class="rp-label">Fonte</span>
@@ -119,6 +122,6 @@
 
   <button class="rp-fab" type="button" (click)="toggle($event)" aria-controls="rp-mobile-panel"
     [attr.aria-expanded]="open()" aria-label="Preferências de leitura">
-    <app-icon name="sliders" [size]="16" />
+    <app-icon name="sliders" [size]="24" />
   </button>
 </div>

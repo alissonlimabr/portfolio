@@ -6,8 +6,11 @@ import { RouterLink } from '@angular/router';
 import { catchError, map, of } from 'rxjs';
 import { MagneticDirective } from '../../shared/directives/magnetic.directive';
 import { SpotlightDirective } from '../../shared/directives/spotlight.directive';
+import { ImageLoadStateDirective } from '../../shared/directives/image-load-state.directive';
+import { SwipeDirective } from '../../shared/directives/swipe.directive';
 import { SanityService } from '../../blog/services/sanity.service';
 import { PostSummary } from '../../blog/models/post.model';
+import { SITE_DEFAULT_OG_IMAGE_PATH } from '../../shared/constants/site.constants';
 
 import {
   faArrowsLeftRight,
@@ -83,6 +86,8 @@ const MONTH_INDEX: Record<string, number> = {
     // Directives
     MagneticDirective,
     SpotlightDirective,
+    ImageLoadStateDirective,
+    SwipeDirective,
     // Router
     RouterLink,
     // Icons
@@ -132,15 +137,38 @@ export class HomeComponent {
   sanityService = inject(SanityService);
   private readonly recentPostsResponse = toSignal(
     this.sanityService.getPosts().pipe(
-      map((posts) => posts.slice(0, 3)),
+      map((posts) =>
+        posts.slice(0, 4).map((post) => this.normalizeRecentPost(post)),
+      ),
       catchError(() => of([] as PostSummary[])),
     ),
     { initialValue: null },
   );
   readonly recentPosts = computed(() => this.recentPostsResponse() ?? []);
   readonly postsLoading = computed(() => this.recentPostsResponse() === null);
+  readonly hasScrollableRecentPosts = computed(
+    () => this.recentPosts().length > 3,
+  );
 
   projects: Project[] = PROJECTS;
+
+  private normalizeRecentPost(post: PostSummary): PostSummary {
+    const coverUrl =
+      post.imageUrl && /^https?:\/\//i.test(post.imageUrl)
+        ? post.imageUrl
+        : undefined;
+
+    return {
+      ...post,
+      imageSrcSet: this.sanityService.buildImageSrcSet(
+        coverUrl,
+        [320, 400, 600],
+      ),
+      imageUrl: coverUrl
+        ? this.sanityService.optimizeImageUrl(coverUrl, { w: 600, h: 338 })
+        : SITE_DEFAULT_OG_IMAGE_PATH,
+    };
+  }
 
   get visibleJobs(): Job[] {
     return this.isCareerExpanded

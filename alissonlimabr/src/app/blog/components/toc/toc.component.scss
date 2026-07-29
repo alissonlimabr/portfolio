@@ -58,12 +58,20 @@
 
 .toc-title {
   display: none;
-  font-size: 12px;
+  font-size: 13px;
   font-weight: 700;
   text-transform: uppercase;
-  letter-spacing: 1.2px;
+  letter-spacing: 0.14em;
+  color: var(--blog-heading);
+  margin: 0 0 6px;
+}
+
+.toc-description {
+  display: none;
+  margin: 0 0 18px;
   color: var(--blog-text-muted);
-  margin: 0 0 14px;
+  font-size: 12px;
+  line-height: 1.5;
 }
 
 .toc-list {
@@ -71,9 +79,9 @@
   list-style: none;
   padding: 0;
   margin: 0;
-  border-left: 2px solid var(--blog-border);
+  border-left: 1px solid var(--blog-border);
   flex-direction: column;
-  gap: 3px;
+  gap: 1px;
 
   &.is-open {
     display: flex;
@@ -83,17 +91,15 @@
 
 .toc-item {
   &.toc-item--active {
-    border-left: 3px solid var(--blog-accent);
-    margin-left: -2px;
-    border-radius: 0 6px 6px 0;
-    background: linear-gradient(90deg, rgba(tokens.$purple-400, 0.16) 0%, rgba(tokens.$purple-400, 0.04) 100%);
+    border-left: 2px solid var(--blog-accent);
+    margin-left: -1px;
   }
 
   a {
     display: block;
-    padding: 5px 8px 5px 14px;
-    font-size: 14px;
-    line-height: 1.45;
+    padding: 6px 4px 6px 14px;
+    font-size: 13px;
+    line-height: 1.5;
     color: var(--blog-text-muted);
     text-decoration: none;
     transition:
@@ -102,7 +108,6 @@
 
     &:hover {
       color: var(--blog-text);
-      background: rgba(tokens.$purple-400, 0.05);
     }
 
     &:focus-visible {
@@ -113,34 +118,30 @@
   }
 
   &.toc-item--active a {
-    color: var(--blog-heading);
-    font-weight: 700;
+    color: var(--blog-accent);
+    font-weight: 600;
 
     &:hover {
-      color: var(--blog-heading);
+      color: var(--blog-accent);
       background: transparent;
     }
   }
 
   &.toc-item--h3 a {
-    padding-left: 26px;
-    font-size: 13px;
+    padding-left: 22px;
+    font-size: 12.5px;
   }
 
   &.toc-item--h4 a {
-    padding-left: 38px;
+    padding-left: 30px;
     font-size: 12px;
   }
 }
 
 @mixin external-toc-rail {
-  position: sticky;
-  top: 88px;
-  align-self: start;
-
   .post-toc-section {
     display: block;
-    padding: 24px 0 56px;
+    padding: 20px 0 40px;
   }
 
   .post-toc-inner {
@@ -159,19 +160,19 @@
     display: block;
   }
 
+  .toc-description {
+    display: block;
+  }
+
   .toc-list {
     display: flex;
-    max-height: calc(100vh - 160px);
-    overflow-y: auto;
-    overscroll-behavior: contain;
-    scrollbar-width: thin;
-    scrollbar-color: var(--blog-border) transparent;
+    max-height: none;
+    overflow: visible;
   }
 }
 
 @include blog-toc-sidebar-desktop {
-  :host-context(.blog-width-narrow),
-  :host-context(.blog-width-normal) {
+  :host {
     @include external-toc-rail;
   }
 }

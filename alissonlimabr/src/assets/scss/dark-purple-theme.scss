@@ -3,50 +3,50 @@
 
 // ── Preferências de leitura — tamanho da fonte ───────────────────────────
 body.blog-font-sm {
-  .blog-list h3,
+  .blog-list h3 {
+    font-size: 18px !important;
+  }
   .blog-card-excerpt {
-    font-size: 15px !important;
+    font-size: 14px !important;
   }
   .blog-post .post-head-inner h1 {
-    font-size: clamp(1.625rem, 4.8vw, 2rem) !important;
+    font-size: clamp(1.625rem, 4.8vw, 2.35rem) !important;
   }
   .blog-post .post-excerpt {
     font-size: 16px !important;
   }
   .blog-post .post-body {
-    font-size: 15px !important;
-  }
-  .related-card-body h3 {
-    font-size: 17px !important;
+    font-size: 16px !important;
   }
 }
 
 body.blog-font-md {
-  .blog-list h3,
+  .blog-list h3 {
+    font-size: 20px !important;
+  }
   .blog-card-excerpt {
-    font-size: 17px !important;
+    font-size: 15px !important;
   }
   .blog-post .post-head-inner h1 {
-    font-size: clamp(1.9rem, 5.4vw, 2.3rem) !important;
+    font-size: clamp(1.75rem, 5.4vw, 2.75rem) !important;
   }
   .blog-post .post-excerpt {
     font-size: 18px !important;
   }
   .blog-post .post-body {
-    font-size: 17px !important;
-  }
-  .related-card-body h3 {
-    font-size: 19px !important;
+    font-size: 18px !important;
   }
 }
 
 body.blog-font-lg {
-  .blog-list h3,
+  .blog-list h3 {
+    font-size: 22px !important;
+  }
   .blog-card-excerpt {
-    font-size: 20px !important;
+    font-size: 17px !important;
   }
   .blog-post .post-head-inner h1 {
-    font-size: clamp(2rem, 6vw, 2.55rem) !important;
+    font-size: clamp(2.2rem, 6vw, 3rem) !important;
   }
   .blog-post .post-excerpt {
     font-size: 21px !important;
@@ -54,8 +54,16 @@ body.blog-font-lg {
   .blog-post .post-body {
     font-size: 20px !important;
   }
-  .related-card-body h3 {
-    font-size: 22px !important;
+}
+
+@include responsive(mobilePlus) {
+  body.blog-font-sm,
+  body.blog-font-md,
+  body.blog-font-lg {
+    .blog-post .post-head-inner h1 {
+      font-family: "Inter", "Roboto", sans-serif;
+      line-height: 1.15;
+    }
   }
 }
 

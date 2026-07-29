@@ -73,11 +73,16 @@ header {
 }
 
 footer {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
   width: 100%;
-  padding: 1rem;
-  background-color: tokens.$background-color;
-  border-top: 2px solid;
-  border-color: tokens.$purple-500;
+  padding: 1.125rem 1rem;
+  background-color: rgba(tokens.$background-color, 0.92);
+  backdrop-filter: blur(10px) saturate(130%);
+  -webkit-backdrop-filter: blur(10px) saturate(130%);
+  border-top: 1px solid rgba(tokens.$purple-300, 0.2);
+  box-shadow: 0 -10px 24px rgba(tokens.$background-color, 0.08);
 
   @include responsive(mobile) {
     padding: 1rem 0.5rem;

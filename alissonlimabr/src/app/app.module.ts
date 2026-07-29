@@ -1,5 +1,8 @@
 import { NgModule } from '@angular/core';
-import { BrowserModule } from '@angular/platform-browser';
+import {
+  BrowserModule,
+  provideClientHydration,
+} from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { provideHttpClient, withFetch, withInterceptorsFromDi } from '@angular/common/http';
 import { AppRoutingModule } from './app-routing.module';
@@ -14,6 +17,8 @@ import { AppComponent } from './app.component';
   ],
   providers: [
     provideHttpClient(withFetch(), withInterceptorsFromDi()),
+    // main.ts fornece o mesmo provider no bootstrap standalone do navegador.
+    provideClientHydration(),
   ],
   bootstrap: [AppComponent],
 })

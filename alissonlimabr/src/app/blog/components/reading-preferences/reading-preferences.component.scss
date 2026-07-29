@@ -65,111 +65,109 @@
   display: none;
 
   @include reading-preferences-desktop {
-    display: flex;
-    flex-direction: column;
-    gap: 14px;
-    position: fixed;
-    right: 16px;
-    top: 50%;
-    transform: translateY(-50%);
-    z-index: 200;
-    width: 148px;
-    padding: 14px 16px;
-    background: var(--blog-surface, #14101f);
-    border: 1px solid var(--blog-border, #1e1a2a);
-    border-radius: 12px;
-    box-shadow: 0 4px 24px rgba(0, 0, 0, 0.35);
-    backdrop-filter: blur(14px);
-    overflow: hidden;
-    transition:
-      width 0.25s ease,
-      gap 0.22s ease,
-      padding-inline 0.22s ease;
-  }
-}
-
-.rp-desktop--collapsed {
-  @include reading-preferences-desktop {
-    width: 98px;
-    gap: 0;
-    padding-inline: 10px;
+    display: block;
+    width: 100%;
+    padding-bottom: 20px;
+    border-bottom: 1px solid var(--blog-border, #1e1a2a);
   }
 }
 
 .rp-desktop-header {
   display: flex;
-  align-items: center;
-  gap: 7px;
-  padding-bottom: 14px;
-  border-bottom: 1px solid var(--blog-border, #1e1a2a);
-  color: var(--blog-text-muted, #8b859b);
-  font-size: 11px;
-  font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: 0.8px;
-  white-space: nowrap;
-  background: none;
-  border-top: none;
-  border-left: none;
-  border-right: none;
-  border-radius: 0;
-  padding-top: 0;
-  padding-left: 0;
-  padding-right: 0;
-  cursor: pointer;
   width: 100%;
-  transition: color 0.15s;
+  align-items: center;
+  gap: 10px;
+  min-height: 44px;
+  padding: 0;
+  border: 0;
+  color: var(--blog-text-muted, #8b859b);
+  font-family: var(--font-sans, "Inter", sans-serif);
+  text-align: left;
+  background: transparent;
+  cursor: pointer;
+  transition: color 0.18s ease;
 
   &:hover {
-    color: var(--blog-accent, #a855f7);
+    color: var(--blog-heading, #f0ebf7);
+
+    .rp-desktop-summary {
+      color: var(--blog-text, #cbd5e1);
+    }
   }
 
   &:focus-visible {
     outline: 2px solid var(--blog-accent, #a855f7);
     outline-offset: 3px;
   }
+}
 
-  .rp-chevron {
-    margin-left: auto;
-    flex-shrink: 0;
-    transition:
-      transform 0.25s ease,
-      opacity 0.2s ease;
-  }
+.rp-desktop-icon {
+  flex: 0 0 auto;
+  color: var(--blog-accent, #a855f7);
+}
+
+.rp-desktop-copy {
+  display: flex;
+  min-width: 0;
+  flex: 1;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.rp-desktop-title {
+  color: var(--blog-heading, #f0ebf7);
+  font-size: 12px;
+  font-weight: 650;
+  line-height: 1.35;
+}
+
+.rp-desktop-summary {
+  color: var(--blog-text-muted, #8b859b);
+  font-size: 10.5px;
+  font-weight: 400;
+  line-height: 1.35;
+  transition: color 0.18s ease;
+}
+
+.rp-chevron {
+  flex: 0 0 auto;
+  transition: transform 0.2s ease;
 }
 
 .rp-desktop--collapsed .rp-desktop-header {
-  padding-bottom: 0;
-  border-bottom-color: transparent;
-
   .rp-chevron {
     transform: rotate(-90deg);
-    opacity: 0;
-    display: none;
   }
 }
 
 .rp-desktop-body {
   display: grid;
   grid-template-rows: 1fr;
-  overflow: hidden;
+  width: 100%;
+  padding-top: 16px;
+  visibility: visible;
   transition:
-    grid-template-rows 0.25s ease,
-    opacity 0.2s ease;
+    grid-template-rows 0.22s ease,
+    padding-top 0.22s ease,
+    opacity 0.18s ease,
+    visibility 0.22s ease;
   opacity: 1;
 }
 
 .rp-desktop--collapsed .rp-desktop-body {
   grid-template-rows: 0fr;
+  padding-top: 0;
+  visibility: hidden;
+  pointer-events: none;
   opacity: 0;
 }
 
 .rp-desktop-body-inner {
-  min-height: 0;
-  overflow: hidden;
   display: flex;
+  min-height: 0;
   flex-direction: column;
-  gap: 18px;
+  gap: 16px;
+  overflow: hidden;
 }
 
 .rp-mobile {
@@ -207,6 +205,11 @@
     transform 0.18s ease;
 }
 
+.rp-mobile .rp-btn {
+  min-width: 36px;
+  height: 36px;
+}
+
 .rp-mobile--open .rp-mobile-panel {
   opacity: 1;
   pointer-events: auto;
@@ -214,8 +217,8 @@
 }
 
 .rp-fab {
-  width: 40px;
-  height: 40px;
+  width: 50px;
+  height: 50px;
   flex-shrink: 0;
   border-radius: 50%;
   background: var(--blog-surface, #14101f);
@@ -229,7 +232,7 @@
     background 0.2s,
     border-color 0.2s,
     box-shadow 0.2s;
-  box-shadow: 0 2px 14px rgba(0, 0, 0, 0.45);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.32);
 
   &:hover {
     background: rgba(168, 85, 247, 0.12);

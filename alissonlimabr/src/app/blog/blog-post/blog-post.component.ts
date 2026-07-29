@@ -9,16 +9,21 @@ import {
   OnInit,
   PLATFORM_ID,
   SecurityContext,
-  TransferState,
   ViewEncapsulation,
   inject,
-  makeStateKey,
 } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { DOCUMENT, isPlatformBrowser } from '@angular/common';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { DomSanitizer, Meta, SafeHtml, Title } from '@angular/platform-browser';
-import { Observable, catchError, distinctUntilChanged, map, of, switchMap } from 'rxjs';
+import {
+  Observable,
+  catchError,
+  distinctUntilChanged,
+  map,
+  of,
+  switchMap,
+} from 'rxjs';
 import { SanityService } from '../services/sanity.service';
 import { Post, PostSummary } from '../models/post.model';
 import { resolveCategoryColor } from '../utils/category-color.util';
@@ -26,11 +31,22 @@ import { ReadingPreferencesComponent } from '../components/reading-preferences/r
 import { TocComponent, TocItem } from '../components/toc/toc.component';
 import { IconComponent } from '../../shared/icon.component';
 import { ActiveSectionDirective } from '../../shared/directives/active-section.directive';
-import { CodeBlockEnhancerDirective } from '../../shared/directives/code-block-enhancer.directive';
-import { ContentHeadingsDirective } from '../../shared/directives/content-headings.directive';
 import { CopyToClipboardDirective } from '../../shared/directives/copy-to-clipboard.directive';
 import { ScrollProgressDirective } from '../../shared/directives/scroll-progress.directive';
-import { SITE_BRAND, SITE_ORIGIN } from '../../shared/constants/site.constants';
+import { ImageLoadStateDirective } from '../../shared/directives/image-load-state.directive';
+import { PostBodyContentComponent } from './post-body-content.component';
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
+import {
+  faArrowRight,
+  faArrowsRotate,
+  faCalendarDays,
+  faClock,
+} from '@fortawesome/free-solid-svg-icons';
+import {
+  SITE_BRAND,
+  SITE_DEFAULT_OG_IMAGE_PATH,
+  SITE_ORIGIN,
+} from '../../shared/constants/site.constants';
 
 type BlogPostViewModel = Omit<Post, 'body'>;
 
@@ -47,7 +63,7 @@ const EMPTY_BLOG_POST_PAGE_STATE: BlogPostPageState = {
 };
 
 const BLOG_POST_PAGE_CACHE = new Map<string, BlogPostPageState>();
-const BLOG_POST_TRANSFER_STATE_PREFIX = 'blog-post-page:';
+const BLOG_POST_JSON_LD_SELECTOR = 'script[data-blog-post-json-ld]';
 
 @Component({
   selector: 'app-blog-post',
@@ -58,10 +74,11 @@ const BLOG_POST_TRANSFER_STATE_PREFIX = 'blog-post-page:';
     TocComponent,
     IconComponent,
     ActiveSectionDirective,
-    CodeBlockEnhancerDirective,
-    ContentHeadingsDirective,
+    PostBodyContentComponent,
     CopyToClipboardDirective,
     ScrollProgressDirective,
+    ImageLoadStateDirective,
+    FontAwesomeModule,
   ],
   templateUrl: './blog-post.component.html',
   styleUrl: './blog-post.component.scss',
@@ -72,8 +89,11 @@ export class BlogPostComponent implements OnInit, OnDestroy {
   private readonly destroyRef = inject(DestroyRef);
   private readonly isBrowser = isPlatformBrowser(inject(PLATFORM_ID));
   private readonly router = inject(Router);
-  private readonly transferState = inject(TransferState);
   readonly resolveCategoryColor = resolveCategoryColor;
+  readonly faArrowRight = faArrowRight;
+  readonly faArrowsRotate = faArrowsRotate;
+  readonly faCalendarDays = faCalendarDays;
+  readonly faClock = faClock;
 
   post?: BlogPostViewModel;
   bodyHtml?: SafeHtml;
@@ -147,11 +167,6 @@ export class BlogPostComponent implements OnInit, OnDestroy {
       return of(EMPTY_BLOG_POST_PAGE_STATE);
     }
 
-    const transferredState = this.takeTransferredPostPageState(slug);
-    if (transferredState) {
-      return of(transferredState);
-    }
-
     const cachedState = BLOG_POST_PAGE_CACHE.get(slug);
     if (cachedState) {
       return of(cachedState);
@@ -167,24 +182,26 @@ export class BlogPostComponent implements OnInit, OnDestroy {
 
         const bodyHtml = this.sanity.portableTextToHtml(post.body);
         const preparedPost = this.preparePostViewModel(post);
-        return this.sanity.getRelatedPosts(post.slug.current, post.tags ?? [], 3).pipe(
-          map((related) =>
-            this.persistPostPageState(slug, {
-              post: preparedPost,
-              bodyHtml,
-              relatedPosts: this.normalizeRelatedPosts(related),
-            }),
-          ),
-          catchError(() =>
-            of(
+        return this.sanity
+          .getRelatedPosts(post.slug.current, post.tags ?? [], 2)
+          .pipe(
+            map((related) =>
               this.persistPostPageState(slug, {
                 post: preparedPost,
                 bodyHtml,
-                relatedPosts: [],
+                relatedPosts: this.normalizeRelatedPosts(related),
               }),
             ),
-          ),
-        );
+            catchError(() =>
+              of(
+                this.persistPostPageState(slug, {
+                  post: preparedPost,
+                  bodyHtml,
+                  relatedPosts: [],
+                }),
+              ),
+            ),
+          );
       }),
     );
   }
@@ -203,41 +220,12 @@ export class BlogPostComponent implements OnInit, OnDestroy {
     this.cdr.markForCheck();
   }
 
-  private takeTransferredPostPageState(
-    slug: string,
-  ): BlogPostPageState | null {
-    if (!this.isBrowser) {
-      return null;
-    }
-
-    const key = this.getPostPageStateKey(slug);
-    if (!this.transferState.hasKey(key)) {
-      return null;
-    }
-
-    const state = this.transferState.get(key, EMPTY_BLOG_POST_PAGE_STATE);
-    this.transferState.remove(key);
-    BLOG_POST_PAGE_CACHE.set(slug, state);
-    return state;
-  }
-
   private persistPostPageState(
     slug: string,
     state: BlogPostPageState,
   ): BlogPostPageState {
     BLOG_POST_PAGE_CACHE.set(slug, state);
-
-    if (!this.isBrowser) {
-      this.transferState.set(this.getPostPageStateKey(slug), state);
-    }
-
     return state;
-  }
-
-  private getPostPageStateKey(slug: string) {
-    return makeStateKey<BlogPostPageState>(
-      `${BLOG_POST_TRANSFER_STATE_PREFIX}${slug}`,
-    );
   }
 
   private preparePostViewModel(post: Post): BlogPostViewModel {
@@ -256,6 +244,10 @@ export class BlogPostComponent implements OnInit, OnDestroy {
         ...post.author,
         imageUrl: this.sanity.optimizeAuthorImageUrl(post.author),
       },
+      imageSrcSet: this.sanity.buildImageSrcSet(
+        normalizedImageUrl,
+        [480, 820, 1200],
+      ),
       imageUrl: this.sanity.optimizeImageUrl(normalizedImageUrl, {
         w: 1200,
         h: 675,
@@ -268,16 +260,20 @@ export class BlogPostComponent implements OnInit, OnDestroy {
   }
 
   private normalizeRelatedPosts(related: PostSummary[] = []): PostSummary[] {
-    return related.map((relatedPost) => ({
-      ...relatedPost,
-      imageUrl:
+    return related.map((relatedPost) => {
+      const coverUrl =
         relatedPost.imageUrl && /^https?:\/\//i.test(relatedPost.imageUrl)
-          ? this.sanity.optimizeImageUrl(relatedPost.imageUrl, {
-              w: 600,
-              h: 338,
-            })
-          : undefined,
-    }));
+          ? relatedPost.imageUrl
+          : undefined;
+
+      return {
+        ...relatedPost,
+        imageSrcSet: this.sanity.buildImageSrcSet(coverUrl, [320, 480, 600]),
+        imageUrl: coverUrl
+          ? this.sanity.optimizeImageUrl(coverUrl, { w: 600, h: 338 })
+          : SITE_DEFAULT_OG_IMAGE_PATH,
+      };
+    });
   }
 
   private applyLoadedPostPage(pageState: BlogPostPageState): void {
@@ -446,12 +442,16 @@ export class BlogPostComponent implements OnInit, OnDestroy {
       dateModified: post.updatedAt || post.publishedAt,
       author: {
         '@type': 'Person',
+        ...(post.author.url === this.siteOrigin
+          ? { '@id': `${this.siteOrigin}/#sobre` }
+          : {}),
         name: post.author.name,
         ...(post.author.url ? { url: post.author.url } : {}),
         ...(post.author.imageUrl ? { image: post.author.imageUrl } : {}),
       },
       publisher: {
         '@type': 'Person',
+        '@id': `${this.siteOrigin}/#sobre`,
         name: 'Alisson Lima',
         url: this.siteOrigin,
       },
@@ -467,6 +467,7 @@ export class BlogPostComponent implements OnInit, OnDestroy {
 
     this.jsonLdScript = this.document.createElement('script');
     this.jsonLdScript.type = 'application/ld+json';
+    this.jsonLdScript.setAttribute('data-blog-post-json-ld', '');
     // Escapa </ para evitar quebra do <script> caso o conteúdo contenha "</script>".
     this.jsonLdScript.textContent = JSON.stringify(ld).replace(/<\//g, '<\\/');
     this.document.head.appendChild(this.jsonLdScript);
@@ -485,10 +486,10 @@ export class BlogPostComponent implements OnInit, OnDestroy {
   }
 
   private clearJsonLd(): void {
-    if (this.jsonLdScript) {
-      this.jsonLdScript.remove();
-      this.jsonLdScript = undefined;
-    }
+    this.document.head
+      .querySelectorAll<HTMLScriptElement>(BLOG_POST_JSON_LD_SELECTOR)
+      .forEach((script) => script.remove());
+    this.jsonLdScript = undefined;
   }
 
   private setCanonicalPath(path: string): void {
