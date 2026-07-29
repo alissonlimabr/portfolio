@@ -78,7 +78,7 @@
   align-items: center;
   gap: 10px;
   min-height: 44px;
-  padding: 0;
+  padding: 0 5px;
   border: 0;
   color: var(--blog-text-muted, #8b859b);
   font-family: var(--font-sans, "Inter", sans-serif);
@@ -173,7 +173,7 @@
 .rp-mobile {
   display: none;
 
-  @include reading-preferences-mobile {
+  @include reading-preferences-floating {
     display: flex;
     flex-direction: column-reverse;
     align-items: flex-end;
@@ -235,7 +235,7 @@
   box-shadow: 0 8px 24px rgba(0, 0, 0, 0.32);
 
   &:hover {
-    background: rgba(168, 85, 247, 0.12);
+    background: var(--blog-surface-elevated, #1e1830);
     border-color: var(--blog-accent, #a855f7);
     box-shadow: 0 0 16px rgba(168, 85, 247, 0.3);
   }
@@ -247,6 +247,6 @@
 }
 
 .rp-mobile--open .rp-fab {
-  background: rgba(168, 85, 247, 0.15);
+  background: var(--blog-surface-elevated, #1e1830);
   border-color: var(--blog-accent, #a855f7);
 }

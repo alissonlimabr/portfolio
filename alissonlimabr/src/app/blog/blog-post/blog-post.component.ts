@@ -3,6 +3,7 @@ import {
   ChangeDetectorRef,
   Component,
   DestroyRef,
+  HostListener,
   Inject,
   NgZone,
   OnDestroy,
@@ -11,6 +12,7 @@ import {
   SecurityContext,
   ViewEncapsulation,
   inject,
+  signal,
 } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { DOCUMENT, isPlatformBrowser } from '@angular/common';
@@ -38,6 +40,7 @@ import { PostBodyContentComponent } from './post-body-content.component';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import {
   faArrowRight,
+  faArrowUp,
   faArrowsRotate,
   faCalendarDays,
   faClock,
@@ -91,6 +94,7 @@ export class BlogPostComponent implements OnInit, OnDestroy {
   private readonly router = inject(Router);
   readonly resolveCategoryColor = resolveCategoryColor;
   readonly faArrowRight = faArrowRight;
+  readonly faArrowUp = faArrowUp;
   readonly faArrowsRotate = faArrowsRotate;
   readonly faCalendarDays = faCalendarDays;
   readonly faClock = faClock;
@@ -104,6 +108,7 @@ export class BlogPostComponent implements OnInit, OnDestroy {
   tocItems: TocItem[] = [];
   tocSectionIds: string[] = [];
   activeTocId = '';
+  readonly showScrollTop = signal(false);
 
   private jsonLdScript?: HTMLScriptElement;
   private linkCopiedTimer: number | null = null;
@@ -124,6 +129,7 @@ export class BlogPostComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.document.body.classList.add('blog-post-page');
+    this.updateScrollTopVisibility();
     this.route.paramMap
       .pipe(
         map((params) => params.get('slug') ?? ''),
@@ -207,6 +213,7 @@ export class BlogPostComponent implements OnInit, OnDestroy {
   }
 
   private preparePostLoad(): void {
+    this.showScrollTop.set(false);
     this.loading = true;
     this.notFound = false;
     this.post = undefined;
@@ -514,12 +521,33 @@ export class BlogPostComponent implements OnInit, OnDestroy {
     this.activeTocId = sectionId;
   }
 
+  @HostListener('window:scroll')
+  onWindowScroll(): void {
+    this.updateScrollTopVisibility();
+  }
+
+  scrollToTop(): void {
+    if (!this.isBrowser) {
+      return;
+    }
+
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+
   scrollToSection(id: string): void {
     const el = this.document.getElementById(id);
     if (el) {
       const top = el.getBoundingClientRect().top + window.scrollY - 80;
       window.scrollTo({ top, behavior: 'smooth' });
     }
+  }
+
+  private updateScrollTopVisibility(): void {
+    if (!this.isBrowser) {
+      return;
+    }
+
+    this.showScrollTop.set(window.scrollY > 360);
   }
 
   get shareUrls(): {
