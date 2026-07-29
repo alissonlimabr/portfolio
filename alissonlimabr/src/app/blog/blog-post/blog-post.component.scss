@@ -612,6 +612,8 @@
     code {
       font-family: ui-monospace, "Cascadia Code", "SFMono-Regular", Menlo, Monaco, Consolas, monospace;
       background: transparent;
+      border: 0;
+      border-radius: 0;
       color: var(--blog-code-text);
       font-size: 13.5px;
       font-variant-ligatures: contextual;
