@@ -1675,22 +1675,6 @@
   }
 }
 
-.blog-grid {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 12px;
-
-  @include responsive(tablet) {
-    grid-template-columns: repeat(2, 1fr);
-    gap: 10px;
-  }
-
-  @include responsive(mobilePlus) {
-    grid-template-columns: 1fr;
-    gap: 8px;
-  }
-}
-
 .blog-card {
   display: flex;
   flex-direction: column;
@@ -1714,7 +1698,6 @@
   }
 
   .blog-card-image {
-    width: 100%;
     aspect-ratio: 16 / 9;
     overflow: hidden;
     background: tokens.$gray-800;
@@ -1778,7 +1761,6 @@
     .blog-card-image {
       width: 96px;
       aspect-ratio: 1 / 1;
-      flex-shrink: 0;
     }
 
     .blog-card-content {

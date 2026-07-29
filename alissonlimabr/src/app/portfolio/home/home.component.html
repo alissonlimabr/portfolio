@@ -280,7 +280,7 @@
 
     @if (postsLoading()) {
     <div class="blog-grid">
-      @for (_ of [1, 2, 3]; track $index) {
+      @for (_ of [1, 2, 3, 4]; track $index) {
       <div class="blog-card-skeleton">
         <div class="blog-card-skeleton-img"></div>
         <div class="blog-card-skeleton-body">
@@ -293,13 +293,27 @@
       }
     </div>
     } @else {
-    <div class="blog-grid">
+    <div
+      class="blog-grid"
+      appSwipe
+      role="region"
+      aria-roledescription="carrossel"
+      aria-label="Últimos posts do blog"
+    >
       @for (post of recentPosts(); track post._id) {
       <a class="blog-card" [routerLink]="['/blog', post.slug.current]" appSpotlight>
         @if (post.imageUrl) {
-        <div class="blog-card-image">
-          <img [src]="sanityService.optimizeImageUrl(post.imageUrl, { w: 400, h: 225, fit: 'crop' })" [alt]="post.title"
-            loading="lazy" />
+        <div class="blog-card-image image-load-shell" appImageLoadState>
+          <img
+            [src]="post.imageUrl"
+            [attr.srcset]="post.imageSrcSet"
+            sizes="(max-width: 660px) 96px, (max-width: 860px) 50vw, 400px"
+            [alt]="post.imageAlt || post.title"
+            loading="lazy"
+            decoding="async"
+            width="600"
+            height="338"
+          />
         </div>
         }
         <div class="blog-card-content">
@@ -317,6 +331,13 @@
       </a>
       }
     </div>
+    @if (hasScrollableRecentPosts()) {
+    <div class="blog-scroll-hint" aria-hidden="true">
+      <span class="blog-scroll-hint-line"></span>
+      <span>Arraste ou role</span>
+      <fa-icon [icon]="faArrowsLeftRight"></fa-icon>
+    </div>
+    }
     }
 
     <div class="blog-cta">
