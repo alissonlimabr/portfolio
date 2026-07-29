@@ -1,6 +1,13 @@
-import { Injectable } from '@angular/core';
+import {
+  Injectable,
+  PLATFORM_ID,
+  TransferState,
+  inject,
+  makeStateKey,
+} from '@angular/core';
+import { isPlatformBrowser } from '@angular/common';
 import { HttpClient, HttpParams } from '@angular/common/http';
-import { Observable, map, of, switchMap } from 'rxjs';
+import { Observable, map, of, switchMap, tap } from 'rxjs';
 import { marked } from 'marked';
 import { environment } from '../../../environments/environment';
 import {
@@ -71,6 +78,9 @@ const PORTABLE_TEXT_IMAGE_SIZES = [
 
 @Injectable({ providedIn: 'root' })
 export class SanityService {
+  private readonly transferState = inject(TransferState);
+  private readonly isBrowser = isPlatformBrowser(inject(PLATFORM_ID));
+
   constructor(private http: HttpClient) {}
 
   private get baseUrl(): string {
@@ -83,6 +93,16 @@ export class SanityService {
     groq: string,
     params?: Record<string, unknown>,
   ): Observable<T> {
+    const stateKey = makeStateKey<T>(
+      `sanity-query:${this.hashQuery(groq, params)}`,
+    );
+
+    if (this.isBrowser && this.transferState.hasKey(stateKey)) {
+      const transferredResult = this.transferState.get(stateKey, null as T);
+      this.transferState.remove(stateKey);
+      return of(transferredResult);
+    }
+
     let httpParams = new HttpParams().set('query', groq);
     if (params) {
       Object.entries(params).forEach(([k, v]) => {
@@ -90,8 +110,35 @@ export class SanityService {
       });
     }
     return this.http
-      .get<{ result: T }>(this.baseUrl, { params: httpParams })
-      .pipe(map((r) => r.result));
+      .get<{ result: T }>(this.baseUrl, {
+        params: httpParams,
+        // O resultado é transferido abaixo com uma chave estável da consulta.
+        // Isso evita uma segunda chamada durante a hidratação, inclusive quando
+        // a serialização automática do HttpClient encerra antes da rota lazy.
+        transferCache: false,
+      })
+      .pipe(
+        map((r) => r.result),
+        tap((result) => {
+          if (!this.isBrowser) {
+            this.transferState.set(stateKey, result);
+          }
+        }),
+      );
+  }
+
+  private hashQuery(
+    groq: string,
+    params?: Record<string, unknown>,
+  ): string {
+    const input = `${groq}|${JSON.stringify(params ?? {})}`;
+    let hash = 2166136261;
+
+    for (let index = 0; index < input.length; index += 1) {
+      hash = Math.imul(hash ^ input.charCodeAt(index), 16777619);
+    }
+
+    return (hash >>> 0).toString(36);
   }
 
   optimizeImageUrl(
@@ -107,6 +154,32 @@ export class SanityService {
     if (w || h) params.push(`fit=${fit}`);
     const sep = url.includes('?') ? '&' : '?';
     return `${url}${sep}${params.join('&')}`;
+  }
+
+  buildImageSrcSet(
+    url: string | undefined,
+    widths: readonly number[],
+    aspectRatio = 16 / 9,
+  ): string | undefined {
+    if (!url || !this.isSanityCdnUrl(url) || aspectRatio <= 0) {
+      return undefined;
+    }
+
+    const candidates = Array.from(
+      new Set(widths.filter((width) => Number.isFinite(width) && width > 0)),
+    ).sort((a, b) => a - b);
+
+    if (!candidates.length) {
+      return undefined;
+    }
+
+    return candidates
+      .map((width) => {
+        const height = Math.round(width / aspectRatio);
+        const candidate = this.optimizeImageUrl(url, { w: width, h: height });
+        return `${candidate} ${width}w`;
+      })
+      .join(', ');
   }
 
   optimizeAuthorImageUrl(author: Author, size = 96): string | undefined {

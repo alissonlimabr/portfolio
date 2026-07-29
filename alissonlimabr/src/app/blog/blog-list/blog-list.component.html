@@ -112,12 +112,22 @@
 
   @if (!loading && !error && !notFound && pagedPosts.length > 0) {
     <div class="blog-list">
-      @for (post of pagedPosts; track post._id) {
+      @for (post of pagedPosts; track post._id; let isFirst = $first) {
         <a class="blog-card" [routerLink]="['/blog', post.slug.current]">
           <mat-card>
             @if (post.imageUrl) {
-              <div class="blog-card-img">
-                <img [src]="post.imageUrl" [alt]="post.imageAlt || post.title" loading="lazy" />
+              <div class="blog-card-img image-load-shell" appImageLoadState>
+                <img
+                  [src]="post.imageUrl"
+                  [attr.srcset]="post.imageSrcSet"
+                  sizes="(max-width: 767px) calc(100vw - 32px), (max-width: 1199px) 50vw, 400px"
+                  [alt]="post.imageAlt || post.title"
+                  [attr.loading]="isFirst ? 'eager' : 'lazy'"
+                  [attr.fetchpriority]="isFirst ? 'high' : null"
+                  decoding="async"
+                  width="600"
+                  height="338"
+                />
               </div>
             }
             <mat-card-content>

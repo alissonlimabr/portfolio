@@ -152,7 +152,19 @@
       @if (post.imageUrl) {
         <section class="post-cover">
           <div class="post-content-inner">
-            <img [src]="post.imageUrl" [alt]="post.imageAlt || post.title" />
+            <div class="post-cover-image image-load-shell" appImageLoadState>
+              <img
+                [src]="post.imageUrl"
+                [attr.srcset]="post.imageSrcSet"
+                sizes="(max-width: 767px) calc(100vw - 32px), (max-width: 1023px) calc(100vw - 40px), 820px"
+                [alt]="post.imageAlt || post.title"
+                loading="eager"
+                fetchpriority="high"
+                decoding="async"
+                width="1200"
+                height="675"
+              />
+            </div>
           </div>
         </section>
       }
@@ -163,13 +175,12 @@
         }
 
         <section class="post-body">
-          <div
+          <app-post-body-content
             class="post-content-inner"
-            [innerHTML]="bodyHtml"
-            [appCodeBlockEnhancer]="bodyHtml"
-            [appContentHeadings]="bodyHtml"
+            ngSkipHydration
+            [html]="bodyHtml"
             (contentHeadingsChange)="onContentHeadingsChange($event)"
-          ></div>
+          ></app-post-body-content>
         </section>
       </div>
 
@@ -195,8 +206,17 @@
                 @for (related of relatedPosts; track related._id) {
                   <a class="related-card" [routerLink]="['/blog', related.slug.current]">
                     @if (related.imageUrl) {
-                      <div class="related-card-img">
-                        <img [src]="related.imageUrl" [alt]="related.imageAlt || related.title" loading="lazy" />
+                      <div class="related-card-img image-load-shell" appImageLoadState>
+                        <img
+                          [src]="related.imageUrl"
+                          [attr.srcset]="related.imageSrcSet"
+                          sizes="(max-width: 767px) calc(100vw - 32px), (max-width: 1199px) 50vw, 380px"
+                          [alt]="related.imageAlt || related.title"
+                          loading="lazy"
+                          decoding="async"
+                          width="600"
+                          height="338"
+                        />
                       </div>
                     }
                     <div class="related-card-body">
