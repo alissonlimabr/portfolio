@@ -8,7 +8,7 @@
 
 </div>
 
-<h1 align="center">Portfólio v2 - Alisson Lima</h1>
+<h1 align="center">Portfólio - Alisson Lima</h1>
 
 <p align="center">
  <a href="#-features">Features</a> •
