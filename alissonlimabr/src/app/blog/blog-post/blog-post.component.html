@@ -91,14 +91,6 @@
               @if (post.excerpt) {
                 <p class="post-excerpt">{{ post.excerpt }}</p>
               }
-
-              @if (post.tags?.length) {
-                <div class="blog-tags">
-                  @for (tag of post.tags!; track tag) {
-                    <span class="blog-tag">{{ tag }}</span>
-                  }
-                </div>
-              }
             </div>
           </div>
         </div>
@@ -180,6 +172,19 @@
           ></div>
         </section>
       </div>
+
+      @if (post.tags?.length) {
+        <section class="post-tags" aria-label="Tags do artigo">
+          <div class="post-content-inner post-tags-inner">
+            <span class="post-tags-label">Tags</span>
+            <ul class="blog-tags">
+              @for (tag of post.tags!; track tag) {
+                <li class="blog-tag">{{ tag }}</li>
+              }
+            </ul>
+          </div>
+        </section>
+      }
 
       @if (relatedPosts.length > 0) {
         <section class="post-related">

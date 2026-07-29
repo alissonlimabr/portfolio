@@ -155,6 +155,42 @@
   }
 }
 
+.blog-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  padding: 0;
+  margin: 0;
+  list-style: none;
+}
+
+.blog-tag {
+  display: inline-flex;
+  align-items: center;
+  min-height: 28px;
+  padding: 4px 10px;
+  border: 1px solid rgba(tokens.$purple-400, 0.24);
+  border-radius: 999px;
+  background: linear-gradient(135deg, rgba(tokens.$purple-400, 0.12), rgba(tokens.$accent-pink, 0.06));
+  color: var(--blog-text-muted);
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.01em;
+  line-height: 1.2;
+  white-space: nowrap;
+
+  &::before {
+    display: inline-block;
+    content: "#";
+    margin-right: 3px;
+    color: tokens.$purple-300;
+    font-family: ui-monospace, "Cascadia Code", "SFMono-Regular", Menlo, Monaco, Consolas, monospace;
+    font-size: 0.9em;
+    line-height: 1;
+    transform: translateY(0.5px);
+  }
+}
+
 .blog-categories-row {
   display: flex;
   flex-wrap: wrap;
@@ -371,24 +407,12 @@
   }
 
   .code-block {
-    position: relative;
     margin: 1.6em 0;
-    border-radius: 6px;
+    border: 1px solid rgba(tokens.$purple-400, 0.2);
+    border-radius: 12px;
+    background: var(--blog-code-bg);
     overflow: hidden;
-    border: 1px solid rgba(tokens.$purple-400, 0.18);
-    box-shadow: 0 0 24px rgba(tokens.$purple-400, 0.04);
-
-    // Faixa de destaque no topo (efeito sutil de janela de terminal)
-    &::before {
-      content: "";
-      position: absolute;
-      top: 0;
-      left: 0;
-      right: 0;
-      height: 2px;
-      background: linear-gradient(90deg, tokens.$purple-400 0%, tokens.$accent-pink 100%);
-      z-index: 2;
-    }
+    box-shadow: 0 14px 32px rgba(0, 0, 0, 0.16);
 
     pre {
       margin: 0;
@@ -402,11 +426,12 @@
     justify-content: space-between;
     align-items: center;
     gap: 12px;
-    padding: 10px 14px;
-    background: var(--blog-surface);
+    min-height: 44px;
+    padding: 9px 14px 9px 16px;
+    background: var(--blog-surface-elevated);
     border-bottom: 1px solid var(--blog-border);
-    font-family: "Fira Code", "Courier New", monospace;
-    font-size: 12px;
+    font-family: ui-monospace, "Cascadia Code", "SFMono-Regular", Menlo, Monaco, Consolas, monospace;
+    font-size: 11px;
 
     &.code-block-header--compact {
       justify-content: flex-end;
@@ -422,6 +447,7 @@
     .code-block-filename {
       color: var(--blog-text);
       font-weight: 600;
+      letter-spacing: 0.01em;
       min-width: 0;
       overflow: hidden;
       text-overflow: ellipsis;
@@ -429,10 +455,14 @@
     }
 
     .code-block-lang {
-      color: tokens.$accent-pink;
+      padding: 3px 7px;
+      border: 1px solid rgba(tokens.$purple-400, 0.26);
+      border-radius: 999px;
+      background: rgba(tokens.$purple-400, 0.1);
+      color: var(--blog-accent-warm);
       text-transform: uppercase;
-      letter-spacing: 1px;
-      font-size: 10px;
+      letter-spacing: 0.08em;
+      font-size: 9px;
       font-weight: 700;
     }
   }
@@ -441,27 +471,27 @@
     display: inline-flex;
     justify-content: center;
     align-items: center;
-    padding: 4px 10px;
-    background: rgba(tokens.$purple-900, 0.85);
-    border: 1px solid rgba(tokens.$purple-500, 0.3);
-    border-radius: 5px;
-    color: tokens.$gray-200;
+    min-height: 28px;
+    padding: 4px 9px;
+    background: transparent;
+    border: 1px solid rgba(tokens.$purple-400, 0.35);
+    border-radius: 6px;
+    color: var(--blog-text-muted);
     font-size: 11px;
     font-weight: 600;
-    letter-spacing: 0.4px;
+    letter-spacing: 0.02em;
     line-height: 1.1;
-    font-family: "Fira Code", "Courier New", monospace;
+    font-family: ui-monospace, "Cascadia Code", "SFMono-Regular", Menlo, Monaco, Consolas, monospace;
     cursor: pointer;
     transition:
-      opacity 0.2s,
       background 0.2s,
       color 0.2s,
       border-color 0.2s;
 
     &:hover {
-      background: tokens.$purple-500;
+      background: rgba(tokens.$purple-400, 0.14);
       color: tokens.$white;
-      border-color: tokens.$purple-500;
+      border-color: tokens.$purple-400;
     }
 
     &.copied {
@@ -481,22 +511,25 @@
     position: relative;
     background: var(--blog-code-bg);
     border: 1px solid var(--blog-border);
-    border-radius: 6px;
-    padding: 18px 22px;
+    border-radius: 10px;
+    padding: 20px 22px 22px;
     margin: 1.6em 0;
     overflow-x: auto;
+    tab-size: 2;
 
     @include responsive(mobile) {
       padding: 14px 16px;
     }
 
     code {
-      font-family: "Fira Code", "Courier New", monospace;
+      font-family: ui-monospace, "Cascadia Code", "SFMono-Regular", Menlo, Monaco, Consolas, monospace;
       background: transparent;
       color: var(--blog-code-text);
-      font-size: 14.5px;
+      font-size: 13.5px;
+      font-variant-ligatures: contextual;
+      font-synthesis: none;
       padding: 0;
-      line-height: 1.6;
+      line-height: 1.7;
     }
 
     > .code-copy-btn {
@@ -848,6 +881,31 @@
   @include responsive(mobilePlus) {
     padding: 4px 16px 0;
   }
+}
+
+.post-tags {
+  display: flex;
+  justify-content: center;
+  padding: 32px 24px 0;
+
+  @include responsive(mobile) {
+    padding: 24px 16px 0;
+  }
+}
+
+.post-tags-inner {
+  padding-top: 20px;
+  border-top: 1px solid var(--blog-border);
+}
+
+.post-tags-label {
+  display: block;
+  margin-bottom: 10px;
+  color: var(--blog-text-muted);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
 }
 
 .post-share-inner {

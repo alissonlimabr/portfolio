@@ -135,13 +135,6 @@
               }
               <h3>{{ post.title }}</h3>
               <p class="blog-card-excerpt">{{ post.excerpt }}</p>
-              @if (post.tags?.length) {
-                <div class="blog-tags">
-                  @for (tag of post.tags!; track tag) {
-                    <span class="blog-tag">{{ tag }}</span>
-                  }
-                </div>
-              }
               <div class="blog-card-meta">
                 <span>{{ formatDate(post.publishedAt) }}</span>
                 @if (post.estimatedReadingTime) {

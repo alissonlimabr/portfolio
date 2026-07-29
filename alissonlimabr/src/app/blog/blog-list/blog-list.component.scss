@@ -404,23 +404,6 @@ mat-card {
   }
 }
 
-.blog-tags {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 6px;
-}
-
-.blog-tag {
-  font-size: 10px;
-  font-weight: 600;
-  text-transform: uppercase;
-  letter-spacing: 0.6px;
-  padding: 3px 10px;
-  border-radius: 20px;
-  color: tokens.$purple-400;
-  border: 1px solid rgba(tokens.$purple-500, 0.4);
-}
-
 .blog-categories {
   display: flex;
   flex-wrap: wrap;
