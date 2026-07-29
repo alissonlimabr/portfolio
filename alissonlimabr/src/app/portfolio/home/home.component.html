@@ -295,51 +295,40 @@
       }
     </div>
     } @else {
-    <div
-      class="blog-grid"
-      appSwipe
-      role="region"
-      aria-roledescription="carrossel"
-      aria-label="Últimos posts do blog"
-    >
-      @for (post of recentPosts(); track post._id) {
-      <a class="blog-card" [routerLink]="['/blog', post.slug.current]" appSpotlight>
-        @if (post.imageUrl) {
-        <div class="blog-card-image image-load-shell" appImageLoadState>
-          <img
-            [src]="post.imageUrl"
-            [attr.srcset]="post.imageSrcSet"
-            sizes="(max-width: 660px) 96px, (max-width: 860px) 50vw, 400px"
-            [alt]="post.imageAlt || post.title"
-            loading="lazy"
-            decoding="async"
-            width="600"
-            height="338"
-          />
-        </div>
-        }
-        <div class="blog-card-content">
-          <div class="blog-card-meta">
-            <span class="blog-card-date">{{ post.publishedAt | date: 'dd MMM yyyy' }}</span>
-            <span class="blog-card-read-time">{{ post.estimatedReadingTime }} min de leitura</span>
+    <div class="blog-carousel">
+      <div class="blog-grid" appSwipe role="region" aria-roledescription="carrossel" aria-label="Últimos posts do blog">
+        @for (post of recentPosts(); track post._id) {
+        <a class="blog-card" [routerLink]="['/blog', post.slug.current]" appSpotlight>
+          @if (post.imageUrl) {
+          <div class="blog-card-image image-load-shell" appImageLoadState>
+            <img [src]="post.imageUrl" [attr.srcset]="post.imageSrcSet"
+              sizes="(max-width: 660px) 96px, (max-width: 860px) 50vw, 400px" [alt]="post.imageAlt || post.title"
+              loading="lazy" decoding="async" width="600" height="338" />
           </div>
-          <h3 class="blog-card-title">{{ post.title }}</h3>
-          <p class="blog-card-excerpt">{{ post.excerpt }}</p>
-          <span class="blog-card-link">
-            <span>Ler mais</span>
-            <fa-icon [icon]="faArrowUpRightFromSquare"></fa-icon>
-          </span>
-        </div>
-      </a>
+          }
+          <div class="blog-card-content">
+            <div class="blog-card-meta">
+              <span class="blog-card-date">{{ post.publishedAt | date: 'dd MMM yyyy' }}</span>
+              <span class="blog-card-read-time">{{ post.estimatedReadingTime }} min de leitura</span>
+            </div>
+            <h3 class="blog-card-title">{{ post.title }}</h3>
+            <p class="blog-card-excerpt">{{ post.excerpt }}</p>
+            <span class="blog-card-link">
+              <span>Ler mais</span>
+              <fa-icon [icon]="faArrowUpRightFromSquare"></fa-icon>
+            </span>
+          </div>
+        </a>
+        }
+      </div>
+      @if (hasScrollableRecentPosts()) {
+      <div class="blog-scroll-hint" aria-hidden="true">
+        <span class="blog-scroll-hint-line"></span>
+        <span class="blog-scroll-hint-text">Arraste ou role</span>
+        <fa-icon [icon]="faArrowsLeftRight"></fa-icon>
+      </div>
       }
     </div>
-    @if (hasScrollableRecentPosts()) {
-    <div class="blog-scroll-hint" aria-hidden="true">
-      <span class="blog-scroll-hint-line"></span>
-      <span>Arraste ou role</span>
-      <fa-icon [icon]="faArrowsLeftRight"></fa-icon>
-    </div>
-    }
     }
 
     <div class="blog-cta">

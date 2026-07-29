@@ -73,6 +73,15 @@ mat-toolbar .nav-links:has(li.theme-toggle) {
   }
 }
 
+// Reserva o espaço do maior rótulo de retorno ("← Portfólio") para evitar
+// que os demais links se desloquem ao alternar entre a listagem e um post.
+mat-toolbar .nav-links .link--back {
+  display: inline-flex;
+  align-items: center;
+  justify-content: flex-start;
+  inline-size: 7rem;
+}
+
 @include responsive(tabletplus) {
   mat-toolbar .nav-links:has(li.theme-toggle) {
     display: flex !important;
