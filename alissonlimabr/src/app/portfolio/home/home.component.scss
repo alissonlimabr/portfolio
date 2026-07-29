@@ -1830,6 +1830,10 @@
     color: tokens.$gray-300;
   }
 
+  .blog-card-kicker {
+    display: none;
+  }
+
   .blog-card-date,
   .blog-card-read-time {
     color: tokens.$gray-300;
@@ -1863,8 +1867,8 @@
     flex-direction: row;
 
     .blog-card-image {
-      width: 96px;
-      aspect-ratio: 1 / 1;
+      width: 128px;
+      aspect-ratio: 4 / 1;
     }
 
     .blog-card-content {
@@ -1906,6 +1910,77 @@
       }
     }
   }
+
+  @include responsive(mobile) {
+    min-height: 188px;
+    padding: 16px;
+    flex-direction: column;
+
+    .blog-card-image,
+    .blog-card-meta {
+      display: none;
+    }
+
+    .blog-card-content {
+      padding: 0;
+      gap: 0;
+      justify-content: flex-start;
+    }
+
+    .blog-card-kicker {
+      display: inline-flex;
+      width: fit-content;
+      padding: 4px 8px;
+      border-radius: 4px;
+      background: var(--cat-color, tokens.$purple-500);
+      color: tokens.$white;
+      font-family: "Fira Code", "Courier New", monospace;
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      line-height: 1.2;
+      text-transform: uppercase;
+    }
+
+    .blog-card-title {
+      margin-top: 11px;
+      font-size: 15px;
+      font-weight: 700;
+      line-height: 1.4;
+      -webkit-line-clamp: 2;
+      line-clamp: 2;
+    }
+
+    .blog-card-excerpt {
+      display: -webkit-box;
+      margin: 0;
+      color: tokens.$gray-300;
+      font-size: 13px;
+      font-weight: 400;
+      line-height: 1.6;
+      -webkit-line-clamp: 2;
+      line-clamp: 2;
+    }
+
+    .blog-card-link {
+      gap: 7px;
+      width: fit-content;
+      margin-top: auto;
+      padding-top: 12px;
+      color: tokens.$purple-300;
+      font-family: "Fira Code", "Courier New", monospace;
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+
+      fa-icon,
+      .fa-icon {
+        font-size: 9px;
+      }
+    }
+  }
+
 }
 
 .blog-cta {
@@ -2310,8 +2385,8 @@
   animation: blogShimmer 1.6s infinite linear;
 
   @include responsive(mobilePlus) {
-    width: 96px;
-    aspect-ratio: 1 / 1;
+    width: 128px;
+    aspect-ratio: 4 / 1;
     flex-shrink: 0;
   }
 }

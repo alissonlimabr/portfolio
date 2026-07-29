@@ -302,11 +302,16 @@
           @if (post.imageUrl) {
           <div class="blog-card-image image-load-shell" appImageLoadState>
             <img [src]="post.imageUrl" [attr.srcset]="post.imageSrcSet"
-              sizes="(max-width: 660px) 96px, (max-width: 860px) 50vw, 400px" [alt]="post.imageAlt || post.title"
+              sizes="(max-width: 660px) 128px, (max-width: 860px) 50vw, 400px" [alt]="post.imageAlt || post.title"
               loading="lazy" decoding="async" width="600" height="338" />
           </div>
           }
           <div class="blog-card-content">
+            @if (post.categories?.[0]; as category) {
+            <span class="blog-card-kicker" [style.--cat-color]="resolveCategoryColor(category)">
+              {{ category.title }}
+            </span>
+            }
             <div class="blog-card-meta">
               <span class="blog-card-date">{{ post.publishedAt | date: 'dd MMM yyyy' }}</span>
               <span class="blog-card-read-time">{{ post.estimatedReadingTime }} min de leitura</span>
@@ -314,7 +319,7 @@
             <h3 class="blog-card-title">{{ post.title }}</h3>
             <p class="blog-card-excerpt">{{ post.excerpt }}</p>
             <span class="blog-card-link">
-              <span>Ler mais</span>
+              <span>Continue lendo</span>
               <fa-icon [icon]="faArrowUpRightFromSquare"></fa-icon>
             </span>
           </div>
