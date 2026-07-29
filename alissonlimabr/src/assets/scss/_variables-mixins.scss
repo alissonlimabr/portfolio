@@ -27,8 +27,8 @@
   }
 }
 
-@mixin reading-preferences-mobile {
-  @media (max-width: 1279px) {
+@mixin reading-preferences-floating {
+  @media (min-width: 661px) and (max-width: 1279px) {
     @content;
   }
 }

@@ -155,6 +155,13 @@
       </section>
     </div>
 
+    @if (showScrollTop()) {
+    <button class="post-scroll-top" type="button" aria-label="Voltar ao topo" (click)="scrollToTop()">
+      <fa-icon [icon]="faArrowUp" />
+      <span>Voltar ao topo</span>
+    </button>
+    }
+
     @if (post.tags?.length) {
     <section class="post-tags" aria-label="Tags do artigo">
       <div class="post-content-inner post-tags-inner">
