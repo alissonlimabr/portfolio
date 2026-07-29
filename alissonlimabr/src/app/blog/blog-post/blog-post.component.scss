@@ -326,7 +326,7 @@
   display: inline-flex;
   position: fixed;
   right: 50px;
-  bottom: 120px;
+  bottom: 50px;
   z-index: 210;
   align-items: center;
   justify-content: center;
@@ -387,11 +387,11 @@
 
   @include reading-preferences-floating {
     right: 16px;
-    bottom: 65px;
+    bottom: 60px;
   }
 
   @include responsive(mobilePlus) {
-    bottom: 100px;
+    bottom: 50px;
     right: 16px;
   }
 }
