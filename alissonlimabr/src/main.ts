@@ -1,4 +1,7 @@
-import { bootstrapApplication } from '@angular/platform-browser';
+import {
+  bootstrapApplication,
+  provideClientHydration,
+} from '@angular/platform-browser';
 import { importProvidersFrom } from '@angular/core';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { AppRoutingModule } from './app/app-routing.module';
@@ -15,5 +18,7 @@ bootstrapApplication(AppComponent, {
     importProvidersFrom(BrowserAnimationsModule),
     importProvidersFrom(AppRoutingModule),
     provideHttpClient(withFetch(), withInterceptorsFromDi()),
+    // O prerender usa AppModule; a hidratação precisa existir nos dois lados.
+    provideClientHydration(),
   ],
 }).catch((err) => console.error(err));
