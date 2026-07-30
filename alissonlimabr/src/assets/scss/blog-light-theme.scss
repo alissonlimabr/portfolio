@@ -465,17 +465,6 @@ body.blog-theme-light {
   }
 
   // ── Filtro de categoria ativo: tratamento próprio no tema claro ──────
-  .blog-category-filter.active {
-    background: color-mix(in srgb, var(--cat-color, var(--blog-accent)) 10%, transparent);
-    border-color: var(--cat-color, var(--blog-accent));
-    color: var(--cat-color, var(--blog-accent));
-    font-weight: 700;
-    &:hover {
-      transform: translateY(-1px);
-      box-shadow: none;
-    }
-  }
-
   .blog-category-filter:not(.active):hover {
     border-color: var(--cat-color, var(--blog-accent));
     color: var(--cat-color, var(--blog-accent));
