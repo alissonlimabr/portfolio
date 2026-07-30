@@ -39,7 +39,7 @@
   }
 
   h1 {
-    font-family: "Space Grotesk", var(--font-sans, "Inter", sans-serif);
+    font-family: "Fira Sans", "Inter", "Roboto", sans-serif;
     font-size: 44px;
     font-weight: 700;
     color: var(--blog-heading);
@@ -555,7 +555,7 @@
   h4,
   h5,
   h6 {
-    font-family: "Space Grotesk", var(--font-sans, "Inter", sans-serif);
+    font-family: "Fira Sans", "Inter", "Roboto", sans-serif;
     color: var(--blog-heading);
     font-weight: 700;
     line-height: 1.55;
@@ -1362,7 +1362,7 @@
   h2 {
     margin: 0;
     color: var(--blog-heading);
-    font-family: "Space Grotesk", "Inter", sans-serif;
+    font-family: "Fira Sans", "Inter", "Roboto", sans-serif;
     font-size: clamp(28px, 2.4vw, 32px);
     font-weight: 700;
     letter-spacing: -0.045em;
@@ -1399,7 +1399,7 @@
 .post-engagement-kicker,
 .post-engagement-number {
   color: var(--blog-text-muted);
-  font-family: "Space Grotesk", var(--font-sans, "Inter", sans-serif);
+  font-family: "Fira Sans", "Inter", "Roboto", sans-serif;
   font-size: 14px;
   font-weight: 700;
   letter-spacing: 0.08em;
@@ -1439,7 +1439,7 @@
   h3 {
     margin: 0;
     color: var(--blog-text);
-    font-family: "Space Grotesk", "Inter", sans-serif;
+    font-family: "Fira Sans", "Inter", "Roboto", sans-serif;
     font-size: 19px;
     font-weight: 650;
     letter-spacing: -0.025em;
