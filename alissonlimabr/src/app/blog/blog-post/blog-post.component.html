@@ -204,6 +204,74 @@
     </section>
     }
 
+    <section class="post-engagement" aria-labelledby="post-engagement-title">
+      <div class="post-engagement-container">
+        <div class="post-engagement-inner">
+          <div class="post-engagement-heading">
+            <h2 id="post-engagement-title">Encontrou <span>algo útil por aqui?</span></h2>
+            <p>Uma descoberta pode chegar a mais alguém ou dar início a uma conversa.</p>
+        </div>
+
+          @if (shareUrls) {
+          <section class="post-engagement-action" aria-labelledby="post-engagement-share-title">
+            <div class="post-engagement-action-meta">
+              <span class="post-engagement-number" aria-hidden="true">01</span>
+              <p class="post-engagement-kicker">Compartilhar</p>
+            </div>
+            <div class="post-engagement-action-content">
+              <h3 id="post-engagement-share-title">Compartilhe com quem pode aproveitar.</h3>
+              <p class="post-engagement-action-description">Uma boa leitura pode chegar à pessoa certa no momento certo.</p>
+            <nav class="post-engagement-share-actions" aria-label="Compartilhar este artigo">
+              <a class="post-share-btn" [href]="shareUrls.twitter" target="_blank" rel="noopener noreferrer"
+                aria-label="Compartilhar no X">
+                <app-icon name="twitter-x" [size]="15" />
+              </a>
+              <a class="post-share-btn" [href]="shareUrls.linkedin" target="_blank" rel="noopener noreferrer"
+                aria-label="Compartilhar no LinkedIn">
+                <app-icon name="linkedin" [size]="16" />
+              </a>
+              <a class="post-share-btn" [href]="shareUrls.whatsapp" target="_blank" rel="noopener noreferrer"
+                aria-label="Compartilhar no WhatsApp">
+                <app-icon name="whatsapp" [size]="16" />
+              </a>
+              <button type="button" class="post-share-btn copy" [class.copied]="linkCopied"
+                [appCopyToClipboard]="postUrl" (copySuccess)="onPostLinkCopied()"
+                [attr.aria-label]="linkCopied ? 'Link copiado' : 'Copiar link'">
+                @if (linkCopied) {
+                <app-icon name="check" [size]="16" />
+                } @else {
+                <app-icon name="link" [size]="16" />
+                }
+              </button>
+            </nav>
+          </div>
+        </section>
+        }
+
+          <section class="post-engagement-action" aria-labelledby="post-engagement-contact-title">
+            <div class="post-engagement-action-meta">
+              <span class="post-engagement-number" aria-hidden="true">02</span>
+              <p class="post-engagement-kicker">Conversar</p>
+            </div>
+            <div class="post-engagement-action-content">
+              <h3 id="post-engagement-contact-title">Quando o assunto pede mais, a conversa continua.</h3>
+              <p class="post-engagement-action-description">Para desenvolver uma ideia, debater um ponto de vista ou só tomar um café virtual.</p>
+            <nav class="post-engagement-contact-actions" aria-label="Canais de contato">
+              <a href="https://www.linkedin.com/in/alissonlimadev" target="_blank" rel="noopener noreferrer">
+                <span class="post-engagement-contact-icon"><app-icon name="linkedin" [size]="16" /></span>
+                Conversar no LinkedIn
+              </a>
+              <a href="mailto:alissonlimabr.dev@gmail.com">
+                <span class="post-engagement-contact-icon"><app-icon name="gmail" folder="logos" [size]="16" /></span>
+                Enviar e-mail
+              </a>
+            </nav>
+          </div>
+        </section>
+        </div>
+      </div>
+    </section>
+
     <section class="post-footer-nav">
       <div class="post-footer-nav-inner">
         <div class="post-footer-nav-content">

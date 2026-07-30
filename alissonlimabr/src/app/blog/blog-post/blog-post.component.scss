@@ -239,7 +239,7 @@
   padding: 5px 9px;
   border-radius: 3px;
   background: var(--cat-color, tokens.$purple-500);
-  color: tokens.$white;
+  color: tokens.$blog-dark-bg;
   font-size: 11px;
   font-weight: 700;
   letter-spacing: 0.05em;
@@ -251,7 +251,7 @@
     transform 0.2s ease;
 
   &:hover {
-    color: tokens.$white;
+    color: tokens.$blog-dark-bg;
     opacity: 0.85;
     transform: translateY(-1px);
   }
@@ -340,13 +340,16 @@
   color: var(--blog-accent, tokens.$purple-400);
   cursor: pointer;
   touch-action: manipulation;
-  animation: post-scroll-top-enter 0.32s cubic-bezier(0.22, 1, 0.36, 1) both;
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0);
   transition:
     background 0.22s ease,
     border-color 0.22s ease,
     box-shadow 0.22s ease,
     opacity 0.22s ease,
-    transform 0.22s ease;
+    transform 0.22s ease,
+    visibility 0s linear;
 
   fa-icon {
     color: var(--blog-accent, #a855f7);
@@ -391,8 +394,10 @@
   }
 
   @include responsive(mobilePlus) {
-    bottom: 50px;
+    bottom: 72px;
     right: 16px;
+    width: 44px;
+    height: 44px;
   }
 }
 
@@ -412,36 +417,42 @@
   }
 }
 
-@keyframes post-scroll-top-enter {
-  from {
-    opacity: 0;
-    transform: translateY(12px) scale(0.84);
-  }
-
-  70% {
-    transform: translateY(-2px) scale(1.02);
-  }
-
-  to {
-    opacity: 1;
-    transform: translateY(0) scale(1);
-  }
-}
-
 @media (prefers-reduced-motion: reduce) {
   .post-scroll-top,
   .post-scroll-top fa-icon {
-    animation: none;
     transition: none;
   }
 }
 
 @include reading-preferences-floating {
   .blog-post:has(.rp-mobile--open) .post-scroll-top {
-    animation: none;
     pointer-events: none;
+    opacity: 0;
     visibility: hidden;
     transform: translateY(8px);
+    transition:
+      opacity 0.22s ease,
+      transform 0.22s ease,
+      visibility 0s linear 0.22s;
+  }
+}
+
+@include responsive(mobilePlus) {
+  .blog-post:has(.rp-mobile--open) .post-scroll-top {
+    pointer-events: none;
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(8px);
+    transition:
+      opacity 0.22s ease,
+      transform 0.22s ease,
+      visibility 0s linear 0.22s;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .blog-post:has(.rp-mobile--open) .post-scroll-top {
+    transition: none;
   }
 }
 
@@ -1216,12 +1227,14 @@
 }
 
 .post-related-container,
+.post-engagement-container,
 .post-footer-nav-inner {
   width: 100%;
   max-width: var(--blog-prose-width, #{tokens.$prose-max-width});
 }
 
 .post-related-inner,
+.post-engagement-inner,
 .post-footer-nav-content {
   width: 100%;
 }
@@ -1235,6 +1248,7 @@
   max-width: calc(var(--blog-related-main-column) + 304px);
 
   > .post-related-inner,
+  > .post-engagement-inner,
   > .post-footer-nav-content {
     grid-column: 1;
     width: min(100%, var(--blog-prose-width, #{tokens.$prose-max-width}));
@@ -1265,6 +1279,7 @@
   }
 
   .post-related-container,
+  .post-engagement-container,
   .post-footer-nav-inner {
     @include related-layout-with-external-toc;
   }
@@ -1277,6 +1292,7 @@
   }
 
   .post-related-container,
+  .post-engagement-container,
   .post-footer-nav-inner {
     @include related-layout-with-external-toc;
     --blog-related-main-column: max(820px, var(--blog-prose-width, #{tokens.$prose-max-width}));
@@ -1321,6 +1337,255 @@
   @include responsive(mobilePlus) {
     grid-template-columns: 1fr;
     gap: 12px;
+  }
+}
+
+.post-engagement {
+  display: flex;
+  justify-content: center;
+  padding: 32px 24px 28px;
+}
+
+.post-engagement-inner {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+}
+
+.post-engagement-heading {
+  max-width: 620px;
+  align-self: flex-start;
+  margin: 0;
+  text-align: start;
+
+  h2 {
+    margin: 0;
+    color: var(--blog-heading);
+    font-family: "Space Grotesk", "Inter", sans-serif;
+    font-size: clamp(28px, 2.4vw, 32px);
+    font-weight: 700;
+    letter-spacing: -0.045em;
+    line-height: 1.08;
+    text-align: start;
+    white-space: nowrap;
+
+    span {
+      background: linear-gradient(135deg, tokens.$purple-400, tokens.$accent-pink);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+    }
+
+    &::after {
+      content: "";
+      display: block;
+      width: 34px;
+      height: 2px;
+      margin-top: 12px;
+      border-radius: 2px;
+      background: var(--blog-accent);
+    }
+  }
+
+  > p:last-child {
+    margin: 8px 0 0;
+    color: var(--blog-text-muted);
+    font-size: 15px;
+    line-height: 1.65;
+  }
+}
+
+.post-engagement-kicker,
+.post-engagement-number {
+  color: var(--blog-text-muted);
+  font-family: "Fira Code", "Courier New", monospace;
+  font-size: 14px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  line-height: 1.4;
+  text-transform: uppercase;
+}
+
+.post-engagement-action {
+  width: 100%;
+  box-sizing: border-box;
+  margin-top: 48px;
+  padding: 18px 20px 20px;
+  border: 1px solid rgba(tokens.$purple-400, 0.46);
+  border-left: 3px solid var(--blog-accent);
+  border-radius: 10px;
+  background: var(--blog-surface);
+
+  + .post-engagement-action {
+    margin-top: 36px;
+  }
+}
+
+.post-engagement-action-meta {
+  display: flex;
+  gap: 12px;
+  align-items: baseline;
+  margin-bottom: 2px;
+}
+
+.post-engagement-number {
+  color: var(--blog-accent);
+  font-size: 13px;
+  letter-spacing: 0.04em;
+}
+
+.post-engagement-action-content {
+  h3 {
+    margin: 0;
+    color: var(--blog-text);
+    font-family: "Space Grotesk", "Inter", sans-serif;
+    font-size: 19px;
+    font-weight: 650;
+    letter-spacing: -0.025em;
+    line-height: 1.25;
+  }
+}
+
+.post-engagement-share-actions,
+.post-engagement-contact-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  align-items: center;
+  margin-top: 6px;
+}
+
+.post-engagement-share-actions {
+  .post-share-btn {
+    width: 38px;
+    height: 38px;
+    border-color: rgba(tokens.$purple-400, 0.4);
+    background: rgba(tokens.$purple-400, 0.08);
+    color: var(--blog-accent);
+
+    &:hover {
+      border-color: var(--blog-accent);
+      background: rgba(tokens.$purple-400, 0.16);
+      color: var(--blog-accent-warm);
+    }
+  }
+}
+
+.post-engagement-action-description {
+  margin: 4px 0 0;
+  color: var(--blog-text-muted);
+  font-size: 15px;
+  line-height: 1.6;
+}
+
+.post-engagement-contact-actions {
+  gap: 16px;
+
+  a {
+    display: inline-flex;
+    gap: 8px;
+    align-items: center;
+    color: var(--blog-text);
+    font-size: 13px;
+    font-weight: 600;
+    text-decoration: none;
+    transition: color 0.2s ease;
+
+    &:hover {
+      color: var(--blog-accent-warm);
+
+      .post-engagement-contact-icon {
+        border-color: var(--blog-accent);
+        background: rgba(tokens.$purple-400, 0.16);
+      }
+    }
+
+    &:focus-visible {
+      outline: 2px solid var(--blog-accent);
+      outline-offset: 4px;
+    }
+  }
+}
+
+.post-engagement-contact-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 34px;
+  height: 34px;
+  border: 1px solid rgba(tokens.$purple-400, 0.4);
+  border-radius: 50%;
+  background: rgba(tokens.$purple-400, 0.08);
+  color: var(--blog-accent);
+  transition:
+    border-color 0.2s ease,
+    background 0.2s ease;
+}
+
+@include responsive(tabletplus) {
+  .post-engagement-container {
+    max-width: var(--blog-prose-width, #{tokens.$prose-max-width});
+  }
+
+  .post-engagement-heading {
+    max-width: 560px;
+  }
+
+}
+
+@include responsive(mobilePlus) {
+  .post-engagement {
+    padding: 24px 16px 20px;
+  }
+
+  .post-engagement-heading {
+    align-self: flex-start;
+    margin-left: 0;
+    text-align: start;
+
+    h2 {
+      font-size: 27px;
+      text-align: start;
+      white-space: normal;
+    }
+
+    > p:last-child {
+      font-size: 14px;
+    }
+  }
+
+  .post-engagement-action {
+    margin-top: 36px;
+    padding: 16px 14px 18px;
+
+    + .post-engagement-action {
+      margin-top: 32px;
+    }
+  }
+
+  .post-engagement-number {
+    font-size: 13px;
+  }
+
+  .post-engagement-action-meta {
+    gap: 10px;
+    margin-bottom: 4px;
+  }
+
+  .post-engagement-kicker {
+    font-size: 12px;
+  }
+
+  .post-engagement-action-content h3 {
+    font-size: 18px;
+  }
+
+  .post-engagement-contact-actions {
+    gap: 12px;
+
+    a {
+      font-size: 12px;
+    }
   }
 }
 
@@ -1377,7 +1642,7 @@
     padding: 4px 8px;
     border-radius: 4px;
     background: var(--cat-color, tokens.$purple-500);
-    color: tokens.$white;
+    color: tokens.$blog-dark-bg;
     font-family: "Fira Code", "Courier New", monospace;
     font-size: 10px;
     font-weight: 700;

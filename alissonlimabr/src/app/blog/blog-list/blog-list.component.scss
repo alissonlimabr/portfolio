@@ -147,11 +147,11 @@ mat-card {
     font-family: "Inter", "Roboto", sans-serif;
     font-size: 16px;
     color: var(--blog-text-muted);
-    font-weight: 300;
+    font-weight: 400;
     line-height: 1.5;
 
     @include responsive(mobilePlus) {
-      font-size: 14px;
+      font-size: 15px;
     }
   }
 }
@@ -447,7 +447,7 @@ mat-card {
   &.active {
     background: var(--cat-color, var(--blog-accent));
     border-color: var(--cat-color, var(--blog-accent));
-    color: tokens.$white;
+    color: tokens.$blog-dark-bg;
     font-weight: 700;
 
     &:hover {
@@ -472,7 +472,7 @@ mat-card {
   padding: 4px 10px;
   border-radius: 2px;
   background: var(--cat-color, tokens.$purple-500);
-  color: tokens.$white;
+  color: tokens.$blog-dark-bg;
   text-decoration: none;
   transition: 0.2s;
 
