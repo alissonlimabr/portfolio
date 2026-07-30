@@ -191,7 +191,7 @@
     gap: 8px;
     position: fixed;
     right: 16px;
-    bottom: 20px;
+    bottom: 25px;
     z-index: 200;
   }
 }
@@ -264,7 +264,7 @@
 
 @include responsive(mobilePlus) {
   .rp-fab {
-    width: 42px;
-    height: 42px;
+    width: 44px;
+    height: 44px;
   }
 }
