@@ -73,14 +73,19 @@
   }
 }
 
+@include responsive(mobilePlus) {
+  .scroll-top-button {
+    width: 44px;
+    height: 44px;
+  }
+}
+
 @include responsive(mobile) {
   .theme-toggle {
     display: flex !important;
   }
 
   .scroll-top-button {
-    width: 42px;
-    height: 42px;
     right: 14px;
     bottom: 18px;
     border-radius: 10px;

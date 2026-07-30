@@ -340,13 +340,16 @@
   color: var(--blog-accent, tokens.$purple-400);
   cursor: pointer;
   touch-action: manipulation;
-  animation: post-scroll-top-enter 0.32s cubic-bezier(0.22, 1, 0.36, 1) both;
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0);
   transition:
     background 0.22s ease,
     border-color 0.22s ease,
     box-shadow 0.22s ease,
     opacity 0.22s ease,
-    transform 0.22s ease;
+    transform 0.22s ease,
+    visibility 0s linear;
 
   fa-icon {
     color: var(--blog-accent, #a855f7);
@@ -414,45 +417,42 @@
   }
 }
 
-@keyframes post-scroll-top-enter {
-  from {
-    opacity: 0;
-    transform: translateY(12px) scale(0.84);
-  }
-
-  70% {
-    transform: translateY(-2px) scale(1.02);
-  }
-
-  to {
-    opacity: 1;
-    transform: translateY(0) scale(1);
-  }
-}
-
 @media (prefers-reduced-motion: reduce) {
   .post-scroll-top,
   .post-scroll-top fa-icon {
-    animation: none;
     transition: none;
   }
 }
 
 @include reading-preferences-floating {
   .blog-post:has(.rp-mobile--open) .post-scroll-top {
-    animation: none;
     pointer-events: none;
+    opacity: 0;
     visibility: hidden;
     transform: translateY(8px);
+    transition:
+      opacity 0.22s ease,
+      transform 0.22s ease,
+      visibility 0s linear 0.22s;
   }
 }
 
 @include responsive(mobilePlus) {
   .blog-post:has(.rp-mobile--open) .post-scroll-top {
-    animation: none;
     pointer-events: none;
+    opacity: 0;
     visibility: hidden;
     transform: translateY(8px);
+    transition:
+      opacity 0.22s ease,
+      transform 0.22s ease,
+      visibility 0s linear 0.22s;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .blog-post:has(.rp-mobile--open) .post-scroll-top {
+    transition: none;
   }
 }
 
