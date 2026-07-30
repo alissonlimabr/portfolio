@@ -246,6 +246,10 @@ body.blog-theme-light {
   --blog-shimmer-a: #{tokens.$blog-light-shimmer-a};
   --blog-shimmer-b: #{tokens.$blog-light-shimmer-b};
 
+  .post-engagement-heading h2 span {
+    background-image: linear-gradient(135deg, tokens.$purple-600, tokens.$purple-500);
+  }
+
   // ── Corpo da página ───────────────────────────────────────────────────
   background-color: var(--blog-bg) !important;
   background-image: none !important;
