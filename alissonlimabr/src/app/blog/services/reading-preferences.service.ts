@@ -1,5 +1,4 @@
 import {
-  DestroyRef,
   Injectable,
   PLATFORM_ID,
   computed,
@@ -31,34 +30,20 @@ const DEFAULT_PREFS: ReadingPreferences = {
 export class ReadingPreferencesService {
   private readonly isBrowser = isPlatformBrowser(inject(PLATFORM_ID));
   private readonly document = inject(DOCUMENT);
-  private readonly destroyRef = inject(DestroyRef);
   private readonly prefs = signal<ReadingPreferences>(this.load());
-  private readonly isCompactViewport = signal(this.isMobileOrMobilePlus());
   private themeTransitionTimer: number | null = null;
 
-  readonly fontSize = computed(() =>
-    this.isCompactViewport() ? 'sm' : this.prefs().fontSize,
-  );
+  readonly fontSize = computed(() => this.prefs().fontSize);
   readonly textWidth = computed(() => this.prefs().textWidth);
   readonly theme = computed(() => this.prefs().theme);
 
   constructor() {
-    if (this.isBrowser) {
-      const view = this.document.defaultView;
-      view?.addEventListener('resize', this.updateViewportFontSize, {
-        passive: true,
-      });
-      this.destroyRef.onDestroy(() =>
-        view?.removeEventListener('resize', this.updateViewportFontSize),
-      );
-    }
-
     effect(() => {
       const current = this.prefs();
       if (this.isBrowser) {
         localStorage.setItem(STORAGE_KEY, JSON.stringify(current));
       }
-      this.applyBodyClasses({ ...current, fontSize: this.fontSize() });
+      this.applyBodyClasses(current);
     });
   }
 
@@ -121,14 +106,6 @@ export class ReadingPreferencesService {
       /* ignore */
     }
     return DEFAULT_PREFS;
-  }
-
-  private readonly updateViewportFontSize = (): void => {
-    this.isCompactViewport.set(this.isMobileOrMobilePlus());
-  };
-
-  private isMobileOrMobilePlus(): boolean {
-    return this.isBrowser && (this.document.defaultView?.innerWidth ?? 0) <= 660;
   }
 
   private isFontSize(value: unknown): value is FontSize {

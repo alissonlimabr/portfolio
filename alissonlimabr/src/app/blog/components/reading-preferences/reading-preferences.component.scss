@@ -183,6 +183,17 @@
     bottom: 20px;
     z-index: 200;
   }
+
+  @include responsive(mobilePlus) {
+    display: flex;
+    flex-direction: column-reverse;
+    align-items: flex-end;
+    gap: 8px;
+    position: fixed;
+    right: 16px;
+    bottom: 20px;
+    z-index: 200;
+  }
 }
 
 .rp-mobile-panel {
@@ -249,4 +260,11 @@
 .rp-mobile--open .rp-fab {
   background: var(--blog-surface-elevated, #1e1830);
   border-color: var(--blog-accent, #a855f7);
+}
+
+@include responsive(mobilePlus) {
+  .rp-fab {
+    width: 42px;
+    height: 42px;
+  }
 }
