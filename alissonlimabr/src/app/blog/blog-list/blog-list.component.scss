@@ -125,7 +125,7 @@ mat-card {
   }
 
   h1 {
-    font-family: "Space Grotesk", "Inter", sans-serif;
+    font-family: "Fira Sans", "Inter", "Roboto", sans-serif;
     font-size: 40px;
     font-weight: 700;
     color: var(--blog-text);
@@ -144,7 +144,7 @@ mat-card {
   }
 
   p {
-    font-family: "Inter", "Roboto", sans-serif;
+    font-family: "Fira Sans", "Inter", "Roboto", sans-serif;
     font-size: 16px;
     color: var(--blog-text-muted);
     font-weight: 400;
@@ -338,7 +338,7 @@ mat-card {
   }
 
   h3 {
-    font-family: "Space Grotesk", "Inter", sans-serif;
+    font-family: "Inter", "Roboto", sans-serif;
     font-size: 20px;
     color: var(--blog-text);
     font-weight: 700;
@@ -445,14 +445,14 @@ mat-card {
   }
 
   &.active {
-    background: var(--cat-color, var(--blog-accent));
+    background: color-mix(in srgb, var(--cat-color, var(--blog-accent)) 10%, transparent);
     border-color: var(--cat-color, var(--blog-accent));
-    color: tokens.$blog-dark-bg;
+    color: var(--cat-color, var(--blog-accent));
     font-weight: 700;
 
     &:hover {
       transform: translateY(-1px);
-      box-shadow: 0 0 18px color-mix(in srgb, var(--cat-color, tokens.$purple-400) 60%, transparent);
+      box-shadow: none;
     }
   }
 }
@@ -471,8 +471,9 @@ mat-card {
   letter-spacing: 0.5px;
   padding: 4px 10px;
   border-radius: 2px;
-  background: var(--cat-color, tokens.$purple-500);
-  color: tokens.$blog-dark-bg;
+  background: color-mix(in srgb, var(--cat-color, var(--blog-accent)) 10%, transparent);
+  border: 1px solid var(--cat-color, var(--blog-accent));
+  color: var(--cat-color, var(--blog-accent));
   text-decoration: none;
   transition: 0.2s;
 

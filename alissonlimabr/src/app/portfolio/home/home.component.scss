@@ -1932,8 +1932,9 @@
       width: fit-content;
       padding: 4px 8px;
       border-radius: 4px;
-      background: var(--cat-color, tokens.$purple-500);
-      color: tokens.$white;
+      background: color-mix(in srgb, var(--cat-color, var(--blog-accent)) 10%, transparent);
+      border: 1px solid var(--cat-color, var(--blog-accent));
+      color: var(--cat-color, var(--blog-accent));
       font-family: "Fira Code", "Courier New", monospace;
       font-size: 10px;
       font-weight: 700;

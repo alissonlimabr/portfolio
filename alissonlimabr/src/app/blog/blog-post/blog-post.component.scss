@@ -39,7 +39,7 @@
   }
 
   h1 {
-    font-family: "Space Grotesk", var(--font-sans, "Inter", sans-serif);
+    font-family: "Fira Sans", "Inter", "Roboto", sans-serif;
     font-size: 44px;
     font-weight: 700;
     color: var(--blog-heading);
@@ -238,8 +238,9 @@
   display: inline-block;
   padding: 5px 9px;
   border-radius: 3px;
-  background: var(--cat-color, tokens.$purple-500);
-  color: tokens.$blog-dark-bg;
+  background: color-mix(in srgb, var(--cat-color, var(--blog-accent)) 10%, transparent);
+  border: 1px solid var(--cat-color, var(--blog-accent));
+  color: var(--cat-color, var(--blog-accent));
   font-size: 11px;
   font-weight: 700;
   letter-spacing: 0.05em;
@@ -251,7 +252,7 @@
     transform 0.2s ease;
 
   &:hover {
-    color: tokens.$blog-dark-bg;
+    color: var(--cat-color, var(--blog-accent));
     opacity: 0.85;
     transform: translateY(-1px);
   }
@@ -554,7 +555,7 @@
   h4,
   h5,
   h6 {
-    font-family: "Space Grotesk", var(--font-sans, "Inter", sans-serif);
+    font-family: "Fira Sans", "Inter", "Roboto", sans-serif;
     color: var(--blog-heading);
     font-weight: 700;
     line-height: 1.55;
@@ -1361,7 +1362,7 @@
   h2 {
     margin: 0;
     color: var(--blog-heading);
-    font-family: "Space Grotesk", "Inter", sans-serif;
+    font-family: "Fira Sans", "Inter", "Roboto", sans-serif;
     font-size: clamp(28px, 2.4vw, 32px);
     font-weight: 700;
     letter-spacing: -0.045em;
@@ -1398,7 +1399,7 @@
 .post-engagement-kicker,
 .post-engagement-number {
   color: var(--blog-text-muted);
-  font-family: "Fira Code", "Courier New", monospace;
+  font-family: "Fira Sans", "Inter", "Roboto", sans-serif;
   font-size: 14px;
   font-weight: 700;
   letter-spacing: 0.08em;
@@ -1438,7 +1439,7 @@
   h3 {
     margin: 0;
     color: var(--blog-text);
-    font-family: "Space Grotesk", "Inter", sans-serif;
+    font-family: "Fira Sans", "Inter", "Roboto", sans-serif;
     font-size: 19px;
     font-weight: 650;
     letter-spacing: -0.025em;
@@ -1641,8 +1642,9 @@
     width: fit-content;
     padding: 4px 8px;
     border-radius: 4px;
-    background: var(--cat-color, tokens.$purple-500);
-    color: tokens.$blog-dark-bg;
+    background: color-mix(in srgb, var(--cat-color, var(--blog-accent)) 10%, transparent);
+    border: 1px solid var(--cat-color, var(--blog-accent));
+    color: var(--cat-color, var(--blog-accent));
     font-family: "Fira Code", "Courier New", monospace;
     font-size: 10px;
     font-weight: 700;
