@@ -97,22 +97,22 @@
               }
 
               @if (shareUrls) {
-              <div class="post-share-inline">
-                <span class="post-share-label">Compartilhar</span>
-                <div class="post-share-buttons">
-                  <a class="post-share-btn" [href]="shareUrls.twitter" target="_blank" rel="noopener noreferrer"
+              <div class="post-actions-inline">
+                <span class="post-actions-label">Compartilhar</span>
+                <div class="post-actions-list">
+                  <a class="post-action-control" [href]="shareUrls.twitter" target="_blank" rel="noopener noreferrer"
                     aria-label="Compartilhar no X">
                     <app-icon name="twitter-x" [size]="13" />
                   </a>
-                  <a class="post-share-btn" [href]="shareUrls.linkedin" target="_blank" rel="noopener noreferrer"
+                  <a class="post-action-control" [href]="shareUrls.linkedin" target="_blank" rel="noopener noreferrer"
                     aria-label="Compartilhar no LinkedIn">
                     <app-icon name="linkedin" [size]="14" />
                   </a>
-                  <a class="post-share-btn" [href]="shareUrls.whatsapp" target="_blank" rel="noopener noreferrer"
+                  <a class="post-action-control" [href]="shareUrls.whatsapp" target="_blank" rel="noopener noreferrer"
                     aria-label="Compartilhar no WhatsApp">
                     <app-icon name="whatsapp" [size]="14" />
                   </a>
-                  <button type="button" class="post-share-btn copy" [class.copied]="linkCopied"
+                  <button type="button" class="post-action-control copy" [class.copied]="linkCopied"
                     [appCopyToClipboard]="postUrl" (copySuccess)="onPostLinkCopied()"
                     [attr.aria-label]="linkCopied ? 'Link copiado' : 'Copiar link'">
                     @if (linkCopied) {
@@ -221,20 +221,20 @@
             <div class="post-engagement-action-content">
               <h3 id="post-engagement-share-title">Compartilhe com quem pode aproveitar.</h3>
               <p class="post-engagement-action-description">Uma boa leitura pode chegar à pessoa certa no momento certo.</p>
-            <nav class="post-engagement-share-actions" aria-label="Compartilhar este artigo">
-              <a class="post-share-btn" [href]="shareUrls.twitter" target="_blank" rel="noopener noreferrer"
+            <nav class="post-engagement-actions" aria-label="Compartilhar este artigo">
+              <a class="post-action-control" [href]="shareUrls.twitter" target="_blank" rel="noopener noreferrer"
                 aria-label="Compartilhar no X">
                 <app-icon name="twitter-x" [size]="15" />
               </a>
-              <a class="post-share-btn" [href]="shareUrls.linkedin" target="_blank" rel="noopener noreferrer"
+              <a class="post-action-control" [href]="shareUrls.linkedin" target="_blank" rel="noopener noreferrer"
                 aria-label="Compartilhar no LinkedIn">
                 <app-icon name="linkedin" [size]="16" />
               </a>
-              <a class="post-share-btn" [href]="shareUrls.whatsapp" target="_blank" rel="noopener noreferrer"
+              <a class="post-action-control" [href]="shareUrls.whatsapp" target="_blank" rel="noopener noreferrer"
                 aria-label="Compartilhar no WhatsApp">
                 <app-icon name="whatsapp" [size]="16" />
               </a>
-              <button type="button" class="post-share-btn copy" [class.copied]="linkCopied"
+              <button type="button" class="post-action-control copy" [class.copied]="linkCopied"
                 [appCopyToClipboard]="postUrl" (copySuccess)="onPostLinkCopied()"
                 [attr.aria-label]="linkCopied ? 'Link copiado' : 'Copiar link'">
                 @if (linkCopied) {

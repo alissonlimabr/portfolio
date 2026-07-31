@@ -598,7 +598,7 @@
     margin-bottom: 12px;
   }
 
-  a:not(.blog-category-badge):not(.related-card):not(.back-link):not(.code-copy-btn):not(.post-share-btn):not(
+  a:not(.blog-category-badge):not(.related-card):not(.back-link):not(.code-copy-btn):not(.post-action-control):not(
       .toc-link
     ) {
     color: var(--blog-link);
@@ -1118,7 +1118,7 @@
   }
 }
 
-.post-share-inline {
+.post-actions-inline {
   display: flex;
   width: 100%;
   align-items: center;
@@ -1169,7 +1169,7 @@
   text-transform: uppercase;
 }
 
-.post-share-label {
+.post-actions-label {
   font-size: 10px;
   font-weight: 700;
   letter-spacing: 0.1em;
@@ -1177,12 +1177,12 @@
   color: var(--blog-text-muted);
 }
 
-.post-share-buttons {
+.post-actions-list {
   display: flex;
   gap: 6px;
 }
 
-.post-share-btn {
+.post-action-control {
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -1447,7 +1447,7 @@
   }
 }
 
-.post-engagement-share-actions,
+.post-engagement-actions,
 .post-engagement-contact-actions {
   display: flex;
   flex-wrap: wrap;
@@ -1456,8 +1456,8 @@
   margin-top: 6px;
 }
 
-.post-engagement-share-actions {
-  .post-share-btn {
+.post-engagement-actions {
+  .post-action-control {
     width: 38px;
     height: 38px;
     border-color: rgba(tokens.$purple-400, 0.4);
