@@ -2259,7 +2259,6 @@
   font-size: 16px;
   font-weight: 600;
   letter-spacing: 0.3px;
-  position: relative;
   overflow: hidden;
   cursor: pointer;
   transition: 0.3s cubic-bezier(0.2, 0.8, 0.2, 1);
@@ -2267,28 +2266,24 @@
     0 8px 24px rgba(tokens.$purple-400, 0.4),
     inset 0 1px 0 rgba(tokens.$white, 0.2);
 
-  // Brilho que atravessa o botão ao copiar
-  &::after {
-    content: "";
-    position: absolute;
-    inset: 0;
-    background: linear-gradient(110deg, transparent 30%, rgba(tokens.$white, 0.45) 50%, transparent 70%);
-    transform: translateX(-100%);
-    pointer-events: none;
-  }
-
   fa-icon {
     color: inherit;
     transition: transform 0.3s;
   }
 
-  &:hover {
-    box-shadow:
-      0 12px 36px rgba(tokens.$purple-400, 0.55),
-      inset 0 1px 0 rgba(tokens.$white, 0.25);
+  // Remove o realce padrão do toque no mobile
+  -webkit-tap-highlight-color: transparent;
 
-    .contact-cta-email fa-icon {
-      transform: scale(1.15);
+  // Hover apenas em dispositivos com mouse
+  @media (hover: hover) {
+    &:hover {
+      box-shadow:
+        0 12px 36px rgba(tokens.$purple-400, 0.55),
+        inset 0 1px 0 rgba(tokens.$white, 0.25);
+
+      .contact-cta-email fa-icon {
+        transform: scale(1.15);
+      }
     }
   }
 
@@ -2297,11 +2292,10 @@
     outline-offset: 4px;
   }
 
+  // Copiado: o e-mail sai e o check entra
   &.copied {
-    animation: contact-copied-pulse 0.7s ease-out;
-
-    &::after {
-      animation: contact-copied-shine 0.7s ease-out;
+    .contact-cta-done fa-icon {
+      animation: contact-copied-check 0.5s 0.1s cubic-bezier(0.34, 1.56, 0.64, 1) both;
     }
 
     .contact-cta-email {
@@ -2321,8 +2315,7 @@
   }
 
   @media (prefers-reduced-motion: reduce) {
-    &.copied,
-    &.copied::after {
+    &.copied .contact-cta-done fa-icon {
       animation: none;
     }
   }
@@ -2358,22 +2351,9 @@
   white-space: nowrap;
 }
 
-@keyframes contact-copied-pulse {
-  0% {
-    box-shadow:
-      0 8px 24px rgba(tokens.$purple-400, 0.4),
-      0 0 0 0 rgba(tokens.$purple-300, 0.6);
-  }
-  100% {
-    box-shadow:
-      0 8px 24px rgba(tokens.$purple-400, 0.4),
-      0 0 0 18px rgba(tokens.$purple-300, 0);
-  }
-}
-
-@keyframes contact-copied-shine {
-  to {
-    transform: translateX(100%);
+@keyframes contact-copied-check {
+  from {
+    transform: scale(0);
   }
 }
 
