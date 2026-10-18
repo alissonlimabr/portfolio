@@ -1,7 +1,6 @@
-import { Component, OnInit, Inject, PLATFORM_ID, ChangeDetectionStrategy } from '@angular/core';
+import { Component, OnInit, Inject, PLATFORM_ID, ChangeDetectionStrategy, signal } from '@angular/core';
 import { NgParticlesService, NgxParticlesComponent, NgxParticlesModule } from '@tsparticles/angular';
 import { isPlatformBrowser } from '@angular/common';
-import { animate, style, transition, trigger } from '@angular/animations';
 import { InteractivityDetect, MoveDirection } from '@tsparticles/engine';
 import { loadSlim } from '@tsparticles/slim';
 
@@ -14,18 +13,12 @@ import { loadSlim } from '@tsparticles/slim';
   imports: [
     NgxParticlesModule,
   ],
-  animations: [
-    trigger('fadeIn', [
-      transition(':enter', [
-        style({ opacity: 0 }),
-        animate('15s', style({ opacity: 1 })),
-      ]),
-    ]),
-  ],
+  host: { '[class.is-ready]': 'ready()' },
 })
 export class ParticlesAnimationComponent implements OnInit {
   id = 'tsparticles';
   readonly isBrowser: boolean;
+  readonly ready = signal(false);
   particlesOptions = {
     fpsLimit: 24,
     interactivity: {
@@ -60,6 +53,10 @@ export class ParticlesAnimationComponent implements OnInit {
     if (this.isBrowser) {
       await this.loadParticles();
     }
+  }
+
+  onParticlesLoaded(): void {
+    this.ready.set(true);
   }
 
   private async loadParticles(): Promise<void> {
