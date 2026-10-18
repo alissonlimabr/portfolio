@@ -54,11 +54,9 @@ export const JOBS = [
     company: 'UFAC',
     position: 'Bolsista em curso de Desenvolvimento Web Full Stack',
     description: [
-      'Desenvolvimento de sistemas para as empresas Motorola e Instituto Eldorado por meio do projeto WebAcademy.',
-      'Desenvolvi o front-end dos sistemas demandados pelos parceiros do projeto.',
-      'Atuei na correções de bugs/refatoração nas API’s e integrações com o Front-End.',
+      'Capacitação em Desenvolvimento Web Full Stack (WebAcademy), com projetos desenvolvidos em equipe ágil;',
+      'Desenvolvimento do front-end e correção de bugs;',
       'Principais tecnologias utilizadas: Java, Angular, Spring Boot, Typescript, Nodejs, CI/CD, Cypress, Jest, AWS Cloud, Junit5.',
-      'Time 100% ágil: Scrum/Kanban e XP.',
     ],
     duration: 'Março 2022 - Outubro 2022',
     icon: '../../../assets/logos/ufac.webp',
