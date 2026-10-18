@@ -1,7 +1,7 @@
 export const JOBS = [
     {
     company: 'IFAC',
-    position: 'Software Developer',
+    position: 'Analista de TI | Full Stack Developer',
     description: [
       'Desenvolvimento e evolução de sistemas institucionais: aplicações web e APIs REST, com foco em Python/Django;',
       'Integração entre sistemas e serviços;',
@@ -52,7 +52,7 @@ export const JOBS = [
   },
   {
     company: 'UFAC',
-    position: 'Bolsista em curso de Desenvolvimento Web Full Stack',
+    position: 'Desenvolvedor Full Stack (Bolsista WebAcademy)',
     description: [
       'Capacitação em Desenvolvimento Web Full Stack (WebAcademy), com projetos desenvolvidos em equipe ágil;',
       'Desenvolvimento do front-end e correção de bugs;',

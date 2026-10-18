@@ -23,18 +23,9 @@ export class JsonLdComponent implements OnInit {
       },
       name: 'Alisson Lima',
       jobTitle: 'Desenvolvedor Full Stack',
-      description: 'Portfólio de Alisson Lima, desenvolvedor full stack experiente no Acre. Especialista em Java, Angular, Spring Boot, AWS e soluções web escaláveis.',
-      about: 'Graduado em Análise e Desenvolvimento de Sistemas, pós-graduado em Engenharia de Software e com MBA em Gestão de Projetos PMI-PMBok. Experiência como desenvolvedor na Contax S.A e na VINT Global, atuando para a Secretaria da Fazenda do Estado do Acre. Atualmente Analista e Desenvolvedor no IFAC.',
+      description: 'Portfólio de Alisson Lima, desenvolvedor full stack no Acre, com experiência em Angular, Django, Java e APIs REST, focado em sistemas web e soluções escaláveis.',
+      about: 'Graduado em Análise e Desenvolvimento de Sistemas, pós-graduado em Engenharia de Software e com MBA em Gestão de Projetos PMI-PMBok. Experiência como desenvolvedor na Contax S.A e na VINT Global, atuando para a Secretaria da Fazenda do Estado do Acre. Atualmente Analista de TI e Full Stack Developer no IFAC.',
       nationality: 'Brasileiro',
-      birthPlace: {
-        '@type': 'Place',
-        address: {
-          '@type': 'PostalAddress',
-          addressLocality: 'Rio Branco',
-          addressRegion: 'AC',
-          addressCountry: 'BR'
-        }
-      },
       homeLocation: {
         '@type': 'Place',
         name: 'Rio Branco, Acre',
@@ -51,10 +42,8 @@ export class JsonLdComponent implements OnInit {
         { '@type': 'EducationalOrganization', name: 'Capacitação em Desenvolvimento Full Stack', sameAs: 'https://www.ufac.br/' },
         { '@type': 'CollegeOrUniversity', name: 'Análise e Desenvolvimento de Sistemas', sameAs: 'https://www.unigran.br/' }
       ],
-      gender: 'Masculino',
       url: 'https://www.alissonlimadev.com',
-      image: 'https://i.imgur.com/JLom84P.png',
-      email: 'alissonlimabr.dev@gmail.com',
+      image: 'https://www.alissonlimadev.com/assets/img/profile.webp',
       address: {
         '@type': 'PostalAddress',
         addressLocality: 'Rio Branco',
@@ -69,15 +58,15 @@ export class JsonLdComponent implements OnInit {
         'https://integra.ifac.edu.br/p/alisson-mendonca-de-lima'
       ],
       knowsAbout: [
-        'Portfólio dev', 'Desenvolvedor Acre', 'Full Stack', 'Java', 'Angular',
-        'Spring Boot', 'AWS', 'Desenvolvedor experiente', 'Desenvolvimento Web', 'Arquitetura de Microsserviços'
+        'Desenvolvimento Full Stack', 'Desenvolvimento Web', 'Python', 'Django', 'Java', 'Spring Boot',
+        'Angular', 'TypeScript', 'APIs REST', 'Docker', 'CI/CD', 'AWS', 'Arquitetura de Microsserviços'
       ],
       hasOccupation: [
         {
           '@type': 'Occupation',
-          name: 'Software Developer',
-          skills: ['Python', 'Django', 'PostgreSQL', 'Docker', 'WordPress', 'Elementor', 'Figma', 'Git'],
-          description: 'Desenvolvimento e integração de sistemas utilizando Python, Django, PostgreSQL, Docker, Wordpress, Elementor, Figma, Git.',
+          name: 'Analista de TI | Full Stack Developer',
+          skills: ['Python', 'Django', 'APIs REST', 'Docker/Swarm', 'Portainer', 'Nginx', 'CI/CD', 'SonarQube', 'Git'],
+          description: 'Desenvolvimento e evolução de sistemas institucionais com Python/Django e APIs REST, integração entre sistemas, CI/CD com testes automatizados e SonarQube, e operação de serviços em containers com Docker/Swarm, Portainer e Nginx.',
           startDate: '2025-04',
           employer: {
             '@type': 'Organization', name: 'Instituto Federal do Acre',
@@ -87,8 +76,8 @@ export class JsonLdComponent implements OnInit {
         {
           '@type': 'Occupation',
           name: 'Desenvolvedor Full Stack',
-          skills: ['Angular', 'Spring Boot', 'Java', 'Oracle', 'Docker', 'Nginx', 'Strapi', 'APIs REST', 'XML/XSLT', 'Web Services'],
-          description: 'APIs REST, XML/XSLT, Web Services, Angular, Spring Boot, Oracle, Docker, Nginx, Strapi.',
+          skills: ['Java', 'Spring Boot', 'Angular', 'SOAP', 'XSLT', 'Strapi', 'Docker', 'JUnit 5', 'Nginx', 'Oracle', 'Figma'],
+          description: 'Desenvolvimento full stack de sistemas web para a área fiscal, com clientes como a Secretaria da Fazenda do Acre (SEFAZ/AC): APIs REST em Java/Spring Boot, front-end em Angular e integração com web services SOAP.',
           startDate: '2024-08',
           endDate: '2025-04',
           employer: { '@type': 'Organization', name: 'VINT Global Tecnologia Ltda', alternateName: 'VINT Global' }
@@ -105,17 +94,17 @@ export class JsonLdComponent implements OnInit {
         {
           '@type': 'Occupation',
           name: 'Desenvolvedor Full Stack Jr.',
-          skills: ['Azure DevOps', 'Docker', 'Java', 'SQL Server', 'PHP'],
-          description: 'Manutenção e migração de sistemas da Caixa Econômica Federal, Azure DevOps, Docker, Java, SQL Server, PHP.',
+          skills: ['Java', 'SQL Server', 'Git', 'Azure DevOps'],
+          description: 'Desenvolvimento e manutenção de sistemas em equipe ágil (Scrum/Kanban), por prazo determinado.',
           startDate: '2023-09',
           endDate: '2023-11',
           employer: { '@type': 'Organization', name: 'Contax S.A' }
         },
         {
           '@type': 'Occupation',
-          name: 'Bolsista em Desenvolvimento Web Full Stack',
-          skills: ['Java', 'Angular', 'Spring Boot', 'AWS', 'CI/CD'],
-          description: 'Desenvolvimento de sistemas para Motorola e Instituto Eldorado, Java, Angular, Spring Boot, AWS, CI/CD.',
+          name: 'Desenvolvedor Full Stack (Bolsista WebAcademy)',
+          skills: ['Java', 'Angular', 'Spring Boot', 'TypeScript', 'Node.js', 'CI/CD', 'Cypress', 'Jest', 'AWS', 'JUnit 5'],
+          description: 'Capacitação em Desenvolvimento Web Full Stack (WebAcademy), com projetos desenvolvidos em equipe ágil. Desenvolvimento do front-end e correção de bugs.',
           startDate: '2022-03',
           endDate: '2022-10',
           employer: { '@type': 'Organization', name: 'Universidade Federal do Acre', alternateName: 'UFAC' }
