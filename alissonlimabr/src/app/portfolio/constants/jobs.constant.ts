@@ -11,7 +11,7 @@ export const JOBS = [
       'Principais tecnologias utilizadas: Python, Django, APIs REST, Docker/Swarm, Portainer, Nginx, CI/CD, SonarQube, Git, dentre outras.',
     ],
     duration: 'Abril 2025 - Atualmente',
-    icon: '../../../assets/logos/ifac.svg',
+    icon: '../../../assets/logos/ifac.webp',
   },
   {
     company: 'VINT Global',
@@ -26,7 +26,7 @@ export const JOBS = [
       'Principais tecnologias utilizadas: Java, Spring Boot, Angular 16+, SOAP, XSLT, Strapi, Docker, JUnit 5, Nginx, Oracle, Figma, dentre outras.',
     ],
     duration: 'Agosto 2024 - Abril 2025',
-    icon: '../../../assets/logos/vintglobal.svg',
+    icon: '../../../assets/logos/vintglobal.webp',
   },
   {
     company: 'Freelancer',
@@ -61,6 +61,6 @@ export const JOBS = [
       'Time 100% ágil: Scrum/Kanban e XP.',
     ],
     duration: 'Março 2022 - Outubro 2022',
-    icon: '../../../assets/logos/ufac.svg',
+    icon: '../../../assets/logos/ufac.webp',
   },
 ];
