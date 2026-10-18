@@ -1,8 +1,14 @@
-import { Component, OnInit, Inject, PLATFORM_ID, ChangeDetectionStrategy, signal } from '@angular/core';
+import { Component, OnInit, Inject, PLATFORM_ID, ChangeDetectionStrategy, ElementRef, inject, signal } from '@angular/core';
 import { NgParticlesService, NgxParticlesComponent, NgxParticlesModule } from '@tsparticles/angular';
 import { isPlatformBrowser } from '@angular/common';
+import type { Container } from '@tsparticles/engine';
 import { InteractivityDetect, MoveDirection } from '@tsparticles/engine';
 import { loadSlim } from '@tsparticles/slim';
+import { BlackHoleEffect } from './click-effects/black-hole.effect';
+import { Point, distance, isInteractiveTarget } from './click-effects/particle-utils';
+
+const FPS_LIMIT = 24;
+const DRAG_TOLERANCE = 5;
 
 @Component({
   selector: 'app-particles-animation',
@@ -13,21 +19,23 @@ import { loadSlim } from '@tsparticles/slim';
   imports: [
     NgxParticlesModule,
   ],
-  host: { '[class.is-ready]': 'ready()' },
+  host: {
+    '[class.is-ready]': 'ready()',
+    '(window:pointerdown)': 'onPointerDown($event)',
+    '(window:click)': 'onClick($event)',
+  },
 })
 export class ParticlesAnimationComponent implements OnInit {
   id = 'tsparticles';
   readonly isBrowser: boolean;
   readonly ready = signal(false);
   particlesOptions = {
-    fpsLimit: 24,
+    fpsLimit: FPS_LIMIT,
     interactivity: {
       detectsOn: 'window' as InteractivityDetect,
       events: {
-        onClick: { enable: true, mode: 'push' },
         onHover: { enable: true, mode: 'grab' },
       },
-      modes: { push: { quantity: 1 } },
     },
     particles: {
       color: { value: '#982FCB', opacity: 0.3 },
@@ -42,6 +50,10 @@ export class ParticlesAnimationComponent implements OnInit {
     detectRetina: true,
   };
 
+  private readonly host = inject<ElementRef<HTMLElement>>(ElementRef);
+  private blackHoles?: BlackHoleEffect;
+  private pointerDown?: Point;
+
   constructor(
     private readonly ngParticlesService: NgParticlesService,
     @Inject(PLATFORM_ID) private platformId: Object
@@ -55,8 +67,28 @@ export class ParticlesAnimationComponent implements OnInit {
     }
   }
 
-  onParticlesLoaded(): void {
+  onParticlesLoaded(container?: Container): void {
+    if (container) {
+      this.blackHoles = new BlackHoleEffect(container, this.host.nativeElement, FPS_LIMIT);
+    }
     this.ready.set(true);
+  }
+
+  onPointerDown(event: PointerEvent): void {
+    this.pointerDown = { x: event.clientX, y: event.clientY };
+  }
+
+  onClick(event: MouseEvent): void {
+    const point = { x: event.clientX, y: event.clientY };
+    const dragged = this.pointerDown && distance(point, this.pointerDown) > DRAG_TOLERANCE;
+    if (
+      this.blackHoles &&
+      !dragged &&
+      !isInteractiveTarget(event.target) &&
+      !matchMedia('(prefers-reduced-motion: reduce)').matches
+    ) {
+      this.blackHoles.trigger(point);
+    }
   }
 
   private async loadParticles(): Promise<void> {
