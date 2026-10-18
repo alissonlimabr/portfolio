@@ -1595,12 +1595,12 @@
   }
 }
 
-// Bento grid assimétrico — 3 colunas, com card featured ocupando 2 colunas
+// Bento grid assimétrico — 12 colunas, primeira linha 7/5 e as demais em metades
 .projects-grid {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: repeat(12, 1fr);
   gap: 18px;
-  grid-auto-rows: minmax(280px, auto);
+  grid-auto-rows: minmax(236px, auto);
 
   @include responsive(notebook) {
     grid-template-columns: repeat(2, 1fr);
@@ -1679,9 +1679,22 @@
     }
   }
 
-  // Featured: ocupa 2 colunas (1 linha)
+  @include responsive(aboveNotebook) {
+    grid-column: span 6;
+
+    &:nth-child(1) {
+      grid-column: span 7;
+    }
+    &:nth-child(2) {
+      grid-column: span 5;
+    }
+    &:last-child:nth-child(odd) {
+      grid-column: 1 / -1;
+    }
+  }
+
+  // Featured: título maior; ocupa a linha inteira quando a grade tem 2 colunas
   &--featured {
-    grid-column: 1 / span 2;
     grid-row: span 1;
     padding: 18px 20px;
 
@@ -1727,6 +1740,12 @@
     .project-card-description {
       color: tokens.$gray-400;
       font-size: 14px;
+    }
+  }
+
+  @include responsive(notebook) {
+    &:last-child:nth-child(even) {
+      grid-column: 1 / -1;
     }
   }
 

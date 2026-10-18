@@ -1,26 +1,30 @@
 export const AUTH_JWT_SKILLS = [
   {
     icon: 'java',
-    alt: 'Logo do Java',
+    alt: 'Java',
   },
   {
     icon: 'angular',
-    alt: 'Logo do Angular',
+    alt: 'Angular',
   },
   {
     icon: 'springboot',
-    alt: 'Logo do Springboot',
+    alt: 'Spring Boot',
   },
   {
     icon: 'azure',
-    alt: 'Logo do Azure',
+    alt: 'Azure',
+  },
+  {
+    icon: 'docker',
+    alt: 'Docker',
   },
   {
     icon: 'mysql',
-    alt: 'Logo do MySQL',
+    alt: 'MySQL',
   },
   {
     icon: 'git',
-    alt: 'Logo do Git',
+    alt: 'Git',
   },
 ];

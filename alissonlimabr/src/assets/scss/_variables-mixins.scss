@@ -20,6 +20,10 @@
     @media (max-width: 1200px) {
       @content;
     }
+  } @else if $device == aboveNotebook {
+    @media (min-width: 1201px) {
+      @content;
+    }
   } @else if $device == desktop {
     @media (min-width: 1281px) {
       @content;

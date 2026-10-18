@@ -257,8 +257,8 @@
 
         @if (project.url) {
         <a class="project-card-link" [href]="project.url" target="_blank" rel="noopener noreferrer"
-          [attr.aria-label]="'Acesse o projeto: ' + project.title">
-          <span>Ver projeto</span>
+          [attr.aria-label]="'Ver ' + project.title + ' no GitHub'">
+          <span>Ver no GitHub</span>
           <fa-icon [icon]="faArrowUpRightFromSquare"></fa-icon>
         </a>
         }

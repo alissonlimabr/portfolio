@@ -1,26 +1,34 @@
 export const RESET_PASSWORD_SKILLS = [
   {
+    icon: 'java',
+    alt: 'Java',
+  },
+  {
     icon: 'angular',
-    alt: 'Logo do Angular',
+    alt: 'Angular',
   },
   {
     icon: 'springboot',
-    alt: 'Logo do Springboot',
+    alt: 'Spring Boot',
   },
   {
     icon: 'aws',
-    alt: 'Logo do Figma',
+    alt: 'AWS',
   },
   {
     icon: 'docker',
-    alt: 'Logo do Docker',
+    alt: 'Docker',
+  },
+  {
+    icon: 'github',
+    alt: 'GitHub Actions',
   },
   {
     icon: 'figma',
-    alt: 'Logo do Bootstrap',
+    alt: 'Figma',
   },
   {
     icon: 'git',
-    alt: 'Logo do Git',
+    alt: 'Git',
   },
 ];
