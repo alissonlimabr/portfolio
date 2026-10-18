@@ -593,6 +593,7 @@ export class BlogPostComponent implements OnInit, OnDestroy {
 
   formatDate(dateStr: string): string {
     return new Date(dateStr).toLocaleDateString('pt-BR', {
+      timeZone: 'America/Sao_Paulo',
       day: 'numeric',
       month: 'long',
       year: 'numeric',
@@ -601,6 +602,7 @@ export class BlogPostComponent implements OnInit, OnDestroy {
 
   formatDateTime(dateStr: string): string {
     return new Date(dateStr).toLocaleString('pt-BR', {
+      timeZone: 'America/Sao_Paulo',
       day: 'numeric',
       month: 'long',
       year: 'numeric',

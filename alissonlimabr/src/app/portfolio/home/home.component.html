@@ -312,7 +312,7 @@
             </span>
             }
             <div class="blog-card-meta">
-              <span class="blog-card-date">{{ post.publishedAt | date: 'dd MMM yyyy' }}</span>
+              <span class="blog-card-date">{{ post.publishedAt | date: 'dd MMM yyyy' : '-0300' }}</span>
               <span class="blog-card-read-time">{{ post.estimatedReadingTime }} min de leitura</span>
             </div>
             <h3 class="blog-card-title">{{ post.title }}</h3>
