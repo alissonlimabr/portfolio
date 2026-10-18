@@ -7,6 +7,9 @@ import {
   output,
   signal,
 } from '@angular/core';
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
+import { faListUl } from '@fortawesome/free-solid-svg-icons';
+import { IconComponent } from '../../../shared/icon.component';
 
 const TOC_OPEN_STORAGE_KEY = 'blog-toc-open';
 
@@ -19,12 +22,14 @@ export interface TocItem {
 @Component({
   selector: 'app-toc',
   standalone: true,
+  imports: [FontAwesomeModule, IconComponent],
   templateUrl: './toc.component.html',
   styleUrl: './toc.component.scss',
 })
 export class TocComponent {
   private readonly isBrowser = isPlatformBrowser(inject(PLATFORM_ID));
 
+  readonly faListUl = faListUl;
   readonly items = input.required<TocItem[]>();
   readonly activeId = input('');
   readonly scrollTo = output<string>();

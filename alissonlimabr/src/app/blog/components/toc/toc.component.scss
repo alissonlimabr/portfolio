@@ -56,22 +56,12 @@
   }
 }
 
-.toc-title {
+// Cabeçalho do desktop: só aparece na coluna lateral
+// Cabeçalho do desktop: escondido no mobile, onde vale o toggle compacto
+.toc-rail-icon,
+.toc-rail-copy,
+.toc-rail-chevron {
   display: none;
-  font-size: 13px;
-  font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: 0.14em;
-  color: var(--blog-heading);
-  margin: 0 0 6px;
-}
-
-.toc-description {
-  display: none;
-  margin: 0 0 18px;
-  color: var(--blog-text-muted);
-  font-size: 12px;
-  line-height: 1.5;
 }
 
 .toc-list {
@@ -152,22 +142,104 @@
     border-radius: 0;
   }
 
+  // Mesmo padrão do cabeçalho das preferências de leitura
   .toc-toggle {
+    gap: 10px;
+    min-height: 44px;
+    padding: 0 5px;
+    font-family: var(--font-sans, "Inter", sans-serif);
+    text-align: left;
+    text-transform: none;
+    letter-spacing: normal;
+    transition: color 0.18s ease;
+
+    &:hover {
+      color: var(--blog-heading);
+
+      .toc-description {
+        color: var(--blog-text);
+      }
+    }
+
+    &:focus-visible {
+      outline: 2px solid var(--blog-accent);
+      outline-offset: 3px;
+    }
+  }
+
+  .toc-toggle-label,
+  .toc-toggle-icon {
     display: none;
   }
 
+  .toc-rail-icon,
+  .toc-rail-chevron {
+    display: inline-flex;
+    flex: 0 0 auto;
+  }
+
+  .toc-rail-icon {
+    color: var(--blog-accent);
+    font-size: 14px;
+  }
+
+  .toc-rail-chevron {
+    transition: transform 0.2s ease;
+  }
+
+  .post-toc-section--collapsed .toc-rail-chevron {
+    transform: rotate(-90deg);
+  }
+
+  .toc-rail-copy {
+    display: flex;
+    min-width: 0;
+    flex: 1;
+    flex-direction: column;
+    gap: 2px;
+  }
+
   .toc-title {
-    display: block;
+    color: var(--blog-heading);
+    font-size: 12px;
+    font-weight: 650;
+    line-height: 1.35;
   }
 
   .toc-description {
-    display: block;
+    font-size: 10.5px;
+    font-weight: 400;
+    line-height: 1.35;
+    transition: color 0.18s ease;
   }
 
-  .toc-list {
+  // Mesma animação do painel das preferências: a altura vai de 0 ao conteúdo
+  .toc-body {
+    display: grid;
+    grid-template-rows: 1fr;
+    padding-top: 16px;
+    opacity: 1;
+    transition:
+      grid-template-rows 0.22s ease,
+      padding-top 0.22s ease,
+      opacity 0.18s ease;
+  }
+
+  .post-toc-section--collapsed .toc-body {
+    grid-template-rows: 0fr;
+    padding-top: 0;
+    opacity: 0;
+  }
+
+  .toc-list,
+  .toc-list.is-open {
     display: flex;
-    max-height: none;
-    overflow: visible;
+    min-height: 0;
+    margin-top: 0;
+    // Folga para a borda do item ativo e o foco não serem cortados
+    overflow: hidden;
+    overflow: clip;
+    overflow-clip-margin: 4px;
   }
 }
 
