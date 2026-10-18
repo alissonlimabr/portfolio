@@ -34,7 +34,11 @@ export class ParticlesAnimationComponent implements OnInit {
     interactivity: {
       detectsOn: 'window' as InteractivityDetect,
       events: {
-        onHover: { enable: true, mode: 'grab' },
+        onHover: { enable: true, mode: 'attract' },
+      },
+      // Gravidade leve no cursor: de 1 a 3px por frame, mais forte perto dele, sem virar ímã
+      modes: {
+        attract: { distance: 180, speed: 3, maxSpeed: 3 },
       },
     },
     particles: {
