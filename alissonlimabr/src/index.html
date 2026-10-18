@@ -34,6 +34,18 @@
 </head>
 
 <body>
+  <!-- Aplica as preferências do blog antes de a página aparecer: o HTML pré-renderizado vem com o padrão -->
+  <script>
+    try {
+      const body = document.body;
+      const prefs = JSON.parse(localStorage.getItem('blog-reading-prefs')) || {};
+      if (/blog-theme-/.test(body.className)) {
+        if (/^(dark|light)$/.test(prefs.theme)) body.className = body.className.replace(/blog-theme-\w+/, 'blog-theme-' + prefs.theme);
+        if (/^(sm|md|lg)$/.test(prefs.fontSize)) body.className = body.className.replace(/blog-font-\w+/, 'blog-font-' + prefs.fontSize);
+        if (/^(narrow|normal|wide)$/.test(prefs.textWidth)) body.className = body.className.replace(/blog-width-\w+/, 'blog-width-' + prefs.textWidth);
+      }
+    } catch (e) {}
+  </script>
   <!-- Google Tag Manager (noscript) -->
   <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-NMP4ZJHK" height="0" width="0"
       style="display:none;visibility:hidden"></iframe></noscript>
