@@ -1,7 +1,7 @@
-import { DOCUMENT } from '@angular/common';
-import { Component, OnDestroy, OnInit, inject } from '@angular/core';
+import { DOCUMENT, isPlatformBrowser } from '@angular/common';
+import { Component, OnDestroy, OnInit, PLATFORM_ID, inject } from '@angular/core';
 import { Meta, Title } from '@angular/platform-browser';
-import { RouterLink } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 import { SITE_BRAND, SITE_ORIGIN } from '../shared/constants/site.constants';
 
 @Component({
@@ -15,6 +15,9 @@ export class NotFoundComponent implements OnInit, OnDestroy {
   private readonly titleService = inject(Title);
   private readonly metaService = inject(Meta);
   private readonly document = inject(DOCUMENT);
+  // Caminho pedido pelo visitante. Vazio no build: o HTML pré-renderizado é o mesmo para
+  // qualquer URL, então a requisição só é exibida no navegador, sem trocar texto na tela.
+  readonly path = isPlatformBrowser(inject(PLATFORM_ID)) ? inject(Router).url.split(/[?#]/)[0] : '';
   private readonly siteOrigin = SITE_ORIGIN;
   private readonly siteBrand = SITE_BRAND;
   private readonly defaultOgImageUrl = `${this.siteOrigin}/assets/img/og-image.webp`;
