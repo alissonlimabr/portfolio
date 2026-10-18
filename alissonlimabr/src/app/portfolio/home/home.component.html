@@ -358,11 +358,19 @@
     </div>
 
     <div class="contact-cta">
-      <a class="contact-cta-primary" appMagnetic [magneticStrength]="0.25" href="mailto:alissonlimabr.dev@gmail.com"
-        aria-label="Enviar email">
-        <span>alissonlimabr.dev&#64;gmail.com</span>
-        <fa-icon [icon]="faArrowUpRightFromSquare"></fa-icon>
-      </a>
+      <button type="button" class="contact-cta-primary" [class.copied]="emailCopied()" appMagnetic
+        [magneticStrength]="0.25" [appCopyToClipboard]="contactEmail" (copySuccess)="onEmailCopied()"
+        (copyError)="openEmailClient()" title="Copiar e-mail">
+        <span class="contact-cta-email" [attr.aria-hidden]="emailCopied()">
+          {{ contactEmail }}
+          <fa-icon [icon]="faCopy"></fa-icon>
+        </span>
+        <span class="contact-cta-done" [attr.aria-hidden]="!emailCopied()">
+          <fa-icon [icon]="faCheck"></fa-icon>
+          copiado
+        </span>
+      </button>
+      <span class="contact-cta-status" aria-live="polite">{{ emailCopied() ? 'E-mail copiado para a área de transferência' : '' }}</span>
     </div>
 
     <div class="contact-socials">

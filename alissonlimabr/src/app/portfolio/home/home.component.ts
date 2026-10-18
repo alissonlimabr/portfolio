@@ -1,5 +1,5 @@
 import { CommonModule, NgOptimizedImage } from '@angular/common';
-import { Component, ViewEncapsulation, computed, inject } from '@angular/core';
+import { Component, DestroyRef, ViewEncapsulation, computed, inject, signal } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { RouterLink } from '@angular/router';
 import { catchError, map, of } from 'rxjs';
@@ -7,6 +7,7 @@ import { MagneticDirective } from '../../shared/directives/magnetic.directive';
 import { SpotlightDirective } from '../../shared/directives/spotlight.directive';
 import { ImageLoadStateDirective } from '../../shared/directives/image-load-state.directive';
 import { SwipeDirective } from '../../shared/directives/swipe.directive';
+import { CopyToClipboardDirective } from '../../shared/directives/copy-to-clipboard.directive';
 import { SanityService } from '../../blog/services/sanity.service';
 import { PostSummary } from '../../blog/models/post.model';
 import { resolveCategoryColor } from '../../blog/utils/category-color.util';
@@ -17,10 +18,12 @@ import {
   faArrowUpRightFromSquare,
   faBars,
   faChevronLeft,
+  faCheck,
   faChevronRight,
   faCircle,
   faCode,
   faCodeCommit,
+  faCopy,
   faHandPointer,
   faXmark,
 } from '@fortawesome/free-solid-svg-icons';
@@ -88,6 +91,7 @@ const MONTH_INDEX: Record<string, number> = {
     SpotlightDirective,
     ImageLoadStateDirective,
     SwipeDirective,
+    CopyToClipboardDirective,
     // Router
     RouterLink,
     // Icons
@@ -105,6 +109,11 @@ export class HomeComponent {
   faChevronRight = faChevronRight;
   faChevronLeft = faChevronLeft;
   faHandPointer = faHandPointer;
+  faCopy = faCopy;
+  faCheck = faCheck;
+  readonly contactEmail = 'alissonlimabr.dev@gmail.com';
+  readonly emailCopied = signal(false);
+  private emailCopiedTimer: ReturnType<typeof setTimeout> | null = null;
   readonly resolveCategoryColor = resolveCategoryColor;
 
   mySkills = MY_SKILLS;
@@ -132,6 +141,14 @@ export class HomeComponent {
   );
 
   projects: Project[] = PROJECTS;
+
+  constructor() {
+    inject(DestroyRef).onDestroy(() => {
+      if (this.emailCopiedTimer !== null) {
+        clearTimeout(this.emailCopiedTimer);
+      }
+    });
+  }
 
   private normalizeRecentPost(post: PostSummary): PostSummary {
     const coverUrl =
@@ -167,6 +184,21 @@ export class HomeComponent {
 
   toggleCareerList(): void {
     this.isCareerExpanded = !this.isCareerExpanded;
+  }
+
+  onEmailCopied(): void {
+    this.emailCopied.set(true);
+    if (this.emailCopiedTimer !== null) {
+      clearTimeout(this.emailCopiedTimer);
+    }
+    this.emailCopiedTimer = setTimeout(() => {
+      this.emailCopied.set(false);
+      this.emailCopiedTimer = null;
+    }, 2000);
+  }
+
+  openEmailClient(): void {
+    window.location.href = `mailto:${this.contactEmail}`;
   }
 
   private calculateExperienceYears(): number {
