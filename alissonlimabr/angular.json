@@ -31,7 +31,8 @@
               "src/robots.txt",
               { "glob": "llms.txt", "input": "src", "output": "/" },
               { "glob": "rss.xml", "input": "src", "output": "/" },
-              { "glob": "sitemap.xml", "input": "src", "output": "/" }
+              { "glob": "sitemap.xml", "input": "src", "output": "/" },
+              { "glob": "ai-catalog.json", "input": "src/.well-known", "output": "/.well-known" }
             ],
             "styles": [
               "src/styles.scss"
