@@ -66,6 +66,20 @@ mat-toolbar {
   }
 }
 
+.logo-context--path {
+  font-family: 'Fira Code', monospace;
+  font-size: 15px;
+  opacity: 0.8;
+
+  @include responsive(mobile) {
+    font-size: 12px;
+  }
+
+  @media (max-width: 400px) {
+    display: none;
+  }
+}
+
 mat-toolbar .nav-links:has(li.theme-toggle) {
   ul,
   li {

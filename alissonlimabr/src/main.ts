@@ -10,6 +10,7 @@ import {
   withInterceptorsFromDi,
 } from '@angular/common/http';
 import { AppComponent } from './app/app.component';
+import { printConsoleGreeting } from './console-greeting';
 
 // Bootstrap standalone
 bootstrapApplication(AppComponent, {
@@ -20,4 +21,6 @@ bootstrapApplication(AppComponent, {
     // O prerender usa AppModule; a hidratação precisa existir nos dois lados.
     provideClientHydration(),
   ],
-}).catch((err) => console.error(err));
+})
+  .then(() => printConsoleGreeting())
+  .catch((err) => console.error(err));
