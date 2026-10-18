@@ -1,22 +1,26 @@
 export const PORTFOLIO_SKILLS = [
   {
     icon: 'angular',
-    alt: 'Logo do Angular',
+    alt: 'Angular',
+  },
+  {
+    icon: 'typescript',
+    alt: 'TypeScript',
   },
   {
     icon: 'figma',
-    alt: 'Logo do Figma',
+    alt: 'Figma',
   },
   {
     icon: 'scss',
-    alt: 'Logo do SCSS',
+    alt: 'SCSS',
   },
   {
     icon: 'angular-material',
-    alt: 'Logo do Angular Material',
+    alt: 'Angular Material',
   },
   {
     icon: 'git',
-    alt: 'Logo do Git',
+    alt: 'Git',
   },
 ];

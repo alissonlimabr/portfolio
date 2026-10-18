@@ -2,8 +2,7 @@ import {
   bootstrapApplication,
   provideClientHydration,
 } from '@angular/platform-browser';
-import { importProvidersFrom } from '@angular/core';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { importProvidersFrom, provideZonelessChangeDetection } from '@angular/core';
 import { AppRoutingModule } from './app/app-routing.module';
 import {
   provideHttpClient,
@@ -11,14 +10,17 @@ import {
   withInterceptorsFromDi,
 } from '@angular/common/http';
 import { AppComponent } from './app/app.component';
+import { printConsoleGreeting } from './console-greeting';
 
 // Bootstrap standalone
 bootstrapApplication(AppComponent, {
   providers: [
-    importProvidersFrom(BrowserAnimationsModule),
+    provideZonelessChangeDetection(),
     importProvidersFrom(AppRoutingModule),
     provideHttpClient(withFetch(), withInterceptorsFromDi()),
     // O prerender usa AppModule; a hidratação precisa existir nos dois lados.
     provideClientHydration(),
   ],
-}).catch((err) => console.error(err));
+})
+  .then(() => printConsoleGreeting())
+  .catch((err) => console.error(err));

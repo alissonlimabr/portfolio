@@ -1,24 +1,31 @@
-<nav class="post-toc-section" aria-label="Tabela de conteúdos">
+<nav class="post-toc-section" [class.post-toc-section--collapsed]="!isOpen()" aria-label="Tabela de conteúdos">
   <div class="post-toc-inner">
 
     <button type="button" class="toc-toggle" (click)="toggle()" [attr.aria-expanded]="isOpen()"
       aria-controls="post-toc-list">
       <span class="toc-toggle-label">Neste artigo</span>
       <span class="toc-toggle-icon" [class.is-open]="isOpen()">▾</span>
+
+      <!-- Desktop: mesmo cabeçalho das preferências de leitura -->
+      <fa-icon [icon]="faListUl" class="toc-rail-icon" />
+      <span class="toc-rail-copy">
+        <span class="toc-title">Nesta página</span>
+        <span class="toc-description">Navegue pelas seções do artigo</span>
+      </span>
+      <app-icon name="chevron-down" [size]="12" class="toc-rail-chevron" />
     </button>
 
-    <p class="toc-title">Nesta página</p>
-    <p class="toc-description">Navegue pelas seções do artigo.</p>
-
-    <ul id="post-toc-list" class="toc-list" [class.is-open]="isOpen()">
-      @for (item of items(); track item.id) {
-      <li class="toc-item" [class.toc-item--h3]="item.level === 3" [class.toc-item--h4]="item.level === 4"
-        [class.toc-item--active]="item.id === activeId()">
-        <a class="toc-link" [href]="'#' + item.id" [attr.aria-current]="item.id === activeId() ? 'location' : null"
-          (click)="onItemClick(item.id, $event)">{{ item.text }}</a>
-      </li>
-      }
-    </ul>
+    <div class="toc-body" [attr.inert]="isOpen() ? null : ''">
+      <ul id="post-toc-list" class="toc-list" [class.is-open]="isOpen()">
+        @for (item of items(); track item.id) {
+        <li class="toc-item" [class.toc-item--h3]="item.level === 3" [class.toc-item--h4]="item.level === 4"
+          [class.toc-item--active]="item.id === activeId()">
+          <a class="toc-link" [href]="'#' + item.id" [attr.aria-current]="item.id === activeId() ? 'location' : null"
+            (click)="onItemClick(item.id, $event)">{{ item.text }}</a>
+        </li>
+        }
+      </ul>
+    </div>
 
   </div>
 </nav>

@@ -50,6 +50,10 @@ export class HeaderComponent {
   readonly prefs = inject(ReadingPreferencesService);
   readonly currentTheme = computed(() => this.prefs.theme());
   private readonly activePortfolioHash = signal('#perfil');
+  readonly portfolioPath = computed(() => {
+    const section = this.activePortfolioHash().slice(1);
+    return section === 'perfil' ? '~' : `~/${section}`;
+  });
 
   toggleTheme(): void {
     const next: 'dark' | 'light' =

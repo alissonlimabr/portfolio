@@ -15,7 +15,14 @@ const routes: Routes = [
         (m) => m.NotFoundComponent,
       ),
   },
-  { path: '**', redirectTo: '404' },
+  // Sem redirect: mantém na barra de endereço a URL que o visitante pediu
+  {
+    path: '**',
+    loadComponent: () =>
+      import('./not-found/not-found.component').then(
+        (m) => m.NotFoundComponent,
+      ),
+  },
 ];
 
 @NgModule({

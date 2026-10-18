@@ -8,6 +8,7 @@
   min-height: 100vh;
   padding: 120px 0;
   overflow: hidden;
+  overflow: clip visible;
   display: flex;
   align-items: center;
 
@@ -17,6 +18,7 @@
     position: absolute;
     inset: 0;
     background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='56' height='56' viewBox='0 0 56 56'%3E%3Cpath d='M 56 0 L 0 0 0 56' fill='none' stroke='rgba(168,85,247,0.06)' stroke-width='1'/%3E%3C/svg%3E");
+    mask-image: linear-gradient(to bottom, #000 65%, transparent);
     pointer-events: none;
     z-index: 0;
   }
@@ -1595,12 +1597,12 @@
   }
 }
 
-// Bento grid assimétrico — 3 colunas, com card featured ocupando 2 colunas
+// Bento grid assimétrico — 12 colunas, primeira linha 7/5 e as demais em metades
 .projects-grid {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: repeat(12, 1fr);
   gap: 18px;
-  grid-auto-rows: minmax(280px, auto);
+  grid-auto-rows: minmax(236px, auto);
 
   @include responsive(notebook) {
     grid-template-columns: repeat(2, 1fr);
@@ -1679,9 +1681,22 @@
     }
   }
 
-  // Featured: ocupa 2 colunas (1 linha)
+  @include responsive(aboveNotebook) {
+    grid-column: span 6;
+
+    &:nth-child(1) {
+      grid-column: span 7;
+    }
+    &:nth-child(2) {
+      grid-column: span 5;
+    }
+    &:last-child:nth-child(odd) {
+      grid-column: 1 / -1;
+    }
+  }
+
+  // Featured: título maior; ocupa a linha inteira quando a grade tem 2 colunas
   &--featured {
-    grid-column: 1 / span 2;
     grid-row: span 1;
     padding: 18px 20px;
 
@@ -1727,6 +1742,12 @@
     .project-card-description {
       color: tokens.$gray-400;
       font-size: 14px;
+    }
+  }
+
+  @include responsive(notebook) {
+    &:last-child:nth-child(even) {
+      grid-column: 1 / -1;
     }
   }
 
@@ -2135,6 +2156,7 @@
   padding: 140px 0 120px;
   position: relative;
   overflow: hidden;
+  overflow: clip;
 
   // Glow orbs decorativos no fundo do contato
   &::before,
@@ -2213,7 +2235,10 @@
 
 .contact-cta {
   display: flex;
+  flex-wrap: wrap;
   justify-content: center;
+  align-items: center;
+  gap: 12px;
   margin-bottom: 60px;
 
   @include responsive(mobile) {
@@ -2222,24 +2247,38 @@
 }
 
 .contact-cta-primary {
-  display: inline-flex;
-  align-items: center;
-  gap: 14px;
+  // E-mail e confirmação ocupam a mesma célula para o botão não mudar de largura
+  display: inline-grid;
+  place-items: center;
   padding: 18px 32px;
   background: linear-gradient(135deg, tokens.$purple-500 0%, tokens.$purple-400 100%);
   color: tokens.$white;
+  border: 0;
   border-radius: 100px;
   font-family: "Fira Code", "Courier New", monospace;
   font-size: 16px;
   font-weight: 600;
   letter-spacing: 0.3px;
-  text-decoration: none;
+  position: relative;
+  overflow: hidden;
+  cursor: pointer;
   transition: 0.3s cubic-bezier(0.2, 0.8, 0.2, 1);
   box-shadow:
     0 8px 24px rgba(tokens.$purple-400, 0.4),
     inset 0 1px 0 rgba(tokens.$white, 0.2);
 
+  // Brilho que atravessa o botão ao copiar
+  &::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(110deg, transparent 30%, rgba(tokens.$white, 0.45) 50%, transparent 70%);
+    transform: translateX(-100%);
+    pointer-events: none;
+  }
+
   fa-icon {
+    color: inherit;
     transition: transform 0.3s;
   }
 
@@ -2247,15 +2286,94 @@
     box-shadow:
       0 12px 36px rgba(tokens.$purple-400, 0.55),
       inset 0 1px 0 rgba(tokens.$white, 0.25);
-    fa-icon {
-      transform: translate(3px, -3px);
+
+    .contact-cta-email fa-icon {
+      transform: scale(1.15);
+    }
+  }
+
+  &:focus-visible {
+    outline: 2px solid tokens.$purple-200;
+    outline-offset: 4px;
+  }
+
+  &.copied {
+    animation: contact-copied-pulse 0.7s ease-out;
+
+    &::after {
+      animation: contact-copied-shine 0.7s ease-out;
+    }
+
+    .contact-cta-email {
+      opacity: 0;
+      transform: translateY(-150%);
+    }
+
+    .contact-cta-done {
+      opacity: 1;
+      transform: none;
     }
   }
 
   @include responsive(mobile) {
-    padding: 14px 22px;
-    font-size: 14px;
+    padding: 14px 20px;
+    font-size: clamp(11px, 3.5vw, 13px);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    &.copied,
+    &.copied::after {
+      animation: none;
+    }
+  }
+}
+
+.contact-cta-email,
+.contact-cta-done {
+  grid-area: 1 / 1;
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  transition:
+    opacity 0.3s,
+    transform 0.4s cubic-bezier(0.2, 0.8, 0.2, 1);
+
+  @include responsive(mobile) {
     gap: 10px;
+  }
+}
+
+.contact-cta-done {
+  gap: 8px;
+  opacity: 0;
+  transform: translateY(150%);
+}
+
+.contact-cta-status {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+@keyframes contact-copied-pulse {
+  0% {
+    box-shadow:
+      0 8px 24px rgba(tokens.$purple-400, 0.4),
+      0 0 0 0 rgba(tokens.$purple-300, 0.6);
+  }
+  100% {
+    box-shadow:
+      0 8px 24px rgba(tokens.$purple-400, 0.4),
+      0 0 0 18px rgba(tokens.$purple-300, 0);
+  }
+}
+
+@keyframes contact-copied-shine {
+  to {
+    transform: translateX(100%);
   }
 }
 

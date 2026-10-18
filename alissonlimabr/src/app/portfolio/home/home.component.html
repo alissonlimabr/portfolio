@@ -116,9 +116,8 @@
           orquestração em Swarm.
         </p>
         <p>
-          Na minha atuação profissional, também trabalhei com Java, Spring Boot e AWS em projetos
-          estratégicos para clientes como a Secretaria da Fazenda do Acre (SEFAZ/AC), por meio da
-          VINT Global. Sou graduado em Análise e Desenvolvimento de Sistemas, com especializações em
+          Também trabalho com Java, Spring Boot, Angular e AWS, e atuei em sistemas para clientes
+          como a Secretaria da Fazenda do Acre (SEFAZ/AC), por meio da VINT Global. Sou graduado em Análise e Desenvolvimento de Sistemas, com especializações em
           Engenharia de Software e Gestão de Projetos.
         </p>
       </div>
@@ -228,7 +227,7 @@
     <div class="projects-header">
       <span class="section-tag">[ 04 ] PROJETOS</span>
       <h2 class="section-headline">
-        <span class="section-headline--accent">Hobbies</span> que<br />
+        <span class="section-headline--accent">Projetos</span> que<br />
         viraram código.
       </h2>
     </div>
@@ -257,8 +256,8 @@
 
         @if (project.url) {
         <a class="project-card-link" [href]="project.url" target="_blank" rel="noopener noreferrer"
-          [attr.aria-label]="'Acesse o projeto: ' + project.title">
-          <span>Ver projeto</span>
+          [attr.aria-label]="'Ver ' + project.title + ' no GitHub'">
+          <span>Ver no GitHub</span>
           <fa-icon [icon]="faArrowUpRightFromSquare"></fa-icon>
         </a>
         }
@@ -313,7 +312,7 @@
             </span>
             }
             <div class="blog-card-meta">
-              <span class="blog-card-date">{{ post.publishedAt | date: 'dd MMM yyyy' }}</span>
+              <span class="blog-card-date">{{ post.publishedAt | date: 'dd MMM yyyy' : '-0300' }}</span>
               <span class="blog-card-read-time">{{ post.estimatedReadingTime }} min de leitura</span>
             </div>
             <h3 class="blog-card-title">{{ post.title }}</h3>
@@ -359,11 +358,19 @@
     </div>
 
     <div class="contact-cta">
-      <a class="contact-cta-primary" appMagnetic [magneticStrength]="0.25" href="mailto:alissonlimabr.dev@gmail.com"
-        aria-label="Enviar email">
-        <span>alissonlimabr.dev&#64;gmail.com</span>
-        <fa-icon [icon]="faArrowUpRightFromSquare"></fa-icon>
-      </a>
+      <button type="button" class="contact-cta-primary" [class.copied]="emailCopied()" appMagnetic
+        [magneticStrength]="0.25" [appCopyToClipboard]="contactEmail" (copySuccess)="onEmailCopied()"
+        (copyError)="openEmailClient()" title="Copiar e-mail">
+        <span class="contact-cta-email" [attr.aria-hidden]="emailCopied()">
+          {{ contactEmail }}
+          <fa-icon [icon]="faCopy"></fa-icon>
+        </span>
+        <span class="contact-cta-done" [attr.aria-hidden]="!emailCopied()">
+          <fa-icon [icon]="faCheck"></fa-icon>
+          copiado
+        </span>
+      </button>
+      <span class="contact-cta-status" aria-live="polite">{{ emailCopied() ? 'E-mail copiado para a área de transferência' : '' }}</span>
     </div>
 
     <div class="contact-socials">
@@ -378,4 +385,6 @@
     </div>
   </div>
 </section>
+@defer (on idle) {
 <app-particles-animation id="particles"></app-particles-animation>
+}
