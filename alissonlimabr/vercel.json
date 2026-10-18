@@ -1,4 +1,5 @@
 {
+  "framework": null,
   "buildCommand": "node scripts/generate-env.mjs && node scripts/generate-rss.mjs && npm run prerender",
   "outputDirectory": "dist/alissonlimabr/browser",
   "headers": [
