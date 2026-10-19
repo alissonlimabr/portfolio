@@ -7,7 +7,8 @@ import { loadSlim } from '@tsparticles/slim';
 import { BlackHoleEffect } from './click-effects/black-hole.effect';
 import { Point, distance, isInteractiveTarget } from './click-effects/particle-utils';
 
-const FPS_LIMIT = 24;
+// 30 FPS estáveis: com o limite entre 30 e 60, cada quadro espera sempre 2 atualizações de uma tela de 60 Hz
+const FPS_LIMIT = 41;
 const DRAG_TOLERANCE = 5;
 
 @Component({
