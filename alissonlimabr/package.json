@@ -10,6 +10,7 @@
     "prerender": "node scripts/generate-routes.mjs && ng build --configuration production && ng run alissonlimabr:server:production && node scripts/prerender.mjs"
   },
   "private": true,
+  "license": "UNLICENSED",
   "dependencies": {
     "@angular/animations": "^21.2.13",
     "@angular/cdk": "^21.2.0",
