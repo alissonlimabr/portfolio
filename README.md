@@ -67,4 +67,8 @@ As seguintes ferramentas foram usadas na construção do projeto:
 
 ## 📝 Licença
 
-Esse projeto é licenciado pelo [MIT](./LICENSE).
+Copyright © 2023-2026 Alisson Lima. **Todos os direitos reservados.**
+
+A reutilização do código-fonte, da identidade visual e dos demais conteúdos de autoria de Alisson Lima depende de autorização prévia e expressa por escrito, observadas as exceções previstas no [LICENSE](./LICENSE). Materiais de terceiros permanecem sujeitos às respectivas licenças e direitos.
+
+Solicitações de uso: [alissonlimabr.dev@gmail.com](mailto:alissonlimabr.dev@gmail.com).
