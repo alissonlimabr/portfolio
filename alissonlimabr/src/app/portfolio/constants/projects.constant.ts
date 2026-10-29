@@ -15,7 +15,7 @@ interface Project {
 export const PROJECTS: Project[] = [
   {
     title: 'Portfólio Desenvolvedor',
-    subtitle: 'Angular 21 · SSR · Sanity CMS',
+    subtitle: 'Angular 22 · SSR · Sanity CMS',
     description:
       'Portfólio com SSR para performance e SEO e blog integrado ao Sanity CMS, com busca, paginação, categorias, RSS e syntax highlighting. Partículas animadas com TsParticles e tema claro/escuro na leitura.',
     url: 'https://github.com/alissonlimabr/portfolio',
