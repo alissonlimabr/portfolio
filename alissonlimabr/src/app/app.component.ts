@@ -11,7 +11,7 @@ import {
   ChangeDetectionStrategy
 } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { DOCUMENT, ViewportScroller, isPlatformBrowser } from '@angular/common';
+import { DOCUMENT, PlatformLocation, ViewportScroller, isPlatformBrowser } from '@angular/common';
 import {
   NavigationEnd,
   Router,
@@ -66,6 +66,7 @@ export class AppComponent implements OnInit {
   private readonly router = inject(Router);
   private readonly platformId = inject(PLATFORM_ID);
   private readonly document = inject(DOCUMENT);
+  private readonly platformLocation = inject(PlatformLocation);
   private readonly viewportScroller = inject(ViewportScroller);
   private lastNavigationPath = '';
   private lastScrollHandledPath = '';
@@ -89,7 +90,7 @@ export class AppComponent implements OnInit {
   readonly currentTheme = computed(() => this.readingPrefs.theme());
 
   ngOnInit(): void {
-    this.updateRouteContext(this.router.url);
+    this.updateRouteContext(this.platformLocation.pathname);
     this.lastNavigationPath = this.normalizePath(this.router.url);
     this.lastScrollHandledPath = this.lastNavigationPath;
 

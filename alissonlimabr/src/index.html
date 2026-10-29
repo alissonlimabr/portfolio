@@ -39,6 +39,9 @@
     try {
       const body = document.body;
       const prefs = JSON.parse(localStorage.getItem('blog-reading-prefs')) || {};
+      if (!/blog-theme-/.test(body.className) && /^\/blog(\/|$)/.test(location.pathname)) {
+        body.classList.add('blog-font-md', 'blog-width-normal', 'blog-theme-dark');
+      }
       if (/blog-theme-/.test(body.className)) {
         if (/^(dark|light)$/.test(prefs.theme)) body.className = body.className.replace(/blog-theme-\w+/, 'blog-theme-' + prefs.theme);
         if (/^(sm|md|lg)$/.test(prefs.fontSize)) body.className = body.className.replace(/blog-font-\w+/, 'blog-font-' + prefs.fontSize);
