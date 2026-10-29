@@ -1,5 +1,5 @@
 import { Component, ChangeDetectionStrategy } from '@angular/core';
-import { ComponentFixture, TestBed, fakeAsync, flushMicrotasks, tick } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { CodeBlockEnhancerDirective } from './code-block-enhancer.directive';
 
 @Component({
@@ -46,44 +46,58 @@ describe('CodeBlockEnhancerDirective', () => {
     }
   });
 
-  it('adds a single copy button to each rendered code block', fakeAsync(() => {
-    fixture.detectChanges();
-    tick();
-    fixture.detectChanges();
-    tick();
+  it('adds a single copy button to each rendered code block', async () => {
+    await renderEnhanced();
 
     const buttons = fixture.nativeElement.querySelectorAll('.code-copy-btn');
 
     expect(buttons.length).toBe(1);
     expect(buttons[0].textContent).toBe('Copiar');
-  }));
+  });
 
-  it('copies code and preserves the current feedback labels and duration', fakeAsync(() => {
-    fixture.detectChanges();
-    tick();
+  it('copies code and preserves the current feedback labels and duration', async () => {
+    await renderEnhanced();
     const button = fixture.nativeElement.querySelector('.code-copy-btn') as HTMLButtonElement;
 
-    button.click();
-    flushMicrotasks();
+    jasmine.clock().install();
+    try {
+      button.click();
+      await flushMicrotasks();
 
-    expect(writeText).toHaveBeenCalledOnceWith('const value = 1;');
-    expect(button.textContent).toBe('Copiado');
-    expect(button.classList.contains('copied')).toBeTrue();
+      expect(writeText).toHaveBeenCalledOnceWith('const value = 1;');
+      expect(button.textContent).toBe('Copiado');
+      expect(button.classList.contains('copied')).toBeTrue();
 
-    tick(1800);
+      jasmine.clock().tick(1800);
 
-    expect(button.textContent).toBe('Copiar');
-    expect(button.classList.contains('copied')).toBeFalse();
-  }));
+      expect(button.textContent).toBe('Copiar');
+      expect(button.classList.contains('copied')).toBeFalse();
+    } finally {
+      jasmine.clock().uninstall();
+    }
+  });
 
-  it('does not duplicate buttons when the content input is checked again', fakeAsync(() => {
-    fixture.detectChanges();
-    tick();
+  it('does not duplicate buttons when the content input is checked again', async () => {
+    await renderEnhanced();
     fixture.componentInstance.html =
       '<pre><code class="language-typescript">const value = 2;</code></pre>';
-    fixture.detectChanges();
-    tick();
+    await renderEnhanced();
 
     expect(fixture.nativeElement.querySelectorAll('.code-copy-btn').length).toBe(1);
-  }));
+  });
+
+  async function renderEnhanced(): Promise<void> {
+    fixture.detectChanges();
+    const container: HTMLElement = fixture.nativeElement;
+    const deadline = Date.now() + 3000;
+    while (container.querySelector('pre:not([data-code-enhanced])') && Date.now() < deadline) {
+      await new Promise((resolve) => setTimeout(resolve, 10));
+    }
+  }
+
+  async function flushMicrotasks(): Promise<void> {
+    for (let i = 0; i < 5; i++) {
+      await Promise.resolve();
+    }
+  }
 });
