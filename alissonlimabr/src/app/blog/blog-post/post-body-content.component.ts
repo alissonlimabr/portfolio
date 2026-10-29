@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Component, EventEmitter, Input, Output, ChangeDetectionStrategy } from '@angular/core';
 import { SafeHtml } from '@angular/platform-browser';
 import {
   ContentHeading,
@@ -19,6 +19,7 @@ import { CodeBlockEnhancerDirective } from '../../shared/directives/code-block-e
       (contentHeadingsChange)="contentHeadingsChange.emit($event)"
     ></div>
   `,
+  changeDetection: ChangeDetectionStrategy.Eager,
   styles: `
     :host {
       display: block;

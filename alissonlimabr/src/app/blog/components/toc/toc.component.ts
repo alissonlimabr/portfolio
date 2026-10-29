@@ -6,6 +6,7 @@ import {
   input,
   output,
   signal,
+  ChangeDetectionStrategy
 } from '@angular/core';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { faListUl } from '@fortawesome/free-solid-svg-icons';
@@ -24,6 +25,7 @@ export interface TocItem {
   standalone: true,
   imports: [FontAwesomeModule, IconComponent],
   templateUrl: './toc.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrl: './toc.component.scss',
 })
 export class TocComponent {

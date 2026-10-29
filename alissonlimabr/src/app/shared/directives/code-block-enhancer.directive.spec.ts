@@ -1,10 +1,11 @@
-import { Component } from '@angular/core';
+import { Component, ChangeDetectionStrategy } from '@angular/core';
 import { ComponentFixture, TestBed, fakeAsync, flushMicrotasks, tick } from '@angular/core/testing';
 import { CodeBlockEnhancerDirective } from './code-block-enhancer.directive';
 
 @Component({
   standalone: true,
   imports: [CodeBlockEnhancerDirective],
+  changeDetection: ChangeDetectionStrategy.Eager,
   template: `
     <div
       class="content"

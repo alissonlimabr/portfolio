@@ -4,6 +4,7 @@ import {
   HostListener,
   inject,
   signal,
+  ChangeDetectionStrategy
 } from '@angular/core';
 import { IconComponent } from '../../../shared/icon.component';
 import { ReadingPreferencesService } from '../../services/reading-preferences.service';
@@ -13,6 +14,7 @@ import { ReadingPreferencesService } from '../../services/reading-preferences.se
   standalone: true,
   imports: [IconComponent],
   templateUrl: './reading-preferences.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrl: './reading-preferences.component.scss',
 })
 export class ReadingPreferencesComponent {

@@ -2,6 +2,7 @@ import { NgModule, provideZonelessChangeDetection } from '@angular/core';
 import {
   BrowserModule,
   provideClientHydration,
+  withNoIncrementalHydration
 } from '@angular/platform-browser';
 import { provideHttpClient, withFetch, withInterceptorsFromDi } from '@angular/common/http';
 import { AppRoutingModule } from './app-routing.module';
@@ -17,7 +18,7 @@ import { AppComponent } from './app.component';
     provideZonelessChangeDetection(),
     provideHttpClient(withFetch(), withInterceptorsFromDi()),
     // main.ts fornece o mesmo provider no bootstrap standalone do navegador.
-    provideClientHydration(),
+    provideClientHydration(withNoIncrementalHydration()),
   ],
   bootstrap: [AppComponent],
 })

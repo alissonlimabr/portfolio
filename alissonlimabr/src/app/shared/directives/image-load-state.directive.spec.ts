@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, ChangeDetectionStrategy } from '@angular/core';
 import {
   ComponentFixture,
   TestBed,
@@ -10,6 +10,7 @@ import { ImageLoadStateDirective } from './image-load-state.directive';
 @Component({
   standalone: true,
   imports: [ImageLoadStateDirective],
+  changeDetection: ChangeDetectionStrategy.Eager,
   template: `
     <div class="image-load-shell" appImageLoadState>
       <img

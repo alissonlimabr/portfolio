@@ -1,10 +1,11 @@
-import { Component } from '@angular/core';
+import { Component, ChangeDetectionStrategy } from '@angular/core';
 import { ComponentFixture, TestBed, fakeAsync, flushMicrotasks } from '@angular/core/testing';
 import { CopyToClipboardDirective } from './copy-to-clipboard.directive';
 
 @Component({
   standalone: true,
   imports: [CopyToClipboardDirective],
+  changeDetection: ChangeDetectionStrategy.Eager,
   template: `
     <button
       type="button"
