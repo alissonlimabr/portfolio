@@ -1,10 +1,11 @@
-import { Component } from '@angular/core';
+import { Component, ChangeDetectionStrategy } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ActiveSectionDirective } from './active-section.directive';
 
 @Component({
   standalone: true,
   imports: [ActiveSectionDirective],
+  changeDetection: ChangeDetectionStrategy.Eager,
   template: `
     <div
       [appActiveSection]="sectionIds"

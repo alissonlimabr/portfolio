@@ -8,6 +8,7 @@ import {
   inject,
   signal,
   viewChild,
+  ChangeDetectionStrategy
 } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { DOCUMENT, ViewportScroller, isPlatformBrowser } from '@angular/common';
@@ -57,6 +58,7 @@ import { IconComponent } from './shared/icon.component';
     RouterLink,
     RouterLinkActive,
   ],
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrls: ['./app.component.scss'],
 })
 export class AppComponent implements OnInit {

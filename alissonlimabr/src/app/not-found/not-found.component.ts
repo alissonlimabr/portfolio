@@ -1,5 +1,5 @@
 import { DOCUMENT, isPlatformBrowser } from '@angular/common';
-import { Component, OnDestroy, OnInit, PLATFORM_ID, inject } from '@angular/core';
+import { Component, OnDestroy, OnInit, PLATFORM_ID, inject, ChangeDetectionStrategy } from '@angular/core';
 import { Meta, Title } from '@angular/platform-browser';
 import { Router, RouterLink } from '@angular/router';
 import { SITE_BRAND, SITE_ORIGIN } from '../shared/constants/site.constants';
@@ -9,6 +9,7 @@ import { SITE_BRAND, SITE_ORIGIN } from '../shared/constants/site.constants';
   standalone: true,
   imports: [RouterLink],
   templateUrl: './not-found.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrl: './not-found.component.scss',
 })
 export class NotFoundComponent implements OnInit, OnDestroy {

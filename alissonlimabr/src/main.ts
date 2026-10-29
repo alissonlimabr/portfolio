@@ -1,6 +1,7 @@
 import {
   bootstrapApplication,
   provideClientHydration,
+  withNoIncrementalHydration
 } from '@angular/platform-browser';
 import { importProvidersFrom, provideZonelessChangeDetection } from '@angular/core';
 import { AppRoutingModule } from './app/app-routing.module';
@@ -19,7 +20,7 @@ bootstrapApplication(AppComponent, {
     importProvidersFrom(AppRoutingModule),
     provideHttpClient(withFetch(), withInterceptorsFromDi()),
     // O prerender usa AppModule; a hidratação precisa existir nos dois lados.
-    provideClientHydration(),
+    provideClientHydration(withNoIncrementalHydration()),
   ],
 })
   .then(() => printConsoleGreeting())

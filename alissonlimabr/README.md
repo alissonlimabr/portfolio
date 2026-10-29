@@ -2,7 +2,7 @@
 
 ## Stack
 
-- Angular `21.2.x`
+- Angular `22.2.x`
 - Angular Material
 - SSR + prerender
 - Blog integrado ao Sanity CMS

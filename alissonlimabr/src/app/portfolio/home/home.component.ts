@@ -1,5 +1,5 @@
 import { CommonModule, NgOptimizedImage } from '@angular/common';
-import { Component, DestroyRef, ViewEncapsulation, computed, inject, signal } from '@angular/core';
+import { Component, DestroyRef, ViewEncapsulation, computed, inject, signal, ChangeDetectionStrategy } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { RouterLink } from '@angular/router';
 import { catchError, map, of } from 'rxjs';
@@ -30,10 +30,10 @@ import {
 
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { NgxTypedWriterModule } from 'ngx-typed-writer';
-import { JOBS } from 'src/app/portfolio/constants/jobs.constant';
-import { MY_SKILLS } from 'src/app/portfolio/constants/my-skills.constant';
-import { PROJECTS } from 'src/app/portfolio/constants/projects.constant';
-import { SOCIAL_MEDIA } from 'src/app/portfolio/constants/social-media.constant';
+import { JOBS } from '../constants/jobs.constant';
+import { MY_SKILLS } from '../constants/my-skills.constant';
+import { PROJECTS } from '../constants/projects.constant';
+import { SOCIAL_MEDIA } from '../constants/social-media.constant';
 import { ParticlesAnimationComponent } from '../../components/particles-animation/ParticlesAnimationComponent';
 import { IconComponent } from '../../shared/icon.component';
 
@@ -75,6 +75,7 @@ const MONTH_INDEX: Record<string, number> = {
   styleUrl: './home.component.scss',
   encapsulation: ViewEncapsulation.None,
   standalone: true,
+  changeDetection: ChangeDetectionStrategy.Eager,
   imports: [
     CommonModule,
     NgOptimizedImage,

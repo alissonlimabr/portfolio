@@ -1,10 +1,11 @@
-import { Component } from '@angular/core';
+import { Component, ChangeDetectionStrategy } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ScrollProgressDirective } from './scroll-progress.directive';
 
 @Component({
   standalone: true,
   imports: [ScrollProgressDirective],
+  changeDetection: ChangeDetectionStrategy.Eager,
   template: '<div class="progress" appScrollProgress></div>',
 })
 class ScrollProgressHostComponent {}

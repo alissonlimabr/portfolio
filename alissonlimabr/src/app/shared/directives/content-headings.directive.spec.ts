@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, ChangeDetectionStrategy } from '@angular/core';
 import { ComponentFixture, TestBed, fakeAsync, tick } from '@angular/core/testing';
 import {
   ContentHeading,
@@ -8,6 +8,7 @@ import {
 @Component({
   standalone: true,
   imports: [ContentHeadingsDirective],
+  changeDetection: ChangeDetectionStrategy.Eager,
   template: `
     <div
       [innerHTML]="html"
