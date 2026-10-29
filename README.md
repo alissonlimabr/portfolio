@@ -18,7 +18,7 @@
 </p>
 
 <p align="center">
-  Portfólio v2 — redesenho completo com design system Cyber Purple, Angular 21, SSR e blog integrado ao Sanity CMS. Focado em performance, SEO e experiência visual.
+  Portfólio v2 — redesenho completo com design system Cyber Purple, Angular 22, SSR e blog integrado ao Sanity CMS. Focado em performance, SEO e experiência visual.
 </p>
 
 📌 Confira o projeto [clicando aqui](https://www.alissonlimadev.com/).
@@ -33,6 +33,7 @@
 - [x] Sistema de ícones SVG inline com cache (`IconComponent`)
 - [x] Logos de tecnologias monocromáticas via `currentColor` (controladas por CSS)
 - [x] Animação de partículas no fundo (TsParticles)
+- [x] Efeito de vórtice ao clicar no fundo, com erros em órbita (`404`, `NaN`, `undefined`...) que suga os links e explode
 - [x] Seção com skills adquiridas (marquee infinito animado + grid de tecnologias)
 - [x] Seção de experiência profissional (timeline)
 - [x] Seção com projetos desenvolvidos
@@ -44,7 +45,7 @@
 
 As seguintes ferramentas foram usadas na construção do projeto:
 
-- [Angular 21](https://angular.io/)
+- [Angular 22](https://angular.io/)
 - [Angular Material](https://material.angular.io/)
 - [Angular SSR](https://angular.dev/guide/ssr)
 - [Sanity CMS](https://www.sanity.io/)
